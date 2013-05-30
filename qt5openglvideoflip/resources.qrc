@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file alias="image.qml">resources/qml/image.qml</file>
+        <file alias="main.qml">resources/qml/main.qml</file>
+        <file alias="video.qml">resources/qml/video.qml</file>
+        <file alias="test.qml">resources/qml/test.qml</file>
+        <file alias="rectangle.qml">resources/qml/rectangle.qml</file>
+        <file alias="web.qml">resources/qml/web.qml</file>
+    </qresource>
+    <qresource prefix="/image">
+        <file alias="cat.jpg">resources/images/cat.jpg</file>
+        <file alias="flower.jpg">resources/images/flower.jpg</file>
+        <file alias="flower1.jpg">resources/images/flower1.jpg</file>
+        <file alias="flower2.jpg">resources/images/flower2.jpg</file>
+        <file alias="flower3.jpg">resources/images/flower3.jpg</file>
+    </qresource>
+    <qresource prefix="/video">
+        <file alias="Wildlife.wmv">resources/videos/Wildlife.wmv</file>
+    </qresource>
+    <qresource prefix="/shaders">
+        <file alias="flipPage.fsh">resources/shaders/flipPage.fsh</file>
+        <file alias="flipPage.vsh">resources/shaders/flipPage.vsh</file>
+    </qresource>
+</RCC>

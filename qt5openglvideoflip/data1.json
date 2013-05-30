@@ -1,0 +1,45 @@
+{
+  "pages": [
+  {
+      "background-color": "magenta",
+      "blocks": [
+        {
+          "width": "150",
+          "height": "200",
+          "x": "50",
+          "y": "20",
+          "background-color": "#dddddd",
+          "text container": {
+            "text-background": "red",
+            "color": "white",
+            "value": "Image"
+          },
+          "media content": {
+            "type": "image",
+            "source": "flower1.jpg",
+            "aspect": "full"
+          }
+        },
+       		
+		{
+          "width": "500",
+          "height": "490",
+          "x": "250",
+          "y": "100",
+          "background-color": "#dddddd",
+          "text container": {
+            "text-background": "red",
+            "color": "white",
+            "value": "Image"
+          },
+          "media content": {
+            "type": "web",
+            "source": "http://qt-project.org",
+            "aspect": "full"
+          }
+        }
+      ]
+    }
+  
+  ]
+}
