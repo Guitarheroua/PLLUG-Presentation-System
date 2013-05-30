@@ -2,6 +2,7 @@
 #define PAGE_H
 
 #include <QQuickItem>
+#include "block.h"
 
 class BlocksModel;
 class QQmlEngine;
@@ -21,10 +22,10 @@ signals:
     void modelChanged();
 
 public slots:
-    void test();
+    void createBlocks();
 
 public:
-    QQuickItem* createItem(QString pType, QString pSource, int pWidth, int pHeight, float pX, float pY);
+    QQuickItem* createItem(Block::MediaContent pMediaContent, Block::Caption pCaption, int pWidth, int pHeight, float pX, float pY,  QString pBackgrond);
 
 private:
     BlocksModel *mBlockModel;

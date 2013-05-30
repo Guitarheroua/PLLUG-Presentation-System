@@ -7,13 +7,20 @@
 class Block
 {
 public:
-    struct MediaCont{
+    struct MediaContent{
         QString type;
         QString source;
+        QString aspect;
     };
     struct Caption{
         QString color;
         QString text;
+        QString background;
+        int fontSize;
+        QString fontFamily;
+        QString align;
+        QString textAlign;
+
     };
 
     Block(QVariantMap pMap);
@@ -21,8 +28,11 @@ public:
     int height() const;
     int x() const;
     int y() const;
+    QString background() const;
 
     QString title() const;
+    Block::Caption caption() const;
+    Block::MediaContent mediaContent() const;
     QString sourceType() const;
     QString source() const;
 
@@ -30,5 +40,8 @@ public:
 private:
     QVariantMap mMap;
 };
+
+Q_DECLARE_METATYPE(Block::Caption)
+Q_DECLARE_METATYPE(Block::MediaContent)
 
 #endif // BLOCK_H

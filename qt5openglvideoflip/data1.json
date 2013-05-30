@@ -1,45 +1,71 @@
 {
   "pages": [
   {
-      "background-color": "magenta",
+      "background-color": "red",
       "blocks": [
         {
           "width": "150",
           "height": "200",
           "x": "50",
           "y": "20",
-          "background-color": "#dddddd",
+          "background-color": "greeen",
           "text container": {
-            "text-background": "red",
+			"font-size" : "20",
+			"font-family" : "Times New Roman",
+			"align": "top",
+			"background": "red",
             "color": "white",
-            "value": "Image"
+            "value": "Flower1"
           },
           "media content": {
             "type": "image",
-            "source": "flower1.jpg",
-            "aspect": "full"
+            "source": "flower.jpg",
+            "aspect": "crop"
           }
         },
-       		
+        {
+          "width": "200",
+          "height": "450",
+          "x": "40",
+          "y": "250",
+          "background-color": "black",
+          "text container": {
+			"font-size" : "12",
+			"font-family" : "Times New Roman",
+			"align": "top",
+			"background": "yellow",
+            "color": "black",
+            "value": "Wildlife"
+          },
+          "media content": {
+            "type": "video",
+            "source": "Wildlife.wmv",
+            "aspect": "stretch"
+          }
+        },
+		
 		{
           "width": "500",
           "height": "490",
           "x": "250",
           "y": "100",
-          "background-color": "#dddddd",
+          "background-color": "blue",
           "text container": {
-            "text-background": "red",
-            "color": "white",
-            "value": "Image"
+			"font-size" : "30",
+			"font-family" : "Arial",
+			"align": "bottom",
+			"background": "green",
+            "color": "red",
+            "value": "Browser"
           },
           "media content": {
             "type": "web",
             "source": "http://qt-project.org",
-            "aspect": "full"
+            "aspect": "fit"
           }
         }
       ]
+   
     }
-  
   ]
 }

@@ -6,11 +6,46 @@ Item
     id: item
     property string type : "video"
     property string source
+    property string aspect
+    property int fontSize
+    property string fontFamily
 
     property int mainWidth
     property int mainHeight
     property int mainX
     property int mainY
+
+    onAspectChanged:
+    {
+        if ( item.aspect === "crop")
+        {
+            videoOutput.fillMode = VideoOutput.PreserveAspectCrop
+        }
+        else if ( item.aspect === "fit")
+        {
+            videoOutput.fillMode = VideoOutput.PreserveAspectFit
+        }
+        else if ( item.aspect === "stretch")
+        {
+            videoOutput.fillMode = VideoOutput.Stretch
+        }
+    }
+
+    Rectangle
+    {
+        id: titleRect
+        objectName: "Caption"
+        width: parent.width
+        height: titleText.height + 10
+        opacity: 0.5
+        z: 1
+        Text {
+            id: titleText
+            objectName: "CaptionText"
+            font.pixelSize: item.fontSize
+            font.family: item.fontFamily
+        }
+    }
 
 
 
@@ -59,7 +94,7 @@ Item
         id: videoOutput
         source: mediaPlayer
         anchors.fill: parent
-        fillMode: VideoOutput.Stretch
     }
+
 }
 

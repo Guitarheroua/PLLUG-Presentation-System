@@ -11,13 +11,15 @@ class BlocksModel : public QAbstractListModel
 public:
     enum BlockRoles
     {
-        TitleRole = Qt::UserRole + 1,
-        SourceTypeRole = Qt::UserRole + 2,
-        SourceRole = Qt::UserRole + 3,
-        WidthRole = Qt::UserRole + 4,
-        HeightRole = Qt::UserRole + 5,
-        XRole = Qt::UserRole + 6,
-        YRole = Qt::UserRole + 7
+        CaptionRole = Qt::UserRole + 1,
+        MediaContentRole = Qt::UserRole + 2,
+        SourceTypeRole = Qt::UserRole + 3,
+        SourceRole = Qt::UserRole + 4,
+        WidthRole = Qt::UserRole + 5,
+        HeightRole = Qt::UserRole + 6,
+        XRole = Qt::UserRole + 7,
+        YRole = Qt::UserRole + 8,
+        BackgroundRole = Qt::UserRole + 9
     };
     explicit BlocksModel(QObject *parent = 0);
     ~BlocksModel();

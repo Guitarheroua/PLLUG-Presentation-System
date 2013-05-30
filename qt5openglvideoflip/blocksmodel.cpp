@@ -3,13 +3,15 @@
 BlocksModel::BlocksModel(QObject *parent) :
     QAbstractListModel(parent)
 {
-    mRoleHash.insert(TitleRole, "title");
+    mRoleHash.insert(CaptionRole, "caption");
+    mRoleHash.insert(MediaContentRole, "mediaContent");
     mRoleHash.insert(SourceTypeRole, "srctype");
     mRoleHash.insert(SourceRole, "source");
     mRoleHash.insert(WidthRole, "width");
     mRoleHash.insert(HeightRole, "height");
     mRoleHash.insert(XRole, "x");
     mRoleHash.insert(YRole, "y");
+    mRoleHash.insert(BackgroundRole, "background");
 }
 
 BlocksModel::~BlocksModel()
@@ -23,8 +25,18 @@ QVariant BlocksModel::data(const QModelIndex &index, int role) const
         return QVariant();
 
     const Block *block = mBlocksList[index.row()];
-    if (role == TitleRole)
-        return block->title();
+    if (role == CaptionRole)
+    {
+        QVariant lCaption;
+        lCaption.setValue(block->caption());
+        return lCaption;
+    }
+    else if (role == MediaContentRole)
+    {
+        QVariant lMediaContent;
+        lMediaContent.setValue(block->mediaContent());
+        return lMediaContent;
+    }
     else if (role == SourceTypeRole)
         return block->sourceType();
     else if (role == SourceRole)
@@ -37,6 +49,8 @@ QVariant BlocksModel::data(const QModelIndex &index, int role) const
         return block->x();
     else if (role == YRole)
         return block->y();
+    else if (role == BackgroundRole)
+        return block->background();
 
     return QVariant();
 }

@@ -28,9 +28,36 @@ int Block::y() const
     return mMap.value("y").toInt();
 }
 
+QString Block::background() const
+{
+   return mMap.value("background-color").toString();
+}
+
 QString Block::title() const
 {
     return mMap.value("text container").toMap().value("value").toString();
+}
+
+Block::Caption Block::caption() const
+{
+    Caption rCaption;
+    rCaption.text = mMap.value("text container").toMap().value("value").toString();
+    rCaption.color = mMap.value("text container").toMap().value("color").toString();
+    rCaption.background = mMap.value("text container").toMap().value("background").toString();
+    rCaption.align = mMap.value("text container").toMap().value("align").toString();
+    rCaption.fontSize = mMap.value("text container").toMap().value("font-size").toInt();
+    rCaption.fontFamily = mMap.value("text container").toMap().value("font-family").toString();
+    return rCaption;
+
+}
+
+Block::MediaContent Block::mediaContent() const
+{
+    MediaContent rMediaContent;
+    rMediaContent.source = mMap.value("media content").toMap().value("source").toString();
+    rMediaContent.type = mMap.value("media content").toMap().value("type").toString();
+    rMediaContent.aspect = mMap.value("media content").toMap().value("aspect").toString();
+    return rMediaContent;
 }
 
 QString Block::sourceType() const
