@@ -17,19 +17,43 @@ Rectangle
         acceptedButtons: Qt.AllButtons
         onPressed:
         {
-
-
         }
 
         onClicked:
         {
             if ( mouse.button === Qt.RightButton )
             {
-                anim.running = true
-                mainRect.children[effect.currentPage].visible = true
-                mainRect.children[effect.currentPage+1].visible = true
-                sourceItem1.sourceItem = mainRect.children[effect.currentPage]
-                sourceItem2.sourceItem = mainRect.children[effect.currentPage+1]
+                if (mouseX > mainRect.width/2)
+                {
+                    effect.backAnim = false
+                    anim.from = 90.0
+                    anim.to = 270.0
+                    if ( mainRect.children[effect.currentPage+1] )
+                    {
+                        mainRect.children[effect.currentPage].visible = true
+                        mainRect.children[effect.currentPage+1].visible = true
+                        sourceItem1.sourceItem = mainRect.children[effect.currentPage]
+                        sourceItem2.sourceItem = mainRect.children[effect.currentPage+1]
+                        anim.running = true
+                    }
+                }
+                else
+                {
+                    effect.backAnim = true
+                    anim.from = 270.0
+                    anim.to = 90.0
+                    if ( mainRect.children[effect.currentPage-1] )
+                    {
+                        console.log("!!!!!!")
+                        mainRect.children[effect.currentPage-1].visible = true
+                        mainRect.children[effect.currentPage].visible = true
+                        sourceItem1.sourceItem = mainRect.children[effect.currentPage-1]
+                        sourceItem2.sourceItem = mainRect.children[effect.currentPage]
+                        anim.running = true
+                    }
+                }
+
+
             }
             if ( mouse.button === Qt.LeftButton )
             {
@@ -97,7 +121,10 @@ Rectangle
             hideSource: true
         }
 
+        property real screenWidth : screenPixelWidth
+        property real screenHeight : screenPixelHeight
         property real angle : 90.0
+        property bool backAnim : false
 
         PropertyAnimation on angle
         {
@@ -111,8 +138,16 @@ Rectangle
             {
                 if (!anim.running)
                 {
-                    mainRect.children[effect.currentPage].visible = false
-                    effect.currentPage++;
+                    if (! effect.backAnim )
+                    {
+                        mainRect.children[effect.currentPage].visible = false
+                        effect.currentPage++;
+                    }
+                    else
+                    {
+                        mainRect.children[effect.currentPage].visible = false
+                        effect.currentPage--;
+                    }
                 }
             }
 

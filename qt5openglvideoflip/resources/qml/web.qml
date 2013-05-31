@@ -38,6 +38,7 @@ Item
         url: source
         Component.onCompleted: {
              console.log("completed")
+                console.log(mainX,mainY, webView.x,webView.y)
             }
     }
 

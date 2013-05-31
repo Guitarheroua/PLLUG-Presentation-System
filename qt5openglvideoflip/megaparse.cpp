@@ -17,7 +17,7 @@ MegaParse::~MegaParse()
 void MegaParse::parseData()
 {
     QString jsonData;
-    QFile data("data1.json");
+    QFile data("data.json");
     if (data.open(QFile::ReadOnly))
     {
         QTextStream in(&data);

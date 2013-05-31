@@ -9,6 +9,8 @@ varying highp vec2 qt_TexCoord0;
 varying highp vec4 pos;
 uniform highp float width;
 uniform highp float height;
+uniform highp float screenWidth;
+uniform highp float screenHeight;
 uniform highp float angle;
 uniform sampler2D source;
 uniform sampler2D source1;
@@ -26,7 +28,8 @@ void main()
 
     //           point.y = (-pos.y /((pos.w + 5.0 *( point.x - 0.5 )/15.0*tan(-rAngle))*1.61)+0.455);
 
-    float y = (-pos.y /((pos.w + 5.0 *( point.x - 0.5 )/tan(-rAngle))*(height*1.60/600.0))+0.455+0.014);
+    //float y = (-pos.y /((pos.w + 5.0 *( point.x - 0.5 )/tan(-rAngle))*(height*1.60/600.0))+0.455+0.014);
+	float y = (-pos.y /((pos.w + 5.0 *( point.x - 0.5 )/tan(-rAngle))*(height*1.922/screenHeight))+width*0.854/screenWidth);
     float x = point.x + (( point.x - 0.5 )/ tan(-rAngle));
 
     vec2 newPoint = vec2(x,y);

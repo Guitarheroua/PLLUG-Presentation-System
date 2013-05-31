@@ -1,9 +1,10 @@
 #include <QtGui/QGuiApplication>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QDesktopWidget>
 #include <QQuickView>
 #include <QQmlContext>
 #include <QUrl>
 #include <QFile>
-#include "qtquick2applicationviewer.h"
 #include "megaparse.h"
 #include "blocksview.h"
 #include "page.h"
@@ -12,12 +13,8 @@
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
-    //    qmlRegisterType<BlocksView>("CustomComponents", 1, 0, "BlocksView");
+    QApplication app(argc, argv);
 
-    //    QtQuick2ApplicationViewer viewer;
-    //    viewer.setMainQmlFile(QStringLiteral(":/qml/main.qml"));
-    //    viewer.showExpanded();
     MegaParse p;
     p.parseData();
 
@@ -28,7 +25,6 @@ int main(int argc, char *argv[])
     if (file1.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         fshader = file1.readAll();
-//        qDebug() << fshader;
     }
     QString vshader;
     QFile file2(":/shaders/flipPage.vsh");
@@ -39,6 +35,8 @@ int main(int argc, char *argv[])
 
     view.rootContext()->setContextProperty("vshader", vshader);
     view.rootContext()->setContextProperty("fshader",fshader);
+    view.rootContext()->setContextProperty("screenPixelWidth", app.desktop()->screenGeometry().width());
+    view.rootContext()->setContextProperty("screenPixelHeight",app.desktop()->screenGeometry().height());
 
     //    view.rootContext()->setContextProperty("pagesModel", QVariant::fromValue(pagesModel));
 
@@ -55,6 +53,7 @@ int main(int argc, char *argv[])
         item->setVisible(false);
         item->setVisible((i == 0));
         item->setParentItem(itm);
+        qDebug() << i;
     }
     view.show();
 
