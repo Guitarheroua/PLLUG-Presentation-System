@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
     p.parseData();
 
     QQuickView view;
+    view.setResizeMode(QQuickView::SizeRootObjectToView);
 
     QString fshader;
     QFile file1("resources/shaders/flipPage.fsh");
@@ -53,7 +54,6 @@ int main(int argc, char *argv[])
         item->setVisible(false);
         item->setVisible((i == 0));
         item->setParentItem(itm);
-        qDebug() << i;
     }
     view.show();
 

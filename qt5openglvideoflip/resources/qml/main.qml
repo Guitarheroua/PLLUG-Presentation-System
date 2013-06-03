@@ -10,6 +10,7 @@ Rectangle
     width: 800
     height: 800
     color: "gray"
+
     MouseArea
     {
         id: mainRectMouseArea
@@ -42,9 +43,8 @@ Rectangle
                     effect.backAnim = true
                     anim.from = 270.0
                     anim.to = 90.0
-                    if ( mainRect.children[effect.currentPage-1] )
+                    if ( effect.currentPage > 2)
                     {
-                        console.log("!!!!!!")
                         mainRect.children[effect.currentPage-1].visible = true
                         mainRect.children[effect.currentPage].visible = true
                         sourceItem1.sourceItem = mainRect.children[effect.currentPage-1]
@@ -102,6 +102,7 @@ Rectangle
     //    anchors.fill: parent
     //    model: pagesModel
     //}
+
 
     ShaderEffect
     {

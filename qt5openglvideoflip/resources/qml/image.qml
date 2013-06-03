@@ -8,6 +8,7 @@ Rectangle
     property string aspect
     property int fontSize
     property string fontFamily
+    property string textAlign
 
     property int mainWidth
     property int mainHeight
@@ -30,32 +31,50 @@ Rectangle
         }
     }
 
+    onTextAlignChanged:
+    {
+        console.log(item.textAlign)
+        if ( item.textAlign === "center")
+        {
+            titleText.horizontalAlignment = Text.AlignHCenter
+        }
+        else  if ( item.textAlign === "left")
+        {
+            titleText.horizontalAlignment = Text.AlignLeft
+        }
+        else  if ( item.textAlign === "right")
+        {
+            titleText.horizontalAlignment = Text.AlignRight
+        }
+    }
+
     Image
     {
         id: image
         anchors.fill : parent
         source: item.source
-        Component.onCompleted:
-        {
-            console.log(item.aspect)
-
-        }
-
     }
+
     Rectangle
     {
         id: titleRect
         objectName: "Caption"
         width: parent.width
-        height:  titleText.height + 10
+        height:  titleText.height + 15
         opacity: 0.5
         z: 1
-        Text {
+        Text
+        {
             id: titleText
+            anchors
+            {
+                fill: parent
+            }
+            width: parent.width
             objectName: "CaptionText"
             font.pixelSize: item.fontSize
             font.family: item.fontFamily
-
+            verticalAlignment: Text.AlignVCenter
         }
     }
 

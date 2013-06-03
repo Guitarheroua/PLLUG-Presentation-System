@@ -23,13 +23,17 @@ void main()
     highp vec2 point = qt_TexCoord0;
     highp vec2 oldPoint = qt_TexCoord0;
     highp float rAngle = radians(angle);
-
+	
+	//highp float widthCoeff = width*0.854;
+	highp float widthCoeff = 800.0*0.854;
+	highp float heightCoeff = 800.0*1.919;
+	
     vec4 color = texture2D(source, point.xy);
 
     //           point.y = (-pos.y /((pos.w + 5.0 *( point.x - 0.5 )/15.0*tan(-rAngle))*1.61)+0.455);
 
     //float y = (-pos.y /((pos.w + 5.0 *( point.x - 0.5 )/tan(-rAngle))*(height*1.60/600.0))+0.455+0.014);
-	float y = (-pos.y /((pos.w + 5.0 *( point.x - 0.5 )/tan(-rAngle))*(height*1.922/screenHeight))+width*0.854/screenWidth);
+	float y = (-pos.y /((pos.w + 5.0 *( point.x - 0.5 )/tan(-rAngle))*(heightCoeff/screenHeight)) + widthCoeff/screenWidth);
     float x = point.x + (( point.x - 0.5 )/ tan(-rAngle));
 
     vec2 newPoint = vec2(x,y);
@@ -62,7 +66,6 @@ void main()
 
         }
     }
-
 
     if ( point.x > 1.0 && angle > 180.0 )
     {

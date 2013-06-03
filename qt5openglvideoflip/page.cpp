@@ -104,31 +104,30 @@ QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption p
     item->setProperty("x", pX);
     item->setProperty("y", pY);
 
+    item->setProperty("fontSize", pCaption.fontSize);
+    item->setProperty("fontFamily", pCaption.fontFamily);
+    item->setProperty("textAlign", pCaption.textAlign);
     QQuickItem *lCaption = item->findChild<QQuickItem*>("Caption",Qt::FindChildrenRecursively);
     if (lCaption)
     {
         lCaption->setProperty("color",  pCaption.background);
-//        lCaption->setProperty("x", 0);
-//        if (pCaption.align == "top")
-//        {
-//            lCaption->setProperty("y", 0);
-//        }
-        /*else */
-        if (pCaption.align == "bottom")
-        {
-            lCaption->setProperty("y", pHeight - lCaption->property("height").toInt() );
-        }
         QQuickItem *lCaptionText = item->findChild<QQuickItem*>("CaptionText",Qt::FindChildrenRecursively);
         if (lCaptionText)
         {
             lCaptionText->setProperty("text", pCaption.text );
             lCaptionText->setProperty("color", pCaption.color );
+            //        lCaption->setProperty("x", 0);
+            //        if (pCaption.align == "top")
+            //        {
+            //            lCaption->setProperty("y", 0);
+            //        }
+                    /*else */
+            if (pCaption.align == "bottom")
+            {
+                lCaption->setProperty("y", pHeight - lCaption->property("height").toInt());
+            }
         }
     }
-    item->setProperty("fontSize", pCaption.fontSize);
-    item->setProperty("fontFamily", pCaption.fontFamily);
-    qDebug() << pCaption.fontFamily;
-
     if (item)
     {
         qDebug() << "source" << item->property("source").toString();

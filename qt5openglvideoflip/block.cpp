@@ -47,6 +47,7 @@ Block::Caption Block::caption() const
     rCaption.align = mMap.value("text container").toMap().value("align").toString();
     rCaption.fontSize = mMap.value("text container").toMap().value("font-size").toInt();
     rCaption.fontFamily = mMap.value("text container").toMap().value("font-family").toString();
+    rCaption.textAlign = mMap.value("text container").toMap().value("text-align").toString();
     return rCaption;
 
 }
