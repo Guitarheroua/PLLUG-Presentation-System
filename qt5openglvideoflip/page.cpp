@@ -125,6 +125,7 @@ QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption p
             if (pCaption.align == "bottom")
             {
                 lCaption->setProperty("y", pHeight - lCaption->property("height").toInt());
+                item->setProperty("titleY", pHeight - lCaption->property("height").toInt());
             }
         }
     }

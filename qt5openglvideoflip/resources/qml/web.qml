@@ -15,20 +15,25 @@ Rectangle
     property int mainX
     property int mainY
 
+    property int titleY
+
     onTextAlignChanged:
     {
         console.log(item.textAlign)
         if ( item.textAlign === "center")
         {
             titleText.horizontalAlignment = Text.AlignHCenter
+            fullscreenImage.anchors.right = titleRect.right
         }
         else  if ( item.textAlign === "left")
         {
             titleText.horizontalAlignment = Text.AlignLeft
+            fullscreenImage.anchors.right = titleRect.right
         }
         else  if ( item.textAlign === "right")
         {
             titleText.horizontalAlignment = Text.AlignRight
+            fullscreenImage.anchors.left = titleRect.left
         }
     }
 
@@ -53,6 +58,78 @@ Rectangle
             font.pixelSize: item.fontSize
             font.family: item.fontFamily
             verticalAlignment: Text.AlignVCenter
+        }
+        Image
+        {
+            id: fullscreenImage
+            property string fullScreenSrc: "qrc:/icons/fullscreen.png"
+            property string fullScreenExitSrc: "qrc:/icons/fullscreen_exit.png"
+            anchors
+            {
+                top: parent.top
+                topMargin: 3
+                leftMargin: 5
+                rightMargin: 5
+            }
+
+            states:[
+                State {
+                    name: "full"
+                    PropertyChanges {
+                        target: fullscreenImage
+                        source: fullScreenExitSrc
+
+                    }
+                    PropertyChanges {
+                        target: item
+                        width: item.parent.width
+                        height: item.parent.height
+                        x: 0
+                        y: 0
+                        z: 2
+
+                    }
+                },
+                State {
+                    name: "native"
+                    PropertyChanges {
+                        target: fullscreenImage
+                        source: fullScreenSrc
+                    }
+                    PropertyChanges {
+                        target: item
+                        width: mainWidth
+                        height: mainHeight
+                        x: mainX
+                        y: mainY
+                        z: 1
+
+                    }
+                }
+            ]
+            state: "native"
+            source: fullScreenSrc
+            width: parent.height - 6
+            height: parent.height - 6
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked: {
+                    if (fullscreenImage.state === "full" )
+                    {
+                        fullscreenImage.state = "native"
+                        titleRect.y = item.titleY
+                    }
+                    else
+                    {
+                        fullscreenImage.state = "full"
+                        titleRect.y = 0
+                    }
+
+
+                }
+            }
+
         }
 
     }
