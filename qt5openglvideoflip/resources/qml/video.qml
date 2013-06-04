@@ -55,7 +55,7 @@ Rectangle
         objectName: "Caption"
         width: parent.width
         height: titleText.height + 15
-        opacity: 0.5
+        opacity: 0.0
         z: 1
         Text
         {
@@ -69,6 +69,10 @@ Rectangle
             font.family: item.fontFamily
             verticalAlignment: Text.AlignVCenter
         }
+        Behavior on opacity
+        {
+            PropertyAnimation{}
+        }
     }
 
 
@@ -76,6 +80,7 @@ Rectangle
     MouseArea
     {
         anchors.fill: parent
+        hoverEnabled: true
         onClicked:
         {
             console.log("_____clicked")
@@ -93,7 +98,20 @@ Rectangle
                 }
             }
         }
+
+
+        onEntered:
+        {
+            titleRect.opacity = 0.7
+        }
+        onExited:
+        {
+            titleRect.opacity = 0.1
+        }
+
     }
+
+
 
     MediaPlayer
     {

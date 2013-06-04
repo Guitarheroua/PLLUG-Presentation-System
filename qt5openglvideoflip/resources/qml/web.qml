@@ -37,13 +37,14 @@ Rectangle
         }
     }
 
+
     Rectangle
     {
         id: titleRect
         objectName: "Caption"
         width: parent.width
         height: titleText.height + 15
-        opacity: 0.5
+        opacity: 0.0
         clip: true
         z: 1
         Text
@@ -59,6 +60,26 @@ Rectangle
             font.family: item.fontFamily
             verticalAlignment: Text.AlignVCenter
         }
+
+        MouseArea
+        {
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered:
+            {
+                titleRect.opacity = 0.7
+            }
+            onExited:
+            {
+                titleRect.opacity = 0.1
+            }
+        }
+
+        Behavior on opacity
+        {
+            PropertyAnimation{}
+        }
+
         Image
         {
             id: fullscreenImage
@@ -107,6 +128,19 @@ Rectangle
                     }
                 }
             ]
+//            transitions: [
+//              Transition {
+//                  from: "full"; to: "native"
+//                  PropertyAnimation { target: item
+//                                      properties: "width,height"; duration: 1000;  }
+//              },
+//              Transition {
+//                  from: "native"; to: "full"
+//                  PropertyAnimation { target: item
+//                                      properties: "width,height"; duration: 1000;}
+//              } ]
+
+
             state: "native"
             source: fullScreenSrc
             width: parent.height - 6
@@ -114,7 +148,8 @@ Rectangle
             MouseArea
             {
                 anchors.fill: parent
-                onClicked: {
+                onClicked:
+                {
                     if (fullscreenImage.state === "full" )
                     {
                         fullscreenImage.state = "native"
@@ -125,20 +160,19 @@ Rectangle
                         fullscreenImage.state = "full"
                         titleRect.y = 0
                     }
+               }
 
-
-                }
             }
 
         }
 
     }
-    Rectangle
-    {
-        id: content
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        width: parent.width
+//    Rectangle
+//    {
+//        id: content
+//        anchors.top: parent.top
+//        anchors.bottom: parent.bottom
+//        width: parent.width
         WebView
         {
             id: webView
@@ -152,6 +186,6 @@ Rectangle
 //            preferredHeight: flickable.height
 //            preferredWidth: flickable.width
         }
-    }
+//    }
 
 }

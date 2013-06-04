@@ -70,6 +70,7 @@ Rectangle
         {
             if ( mainRect.children[effect.currentPage].children[0].childAt(mouseX, mouseY) )
             {
+                console.log("__________")
                 var item = mainRect.children[effect.currentPage].children[0].childAt(mouseX,mouseY);
                 if (item.width === mainRect.width  && item.height === mainRect.height)
                 {
@@ -134,7 +135,7 @@ Rectangle
             to: 270.0
             //            loops: Animation.Infinite
             running: false
-            duration: 3000
+            duration: 1000
             onRunningChanged:
             {
                 if (!anim.running)

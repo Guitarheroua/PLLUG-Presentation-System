@@ -48,6 +48,22 @@ Rectangle
         }
     }
 
+    MouseArea
+    {
+        anchors.fill: parent
+        hoverEnabled: true
+        onEntered:
+        {
+            titleRect.opacity = 0.7
+        }
+        onExited:
+        {
+            titleRect.opacity = 0.1
+        }
+    }
+
+
+
     Image
     {
         id: image
@@ -61,7 +77,7 @@ Rectangle
         objectName: "Caption"
         width: parent.width
         height:  titleText.height + 15
-        opacity: 0.5
+        opacity: 0.0
         z: 1
         Text
         {
@@ -75,6 +91,10 @@ Rectangle
             font.pixelSize: item.fontSize
             font.family: item.fontFamily
             verticalAlignment: Text.AlignVCenter
+        }
+        Behavior on opacity
+        {
+            PropertyAnimation{}
         }
     }
 
