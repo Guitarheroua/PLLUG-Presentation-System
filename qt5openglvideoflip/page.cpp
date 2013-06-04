@@ -10,7 +10,7 @@ Page::Page(QVariantMap pMap,QQuickItem *parent) :
     mEngine = new QQmlEngine();
 
 //    QQmlComponent *component = new QQmlComponent(mEngine,QUrl("qrc:/qml/rectangle.qml"));
-    QQmlComponent *component = new QQmlComponent(mEngine,QUrl("resources/qml/rectangle.qml"));
+    QQmlComponent *component = new QQmlComponent(mEngine,QUrl("qml/rectangle.qml"));
     QObject *object = component->create();
     mBackgroundRect = qobject_cast<QQuickItem*>(object);
 
@@ -79,7 +79,10 @@ void Page::createBlocks()
 
 QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption pCaption, int pWidth, int pHeight,float pX, float pY, QString pBackgrond)
 {
-    QQmlComponent *component = new QQmlComponent(mEngine,/*QUrl("qrc:/qml/" + pType + ".qml")*/QUrl("resources/qml/" + pMediaContent.type + ".qml"));
+    QDir lCurrDir = QDir::currentPath();
+    lCurrDir.cdUp();
+    QDir lDataDir(lCurrDir.absolutePath() + "/data");
+    QQmlComponent *component = new QQmlComponent(mEngine, QUrl("qml/" + pMediaContent.type + ".qml"));
     QObject *object = component->create();
 
     qDebug() << component->errorString();
@@ -91,7 +94,7 @@ QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption p
     }
     else
     {
-        item->setProperty("source", "qrc:/" + pMediaContent.type + "/" + pMediaContent.source);
+        item->setProperty("source", "../../data/" + pMediaContent.type + "/" + pMediaContent.source);
     }
     item->setProperty("color", pBackgrond);
     item->setProperty("aspect", pMediaContent.aspect);

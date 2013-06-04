@@ -71,7 +71,7 @@ Rectangle
             }
             onExited:
             {
-                titleRect.opacity = 0.1
+                titleRect.opacity = 0.0
             }
         }
 
@@ -99,7 +99,6 @@ Rectangle
                     PropertyChanges {
                         target: fullscreenImage
                         source: fullScreenExitSrc
-
                     }
                     PropertyChanges {
                         target: item
@@ -159,6 +158,7 @@ Rectangle
                     {
                         fullscreenImage.state = "full"
                         titleRect.y = 0
+                        titleRect.opacity = 0.0
                     }
                }
 

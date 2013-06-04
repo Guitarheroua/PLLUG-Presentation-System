@@ -15,6 +15,7 @@ Rectangle
     property int mainHeight
     property int mainX
     property int mainY
+    property int titleY
 
     onAspectChanged:
     {
@@ -48,6 +49,35 @@ Rectangle
             titleText.horizontalAlignment = Text.AlignRight
         }
     }
+
+    states:[
+        State {
+            name: "full"
+            PropertyChanges {
+                target: item
+                width: item.parent.width
+                height: item.parent.height
+                x: 0
+                y: 0
+                z: 2
+
+            }
+        },
+        State {
+            name: "native"
+
+            PropertyChanges {
+                target: item
+                width: mainWidth
+                height: mainHeight
+                x: mainX
+                y: mainY
+                z: 1
+
+            }
+        }
+    ]
+    state: "native"
 
     Rectangle
     {
@@ -98,15 +128,32 @@ Rectangle
                 }
             }
         }
+        onDoubleClicked:
+        {
+            if ( item.state === "native")
+            {
+                item.state = "full"
+                titleRect.y = 0
+                titleRect.opacity = 0.0
+            }
+            else
+            {
+                item.state = "native"
+                titleRect.y = titleRect
+            }
+        }
 
 
         onEntered:
         {
-            titleRect.opacity = 0.7
+            if ( item.state != "full")
+            {
+                titleRect.opacity = 0.7
+            }
         }
         onExited:
         {
-            titleRect.opacity = 0.1
+            titleRect.opacity = 0.0
         }
 
     }
@@ -116,7 +163,7 @@ Rectangle
     MediaPlayer
     {
         id: mediaPlayer
-        source: item.source
+        source: /*item.source*/"D:/PROJECTS/qt5openglvideoflip/data/video/Wildlife.wmv"
 //        autoPlay:  true
         autoLoad: true
         volume: 0.0

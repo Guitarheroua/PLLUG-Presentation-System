@@ -16,9 +16,6 @@ Rectangle
         id: mainRectMouseArea
         anchors.fill: parent
         acceptedButtons: Qt.AllButtons
-        onPressed:
-        {
-        }
 
         onClicked:
         {
@@ -66,44 +63,37 @@ Rectangle
 
         }
 
-        onDoubleClicked:
-        {
-            if ( mainRect.children[effect.currentPage].children[0].childAt(mouseX, mouseY) )
-            {
-                console.log("__________")
-                var item = mainRect.children[effect.currentPage].children[0].childAt(mouseX,mouseY);
-                if (item.width === mainRect.width  && item.height === mainRect.height)
-                {
-                    item.x = item.mainX
-                    item.y = item.mainY
-                    item.z = 0
-                    item.width = item.mainWidth
-                    item.height = item.mainHeight
-                }
+//        onDoubleClicked:
+//        {
+//            if ( mainRect.children[effect.currentPage].children[0].childAt(mouseX, mouseY) )
+//            {
+//                console.log("__________")
+//                var item = mainRect.children[effect.currentPage].children[0].childAt(mouseX,mouseY);
+//                if (item.width === mainRect.width  && item.height === mainRect.height)
+//                {
+//                    item.x = item.mainX
+//                    item.y = item.mainY
+//                    item.z = 0
+//                    item.width = item.mainWidth
+//                    item.height = item.mainHeight
+//                }
 
-                else
-                {
-                    item.x = 0
-                    item.y = 0
-                    item.z = 10
-                    item.width = mainRect.width
-                    item.height = mainRect.height
+//                else
+//                {
+//                    item.x = 0
+//                    item.y = 0
+//                    item.z = 10
+//                    item.width = mainRect.width
+//                    item.height = mainRect.height
 
-                }
-            }
+//                }
+//            }
 
-        }
+//        }
     }
     onChildrenChanged:
     {
     }
-
-    //ListView
-    //{
-    //    anchors.fill: parent
-    //    model: pagesModel
-    //}
-
 
     ShaderEffect
     {

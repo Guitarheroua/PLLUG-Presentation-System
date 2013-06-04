@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
         fshader = file1.readAll();
     }
     QString vshader;
-    QFile file2(":/shaders/flipPage.vsh");
+    QFile file2("resources/shaders/flipPage.vsh");
     if (file2.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         vshader = file2.readAll();
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 
     //    view.rootContext()->setContextProperty("pagesModel", QVariant::fromValue(pagesModel));
 
-    view.setSource(QString("resources/qml/main.qml"));
+    view.setSource(QString("qml/main.qml"));
 //    view.setSource(QString("resources/qml/test.qml"));
 //        view.setSource(QString("qrc:/qml/test.qml"));
     QQuickItem *itm = view.rootObject();

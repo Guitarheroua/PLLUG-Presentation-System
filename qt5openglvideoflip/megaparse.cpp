@@ -1,9 +1,12 @@
 #include "megaparse.h"
 #include <QFile>
+#include <QStandardPaths>
+#include <QDir>
 #include <QTextStream>
 #include <QJsonDocument>
 #include <QDebug>
 #include "page.h"
+
 MegaParse::MegaParse(QObject *parent) :
     QObject(parent)
 {
@@ -16,8 +19,12 @@ MegaParse::~MegaParse()
 
 void MegaParse::parseData()
 {
+    QDir lCurrDir = QDir::currentPath();
+    lCurrDir.cdUp();
+    QDir lDataDir(lCurrDir.absolutePath() + "/data");
+
     QString jsonData;
-    QFile data("data.json");
+    QFile data(lDataDir.absolutePath() + "/data.json");
     if (data.open(QFile::ReadOnly))
     {
         QTextStream in(&data);

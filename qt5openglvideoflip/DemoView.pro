@@ -30,7 +30,13 @@ OTHER_FILES += \
     resources/qml/rectangle.qml \
     resources/qml/model.qml \
     resources/qml/main.qml \
-    resources/qml/image.qml
+    qml/web.qml \
+    qml/video.qml \
+    qml/test.qml \
+    qml/rectangle.qml \
+    qml/model.qml \
+    qml/main.qml \
+    qml/image.qml
 
 RESOURCES += \
     resources.qrc
