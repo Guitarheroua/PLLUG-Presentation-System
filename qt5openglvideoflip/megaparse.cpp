@@ -19,12 +19,12 @@ MegaParse::~MegaParse()
 
 void MegaParse::parseData()
 {
-    QDir lCurrDir = QDir::currentPath();
-    lCurrDir.cdUp();
-    QDir lDataDir(lCurrDir.absolutePath() + "/data");
+//    QDir lCurrDir = QDir::currentPath();
+//    lCurrDir.cdUp();
+//    QDir lDataDir(lCurrDir.absolutePath() + "/data");
 
     QString jsonData;
-    QFile data(lDataDir.absolutePath() + "/data.json");
+    QFile data(mContentDir + "/data.json");
     if (data.open(QFile::ReadOnly))
     {
         QTextStream in(&data);
@@ -35,8 +35,13 @@ void MegaParse::parseData()
     QVariantList lPagesList = jsonDoc.toVariant().toMap().value("pages").toList();
     foreach(QVariant page, lPagesList)
     {
-        mPagesList.append(new Page(page.toMap()));
+        mPagesList.append(new Page(page.toMap(), mContentDir));
     }
+}
+
+void MegaParse::setContentDir(const QString pDir)
+{
+    mContentDir = pDir;
 }
 
 QList<Page *> MegaParse::pagesList()

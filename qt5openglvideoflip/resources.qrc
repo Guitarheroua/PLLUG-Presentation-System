@@ -3,4 +3,8 @@
         <file alias="fullscreen.png">resources/icons/fullscreen.png</file>
         <file alias="fullscreen_exit.png">resources/icons/fullscreen_exit.png</file>
     </qresource>
+    <qresource prefix="/shaders">
+        <file alias="flipPage.fsh">resources/shaders/flipPage.fsh</file>
+        <file alias="flipPage.vsh">resources/shaders/flipPage.vsh</file>
+    </qresource>
 </RCC>

@@ -11,7 +11,7 @@ class Page : public QQuickItem
 {
     Q_OBJECT
 public:
-    Page(QVariantMap pMap,QQuickItem *parent = 0);
+    Page(QVariantMap pMap, const QString& pContentDir, QQuickItem *parent = 0);
     ~Page();
     void setModel(BlocksModel* pModel);
     BlocksModel *blockModel() const;
@@ -28,6 +28,7 @@ public:
     QQuickItem* createItem(Block::MediaContent pMediaContent, Block::Caption pCaption, int pWidth, int pHeight, float pX, float pY,  QString pBackgrond);
 
 private:
+    QString mContentDir;
     BlocksModel *mBlockModel;
     QQmlEngine* mEngine;
     QQuickItem *mBackgroundRect;

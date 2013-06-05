@@ -4,10 +4,11 @@
 #include <QDebug>
 #include <QDir>
 
-Page::Page(QVariantMap pMap,QQuickItem *parent) :
+Page::Page(QVariantMap pMap, const QString& pContentDir, QQuickItem *parent) :
     QQuickItem(parent)
 {
     mEngine = new QQmlEngine();
+    mContentDir = pContentDir;
 
 //    QQmlComponent *component = new QQmlComponent(mEngine,QUrl("qrc:/qml/rectangle.qml"));
     QQmlComponent *component = new QQmlComponent(mEngine,QUrl("qml/rectangle.qml"));
@@ -36,6 +37,7 @@ Page::~Page()
 {
     delete mBlockModel;
 }
+
 
 void Page::setModel(BlocksModel *pModel)
 {
@@ -79,9 +81,6 @@ void Page::createBlocks()
 
 QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption pCaption, int pWidth, int pHeight,float pX, float pY, QString pBackgrond)
 {
-    QDir lCurrDir = QDir::currentPath();
-    lCurrDir.cdUp();
-    QDir lDataDir(lCurrDir.absolutePath() + "/data");
     QQmlComponent *component = new QQmlComponent(mEngine, QUrl("qml/" + pMediaContent.type + ".qml"));
     QObject *object = component->create();
 
@@ -94,7 +93,7 @@ QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption p
     }
     else
     {
-        item->setProperty("source", "../../data/" + pMediaContent.type + "/" + pMediaContent.source);
+        item->setProperty("source", "file:///" + mContentDir  + "/" + pMediaContent.type + "/" + pMediaContent.source);
     }
     item->setProperty("color", pBackgrond);
     item->setProperty("aspect", pMediaContent.aspect);

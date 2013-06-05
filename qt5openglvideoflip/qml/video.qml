@@ -163,7 +163,7 @@ Rectangle
     MediaPlayer
     {
         id: mediaPlayer
-        source: /*item.source*/"D:/PROJECTS/qt5openglvideoflip/data/video/Wildlife.wmv"
+        source: item.source
 //        autoPlay:  true
         autoLoad: true
         volume: 0.0
