@@ -31,11 +31,11 @@ int main(int argc, char *argv[])
             QDir appDir = QCoreApplication::applicationDirPath();
             appDir.cdUp();
             appDir.cdUp();
-            qDebug() << appDir.absolutePath();
             #ifdef Q_OS_WIN
             contentDir = appDir.absolutePath() + "/data";
             #endif
             #ifdef Q_OS_MAC
+            appDir.cdUp();
             appDir.cdUp();
             contentDir = appDir.absolutePath() + "/data";
             #endif
