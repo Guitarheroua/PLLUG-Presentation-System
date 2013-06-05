@@ -28,8 +28,6 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, QQuickItem *parent) :
 
 
     mBackgroundRect->setParentItem(this);
-    this->setProperty("height", 800);
-    this->setProperty("width", 800);
 
 }
 
@@ -129,11 +127,15 @@ QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption p
                 lCaption->setProperty("y", pHeight - lCaption->property("height").toInt());
                 item->setProperty("titleY", pHeight - lCaption->property("height").toInt());
             }
+            else if ( pCaption.align == "top" )
+            {
+                item->setProperty("titleY", 0);
+            }
         }
     }
     if (item)
     {
-        qDebug() << "source" << item->property("source").toString();
+//        qDebug() << "source" << item->property("source").toString();
         item->setParentItem(mBackgroundRect);
     }
     return item;

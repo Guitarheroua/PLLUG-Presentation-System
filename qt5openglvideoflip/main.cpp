@@ -46,7 +46,8 @@ int main(int argc, char *argv[])
     parser.parseData();
 
     QQuickView view;
-    view.setResizeMode(QQuickView::SizeRootObjectToView);
+    view.setSurfaceType(QQuickView::OpenGLSurface);
+
 
     QString fshader;
     QFile file1(":/shaders/flipPage.fsh");
@@ -60,7 +61,6 @@ int main(int argc, char *argv[])
     {
         vshader = file2.readAll();
     }
-
     view.rootContext()->setContextProperty("vshader", vshader);
     view.rootContext()->setContextProperty("fshader",fshader);
     view.rootContext()->setContextProperty("screenPixelWidth", app.desktop()->screenGeometry().width());
@@ -70,12 +70,18 @@ int main(int argc, char *argv[])
 //    view.setSource(QString("resources/qml/test.qml"));
 //        view.setSource(QString("qrc:/qml/test.qml"));
     QQuickItem *rootItem = view.rootObject();
+//    view.setGeometry(QRect(view.position(), QSize(800,800)));
+//            rootItem->setProperty("width", 800);
+//            rootItem->setProperty("height", 800);
+    view.setResizeMode(QQuickView::SizeRootObjectToView);
 
     QList<Page*> pagesModel;
     for (int i=0; i<parser.pagesList().count(); i++)
     {
         Page* item = parser.pagesList().at(i);
-        pagesModel.append(item);
+        item->setProperty("height", view.height());
+        item->setProperty("width", view.width());
+//        pagesModel.append(item);
         item->setVisible(false);
         item->setVisible((i == 0));
         item->setParentItem(rootItem);

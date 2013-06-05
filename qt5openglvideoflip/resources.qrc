@@ -2,6 +2,7 @@
     <qresource prefix="/icons">
         <file alias="fullscreen.png">resources/icons/fullscreen.png</file>
         <file alias="fullscreen_exit.png">resources/icons/fullscreen_exit.png</file>
+        <file alias="replay.png">resources/icons/replay.png</file>
     </qresource>
     <qresource prefix="/shaders">
         <file alias="flipPage.fsh">resources/shaders/flipPage.fsh</file>

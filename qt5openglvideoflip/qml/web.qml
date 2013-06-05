@@ -44,7 +44,7 @@ Rectangle
         objectName: "Caption"
         width: parent.width
         height: titleText.height + 15
-        opacity: 0.0
+        opacity: 0.1
         clip: true
         z: 1
         Text
@@ -71,7 +71,7 @@ Rectangle
             }
             onExited:
             {
-                titleRect.opacity = 0.0
+                titleRect.opacity = 0.1
             }
         }
 
@@ -157,7 +157,10 @@ Rectangle
                     else
                     {
                         fullscreenImage.state = "full"
-                        titleRect.y = 0
+                        if ( titleY != 0 )
+                        {
+                            titleRect.y = item.height - titleRect.height
+                        }
                         titleRect.opacity = 0.0
                     }
                }

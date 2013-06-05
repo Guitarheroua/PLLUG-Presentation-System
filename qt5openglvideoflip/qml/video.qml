@@ -105,12 +105,38 @@ Rectangle
         }
     }
 
+    Image
+    {
+        id: replayImage
+        source: "qrc:/icons/replay.png"
+        width: 50
+        height: 50
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        visible: false
+        z : 1
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked:
+            {
+                console.log("replay")
+                mediaPlayer.play()
+                mouseArea.prevPos = 0
+            }
+        }
+    }
+
 
 
     MouseArea
     {
+        id: mouseArea
         anchors.fill: parent
         hoverEnabled: true
+        property real prevPos: 0
+        property real coeff: mediaPlayer.duration/videoOutput.width
+        property real adds
         onClicked:
         {
             console.log("_____clicked")
@@ -133,13 +159,16 @@ Rectangle
             if ( item.state === "native")
             {
                 item.state = "full"
-                titleRect.y = 0
+                if ( titleY != 0 )
+                {
+                    titleRect.y = item.height - titleRect.height
+                }
                 titleRect.opacity = 0.0
             }
             else
             {
                 item.state = "native"
-                titleRect.y = titleRect
+                titleRect.y = titleY
             }
         }
 
@@ -156,6 +185,44 @@ Rectangle
             titleRect.opacity = 0.0
         }
 
+        onPressAndHold:
+        {
+            mediaPlayer.seeking = true
+            mediaPlayer.play()
+        }
+
+        onReleased:
+        {
+            if ( mediaPlayer.seeking)
+            {
+                mediaPlayer.seeking = false
+            }
+
+        }
+
+        onMouseXChanged:
+        {
+            if ( mediaPlayer.seeking  && (mouseX >= 0))
+            {
+                adds = (mouseX - prevPos) *coeff
+//                console.log(mouseX, mediaPlayer.position, adds)
+                if ( (mediaPlayer.position + adds  < mediaPlayer.duration) && (mediaPlayer.position + adds  > 0))
+                {
+//                    console.log("seek")
+                    mediaPlayer.seek(mediaPlayer.position + adds )
+                }
+                else
+                {
+                    if (mediaPlayer.position + adds  >= mediaPlayer.duration )
+                        mediaPlayer.seek(mediaPlayer.duration)
+                    if (mediaPlayer.position + adds  <= 0 )
+                        mediaPlayer.seek(0)
+                }
+
+                prevPos = mouseX
+            }
+        }
+
     }
 
 
@@ -167,26 +234,18 @@ Rectangle
 //        autoPlay:  true
         autoLoad: true
         volume: 0.0
-//        property bool repeat: false
-//        loops: Animation.Infinite
+//        playbackRate: 4.0
 
-//        function playVideo()
-//        {
-//            console.log(mediaPlayer.source)
-//            mediaPlayer.play()
-//        }
+        property bool seeking : false
+//        loops: Animation.Infinite
 
         onPositionChanged:
         {
-//            console.log( mediaPlayer.position,mediaPlayer.duration)
-            if (( mediaPlayer.position < mediaPlayer.duration) && ( mediaPlayer.position > mediaPlayer.duration - 4900 ) )
-            {
-                console.log("!!!!!!!!!!!!")
-//                mediaPlayer.seek(mediaPlayer.duration-10000)
-//                console.log(mediaPlayer.position)
-//                mediaPlayer.play()
-                mediaPlayer.pause()
-            }
+//            if (( mediaPlayer.position < mediaPlayer.duration) && ( mediaPlayer.position > mediaPlayer.duration - 500 ) )
+//            {
+//                console.log("!!!!!!!!!!!!")
+////                mediaPlayer.pause()
+//            }
         }
         onStatusChanged:
         {
@@ -195,35 +254,20 @@ Rectangle
                 mediaPlayer.play()
                 mediaPlayer.seek(1)
                 mediaPlayer.pause()
-//                mediaPlayer.autoLoad = false
             }
-//            if (mediaPlayer.status === MediaPlayer.EndOfMedia)
-//            {
-////                console.log("*********")
-////                mediaPlayer.repeat = true
-////                mediaPlayer.stop()
-
-////                console.log(mediaPlayer.source)
-////                playVideo()
-//            }
+            if (mediaPlayer.status === MediaPlayer.EndOfMedia)
+            {
+//                item.color = "black"
+                replayImage.visible = true
+                mediaPlayer.seeking = false
+            }
 
         }
-//        onStopped:
-//        {
-//            console.log("SSSS")
-//            mediaPlayer.autoPlay = false
-//            mediaPlayer.play()
-//            mediaPlayer.seek(1000)
+        onPlaying:
+        {
+            replayImage.visible = false
+        }
 
-//        }
-//        onErrorChanged:
-//        {
-//            console("ERR - ", mediaPlayer.error)
-//        }
-//        onAvailabilityChanged:
-//        {
-//            console.log("@@@@", mediaPlayer.availability)
-//        }
 
     }
 
@@ -232,10 +276,6 @@ Rectangle
         id: videoOutput
         source: mediaPlayer
         anchors.fill: parent
-//        onVisibleChanged:
-//        {
-//             console.log("VVVV", videoOutput.visible)
-//        }
     }
 
 }

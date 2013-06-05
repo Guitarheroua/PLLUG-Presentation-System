@@ -97,7 +97,11 @@ Rectangle
             if ( item.state === "native")
             {
                 item.state = "full"
-                titleRect.y = 0
+                if ( titleY != 0 )
+                {
+                    titleRect.y = item.height - titleRect.height
+                }
+
                 titleRect.opacity = 0.0
             }
             else

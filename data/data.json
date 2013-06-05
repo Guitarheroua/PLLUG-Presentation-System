@@ -21,7 +21,7 @@
           "media content": {
             "type": "video",
             "source": "Wildlife.wmv",
-            "aspect": "full"
+            "aspect": "stretch"
           }
         },
         {
@@ -313,7 +313,7 @@
           "media content": {
             "type": "video",
             "source": "Wildlife.wmv",
-            "aspect": "full"
+            "aspect": "fit"
           }
         }
       ]
