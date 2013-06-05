@@ -24,9 +24,12 @@ void main()
     highp vec2 oldPoint = qt_TexCoord0;
     highp float rAngle = radians(angle);
 	
-	//highp float widthCoeff = width*0.854;
-	highp float widthCoeff = 800.0*0.854;
-	highp float heightCoeff = 800.0*1.919;
+	//highp float widthCoeff = 800.0*0.854;
+	//highp float heightCoeff = 800.0*1.919;
+	
+	highp float widthCoeff = screenWidth/2.0;
+	highp float heightCoeff = screenHeight/0.5;
+	
 	
     vec4 color = texture2D(source, point.xy);
 
