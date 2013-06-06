@@ -9,7 +9,7 @@ Rectangle
     objectName: "mainRect"
     width: 800
     height: 800
-    color: "gray"
+    color: "green"
 
     MouseArea
     {
@@ -95,56 +95,56 @@ Rectangle
     {
     }
 
-    ShaderEffect
-    {
-        id: effect
-        width: mainRect.width
-        height: mainRect.height
-        anchors.centerIn: parent
-        property int currentPage: 2
-        property variant source: ShaderEffectSource{
-            id: sourceItem1
-            sourceItem: mainRect.children[effect.currentPage]
-            hideSource: true
-        }
-        property variant source1: ShaderEffectSource{
-            id: sourceItem2
-            sourceItem: mainRect.children[effect.currentPage+1]
-            hideSource: true
-        }
+//    ShaderEffect
+//    {
+//        id: effect
+//        width: mainRect.width
+//        height: mainRect.height
+//        anchors.centerIn: parent
+//        property int currentPage: 2
+//        property variant source: ShaderEffectSource{
+//            id: sourceItem1
+//            sourceItem: mainRect.children[effect.currentPage]
+//            hideSource: true
+//        }
+//        property variant source1: ShaderEffectSource{
+//            id: sourceItem2
+//            sourceItem: mainRect.children[effect.currentPage+1]
+//            hideSource: true
+//        }
 
-        property real screenWidth : screenPixelWidth
-        property real screenHeight : screenPixelHeight
-        property real angle : 90.0
-        property bool backAnim : false
+//        property real screenWidth : screenPixelWidth
+//        property real screenHeight : screenPixelHeight
+//        property real angle : 90.0
+//        property bool backAnim : false
 
-        PropertyAnimation on angle
-        {
-            id: anim
-            from: 90.0
-            to: 270.0
-            //            loops: Animation.Infinite
-            running: false
-            duration: 1000
-            onRunningChanged:
-            {
-                if (!anim.running)
-                {
-                    if (! effect.backAnim )
-                    {
-                        mainRect.children[effect.currentPage].visible = false
-                        effect.currentPage++;
-                    }
-                    else
-                    {
-                        mainRect.children[effect.currentPage].visible = false
-                        effect.currentPage--;
-                    }
-                }
-            }
+//        PropertyAnimation on angle
+//        {
+//            id: anim
+//            from: 90.0
+//            to: 270.0
+//            //            loops: Animation.Infinite
+//            running: false
+//            duration: 1000
+//            onRunningChanged:
+//            {
+//                if (!anim.running)
+//                {
+//                    if (! effect.backAnim )
+//                    {
+//                        mainRect.children[effect.currentPage].visible = false
+//                        effect.currentPage++;
+//                    }
+//                    else
+//                    {
+//                        mainRect.children[effect.currentPage].visible = false
+//                        effect.currentPage--;
+//                    }
+//                }
+//            }
 
-        }
-        vertexShader: vshader
-        fragmentShader: fshader
-    }
+//        }
+//        vertexShader: vshader
+//        fragmentShader: fshader
+//    }
 }

@@ -12,7 +12,8 @@ HEADERS += \
     megaparse.h \
     block.h \
     blocksmodel.h \
-    blocksview.h
+    blocksview.h \
+    mainview.h
 
 SOURCES += \
     page.cpp \
@@ -21,7 +22,8 @@ SOURCES += \
     block.cpp \
     blocksmodel.cpp \
     blocksview.cpp \
-    main.cpp
+    main.cpp \
+    mainview.cpp
 
 OTHER_FILES += \
     resources/qml/web.qml \

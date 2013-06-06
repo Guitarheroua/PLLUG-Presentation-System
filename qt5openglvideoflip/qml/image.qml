@@ -16,21 +16,21 @@ Rectangle
     property int mainY
     property int titleY
 
-//    onAspectChanged:
-//    {
-//        if ( item.aspect === "crop")
-//        {
-//            image.fillMode = Image.PreserveAspectCrop
-//        }
-//        else if ( item.aspect === "fit")
-//        {
-//            image.fillMode = Image.PreserveAspectFit
-//        }
-//        else if ( item.aspect === "stretch")
-//        {
-//            image.fillMode = Image.Stretch
-//        }
-//    }
+    onAspectChanged:
+    {
+        if ( item.aspect === "crop")
+        {
+            image.fillMode = Image.PreserveAspectCrop
+        }
+        else if ( item.aspect === "fit")
+        {
+            image.fillMode = Image.PreserveAspectFit
+        }
+        else if ( item.aspect === "stretch")
+        {
+            image.fillMode = Image.Stretch
+        }
+    }
 
     onTextAlignChanged:
     {

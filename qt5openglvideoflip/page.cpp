@@ -24,8 +24,9 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, QQuickItem *parent) :
         mBlockModel->addBlock(new Block(lvarBlock.toMap()));
     }
     connect(this, SIGNAL(modelChanged()), this, SLOT(createBlocks()));
+    connect(this,SIGNAL(widthChanged()), this, SLOT(slotPageWidgthChanged()));
+    connect(this,SIGNAL(heightChanged()), this, SLOT(slotPageHeightChanged()));
     emit modelChanged();
-
 
     mBackgroundRect->setParentItem(this);
 
@@ -74,6 +75,16 @@ void Page::createBlocks()
         }
 
     }
+}
+
+void Page::slotPageWidgthChanged()
+{
+    mBackgroundRect->setProperty("width", this->width());
+}
+
+void Page::slotPageHeightChanged()
+{
+   mBackgroundRect->setProperty("height", this->height());
 }
 
 

@@ -23,6 +23,8 @@ signals:
 
 public slots:
     void createBlocks();
+    void slotPageWidgthChanged();
+    void slotPageHeightChanged();
 
 public:
     QQuickItem* createItem(Block::MediaContent pMediaContent, Block::Caption pCaption, int pWidth, int pHeight, float pX, float pY,  QString pBackgrond);
