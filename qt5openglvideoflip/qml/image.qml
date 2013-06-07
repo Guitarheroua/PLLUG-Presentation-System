@@ -8,13 +8,14 @@ Rectangle
     property string aspect
     property int fontSize
     property string fontFamily
+    property string captionAlign
     property string textAlign
 
-    property int mainWidth
-    property int mainHeight
-    property int mainX
-    property int mainY
-    property int titleY
+    property real widthCoeff
+    property real heightCoeff
+
+    property real xCoeff
+    property real yCoeff
 
     onAspectChanged:
     {
@@ -32,9 +33,20 @@ Rectangle
         }
     }
 
+    onCaptionAlignChanged:
+    {
+        if ( item.captionAlign === "top" )
+        {
+            titleRect.anchors.top = titleRect.parent.top
+        }
+        else if ( item.captionAlign === "bottom" )
+        {
+            titleRect.anchors.bottom = titleRect.parent.bottom
+        }
+    }
+
     onTextAlignChanged:
     {
-        console.log(item.textAlign)
         if ( item.textAlign === "center")
         {
             titleText.horizontalAlignment = Text.AlignHCenter
@@ -47,6 +59,11 @@ Rectangle
         {
             titleText.horizontalAlignment = Text.AlignRight
         }
+    }
+
+    onParentChanged:
+    {
+        console.log("!!!!!", parent.width)
     }
 
     states:[
@@ -66,10 +83,10 @@ Rectangle
             name: "native"
             PropertyChanges {
                 target: item
-                width: mainWidth
-                height: mainHeight
-                x: mainX
-                y: mainY
+                width: widthCoeff*item.parent.width
+                height: heightCoeff*item.parent.height
+                x: xCoeff*item.parent.width
+                y: yCoeff*item.parent.height
                 z: 1
 
             }
@@ -97,17 +114,11 @@ Rectangle
             if ( item.state === "native")
             {
                 item.state = "full"
-                if ( titleY != 0 )
-                {
-                    titleRect.y = item.height - titleRect.height
-                }
-
                 titleRect.opacity = 0.0
             }
             else
             {
                 item.state = "native"
-                titleRect.y = titleY
             }
         }
     }
@@ -148,7 +159,6 @@ Rectangle
             PropertyAnimation{}
         }
     }
-
 }
 
 

@@ -52,12 +52,12 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
         mPagesList.append(item);
     }
     this->resize(800,800);
-
     this->setResizeMode(QQuickView::SizeRootObjectToView);
 }
 
-void MainView::resizeEvent(QResizeEvent *)
+void MainView::resizeEvent(QResizeEvent *event)
 {
+    QQuickView::resizeEvent(event);
     foreach (Page *page, mPagesList)
     {
         page->setProperty("height", this->height());

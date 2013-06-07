@@ -11,7 +11,7 @@ class Page : public QQuickItem
 {
     Q_OBJECT
 public:
-    Page(QVariantMap pMap, const QString& pContentDir, QQuickItem *parent = 0);
+    Page(QVariantMap pMap, const QString& pContentDir, const QSize& pSize, QQuickItem *parent = 0);
     ~Page();
     void setModel(BlocksModel* pModel);
     BlocksModel *blockModel() const;

@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <QDir>
 
-Page::Page(QVariantMap pMap, const QString& pContentDir, QQuickItem *parent) :
+Page::Page(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, QQuickItem *parent) :
     QQuickItem(parent)
 {
     mEngine = new QQmlEngine();
@@ -15,6 +15,12 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, QQuickItem *parent) :
     QObject *object = component->create();
     mBackgroundRect = qobject_cast<QQuickItem*>(object);
 
+    connect(this,SIGNAL(widthChanged()), this, SLOT(slotPageWidgthChanged()));
+    connect(this,SIGNAL(heightChanged()), this, SLOT(slotPageHeightChanged()));
+
+    this->setWidth(pSize.width());
+    this->setHeight(pSize.height());
+
     mBlockModel = new BlocksModel();
     QString lBackColor = pMap.value("background-color").toString();
     mBackgroundRect->setProperty("color", lBackColor);
@@ -23,13 +29,10 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, QQuickItem *parent) :
     {
         mBlockModel->addBlock(new Block(lvarBlock.toMap()));
     }
-    connect(this, SIGNAL(modelChanged()), this, SLOT(createBlocks()));
-    connect(this,SIGNAL(widthChanged()), this, SLOT(slotPageWidgthChanged()));
-    connect(this,SIGNAL(heightChanged()), this, SLOT(slotPageHeightChanged()));
-    emit modelChanged();
-
     mBackgroundRect->setParentItem(this);
+    connect(this, SIGNAL(modelChanged()), this, SLOT(createBlocks()));
 
+    emit modelChanged();
 }
 
 Page::~Page()
@@ -106,17 +109,14 @@ QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption p
     }
     item->setProperty("color", pBackgrond);
     item->setProperty("aspect", pMediaContent.aspect);
-    item->setProperty("mainWidth", pWidth);
-    item->setProperty("mainHeight", pHeight);
-    item->setProperty("mainX", pX);
-    item->setProperty("mainY", pY);
-    item->setProperty("width", pWidth);
-    item->setProperty("height", pHeight);
-    item->setProperty("x", pX);
-    item->setProperty("y", pY);
+    item->setProperty("widthCoeff", pWidth/mBackgroundRect->width());
+    item->setProperty("heightCoeff", pHeight/mBackgroundRect->height());
+    item->setProperty("xCoeff", pX/mBackgroundRect->width());
+    item->setProperty("yCoeff", pY/mBackgroundRect->height());
 
     item->setProperty("fontSize", pCaption.fontSize);
     item->setProperty("fontFamily", pCaption.fontFamily);
+    item->setProperty("captionAlign", pCaption.align);
     item->setProperty("textAlign", pCaption.textAlign);
     QQuickItem *lCaption = item->findChild<QQuickItem*>("Caption",Qt::FindChildrenRecursively);
     if (lCaption)
@@ -127,21 +127,6 @@ QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption p
         {
             lCaptionText->setProperty("text", pCaption.text );
             lCaptionText->setProperty("color", pCaption.color );
-            //        lCaption->setProperty("x", 0);
-            //        if (pCaption.align == "top")
-            //        {
-            //            lCaption->setProperty("y", 0);
-            //        }
-                    /*else */
-            if (pCaption.align == "bottom")
-            {
-                lCaption->setProperty("y", pHeight - lCaption->property("height").toInt());
-                item->setProperty("titleY", pHeight - lCaption->property("height").toInt());
-            }
-            else if ( pCaption.align == "top" )
-            {
-                item->setProperty("titleY", 0);
-            }
         }
     }
     if (item)

@@ -8,14 +8,28 @@ Rectangle
     property string source
     property int fontSize
     property string fontFamily
+    property string captionAlign
     property string textAlign
 
-    property int mainWidth
-    property int mainHeight
-    property int mainX
-    property int mainY
+    property real widthCoeff
+    property real heightCoeff
+
+    property real xCoeff
+    property real yCoeff
 
     property int titleY
+
+    onCaptionAlignChanged:
+    {
+        if ( item.captionAlign === "top" )
+        {
+            titleRect.anchors.top = titleRect.parent.top
+        }
+        else if ( item.captionAlign === "bottom" )
+        {
+            titleRect.anchors.bottom = titleRect.parent.bottom
+        }
+    }
 
     onTextAlignChanged:
     {
@@ -118,10 +132,10 @@ Rectangle
                     }
                     PropertyChanges {
                         target: item
-                        width: mainWidth
-                        height: mainHeight
-                        x: mainX
-                        y: mainY
+                        width: widthCoeff*item.parent.width
+                        height: heightCoeff*item.parent.height
+                        x: xCoeff*item.parent.width
+                        y: yCoeff*item.parent.height
                         z: 1
 
                     }
