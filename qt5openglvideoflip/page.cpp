@@ -24,6 +24,8 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, QQu
     mBlockModel = new BlocksModel();
     QString lBackColor = pMap.value("background-color").toString();
     mBackgroundRect->setProperty("color", lBackColor);
+    QString lBackImage = pMap.value("background-image").toString();
+    mBackgroundRect->setProperty("backgroundImage", "file:///" + mContentDir  + "/image/" + lBackImage);
     QVariantList lVarBlockList = pMap.value("blocks").toList();
     foreach(QVariant lvarBlock, lVarBlockList)
     {

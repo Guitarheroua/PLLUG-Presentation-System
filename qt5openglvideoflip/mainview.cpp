@@ -39,9 +39,18 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     this->rootContext()->setContextProperty("screenPixelWidth", qApp->desktop()->screenGeometry().width());
     this->rootContext()->setContextProperty("screenPixelHeight",qApp->desktop()->screenGeometry().height());
 
+    QDir dir( pContentDir+"/image/");
+    QStringList list;
+    foreach (QFileInfo file, dir.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot))
+    {
+        list.append("file:///" + file.absoluteFilePath());
+    }
+    this->rootContext()->setContextProperty("filesModel", list);
+    qDebug() << list;
     this->setSource(QString("qml/main.qml"));
 
     QQuickItem *rootItem = this->rootObject();
+
 
     for (int i=0; i<mParser->pagesList().count(); i++)
     {

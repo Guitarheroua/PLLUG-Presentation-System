@@ -2,6 +2,7 @@
   "pages": [
   {
       "background-color": "red",
+	  "background-image": "",
       "blocks": [
          {
           "width": "150",
@@ -41,7 +42,7 @@
           },
           "media content": {
             "type": "image",
-            "source": "flower.jpg",
+            "source": "flower5.jpg",
             "aspect": "full"
           }
         },
@@ -63,7 +64,7 @@
           },
           "media content": {
             "type": "image",
-            "source": "flower.jpg",
+            "source": "flower4.jpg",
             "aspect": "crop"
           }
         }
@@ -71,6 +72,7 @@
     },
   {
       "background-color": "magenta",
+	  "background-image": "cat.jpg",
       "blocks": [
         {
           "width": "150",
@@ -110,7 +112,7 @@
           },
           "media content": {
             "type": "image",
-            "source": "flower.jpg",
+            "source": "flower7.jpg",
             "aspect": "crop"
           }
         },
@@ -140,6 +142,7 @@
     },
   {
       "background-color": "blue",
+	  "background-image": "flower6.jpg",
       "blocks": [
         {
           "width": "150",
@@ -201,7 +204,7 @@
           },
           "media content": {
             "type": "image",
-            "source": "flower.jpg",
+            "source": "flower4.jpg",
             "aspect": "crop"
           }
         }
@@ -210,6 +213,7 @@
     
     {
       "background-color": "green",
+	  "background-image": "flower1.jpg",
       "blocks": [
         {
           "width": "170",

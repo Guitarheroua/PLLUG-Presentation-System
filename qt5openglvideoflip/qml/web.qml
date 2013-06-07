@@ -64,12 +64,8 @@ Rectangle
         Text
         {
             id: titleText
-            anchors
-            {
-                fill: parent
-            }
-
             objectName: "CaptionText"
+            width: parent.width
             font.pixelSize: item.fontSize
             font.family: item.fontFamily
             verticalAlignment: Text.AlignVCenter

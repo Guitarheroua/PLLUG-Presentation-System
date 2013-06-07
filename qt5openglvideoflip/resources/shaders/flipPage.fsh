@@ -41,9 +41,9 @@ void main()
 
     vec2 newPoint = vec2(x,y);
 
-    if ( angle > 180.0 || point.x > 0.5)
+    if ( angle > 180.0 || (point.x >= 0.5))
     {
-        if ( angle > 180.0 && point.x > 0.5 )
+        if ( angle > 180.0 && (point.x >= 0.5) )
         {
             color = texture2D(source1, point.xy);
         }
@@ -52,7 +52,7 @@ void main()
             point = newPoint;
             color = texture2D(source, point.xy);
         }
-        if ( angle > 180.0 && oldPoint.x < 0.5)
+        if ( angle > 180.0 && (oldPoint.x <= 0.5))
         {
             vec2 p;
             float x = oldPoint.x - (( oldPoint.x - 0.5 )/ tan(-rAngle));

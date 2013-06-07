@@ -138,17 +138,13 @@ Rectangle
         id: titleRect
         objectName: "Caption"
         width: parent.width
-        height:  titleText.height + 15
+        height:  titleText.height + 5
         opacity: 0.0
         z: 1
         Text
         {
             id: titleText
-            anchors
-            {
-                fill: parent
-            }
-            width: parent.width
+//            width: parent.width
             objectName: "CaptionText"
             font.pixelSize: item.fontSize
             font.family: item.fontFamily
