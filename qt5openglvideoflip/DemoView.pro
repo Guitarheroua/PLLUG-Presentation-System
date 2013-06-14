@@ -13,7 +13,8 @@ HEADERS += \
     block.h \
     blocksmodel.h \
     blocksview.h \
-    mainview.h
+    mainview.h \
+    helper.h
 
 SOURCES += \
     page.cpp \
@@ -23,7 +24,9 @@ SOURCES += \
     blocksmodel.cpp \
     blocksview.cpp \
     main.cpp \
-    mainview.cpp
+    mainview.cpp \
+    helper.cpp
+
 
 OTHER_FILES += \
     resources/qml/web.qml \

@@ -17,7 +17,8 @@ protected:
     
 signals:
     
-public slots:
+private slots:
+    void test(QQuickItem*);
 
 private:
     MegaParse *mParser;

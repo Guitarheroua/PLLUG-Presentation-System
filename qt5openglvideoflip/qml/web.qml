@@ -4,6 +4,7 @@ import QtWebKit 3.0
 Rectangle
 {
     id: item
+    objectName: "rootItem"
     property string type : "web"
     property string source
     property int fontSize
@@ -18,6 +19,8 @@ Rectangle
     property real yCoeff
 
     property int titleY
+
+    signal urlChanged(string url)
 
     onCaptionAlignChanged:
     {
@@ -38,16 +41,19 @@ Rectangle
         {
             titleText.horizontalAlignment = Text.AlignHCenter
             fullscreenImage.anchors.right = titleRect.right
+            backImage.anchors.right = fullscreenImage.left
         }
         else  if ( item.textAlign === "left")
         {
             titleText.horizontalAlignment = Text.AlignLeft
             fullscreenImage.anchors.right = titleRect.right
+            backImage.anchors.right = fullscreenImage.left
         }
         else  if ( item.textAlign === "right")
         {
             titleText.horizontalAlignment = Text.AlignRight
             fullscreenImage.anchors.left = titleRect.left
+            backImage.anchors.left = fullscreenImage.right
         }
     }
 
@@ -92,7 +98,63 @@ Rectangle
 
         Image
         {
+            id: backImage
+            anchors
+            {
+                top: parent.top
+                right: backImage.left
+                topMargin: 3
+                leftMargin: 5
+                rightMargin: 5
+            }
+            opacity: (webView.canGoBack) ? 1.0 : 0.5
+            source: "qrc:/icons/back.png"
+            width: parent.height - 6
+            height: parent.height - 6
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    if (webView.canGoBack )
+                    {
+                        webView.goBack()
+                    }
+                }
+            }
+        }
+        Image
+        {
+            id: forwardImage
+            anchors
+            {
+                top: parent.top
+                left: backImage.right
+                topMargin: 3
+                leftMargin: 5
+                rightMargin: 5
+            }
+            opacity: (webView.canGoForward) ? 1.0 : 0.5
+            source: "qrc:/icons/forward.png"
+            width: parent.height - 6
+            height: parent.height - 6
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    if (webView.canGoForward )
+                    {
+                        webView.goForward()
+                    }
+                }
+            }
+        }
+
+        Image
+        {
             id: fullscreenImage
+            objectName: "fullScreenImage"
             property string fullScreenSrc: "qrc:/icons/fullscreen.png"
             property string fullScreenExitSrc: "qrc:/icons/fullscreen_exit.png"
             anchors
@@ -149,7 +211,6 @@ Rectangle
 //                                      properties: "width,height"; duration: 1000;}
 //              } ]
 
-
             state: "native"
             source: fullScreenSrc
             width: parent.height - 6
@@ -189,13 +250,31 @@ Rectangle
         WebView
         {
             id: webView
+            objectName: "webView"
             anchors.fill: parent
             boundsBehavior: Flickable.StopAtBounds
             url: source
+
             Component.onCompleted:
             {
                 console.log("completed")
             }
+            onUrlChanged:
+            {
+                console.log(url)
+                item.urlChanged(url)
+            }
+            onLoadingChanged:
+            {
+                if ( loadRequest.status === WebView.LoadStartedStatus)
+                {
+                    var urll = loadRequest.url
+                    console.log(loadRequest.url, "~~~~~~~")
+//                    stop()
+//                    loadHtml(urll)
+                }
+            }
+
 //            preferredHeight: flickable.height
 //            preferredWidth: flickable.width
         }

@@ -17,6 +17,7 @@ Rectangle
         width: parent.width
         z: 1
         ListView {
+            id: listView
             anchors.fill: parent
             model: itemModel
             orientation: ListView.Horizontal
@@ -24,24 +25,46 @@ Rectangle
         }
 
     }
+
     VisualDataModel {
             id: itemModel
             model: filesModel
             delegate: Image {
-                id: im1
                 source: model.modelData
                 width: 150
                 height: 150
+                Drag.keys: "key"
+                Drag.active: mouseArea.drag.active
+                Drag.proposedAction: Qt.CopyAction
+                Drag.supportedActions: Qt.CopyAction
 
                 MouseArea
                 {
+                    id: mouseArea
                     anchors.fill: parent
-//                    drag.axis: Drag.XAndYAxis
-                    drag.target: im1
+                    hoverEnabled: true
+                    drag.axis: Drag.XAndYAxis
+                    drag.target: parent
                     onReleased:
                     {
-                        console.log(filesModel.length)
+                        console.log(parent.Drag.drop())
+                        console.log(parent.x,parent.y)
 
+                    }
+                    onPressAndHold:
+                    {
+                        console.log("AAA")
+                        im1.Drag.start(Qt.CopyAction)
+                    }
+                    onPressed:
+                    {
+                        console.log("#####")
+
+                    }
+                    onEntered:
+                    {
+                        cursorShape = Qt.OpenHandCursor
+                        console.log("ENTER")
                     }
                 }
             }
@@ -61,25 +84,31 @@ Rectangle
             color: "green"
             width: 1
         }
-//        DropArea
-//        {
-//            anchors.fill: parent
-//            onDropped:
-//            {
-//                console.log("dropped")
-//            }
-//            onEntered:
-//            {
-//                console.log("!!!!")
-//            }
-//            onExited:
-//            {
-//                console.log("~~~~")
-//            }
-//            onPositionChanged: {
-//                console.log("pos")
-//            }
-//        }
+        DropArea
+        {
+            id: dropArea
+            anchors.fill: parent
+            keys: "key"
+
+            onDropped:
+            {
+                console.log("dropped")
+                console.log(dropArea)
+                listView.itemAt(10,10).source = ""
+            }
+            onEntered:
+            {
+                console.log("!!!!")
+            }
+            onExited:
+            {
+                console.log("~~~~")
+            }
+            onPositionChanged: {
+                console.log("pos")
+//                console.log(drag.x,drag.y,listView.childAt(drag.x,drag.y),drag.source)
+            }
+        }
     }
 
 }

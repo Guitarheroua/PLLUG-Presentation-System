@@ -3,6 +3,7 @@
 #include <QQmlEngine>
 #include <QDebug>
 #include <QDir>
+#include "helper.h"
 
 Page::Page(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, QQuickItem *parent) :
     QQuickItem(parent)
@@ -21,12 +22,13 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, QQu
     this->setWidth(pSize.width());
     this->setHeight(pSize.height());
 
-    mBlockModel = new BlocksModel();
     QString lBackColor = pMap.value("background-color").toString();
     mBackgroundRect->setProperty("color", lBackColor);
     QString lBackImage = pMap.value("background-image").toString();
     mBackgroundRect->setProperty("backgroundImage", "file:///" + mContentDir  + "/image/" + lBackImage);
+
     QVariantList lVarBlockList = pMap.value("blocks").toList();
+    mBlockModel = new BlocksModel();
     foreach(QVariant lvarBlock, lVarBlockList)
     {
         mBlockModel->addBlock(new Block(lvarBlock.toMap()));
@@ -35,6 +37,22 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, QQu
     connect(this, SIGNAL(modelChanged()), this, SLOT(createBlocks()));
 
     emit modelChanged();
+}
+
+Page::Page(QQuickItem *content, QQuickItem *parent)
+{
+    QQmlComponent *component = new QQmlComponent(mEngine,QUrl("qml/rectangle.qml"));
+    QObject *object = component->create();
+    mBackgroundRect = qobject_cast<QQuickItem*>(object);
+
+    connect(this,SIGNAL(widthChanged()), this, SLOT(slotPageWidgthChanged()));
+    connect(this,SIGNAL(heightChanged()), this, SLOT(slotPageHeightChanged()));
+
+    this->setWidth(content->width());
+    this->setHeight(content->height());
+
+    mBackgroundRect->setParentItem(this);
+    content->setParentItem(mBackgroundRect);
 }
 
 Page::~Page()
@@ -89,7 +107,23 @@ void Page::slotPageWidgthChanged()
 
 void Page::slotPageHeightChanged()
 {
-   mBackgroundRect->setProperty("height", this->height());
+    mBackgroundRect->setProperty("height", this->height());
+}
+
+void Page::webViewUrlChanged(QString pUrl )
+{
+    qDebug() << "____________________" << pUrl;
+    QQuickItem *item = qobject_cast<QQuickItem*>(sender());
+    QQuickItem *child = item->findChild<QQuickItem*>("fullScreenImage",Qt::FindChildrenRecursively);
+    QQuickItem* newitem = item;
+    qDebug() << item->objectName() << newitem->objectName()<<  child->property("state").toString();
+    if (child->property("state").toString() == "full" )
+    {
+        emit fullBrowser(newitem);
+    }
+
+
+
 }
 
 
@@ -100,15 +134,8 @@ QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption p
 
     qDebug() << component->errorString();
 
-    QQuickItem *item = qobject_cast<QQuickItem*>(object);
-    if (pMediaContent.type == "web")
-    {
-        item->setProperty("source", pMediaContent.source);
-    }
-    else
-    {
-        item->setProperty("source", "file:///" + mContentDir  + "/" + pMediaContent.type + "/" + pMediaContent.source);
-    }
+    QQuickItem *item = qobject_cast<QQuickItem*>(object) ;
+
     item->setProperty("color", pBackgrond);
     item->setProperty("aspect", pMediaContent.aspect);
     item->setProperty("widthCoeff", pWidth/mBackgroundRect->width());
@@ -131,10 +158,23 @@ QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption p
             lCaptionText->setProperty("color", pCaption.color );
         }
     }
+    if (pMediaContent.type == "web")
+    {
+//
+        item->setProperty("source", pMediaContent.source);
+//        connect(item, SIGNAL(urlChanged(QString)), this, SLOT(webViewUrlChanged(QString)));
+    }
+    else
+    {
+        item->setProperty("source", "file:///" + mContentDir  + "/" + pMediaContent.type + "/" + pMediaContent.source);
+    }
+
     if (item)
     {
 //        qDebug() << "source" << item->property("source").toString();
         item->setParentItem(mBackgroundRect);
+        item->setFlags(QQuickItem::ItemHasContents);
     }
+
     return item;
 }

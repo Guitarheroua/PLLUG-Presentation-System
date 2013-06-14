@@ -9,6 +9,7 @@
 #include "megaparse.h"
 #include "blocksview.h"
 #include "page.h"
+#include "helper.h"
 #include <QQmlEngine>
 #include <QDebug>
 
@@ -46,18 +47,18 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
         list.append("file:///" + file.absoluteFilePath());
     }
     this->rootContext()->setContextProperty("filesModel", list);
-    qDebug() << list;
     this->setSource(QString("qml/main.qml"));
 
     QQuickItem *rootItem = this->rootObject();
 
 
-    for (int i=0; i<mParser->pagesList().count(); i++)
+    for (int i=0; i < mParser->pagesList().count(); i++)
     {
         Page* item = mParser->pagesList().at(i);
         item->setVisible(false);
         item->setVisible((i == 0));
         item->setParentItem(rootItem);
+       // connect(item, SIGNAL(fullBrowser(QQuickItem*)), this, SLOT(test(QQuickItem*)));
         mPagesList.append(item);
     }
     this->resize(800,800);
@@ -72,4 +73,17 @@ void MainView::resizeEvent(QResizeEvent *event)
         page->setProperty("height", this->height());
         page->setProperty("width", this->width());
     }
+}
+
+void MainView::test(QQuickItem* item)
+{
+    qDebug() << "full browser";
+    Page *page = new Page(item);
+    if (!page)
+    {
+        qDebug() << "ZZZZZZZZZZz";
+    }
+    page->setParentItem(this->rootObject());
+    mPagesList.append(page);
+
 }
