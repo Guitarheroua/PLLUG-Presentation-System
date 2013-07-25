@@ -2,6 +2,7 @@
   "pages": [
   {
       "background-color": "red",
+      "background-image": "cat.jpg",
       "blocks": [
          {
           "width": "150",
@@ -71,6 +72,7 @@
     },
   {
       "background-color": "magenta",
+      "background-image": "flower.jpg",
       "blocks": [
         {
           "width": "150",

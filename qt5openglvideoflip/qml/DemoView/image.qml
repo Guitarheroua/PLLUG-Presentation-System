@@ -8,33 +8,45 @@ Rectangle
     property string aspect
     property int fontSize
     property string fontFamily
+    property string captionAlign
     property string textAlign
 
-    property int mainWidth
-    property int mainHeight
-    property int mainX
-    property int mainY
-    property int titleY
+    property real widthCoeff
+    property real heightCoeff
 
-//    onAspectChanged:
-//    {
-//        if ( item.aspect === "crop")
-//        {
-//            image.fillMode = Image.PreserveAspectCrop
-//        }
-//        else if ( item.aspect === "fit")
-//        {
-//            image.fillMode = Image.PreserveAspectFit
-//        }
-//        else if ( item.aspect === "stretch")
-//        {
-//            image.fillMode = Image.Stretch
-//        }
-//    }
+    property real xCoeff
+    property real yCoeff
+
+    onAspectChanged:
+    {
+        if ( item.aspect === "crop")
+        {
+            image.fillMode = Image.PreserveAspectCrop
+        }
+        else if ( item.aspect === "fit")
+        {
+            image.fillMode = Image.PreserveAspectFit
+        }
+        else if ( item.aspect === "stretch")
+        {
+            image.fillMode = Image.Stretch
+        }
+    }
+
+    onCaptionAlignChanged:
+    {
+        if ( item.captionAlign === "top" )
+        {
+            titleRect.anchors.top = titleRect.parent.top
+        }
+        else if ( item.captionAlign === "bottom" )
+        {
+            titleRect.anchors.bottom = titleRect.parent.bottom
+        }
+    }
 
     onTextAlignChanged:
     {
-        console.log(item.textAlign)
         if ( item.textAlign === "center")
         {
             titleText.horizontalAlignment = Text.AlignHCenter
@@ -47,6 +59,11 @@ Rectangle
         {
             titleText.horizontalAlignment = Text.AlignRight
         }
+    }
+
+    onParentChanged:
+    {
+        console.log("!!!!!", parent.width)
     }
 
     states:[
@@ -66,10 +83,10 @@ Rectangle
             name: "native"
             PropertyChanges {
                 target: item
-                width: mainWidth
-                height: mainHeight
-                x: mainX
-                y: mainY
+                width: widthCoeff*item.parent.width
+                height: heightCoeff*item.parent.height
+                x: xCoeff*item.parent.width
+                y: yCoeff*item.parent.height
                 z: 1
 
             }
@@ -97,13 +114,11 @@ Rectangle
             if ( item.state === "native")
             {
                 item.state = "full"
-                titleRect.y = 0
                 titleRect.opacity = 0.0
             }
             else
             {
                 item.state = "native"
-                titleRect.y = titleY
             }
         }
     }
@@ -123,17 +138,13 @@ Rectangle
         id: titleRect
         objectName: "Caption"
         width: parent.width
-        height:  titleText.height + 15
+        height:  titleText.height + 5
         opacity: 0.0
         z: 1
         Text
         {
             id: titleText
-            anchors
-            {
-                fill: parent
-            }
-            width: parent.width
+//            width: parent.width
             objectName: "CaptionText"
             font.pixelSize: item.fontSize
             font.family: item.fontFamily
@@ -144,7 +155,6 @@ Rectangle
             PropertyAnimation{}
         }
     }
-
 }
 
 

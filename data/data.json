@@ -2,6 +2,7 @@
   "pages": [
   {
       "background-color": "red",
+	  "background-image": "",
       "blocks": [
          {
           "width": "150",
@@ -21,7 +22,7 @@
           "media content": {
             "type": "video",
             "source": "Wildlife.wmv",
-            "aspect": "full"
+            "aspect": "stretch"
           }
         },
         {
@@ -41,7 +42,11 @@
           },
           "media content": {
             "type": "image",
+<<<<<<< HEAD
             "source": "cat.jpg",
+=======
+            "source": "flower5.jpg",
+>>>>>>> 4d94c5a0331136e04e2a02f65b9e7ebfd0d7a2ef
             "aspect": "full"
           }
         },
@@ -63,7 +68,7 @@
           },
           "media content": {
             "type": "image",
-            "source": "flower.jpg",
+            "source": "flower4.jpg",
             "aspect": "crop"
           }
         }
@@ -71,6 +76,7 @@
     },
   {
       "background-color": "magenta",
+	  "background-image": "cat.jpg",
       "blocks": [
         {
           "width": "150",
@@ -110,7 +116,11 @@
           },
           "media content": {
             "type": "image",
+<<<<<<< HEAD
             "source": "flower1.jpg",
+=======
+            "source": "flower7.jpg",
+>>>>>>> 4d94c5a0331136e04e2a02f65b9e7ebfd0d7a2ef
             "aspect": "crop"
           }
         },
@@ -140,6 +150,7 @@
     },
   {
       "background-color": "blue",
+	  "background-image": "flower6.jpg",
       "blocks": [
         {
           "width": "150",
@@ -201,7 +212,11 @@
           },
           "media content": {
             "type": "image",
+<<<<<<< HEAD
             "source": "flower1.jpg",
+=======
+            "source": "flower4.jpg",
+>>>>>>> 4d94c5a0331136e04e2a02f65b9e7ebfd0d7a2ef
             "aspect": "crop"
           }
         }
@@ -210,6 +225,7 @@
     
     {
       "background-color": "green",
+	  "background-image": "flower1.jpg",
       "blocks": [
         {
           "width": "170",
@@ -312,8 +328,13 @@
           },
           "media content": {
             "type": "video",
+<<<<<<< HEAD
             "source": "v.mp4",
             "aspect": "full"
+=======
+            "source": "Wildlife.wmv",
+            "aspect": "fit"
+>>>>>>> 4d94c5a0331136e04e2a02f65b9e7ebfd0d7a2ef
           }
         }
       ]

@@ -12,7 +12,9 @@ HEADERS += \
     megaparse.h \
     block.h \
     blocksmodel.h \
-    blocksview.h
+    blocksview.h \
+    mainview.h \
+    helper.h
 
 SOURCES += \
     page.cpp \
@@ -21,7 +23,10 @@ SOURCES += \
     block.cpp \
     blocksmodel.cpp \
     blocksview.cpp \
-    main.cpp
+    main.cpp \
+    mainview.cpp \
+    helper.cpp
+
 
 OTHER_FILES += \
     qml/DemoView/web.qml \

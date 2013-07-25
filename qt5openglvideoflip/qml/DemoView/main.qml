@@ -9,7 +9,7 @@ Rectangle
     objectName: "mainRect"
     width: 800
     height: 800
-    color: "gray"
+    color: "green"
 
     MouseArea
     {
