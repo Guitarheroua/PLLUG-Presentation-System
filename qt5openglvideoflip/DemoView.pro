@@ -24,19 +24,24 @@ SOURCES += \
     main.cpp
 
 OTHER_FILES += \
-    resources/qml/web.qml \
-    resources/qml/video.qml \
-    resources/qml/test.qml \
-    resources/qml/rectangle.qml \
-    resources/qml/model.qml \
-    resources/qml/main.qml \
-    qml/web.qml \
-    qml/video.qml \
-    qml/test.qml \
-    qml/rectangle.qml \
-    qml/model.qml \
-    qml/main.qml \
-    qml/image.qml
+    qml/DemoView/web.qml \
+    qml/DemoView/video.qml \
+    qml/DemoView/test.qml \
+    qml/DemoView/rectangle.qml \
+    qml/DemoView/model.qml \
+    qml/DemoView/main.qml \
+    qml/DemoView/image.qml
 
 RESOURCES += \
     resources.qrc
+
+macx
+{
+    QML.files = qml
+    QML.path = Contents/Resources
+    DATA.files = data
+    DATA.path = Contents/Resources
+    QMAKE_BUNDLE_DATA += QML
+    QMAKE_BUNDLE_DATA += DATA
+    QMAKE_INFO_PLIST = Info.plist
+}

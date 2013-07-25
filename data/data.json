@@ -41,7 +41,7 @@
           },
           "media content": {
             "type": "image",
-            "source": "flower.jpg",
+            "source": "cat.jpg",
             "aspect": "full"
           }
         },
@@ -89,7 +89,7 @@
           },
           "media content": {
             "type": "video",
-            "source": "Wildlife.wmv",
+            "source": "Video.mp4",
             "aspect": "full"
           }
         },
@@ -110,7 +110,7 @@
           },
           "media content": {
             "type": "image",
-            "source": "flower.jpg",
+            "source": "flower1.jpg",
             "aspect": "crop"
           }
         },
@@ -158,7 +158,7 @@
           },
           "media content": {
             "type": "image",
-            "source": "flower1.jpg",
+            "source": "flower2.jpg",
             "aspect": "crop"
           }
         },
@@ -179,7 +179,7 @@
           },
           "media content": {
             "type": "image",
-            "source": "flower.jpg",
+            "source": "flower3.jpg",
             "aspect": "crop"
           }
         },
@@ -201,7 +201,7 @@
           },
           "media content": {
             "type": "image",
-            "source": "flower.jpg",
+            "source": "flower1.jpg",
             "aspect": "crop"
           }
         }
@@ -228,7 +228,7 @@
           },
           "media content": {
             "type": "image",
-            "source": "flower.jpg",
+            "source": "cat.jpg",
             "aspect": "crop"
           }
         },
@@ -312,7 +312,7 @@
           },
           "media content": {
             "type": "video",
-            "source": "Wildlife.wmv",
+            "source": "v.mp4",
             "aspect": "full"
           }
         }

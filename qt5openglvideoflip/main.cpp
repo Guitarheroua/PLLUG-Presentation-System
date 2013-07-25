@@ -30,14 +30,13 @@ int main(int argc, char *argv[])
         {
             QDir appDir = QCoreApplication::applicationDirPath();
             appDir.cdUp();
-            appDir.cdUp();
             #ifdef Q_OS_WIN
+            appDir.cdUp();
             contentDir = appDir.absolutePath() + "/data";
             #endif
             #ifdef Q_OS_MAC
-            appDir.cdUp();
-            appDir.cdUp();
-            contentDir = appDir.absolutePath() + "/data";
+            contentDir = appDir.absolutePath() + "/Resources/data";
+            qDebug() << contentDir;
             #endif
         }
     }
@@ -66,7 +65,8 @@ int main(int argc, char *argv[])
     view.rootContext()->setContextProperty("screenPixelWidth", app.desktop()->screenGeometry().width());
     view.rootContext()->setContextProperty("screenPixelHeight",app.desktop()->screenGeometry().height());
 
-    view.setSource(QString("qml/main.qml"));
+    view.setSource(QString(QApplication::applicationDirPath() + "/../Resources/qml/DemoView/main.qml"));
+
 //    view.setSource(QString("resources/qml/test.qml"));
 //        view.setSource(QString("qrc:/qml/test.qml"));
     QQuickItem *rootItem = view.rootObject();

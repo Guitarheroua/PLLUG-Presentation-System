@@ -3,6 +3,7 @@
 #include <QQmlEngine>
 #include <QDebug>
 #include <QDir>
+#include <QApplication>
 
 Page::Page(QVariantMap pMap, const QString& pContentDir, QQuickItem *parent) :
     QQuickItem(parent)
@@ -11,7 +12,8 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, QQuickItem *parent) :
     mContentDir = pContentDir;
 
 //    QQmlComponent *component = new QQmlComponent(mEngine,QUrl("qrc:/qml/rectangle.qml"));
-    QQmlComponent *component = new QQmlComponent(mEngine,QUrl("qml/rectangle.qml"));
+    QQmlComponent *component = new QQmlComponent(mEngine,QUrl(QApplication::applicationDirPath()+"/../Resources/qml/DemoView/rectangle.qml"));
+    qDebug() << QApplication::applicationDirPath()+"/../Resources/qml/DemoView/rectangle.qml";
     QObject *object = component->create();
     mBackgroundRect = qobject_cast<QQuickItem*>(object);
 
@@ -81,7 +83,7 @@ void Page::createBlocks()
 
 QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption pCaption, int pWidth, int pHeight,float pX, float pY, QString pBackgrond)
 {
-    QQmlComponent *component = new QQmlComponent(mEngine, QUrl("qml/" + pMediaContent.type + ".qml"));
+    QQmlComponent *component = new QQmlComponent(mEngine, QUrl(QApplication::applicationDirPath() +"/../Resources/qml/DemoView/" + pMediaContent.type + ".qml"));
     QObject *object = component->create();
 
     qDebug() << component->errorString();
@@ -94,6 +96,7 @@ QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption p
     else
     {
         item->setProperty("source", "file:///" + mContentDir  + "/" + pMediaContent.type + "/" + pMediaContent.source);
+        qDebug() << "file:///" + mContentDir  + "/" + pMediaContent.type + "/" + pMediaContent.source;
     }
     item->setProperty("color", pBackgrond);
     item->setProperty("aspect", pMediaContent.aspect);
