@@ -8,6 +8,9 @@
 #include "mainview.h"
 #include "page.h"
 #include "megaparse.h"
+#include "testwebview.h"
+#include <QLibraryInfo>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
@@ -36,6 +39,13 @@ int main(int argc, char *argv[])
     }
     MainView *view = new MainView(contentDir);
     view->show();
+
+    QString expectedPath = QCoreApplication::applicationDirPath() + QDir::separator() + "QtWebProcess";
+    qDebug() << "\n!!!!!\n" << expectedPath << QFile(expectedPath).exists();
+    expectedPath =  QLibraryInfo::location(QLibraryInfo::LibraryExecutablesPath) + QDir::separator() + + "QtWebProcess";
+    qDebug() << "\n>>>>>>>>\n" << expectedPath << QFile(expectedPath).exists();
+    //    TestWebView view;
+//    view.show();
 
     return app.exec();
 }

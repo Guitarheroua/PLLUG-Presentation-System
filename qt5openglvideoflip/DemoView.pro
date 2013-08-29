@@ -1,6 +1,6 @@
-QT       += core gui qml opengl quick
+QT       += core gui qml opengl multimedia webkit quick
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets webkitwidgets
 
 TARGET = DemoView
 TEMPLATE = app
@@ -35,18 +35,25 @@ OTHER_FILES += \
     qml/DemoView/rectangle.qml \
     qml/DemoView/model.qml \
     qml/DemoView/main.qml \
-    qml/DemoView/image.qml
+    qml/DemoView/image.qml \
+    qml/DemoView/testwebview.qml \
+    qml/DemoView/testvideo.qml
 
 RESOURCES += \
     resources.qrc
 
 macx
 {
+    WEBPROCESS.files = libexec/QtWebProcess
+    WEBPROCESS.path = Contents/MacOS
     QML.files = qml
     QML.path = Contents/Resources
     DATA.files = data
     DATA.path = Contents/Resources
+    QMAKE_BUNDLE_DATA += WEBPROCESS
     QMAKE_BUNDLE_DATA += QML
     QMAKE_BUNDLE_DATA += DATA
     QMAKE_INFO_PLIST = Info.plist
 }
+
+FORMS +=

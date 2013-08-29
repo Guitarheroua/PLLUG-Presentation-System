@@ -16,29 +16,29 @@
 MainView::MainView(const QString &pContentDir, QWindow *parent) :
     QQuickView(parent)
 {
-    mParser = new MegaParse(this);
-    mParser->setContentDir(pContentDir);
-    qDebug() << "content dir = " << pContentDir;
-    mParser->parseData();
+//    mParser = new MegaParse(this);
+//    mParser->setContentDir(pContentDir);
+//    qDebug() << "content dir = " << pContentDir;
+//    mParser->parseData();
 
-    this->setSurfaceType(QQuickView::OpenGLSurface);
+//    this->setSurfaceType(QQuickView::OpenGLSurface);
 
-    QString fshader;
-    QFile file1(":/shaders/flipPage.fsh");
-    if (file1.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        fshader = file1.readAll();
-    }
-    QString vshader;
-    QFile file2(":/shaders/flipPage.vsh");
-    if (file2.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        vshader = file2.readAll();
-    }
-    this->rootContext()->setContextProperty("vshader", vshader);
-    this->rootContext()->setContextProperty("fshader",fshader);
-    this->rootContext()->setContextProperty("screenPixelWidth", qApp->desktop()->screenGeometry().width());
-    this->rootContext()->setContextProperty("screenPixelHeight",qApp->desktop()->screenGeometry().height());
+//    QString fshader;
+//    QFile file1(":/shaders/flipPage.fsh");
+//    if (file1.open(QIODevice::ReadOnly | QIODevice::Text))
+//    {
+//        fshader = file1.readAll();
+//    }
+//    QString vshader;
+//    QFile file2(":/shaders/flipPage.vsh");
+//    if (file2.open(QIODevice::ReadOnly | QIODevice::Text))
+//    {
+//        vshader = file2.readAll();
+//    }
+//    this->rootContext()->setContextProperty("vshader", vshader);
+//    this->rootContext()->setContextProperty("fshader",fshader);
+//    this->rootContext()->setContextProperty("screenPixelWidth", qApp->desktop()->screenGeometry().width());
+//    this->rootContext()->setContextProperty("screenPixelHeight",qApp->desktop()->screenGeometry().height());
 
 //    QDir dir( pContentDir+"/image/");
 //    QStringList list;
@@ -48,19 +48,19 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
 //    }
 //    this->rootContext()->setContextProperty("filesModel", list);
 
-    this->setSource(QString(QApplication::applicationDirPath() + "/../Resources/qml/DemoView/main.qml"));
+    this->setSource(QString(/*QApplication::applicationDirPath() + "/../Resources/*/"../../../qml/DemoView/testvideo.qml"));
 
-    QQuickItem *rootItem = this->rootObject();
+//    QQuickItem *rootItem = this->rootObject();
 
-    for (int i=0; i < mParser->pagesList().count(); i++)
-    {
-        Page* item = mParser->pagesList().at(i);
-        item->setVisible(false);
-        item->setVisible((i == 0));
-        item->setParentItem(rootItem);
-       // connect(item, SIGNAL(fullBrowser(QQuickItem*)), this, SLOT(test(QQuickItem*)));
-        mPagesList.append(item);
-    }
+//    for (int i=0; i < mParser->pagesList().count(); i++)
+//    {
+//        Page* item = mParser->pagesList().at(i);
+//        item->setVisible(false);
+//        item->setVisible((i == 0));
+//        item->setParentItem(rootItem);
+//       // connect(item, SIGNAL(fullBrowser(QQuickItem*)), this, SLOT(test(QQuickItem*)));
+//        mPagesList.append(item);
+//    }
     this->resize(800,800);
     this->setResizeMode(QQuickView::SizeRootObjectToView);
 }

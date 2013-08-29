@@ -253,7 +253,7 @@ Rectangle
             objectName: "webView"
             anchors.fill: parent
             boundsBehavior: Flickable.StopAtBounds
-            url: source
+            url: /*source*/ "http://qt-project.org"
 
             Component.onCompleted:
             {
