@@ -87,11 +87,11 @@
 			"align": "bottom",
 			"background": "green",
             "color": "white",
-            "value": "Wildlife"
+            "value": "Demo"
           },
           "media content": {
             "type": "video",
-            "source": "Video.mp4",
+            "source": "demo.mp4",
             "aspect": "full"
           }
         },

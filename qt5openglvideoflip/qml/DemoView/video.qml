@@ -150,17 +150,14 @@ Rectangle
         property real adds
         onClicked:
         {
-            console.log("_____clicked")
             if (mediaPlayer.playbackState == MediaPlayer.PlayingState)
             {
-                console.log("_____played")
                 mediaPlayer.pause();
             }
             else
             {
                 if (mediaPlayer.playbackState == MediaPlayer.PausedState )
                 {
-                    console.log("_____paused")
                     mediaPlayer.play();
                 }
             }
@@ -239,7 +236,7 @@ Rectangle
         source: item.source
 //        autoPlay:  true
         autoLoad: true
-        volume: 0.0
+        volume: 1.0
 //        playbackRate: 4.0
 
         property bool seeking : false
