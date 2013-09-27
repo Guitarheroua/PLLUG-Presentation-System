@@ -42,7 +42,7 @@
           },
           "media content": {
             "type": "image",
-            "source": "cat.jpg",
+            "source": "flower.jpg",
             "aspect": "full"
           }
         },
