@@ -9,7 +9,6 @@ Rectangle
 
 
 
-
     states:[
         State {
             name: "full"
@@ -40,27 +39,27 @@ Rectangle
     state: "native"
 
 
-//    Image
-//    {
-//        id: replayImage
-//        source: "qrc:/icons/replay.png"
-//        width: 50
-//        height: 50
-//        anchors.horizontalCenter: parent.horizontalCenter
-//        anchors.verticalCenter: parent.verticalCenter
-//        visible: false
-//        z : 1
-//        MouseArea
-//        {
-//            anchors.fill: parent
-//            onClicked:
-//            {
-//                console.log("replay")
-//                mediaPlayer.play()
-//                mouseArea.prevPos = 0
-//            }
-//        }
-//    }
+    Image
+    {
+        id: replayImage
+        source: "qrc:/icons/replay.png"
+        width: 50
+        height: 50
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        visible: false
+        z : 1
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked:
+            {
+                console.log("replay")
+                mediaPlayer.play()
+                mouseArea.prevPos = 0
+            }
+        }
+    }
 
 
 
@@ -101,45 +100,43 @@ Rectangle
             }
         }
 
+        onPressAndHold:
+        {
+            mediaPlayer.seeking = true
+            mediaPlayer.play()
+        }
 
+        onReleased:
+        {
+            if ( mediaPlayer.seeking)
+            {
+                mediaPlayer.seeking = false
+            }
 
-//        onPressAndHold:
-//        {
-//            mediaPlayer.seeking = true
-//            mediaPlayer.play()
-//        }
+        }
 
-//        onReleased:
-//        {
-//            if ( mediaPlayer.seeking)
-//            {
-//                mediaPlayer.seeking = false
-//            }
+        onMouseXChanged:
+        {
+            if ( mediaPlayer.seeking  && (mouseX >= 0))
+            {
+                adds = (mouseX - prevPos) *coeff
+//                console.log(mouseX, mediaPlayer.position, adds)
+                if ( (mediaPlayer.position + adds  < mediaPlayer.duration) && (mediaPlayer.position + adds  > 0))
+                {
+//                    console.log("seek")
+                    mediaPlayer.seek(mediaPlayer.position + adds )
+                }
+                else
+                {
+                    if (mediaPlayer.position + adds  >= mediaPlayer.duration )
+                        mediaPlayer.seek(mediaPlayer.duration)
+                    if (mediaPlayer.position + adds  <= 0 )
+                        mediaPlayer.seek(0)
+                }
 
-//        }
-
-//        onMouseXChanged:
-//        {
-//            if ( mediaPlayer.seeking  && (mouseX >= 0))
-//            {
-//                adds = (mouseX - prevPos) *coeff
-////                console.log(mouseX, mediaPlayer.position, adds)
-//                if ( (mediaPlayer.position + adds  < mediaPlayer.duration) && (mediaPlayer.position + adds  > 0))
-//                {
-////                    console.log("seek")
-//                    mediaPlayer.seek(mediaPlayer.position + adds )
-//                }
-//                else
-//                {
-//                    if (mediaPlayer.position + adds  >= mediaPlayer.duration )
-//                        mediaPlayer.seek(mediaPlayer.duration)
-//                    if (mediaPlayer.position + adds  <= 0 )
-//                        mediaPlayer.seek(0)
-//                }
-
-//                prevPos = mouseX
-//            }
-//        }
+                prevPos = mouseX
+            }
+        }
 
     }
 
@@ -154,37 +151,37 @@ Rectangle
         volume: 1.0
 //        playbackRate: 4.0
 
-//        property bool seeking : false
+        property bool seeking : false
 ////        loops: Animation.Infinite
 
-//        onPositionChanged:
-//        {
-////            if (( mediaPlayer.position < mediaPlayer.duration) && ( mediaPlayer.position > mediaPlayer.duration - 500 ) )
-////            {
-////                console.log("!!!!!!!!!!!!")
-//////                mediaPlayer.pause()
-////            }
-//        }
-//        onStatusChanged:
-//        {
-//            if (mediaPlayer.status === MediaPlayer.Loaded)
-//            {
-//                mediaPlayer.play()
-//                mediaPlayer.seek(1)
+        onPositionChanged:
+        {
+            if (( mediaPlayer.position < mediaPlayer.duration) && ( mediaPlayer.position > mediaPlayer.duration - 500 ) )
+            {
+                console.log("!!!!!!!!!!!!")
 //                mediaPlayer.pause()
-//            }
-//            if (mediaPlayer.status === MediaPlayer.EndOfMedia)
-//            {
-////                item.color = "black"
-//                replayImage.visible = true
-//                mediaPlayer.seeking = false
-//            }
+            }
+        }
+        onStatusChanged:
+        {
+            if (mediaPlayer.status === MediaPlayer.Loaded)
+            {
+                mediaPlayer.play()
+                mediaPlayer.seek(1)
+                mediaPlayer.pause()
+            }
+            if (mediaPlayer.status === MediaPlayer.EndOfMedia)
+            {
+//                item.color = "black"
+                replayImage.visible = true
+                mediaPlayer.seeking = false
+            }
 
-//        }
-//        onPlaying:
-//        {
-//            replayImage.visible = false
-//        }
+        }
+        onPlaying:
+        {
+            replayImage.visible = false
+        }
 
 
     }

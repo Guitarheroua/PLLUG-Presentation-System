@@ -8,7 +8,7 @@
 #include "mainview.h"
 #include "page.h"
 #include "megaparse.h"
-#include "testwebview.h"
+//#include "testwebview.h"
 #include <QLibraryInfo>
 #include <QDebug>
 
