@@ -12,9 +12,7 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, QQu
     mEngine = new QQmlEngine();
     mContentDir = pContentDir;
 
-//    QQmlComponent *component = new QQmlComponent(mEngine,QUrl("qrc:/qml/rectangle.qml"));
-    QQmlComponent *component = new QQmlComponent(mEngine,QUrl(QApplication::applicationDirPath()+"/../Resources/qml/DemoView/rectangle.qml"));
-    qDebug() << QApplication::applicationDirPath()+"/../Resources/qml/DemoView/rectangle.qml";
+    QQmlComponent *component = new QQmlComponent(mEngine,QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/rectangle.qml").arg(pContentDir)));
     QObject *object = component->create();
     mBackgroundRect = qobject_cast<QQuickItem*>(object);
 
@@ -27,7 +25,10 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, QQu
     QString lBackColor = pMap.value("background-color").toString();
     mBackgroundRect->setProperty("color", lBackColor);
     QString lBackImage = pMap.value("background-image").toString();
-    mBackgroundRect->setProperty("backgroundImage", "file:///" + mContentDir  + "/image/" + lBackImage);
+    if (!lBackImage.isEmpty())
+    {
+        mBackgroundRect->setProperty("backgroundImage", QUrl::fromLocalFile(QString::fromLatin1("%1/image/%2").arg(mContentDir).arg(lBackImage)));
+    }
 
     QVariantList lVarBlockList = pMap.value("blocks").toList();
     mBlockModel = new BlocksModel();
@@ -43,7 +44,7 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, QQu
 
 Page::Page(QQuickItem *content, QQuickItem *parent)
 {
-    QQmlComponent *component = new QQmlComponent(mEngine,QUrl("qml/rectangle.qml"));
+    QQmlComponent *component = new QQmlComponent(mEngine,"/qml/DemoView/rectangle.qml");
     QObject *object = component->create();
     mBackgroundRect = qobject_cast<QQuickItem*>(object);
 
@@ -96,7 +97,7 @@ void Page::createBlocks()
             float lX = mBlockModel->data(index,mBlockModel->XRole).toFloat();
             float lY = mBlockModel->data(index,mBlockModel->YRole).toFloat();
 
-            QQuickItem* item = createItem(lMediaContent,lCaption,lWidth,lHeight,lX,lY,lBackground);
+            createItem(lMediaContent,lCaption,lWidth,lHeight,lX,lY,lBackground);
         }
 
     }
@@ -124,26 +125,28 @@ void Page::webViewUrlChanged(QString pUrl )
         emit fullBrowser(newitem);
     }
 
-
-
 }
 
 
 QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption pCaption, int pWidth, int pHeight,float pX, float pY, QString pBackgrond)
 {
-    QQmlComponent *component = new QQmlComponent(mEngine, QUrl(QApplication::applicationDirPath() +"/../Resources/qml/DemoView/" + pMediaContent.type + ".qml"));
+    QQmlComponent *component = new QQmlComponent(mEngine, QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/%2.qml").arg(mContentDir).arg(pMediaContent.type)));
     QObject *object = component->create();
 
-    qDebug() << component->errorString();
-
     QQuickItem *item = qobject_cast<QQuickItem*>(object);
+    if (!item)
+    {
+        qDebug() << "\nCan't create item\n";
+        return NULL;
+    }
     if (pMediaContent.type == "web")
     {
         item->setProperty("source", pMediaContent.source);
+        //        connect(item, SIGNAL(urlChanged(QString)), this, SLOT(webViewUrlChanged(QString)));
     }
     else
     {
-        item->setProperty("source", "file:///" + mContentDir  + "/" + pMediaContent.type + "/" + pMediaContent.source);
+        item->setProperty("source", QUrl::fromLocalFile(QString::fromLatin1("%1/%2/%3").arg(mContentDir).arg(pMediaContent.type).arg(pMediaContent.source)));
     }
     item->setProperty("color", pBackgrond);
     item->setProperty("aspect", pMediaContent.aspect);
@@ -167,23 +170,10 @@ QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption p
             lCaptionText->setProperty("color", pCaption.color );
         }
     }
-    if (pMediaContent.type == "web")
-    {
-//
-        item->setProperty("source", pMediaContent.source);
-//        connect(item, SIGNAL(urlChanged(QString)), this, SLOT(webViewUrlChanged(QString)));
-    }
-    else
-    {
-        item->setProperty("source", "file:///" + mContentDir  + "/" + pMediaContent.type + "/" + pMediaContent.source);
-    }
 
-    if (item)
-    {
-//        qDebug() << "source" << item->property("source").toString();
-        item->setParentItem(mBackgroundRect);
-        item->setFlags(QQuickItem::ItemHasContents);
-    }
+    //        qDebug() << "source" << item->property("source").toString();
+    item->setParentItem(mBackgroundRect);
+    item->setFlags(QQuickItem::ItemHasContents);
 
     return item;
 }

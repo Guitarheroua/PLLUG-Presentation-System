@@ -48,7 +48,8 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
 //    }
 //    this->rootContext()->setContextProperty("filesModel", list);
 
-    this->setSource(QString(QApplication::applicationDirPath() + "/../Resources/qml/DemoView/main.qml"));
+    QString lSourceFile = QString::fromLatin1("%1/../qml/DemoView/main.qml").arg(pContentDir);
+    this->setSource(QUrl::fromLocalFile(lSourceFile));
 
     QQuickItem *rootItem = this->rootObject();
 
