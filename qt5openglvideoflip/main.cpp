@@ -1,6 +1,7 @@
 #include <QtGui/QGuiApplication>
 #include <QtWidgets/QApplication>
 #include <QDir>
+#include <QString>
 #include <QDebug>
 #include <QQmlContext>
 #include <QDesktopWidget>
@@ -25,25 +26,22 @@ int main(int argc, char *argv[])
         }
         else
         {
-            QDir appDir = QCoreApplication::applicationDirPath();
-            appDir.cdUp();
-            #ifdef Q_OS_WIN
-            appDir.cdUp();
-            contentDir = appDir.absolutePath() + "/data";
-            #endif
-            #ifdef Q_OS_MAC
-            contentDir = appDir.absolutePath() + "/Resources/data";
-            qDebug() << contentDir;
+            #if defined(Q_OS_WIN)
+                contentDir = QString::fromLatin1("%1/../data").arg(QCoreApplication::applicationDirPath());
+            #elif defined(Q_OS_MAC)
+                contentDir = QString::fromLatin1("%1/../Resources/data").arg(QCoreApplication::applicationDirPath());
+
             #endif
         }
     }
+    qDebug() << contentDir;
     MainView *view = new MainView(contentDir);
     view->show();
 
-    QString expectedPath = QCoreApplication::applicationDirPath() + QDir::separator() + "QtWebProcess";
-    qDebug() << "\n!!!!!\n" << expectedPath << QFile(expectedPath).exists();
-    expectedPath =  QLibraryInfo::location(QLibraryInfo::LibraryExecutablesPath) + QDir::separator() + + "QtWebProcess";
-    qDebug() << "\n>>>>>>>>\n" << expectedPath << QFile(expectedPath).exists();
+//    QString expectedPath = QCoreApplication::applicationDirPath() + QDir::separator() + "QtWebProcess";
+//    qDebug() << "\n!!!!!\n" << expectedPath << QFile(expectedPath).exists();
+//    expectedPath =  QLibraryInfo::location(QLibraryInfo::LibraryExecutablesPath) + QDir::separator() + + "QtWebProcess";
+//    qDebug() << "\n>>>>>>>>\n" << expectedPath << QFile(expectedPath).exists();
     //    TestWebView view;
 //    view.show();
 

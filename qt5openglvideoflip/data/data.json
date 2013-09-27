@@ -17,11 +17,11 @@
 			"align": "bottom",
 			"background": "green",
             "color": "white",
-            "value": "Wildlife"
+            "value": "Flower"
           },
           "media content": {
-            "type": "video",
-            "source": "Wildlife.wmv",
+            "type": "image",
+            "source": "cat.jpg",
             "aspect": "full"
           }
         },
@@ -60,12 +60,12 @@
 			"align": "bottom",
 			"background": "green",
             "color": "white",
-            "value": "Image"
+            "value": "Video"
           },
           "media content": {
-            "type": "image",
-            "source": "flower.jpg",
-            "aspect": "crop"
+            "type": "video",
+            "source": "Video.mp4",
+            "aspect": "full"
           }
         }
       ]
