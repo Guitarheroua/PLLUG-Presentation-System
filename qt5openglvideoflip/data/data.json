@@ -134,7 +134,7 @@
           },
           "media content": {
             "type": "web",
-            "source": "http://qt-project.org",
+            "source": "http://youtube.com",
             "aspect": "full"
           }
         }
@@ -272,7 +272,7 @@
           },
           "media content": {
 			"type": "web",
-            "source": "http://qt-project.org",
+            "source": "http://youtube.com",
             "aspect": "full"
           }
         },

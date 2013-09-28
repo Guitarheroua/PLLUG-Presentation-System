@@ -40,7 +40,6 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, QQu
         mBlockModel->addBlock(new Block(lvarBlock.toMap()));
     }
     mBackgroundRect->setParentItem(this);
-    qDebug() << "\n------\n";
     connect(this, SIGNAL(modelChanged()), this, SLOT(createBlocks()));
 
     emit modelChanged();

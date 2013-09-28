@@ -251,9 +251,11 @@ Rectangle
         {
             id: webView
             objectName: "webView"
+//            settings.javaEnabled: true
+            settings.pluginsEnabled: true
             anchors.fill: parent
             boundsBehavior: Flickable.StopAtBounds
-            url: /*source*/ "http://qt-project.org"
+            url: source
 
             Component.onCompleted:
             {

@@ -123,14 +123,11 @@ Rectangle
         }
     }
 
-
-
     Image
     {
         id: image
         anchors.fill : parent
         source: item.source
-
     }
 
     Rectangle

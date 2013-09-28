@@ -7,8 +7,6 @@ Rectangle
     width: 800
     height: 800
 
-
-
     states:[
         State {
             name: "full"
@@ -156,7 +154,7 @@ Rectangle
 
         onPositionChanged:
         {
-            if (( mediaPlayer.position < mediaPlayer.duration) && ( mediaPlayer.position > mediaPlayer.duration - 500 ) )
+            if (( mediaPlayer.position < mediaPlayer.duration) && ( mediaPlayer.position > mediaPlayer.duration - 400 ) )
             {
                 console.log("!!!!!!!!!!!!")
 //                mediaPlayer.pause()
@@ -169,6 +167,7 @@ Rectangle
                 mediaPlayer.play()
                 mediaPlayer.seek(1)
                 mediaPlayer.pause()
+                mediaPlayer.volume = 1.0
             }
             if (mediaPlayer.status === MediaPlayer.EndOfMedia)
             {

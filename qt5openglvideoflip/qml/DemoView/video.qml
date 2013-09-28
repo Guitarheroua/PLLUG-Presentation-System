@@ -236,7 +236,7 @@ Rectangle
         source: item.source
 //        autoPlay:  true
         autoLoad: true
-        volume: 1.0
+        volume: 0.0
 //        playbackRate: 4.0
 
         property bool seeking : false
@@ -254,9 +254,11 @@ Rectangle
         {
             if (mediaPlayer.status === MediaPlayer.Loaded)
             {
+                mediaPlayer.volume = 0.0
                 mediaPlayer.play()
                 mediaPlayer.seek(1)
                 mediaPlayer.pause()
+                mediaPlayer.volume = 1.0
             }
             if (mediaPlayer.status === MediaPlayer.EndOfMedia)
             {

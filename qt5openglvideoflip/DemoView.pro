@@ -1,4 +1,4 @@
-QT       += core gui qml opengl multimedia webkit quick
+QT       += core gui qml opengl multimedia webkit quick network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets webkitwidgets
 
@@ -37,7 +37,8 @@ OTHER_FILES += \
     qml/DemoView/main.qml \
     qml/DemoView/image.qml \
     qml/DemoView/testwebview.qml \
-    qml/DemoView/testvideo.qml
+    qml/DemoView/testvideo.qml \
+    qml/DemoView/testWebView.qml
 
 RESOURCES += \
     resources.qrc
