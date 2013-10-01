@@ -67,18 +67,25 @@ int main(int argc, char *argv[])
 
     QWebSettings::globalSettings()->setAttribute(QWebSettings::JavascriptEnabled,
     true);
-//    QWebView view;
-//       view.load(QUrl("http://www.youtube.com"));
-//       view.show();
+    QString s1 ="http://www.youtube.com/embed/XGSy3_Czz8k";
+    QString s2 = "http://www.youtube.com/watch?v=XGSy3_Czz8k";
+    QString s3 = "http://www.youtube.com/v/XGSy3_Czz8k?version=3";
+    QString s4 = "http://www.youtube.com/apiplayer?video_id=XGSy3_Czz8k&version=3";
+    QString s5 = "http://www.html5test.com";
+    QString s6 = "http://shapeshed.com/examples/HTML5-video-element/";
 
-        QQuickView view;
-        view.setSource(QUrl::fromLocalFile("qml/DemoView/testwebview.qml"));
-        QQuickItem *item = view.rootObject()->findChild<QQuickItem*>("webView",Qt::FindChildrenRecursively);
-        if (item)
-        {
-            qDebug() << "ITEM"<< item->setProperty("settings.pluginsEnabled", true) << item->setProperty("url", "http://www.qt-project.org");
-        }
-        view.show();
+    QWebView view;
+    view.load(QUrl(s5));
+       view.show();
+
+//        QQuickView view1;
+//        view1.setSource(QUrl::fromLocalFile("qml/DemoView/testwebview.qml"));
+//        QQuickItem *item = view1.rootObject()->findChild<QQuickItem*>("webView",Qt::FindChildrenRecursively);
+//        if (item)
+//        {
+//            qDebug() << "ITEM"<< item->setProperty("settings.pluginsEnabled", true) << item->setProperty("url", s5);
+//        }
+//        view1.show();
 
     return app.exec();
 }
