@@ -13,8 +13,8 @@ public:
     explicit MainView( const QString& pContentDir, QWindow *parent = 0);
 
 protected:
-    void resizeEvent(QResizeEvent *);
-    bool winEvent( MSG * message, long * result );
+//    void resizeEvent(QResizeEvent *);
+    bool nativeEvent(const QByteArray &eventType, void *message, long *result);
     
 signals:
     

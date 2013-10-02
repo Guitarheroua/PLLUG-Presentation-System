@@ -75,8 +75,14 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     connect(this, SIGNAL(heightChanged(int)), this, SLOT(test1(int)));
 }
 
-bool MainView::winEvent( MSG * message, long * result )
+
+
+bool MainView::nativeEvent(const QByteArray &eventType, void *pMessage, long *result)
 {
+
+#if defined(Q_OS_WIN)
+
+    MSG* message = (MSG*)pMessage;
     switch(message->message)
     {
     case (WM_SIZING):
@@ -121,40 +127,47 @@ bool MainView::winEvent( MSG * message, long * result )
     default:
         return false;
     };
+    return true;
+
+#elif defined(Q_OS_MAC)
+#endif
 }
 
 
-void MainView::resizeEvent(QResizeEvent *event)
-{
+//void MainView::resizeEvent(QResizeEvent *event)
+//{
 //    qDebug() << "event size" << event->size() << event->oldSize() << mOldSize;
+//    qDebug() <<"+++++"<< frameGeometry();
 //    QSize lNewSize = event->size();
-//    if (event->size().width() != mOldSize.width())
+
+//    if (lNewSize != event->oldSize())
 //    {
-//        lNewSize = QSize(event->size().width(), event->size().width()/mAspectRatio);
-//    }
-//    else if (event->size().height() != mOldSize.height())
-//    {
-//        lNewSize = QSize(event->size().height()*mAspectRatio, event->size().height());
-//    }
-    QQuickView::resizeEvent(event);
-    foreach (Page *page, mPagesList)
-    {
-        page->setProperty("height", this->height());
-        page->setProperty("width", this->width());
-    }
-//    if (lNewSize != mOldSize)
-//    {
-//        qApp->processEvents();
-//        this->resize(lNewSize);
-//        mOldSize = event->size();
+//        if (event->size().width() != event->oldSize().width())
+//        {
+//            lNewSize = QSize(event->size().width(), event->size().width()/mAspectRatio);
+//        }
+//        else if (event->size().height() != event->oldSize().height())
+//        {
+//            lNewSize = QSize(event->size().height()*mAspectRatio, event->size().height());
+//        }
+//        foreach (Page *page, mPagesList)
+//        {
+//            page->setProperty("height", this->height());
+//            page->setProperty("width", this->width());
+//        }
+
+//        mOldSize = lNewSize;
+//        resize(lNewSize);
 //        qDebug() <<"after"<< width();
 //        qDebug() << height();
 //    }
 //    else
 //    {
-//        mOldSize = event->size();
+//        mOldSize = lNewSize;
 //    }
-}
+
+//    QQuickView::resizeEvent(event);
+//}
 
 
 void MainView::test(QQuickItem* item)
