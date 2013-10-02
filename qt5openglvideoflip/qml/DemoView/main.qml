@@ -102,6 +102,7 @@ Rectangle
         height: mainRect.height
         anchors.centerIn: parent
         property int currentPage: 2
+
         property variant source: ShaderEffectSource{
             id: sourceItem1
             sourceItem: mainRect.children[effect.currentPage]
@@ -117,6 +118,7 @@ Rectangle
         property real screenHeight : screenPixelHeight
         property real angle : 90.0
         property bool backAnim : false
+
 
         PropertyAnimation on angle
         {

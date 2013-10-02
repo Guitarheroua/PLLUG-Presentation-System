@@ -11,7 +11,7 @@
 #include "mainview.h"
 #include "page.h"
 #include "megaparse.h"
-//#include "testwebview.h"
+#include "webviewitem.h"
 #include <QLibraryInfo>
 #include <QDebug>
 
@@ -37,8 +37,8 @@ int main(int argc, char *argv[])
         }
     }
     qDebug() << contentDir;
-//    MainView *view = new MainView(contentDir);
-//    view->show();
+    MainView *view = new MainView(contentDir);
+    view->show();
 
 //    QString expectedPath = QCoreApplication::applicationDirPath() + QDir::separator() + "QtWebProcess";
 //    qDebug() << "\n!!!!!\n" << expectedPath << QFile(expectedPath).exists();
@@ -46,45 +46,51 @@ int main(int argc, char *argv[])
 //    qDebug() << "\n>>>>>>>>\n" << expectedPath << QFile(expectedPath).exists();
 
 
-     QNetworkProxyFactory::setUseSystemConfiguration(true);
-    QWebSettings::globalSettings()->setAttribute(QWebSettings::LocalStorageEnabled,
-    true);
+//     QNetworkProxyFactory::setUseSystemConfiguration(true);
+//    QWebSettings::globalSettings()->setAttribute(QWebSettings::LocalStorageEnabled,
+//    true);
 
-    QWebSettings::globalSettings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls,
-    true);
+//    QWebSettings::globalSettings()->setAttribute(QWebSettings::LocalContentCanAccessRemoteUrls,
+//    true);
 
-    QWebSettings::globalSettings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled,
-    true);
+//    QWebSettings::globalSettings()->setAttribute(QWebSettings::OfflineWebApplicationCacheEnabled,
+//    true);
 
-    QWebSettings::globalSettings()->setAttribute(QWebSettings::PluginsEnabled,
-    true);
+//    QWebSettings::globalSettings()->setAttribute(QWebSettings::PluginsEnabled,
+//    true);
 
-    QWebSettings::globalSettings()->setAttribute(QWebSettings::AutoLoadImages,
-    true);
+//    QWebSettings::globalSettings()->setAttribute(QWebSettings::AutoLoadImages,
+//    true);
 
-    QWebSettings::globalSettings()->setAttribute(QWebSettings::JavaEnabled,
-    true);
+//    QWebSettings::globalSettings()->setAttribute(QWebSettings::JavaEnabled,
+//    true);
+//    QWebSettings::globalSettings()->setAttribute(QWebSettings::WebGLEnabled,
+//    true);
 
-    QWebSettings::globalSettings()->setAttribute(QWebSettings::JavascriptEnabled,
-    true);
-    QString s1 ="http://www.youtube.com/embed/XGSy3_Czz8k";
-    QString s2 = "http://www.youtube.com/watch?v=XGSy3_Czz8k";
-    QString s3 = "http://www.youtube.com/v/XGSy3_Czz8k?version=3";
-    QString s4 = "http://www.youtube.com/apiplayer?video_id=XGSy3_Czz8k&version=3";
-    QString s5 = "http://www.html5test.com";
-    QString s6 = "http://shapeshed.com/examples/HTML5-video-element/";
+//    QWebSettings::globalSettings()->setAttribute(QWebSettings::JavascriptEnabled,
+//    true);
 
-    QWebView view;
-    view.load(QUrl(s5));
-       view.show();
+//    qmlRegisterType<WebViewItem>("CustomComponents", 1, 0, "WebViewItem");
+
+//    QString s1 ="http://www.youtube.com/embed/XGSy3_Czz8k";
+//    QString s2 = "http://www.youtube.com/watch?v=XGSy3_Czz8k";
+//    QString s3 = "http://www.youtube.com/v/XGSy3_Czz8k?version=3";
+//    QString s4 = "http://www.youtube.com/apiplayer?video_id=XGSy3_Czz8k&version=3";
+//    QString s5 = "http://www.html5test.com";
+//    QString s6 = "http://shapeshed.com/examples/HTML5-video-element/";
+//    QString s7 = "http://www.youtube.com/html5?hl=ru";
+
+////    WebViewItem* view = new WebViewItem();
+////    view->load(QUrl(s7));
+////    view->show();
 
 //        QQuickView view1;
-//        view1.setSource(QUrl::fromLocalFile("qml/DemoView/testwebview.qml"));
-//        QQuickItem *item = view1.rootObject()->findChild<QQuickItem*>("webView",Qt::FindChildrenRecursively);
-//        if (item)
-//        {
-//            qDebug() << "ITEM"<< item->setProperty("settings.pluginsEnabled", true) << item->setProperty("url", s5);
-//        }
+//        view1.setSource(QUrl::fromLocalFile("qml/DemoView/testvideo.qml"));
+////        QQuickItem *item = view1.rootObject()->findChild<QQuickItem*>("webView",Qt::FindChildrenRecursively);
+////        if (item)
+////        {
+////            qDebug() << "ITEM"<< item->setProperty("settings.pluginsEnabled", true) << item->setProperty("url", s5);
+////        }
 //        view1.show();
 
     return app.exec();

@@ -19,11 +19,13 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, QQu
     connect(this,SIGNAL(widthChanged()), this, SLOT(slotPageWidgthChanged()));
     connect(this,SIGNAL(heightChanged()), this, SLOT(slotPageHeightChanged()));
 
+    this->setProperty("width",pSize.width());
+    this->setProperty("height",pSize.height());
     mBackgroundRect->setProperty("width",pSize.width());
     mBackgroundRect->setProperty("height",pSize.height());
 
-    this->setWidth(pSize.width());
-    this->setHeight(pSize.height());
+//    this->setWidth(pSize.width());
+//    this->setHeight(pSize.height());
 
     QString lBackColor = pMap.value("background-color").toString();
     mBackgroundRect->setProperty("color", lBackColor);
@@ -63,6 +65,7 @@ Page::Page(QQuickItem *content, QQuickItem *parent)
 
 Page::~Page()
 {
+    delete mEngine;
     delete mBlockModel;
 }
 

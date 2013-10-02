@@ -36,7 +36,6 @@ Rectangle
 
     onTextAlignChanged:
     {
-        console.log(item.textAlign)
         if ( item.textAlign === "center")
         {
             titleText.horizontalAlignment = Text.AlignHCenter
@@ -251,8 +250,6 @@ Rectangle
         {
             id: webView
             objectName: "webView"
-//            settings.javaEnabled: true
-            settings.pluginsEnabled: true
             anchors.fill: parent
             boundsBehavior: Flickable.StopAtBounds
             url: source
@@ -263,7 +260,6 @@ Rectangle
             }
             onUrlChanged:
             {
-                console.log(url)
                 item.urlChanged(url)
             }
             onLoadingChanged:
@@ -271,7 +267,6 @@ Rectangle
                 if ( loadRequest.status === WebView.LoadStartedStatus)
                 {
                     var urll = loadRequest.url
-                    console.log(loadRequest.url, "~~~~~~~")
 //                    stop()
 //                    loadHtml(urll)
                 }

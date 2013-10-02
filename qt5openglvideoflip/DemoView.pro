@@ -14,7 +14,8 @@ HEADERS += \
     blocksmodel.h \
     blocksview.h \
     mainview.h \
-    helper.h
+    helper.h \
+    webviewitem.h
 
 SOURCES += \
     page.cpp \
@@ -25,7 +26,8 @@ SOURCES += \
     blocksview.cpp \
     main.cpp \
     mainview.cpp \
-    helper.cpp
+    helper.cpp \
+    webviewitem.cpp
 
 
 OTHER_FILES += \

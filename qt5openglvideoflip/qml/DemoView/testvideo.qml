@@ -6,6 +6,7 @@ Rectangle
     id: item
     width: 800
     height: 800
+    color: "green"
 
     states:[
         State {
@@ -27,8 +28,8 @@ Rectangle
                 target: item
                 width: 400
                 height: 400
-                x: 100
-                y: 100
+                x: 0
+                y: 0
                 z: 0
 
             }
@@ -108,6 +109,8 @@ Rectangle
         {
             if ( mediaPlayer.seeking)
             {
+                console.log("released")
+                mediaPlayer.seek(mouseX*coeff)
                 mediaPlayer.seeking = false
             }
 
@@ -117,23 +120,30 @@ Rectangle
         {
             if ( mediaPlayer.seeking  && (mouseX >= 0))
             {
-                adds = (mouseX - prevPos) *coeff
-//                console.log(mouseX, mediaPlayer.position, adds)
-                if ( (mediaPlayer.position + adds  < mediaPlayer.duration) && (mediaPlayer.position + adds  > 0))
+                adds = (mouseX /*- prevPos*/) *coeff
+                console.log(mouseX, mediaPlayer.position, adds)
+                if ( (/*mediaPlayer.position +*/ adds  < mediaPlayer.duration) && (/*mediaPlayer.position +*/ adds  > 0))
                 {
-//                    console.log("seek")
-                    mediaPlayer.seek(mediaPlayer.position + adds )
+                    console.log("seek")
+                    mediaPlayer.seek(/*mediaPlayer.position +*/ adds )
+                    console.log(mediaPlayer.position)
                 }
                 else
                 {
-                    if (mediaPlayer.position + adds  >= mediaPlayer.duration )
+                    if (/*mediaPlayer.position + */adds  >= mediaPlayer.duration )
+                    {
                         mediaPlayer.seek(mediaPlayer.duration)
+                        console.log("@@@@@", mediaPlayer.position)
+                    }
                     if (mediaPlayer.position + adds  <= 0 )
-                        mediaPlayer.seek(0)
+                    {
+                        console.log("___")
+                        mediaPlayer.seek(1)
+                    }
                 }
-
                 prevPos = mouseX
             }
+            //            console.log("----",mouseX)
         }
 
     }
@@ -144,22 +154,21 @@ Rectangle
     {
         id: mediaPlayer
         source: "../../data/video/Video.mp4"
-        autoPlay:  true
         autoLoad: true
-        volume: 1.0
-//        playbackRate: 4.0
+        volume: 0.0
+        //        playbackRate: 4.0
 
         property bool seeking : false
-////        loops: Animation.Infinite
+        ////        loops: Animation.Infinite
 
-        onPositionChanged:
-        {
-            if (( mediaPlayer.position < mediaPlayer.duration) && ( mediaPlayer.position > mediaPlayer.duration - 400 ) )
-            {
-                console.log("!!!!!!!!!!!!")
-//                mediaPlayer.pause()
-            }
-        }
+//        onPositionChanged:
+//        {
+//            if (( mediaPlayer.position < mediaPlayer.duration) && ( mediaPlayer.position > mediaPlayer.duration - 400 ) )
+//            {
+//                console.log("!!!!!!!!!!!!")
+//                //                mediaPlayer.pause()
+//            }
+//        }
         onStatusChanged:
         {
             if (mediaPlayer.status === MediaPlayer.Loaded)
@@ -168,12 +177,15 @@ Rectangle
                 mediaPlayer.seek(1)
                 mediaPlayer.pause()
                 mediaPlayer.volume = 1.0
+                console.log("duration", mediaPlayer.duration, videoOutput.width)
             }
             if (mediaPlayer.status === MediaPlayer.EndOfMedia)
             {
-//                item.color = "black"
+                //                item.color = "black"
+                console.log("end",mediaPlayer.position)
                 replayImage.visible = true
                 mediaPlayer.seeking = false
+                mouseArea.prevPos = 0
             }
 
         }

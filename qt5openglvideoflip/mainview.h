@@ -14,15 +14,20 @@ public:
 
 protected:
     void resizeEvent(QResizeEvent *);
+    bool winEvent( MSG * message, long * result );
     
 signals:
     
 private slots:
     void test(QQuickItem*);
+    void test1(int);
 
 private:
     MegaParse *mParser;
     QList<Page*> mPagesList;
+    QSize mActualSize;
+    QSize mOldSize;
+    qreal mAspectRatio;
 
 };
 

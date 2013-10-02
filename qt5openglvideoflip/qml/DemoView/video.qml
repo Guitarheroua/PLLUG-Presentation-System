@@ -138,6 +138,29 @@ Rectangle
         }
     }
 
+    Image
+    {
+        id: playImage
+        source: "qrc:/icons/play.png"
+        width: 50
+        height: 50
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        visible: true
+        z : 1
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked:
+            {
+                playImage.visible = false
+                console.log("replay")
+                mediaPlayer.play()
+                mouseArea.prevPos = 0
+            }
+        }
+    }
+
 
 
     MouseArea
@@ -274,6 +297,7 @@ Rectangle
         }
 
 
+
     }
 
     VideoOutput
@@ -281,6 +305,10 @@ Rectangle
         id: videoOutput
         source: mediaPlayer
         anchors.fill: parent
+        onVisibleChanged:
+        {
+            mediaPlayer.pause()
+        }
     }
 
 }

@@ -19,24 +19,24 @@ uniform lowp float qt_Opacity;
 void main()
 {
 
-//    highp float PI = 3.141592653589793238462643383279;
+    //    highp float PI = 3.141592653589793238462643383279;
     highp vec2 point = qt_TexCoord0;
     highp vec2 oldPoint = qt_TexCoord0;
     highp float rAngle = radians(angle);
-	
-	//highp float widthCoeff = 800.0*0.854;
-	//highp float heightCoeff = 800.0*1.919;
-	
-	highp float widthCoeff = screenWidth/2.0;
-	highp float heightCoeff = screenHeight/0.5;
-	
-	
+
+    //highp float widthCoeff = 800.0*0.854;
+    //highp float heightCoeff = 800.0*1.919;
+
+    highp float widthCoeff = screenWidth/2.0;
+    highp float heightCoeff = screenHeight/0.5;
+
+
     vec4 color = texture2D(source, point.xy);
 
     //           point.y = (-pos.y /((pos.w + 5.0 *( point.x - 0.5 )/15.0*tan(-rAngle))*1.61)+0.455);
 
     //float y = (-pos.y /((pos.w + 5.0 *( point.x - 0.5 )/tan(-rAngle))*(height*1.60/600.0))+0.455+0.014);
-	float y = (-pos.y /((pos.w + 5.0 *( point.x - 0.5 )/tan(-rAngle))*(heightCoeff/screenHeight)) + widthCoeff/screenWidth);
+    float y = (-pos.y /((pos.w + 5.0 *( point.x - 0.5 )/tan(-rAngle))*(heightCoeff/screenHeight)) + widthCoeff/screenWidth);
     float x = point.x + (( point.x - 0.5 )/ tan(-rAngle));
 
     vec2 newPoint = vec2(x,y);
@@ -75,10 +75,19 @@ void main()
         color = texture2D(source, vec2(oldPoint.x,oldPoint.y));
     }
     else
-    if ( point.x < 0.0 || point.y < 0.0 || point.x > 1.0 || point.y > 1.0 )
-        color = texture2D(source1, vec2(oldPoint.x,oldPoint.y));
+    {
+        if ( point.x < 0.0 || point.y < 0.0 || point.x > 1.0 || point.y > 1.0 )
+        {
+            color = texture2D(source1, vec2(oldPoint.x,oldPoint.y));
+        }
+    }
 
 
+//    if ( (angle != 90.0) && (angle != 270.0) )
+//    {
+//        gl_FragColor = qt_Opacity *vec4((abs(point.x-0.5)/**abs(180.0-angle)/70.0*/+0.3)*color.xyz,1.0);
+//    }
+//    else
     gl_FragColor = qt_Opacity *color/**(color.x+0.8)*/;
 
 }
