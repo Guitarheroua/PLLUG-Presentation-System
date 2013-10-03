@@ -101,7 +101,7 @@ Rectangle
             anchors
             {
                 top: parent.top
-                right: backImage.left
+                right: forwardImage.left
                 topMargin: 3
                 leftMargin: 5
                 rightMargin: 5

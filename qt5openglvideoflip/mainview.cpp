@@ -9,11 +9,16 @@
 #include <QDir>
 #include <QDebug>
 
+
+
 #include "megaparse.h"
 #include "blocksview.h"
 #include "page.h"
 #include "helper.h"
-#include "qt_windows.h"
+
+#if defined(Q_OS_WIN)
+    #include "qt_windows.h"
+#endif
 
 
 MainView::MainView(const QString &pContentDir, QWindow *parent) :
@@ -67,6 +72,8 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
         mPagesList.append(item);
     }
     this->setResizeMode(QQuickView::SizeRootObjectToView);
+
+
     mActualSize = QSize(800, 800);
     mOldSize = mActualSize;
     mAspectRatio = (qreal)mActualSize.width() / mActualSize.height();
@@ -79,7 +86,7 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
 
 bool MainView::nativeEvent(const QByteArray &eventType, void *pMessage, long *result)
 {
-
+    qDebug() << "??????";
 #if defined(Q_OS_WIN)
 
     MSG* message = (MSG*)pMessage;

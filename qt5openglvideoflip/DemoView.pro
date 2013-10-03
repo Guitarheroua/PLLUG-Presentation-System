@@ -14,8 +14,10 @@ HEADERS += \
     blocksmodel.h \
     blocksview.h \
     mainview.h \
+    machelper.h \
     helper.h \
     webviewitem.h
+
 
 SOURCES += \
     page.cpp \
@@ -27,7 +29,7 @@ SOURCES += \
     main.cpp \
     mainview.cpp \
     helper.cpp \
-    webviewitem.cpp
+    webviewitem.cpp \
 
 
 OTHER_FILES += \
@@ -47,6 +49,12 @@ RESOURCES += \
 
 macx
 {
+    OBJECTIVE_SOURCES += machelper.mm
+    LIBS += -framework Cocoa \
+    -framework Foundation \
+    -framework AppKit \
+    -framework Carbon
+
     WEBPROCESS.files = libexec/QtWebProcess
     WEBPROCESS.path = Contents/MacOS
     QML.files = qml
