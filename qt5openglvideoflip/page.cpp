@@ -24,9 +24,6 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, QQu
     mBackgroundRect->setProperty("width",pSize.width());
     mBackgroundRect->setProperty("height",pSize.height());
 
-//    this->setWidth(pSize.width());
-//    this->setHeight(pSize.height());
-
     QString lBackColor = pMap.value("background-color").toString();
     mBackgroundRect->setProperty("color", lBackColor);
     QString lBackImage = pMap.value("background-image").toString();

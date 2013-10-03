@@ -105,12 +105,12 @@ Rectangle
 
         property variant source: ShaderEffectSource{
             id: sourceItem1
-            sourceItem: mainRect.children[effect.currentPage]
+            sourceItem: (effect.currentPage < mainRect.children.length) ? mainRect.children[effect.currentPage] : null
             hideSource: true
         }
         property variant source1: ShaderEffectSource{
             id: sourceItem2
-            sourceItem: mainRect.children[effect.currentPage+1]
+            sourceItem: (effect.currentPage+1 < mainRect.children.length) ? mainRect.children[effect.currentPage+1] : null
             hideSource: true
         }
 

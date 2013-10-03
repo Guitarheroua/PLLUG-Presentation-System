@@ -39,7 +39,6 @@ int main(int argc, char *argv[])
     }
     qDebug() << contentDir;
     MainView *view = new MainView(contentDir);
-    qDebug() << "====="<<view;
 #if defined(Q_OS_MAC)
     MacHelper *helper = new MacHelper();
     helper->setAspectRatio(view->winId());

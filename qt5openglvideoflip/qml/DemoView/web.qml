@@ -101,7 +101,7 @@ Rectangle
             anchors
             {
                 top: parent.top
-                right: forwardImage.left
+                left: fullscreenImage.right
                 topMargin: 3
                 leftMargin: 5
                 rightMargin: 5
@@ -173,8 +173,8 @@ Rectangle
                     }
                     PropertyChanges {
                         target: item
-                        width: item.parent.width
-                        height: item.parent.height
+                        width: (item.parent) ? item.parent.width : 0
+                        height: (item.parent) ? item.parent.height : 0
                         x: 0
                         y: 0
                         z: 2
@@ -189,10 +189,10 @@ Rectangle
                     }
                     PropertyChanges {
                         target: item
-                        width: widthCoeff*item.parent.width
-                        height: heightCoeff*item.parent.height
-                        x: xCoeff*item.parent.width
-                        y: yCoeff*item.parent.height
+                        width: (item.parent) ? widthCoeff*item.parent.width : 0
+                        height: (item.parent) ? heightCoeff*item.parent.height : 0
+                        x: (item.parent) ? xCoeff*item.parent.width : 0
+                        y: (item.parent) ? yCoeff*item.parent.height : 0
                         z: 1
 
                     }
@@ -254,10 +254,6 @@ Rectangle
             boundsBehavior: Flickable.StopAtBounds
             url: source
 
-            Component.onCompleted:
-            {
-                console.log("completed")
-            }
             onUrlChanged:
             {
                 item.urlChanged(url)

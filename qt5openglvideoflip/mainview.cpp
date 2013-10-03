@@ -20,7 +20,6 @@
     #include "qt_windows.h"
 #endif
 
-
 MainView::MainView(const QString &pContentDir, QWindow *parent) :
     QQuickView(parent)
 {
@@ -86,7 +85,6 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
 
 bool MainView::nativeEvent(const QByteArray &eventType, void *pMessage, long *result)
 {
-    qDebug() << "??????";
 #if defined(Q_OS_WIN)
 
     MSG* message = (MSG*)pMessage;
@@ -94,14 +92,12 @@ bool MainView::nativeEvent(const QByteArray &eventType, void *pMessage, long *re
     {
     case (WM_SIZING):
     {
-        // Получаем прямоугольник окна, которым мы должны стать
         RECT* rect = (RECT*) message->lParam;
         int fWidth = frameGeometry().width() - width();
         int fHeight = frameGeometry().height() - height();
         int nWidth = rect->right-rect->left - fWidth;
         int nHeight = rect->bottom-rect->top - fHeight;
 
-        // Меняем размеры на нужные нам
         switch(message->wParam) {
         case WMSZ_BOTTOM:
         case WMSZ_TOP:
@@ -135,8 +131,6 @@ bool MainView::nativeEvent(const QByteArray &eventType, void *pMessage, long *re
         return false;
     };
     return true;
-
-#elif defined(Q_OS_MAC)
 #endif
 }
 
