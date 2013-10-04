@@ -7,8 +7,6 @@ Rectangle
 {
     id: mainRect
     objectName: "mainRect"
-    width: 800
-    height: 800
     color: "green"
 
     MouseArea

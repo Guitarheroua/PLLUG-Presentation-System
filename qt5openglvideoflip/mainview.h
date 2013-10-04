@@ -14,7 +14,7 @@ public:
 
 protected:
 //    void resizeEvent(QResizeEvent *);
-    bool nativeEvent(const QByteArray &eventType, void *message, long *result);
+    bool nativeEvent(const QByteArray&, void*, long*);
 
     
 signals:

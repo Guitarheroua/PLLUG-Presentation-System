@@ -252,7 +252,7 @@ Rectangle
             objectName: "webView"
             anchors.fill: parent
             boundsBehavior: Flickable.StopAtBounds
-            url: source
+            url: (source) ? source : "http://google.com"
 
             onUrlChanged:
             {

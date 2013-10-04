@@ -118,7 +118,6 @@ void Page::slotPageHeightChanged()
 
 void Page::webViewUrlChanged(QString pUrl )
 {
-    qDebug() << "____________________" << pUrl;
     QQuickItem *item = qobject_cast<QQuickItem*>(sender());
     QQuickItem *child = item->findChild<QQuickItem*>("fullScreenImage",Qt::FindChildrenRecursively);
     QQuickItem* newitem = item;

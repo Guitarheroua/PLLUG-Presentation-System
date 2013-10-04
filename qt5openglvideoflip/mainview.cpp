@@ -26,7 +26,8 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     mParser = new MegaParse(this);
     mParser->setContentDir(pContentDir);
     qDebug() << "content dir = " << pContentDir;
-    mParser->parseData();
+    mParser->parsePagesData();
+    mParser->parseTemplatesData();
 
     this->setSurfaceType(QQuickView::OpenGLSurface);
 
@@ -73,7 +74,7 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     this->setResizeMode(QQuickView::SizeRootObjectToView);
 
 
-    mActualSize = QSize(800, 800);
+    mActualSize = QSize(qApp->desktop()->screenGeometry().width()/1.5, qApp->desktop()->screenGeometry().height()/1.5);
     mOldSize = mActualSize;
     mAspectRatio = (qreal)mActualSize.width() / mActualSize.height();
     resize(mActualSize);
@@ -83,10 +84,9 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
 
 
 
-bool MainView::nativeEvent(const QByteArray &eventType, void *pMessage, long *result)
+bool MainView::nativeEvent(const QByteArray& eventType, void* pMessage, long* result)
 {
 #if defined(Q_OS_WIN)
-
     MSG* message = (MSG*)pMessage;
     switch(message->message)
     {
@@ -186,5 +186,4 @@ void MainView::test(QQuickItem* item)
 
 void MainView::test1(int w)
 {
-    qDebug() << "_____height_____" << w;
 }

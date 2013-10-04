@@ -130,7 +130,6 @@ Rectangle
             anchors.fill: parent
             onClicked:
             {
-                console.log("replay")
                 mediaPlayer.play()
                 mouseArea.prevPos = 0
             }
@@ -153,7 +152,6 @@ Rectangle
             onClicked:
             {
                 playImage.visible = false
-                console.log("replay")
                 mediaPlayer.play()
                 mouseArea.prevPos = 0
             }

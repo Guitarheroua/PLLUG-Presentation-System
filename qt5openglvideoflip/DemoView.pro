@@ -42,7 +42,10 @@ OTHER_FILES += \
     qml/DemoView/image.qml \
     qml/DemoView/testwebview.qml \
     qml/DemoView/testvideo.qml \
-    qml/DemoView/testWebView.qml
+    qml/DemoView/testWebView.qml \
+    qml/DemoView/TestPage.qml \
+    qml/DemoView/Block.qml \
+    qml/DemoView/TemplatesList.qml
 
 RESOURCES += \
     resources.qrc

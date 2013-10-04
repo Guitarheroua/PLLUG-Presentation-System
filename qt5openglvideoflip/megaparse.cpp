@@ -1,10 +1,13 @@
 #include "megaparse.h"
-#include <QFile>
 #include <QStandardPaths>
-#include <QDir>
-#include <QTextStream>
+#include <QDesktopWidget>
 #include <QJsonDocument>
+#include <QApplication>
+#include <QTextStream>
 #include <QDebug>
+#include <QFile>
+#include <QDir>
+
 #include "page.h"
 
 MegaParse::MegaParse(QObject *parent) :
@@ -15,9 +18,10 @@ MegaParse::MegaParse(QObject *parent) :
 MegaParse::~MegaParse()
 {
     qDeleteAll(mPagesList);
+    qDeleteAll(mTemplatesList);
 }
 
-void MegaParse::parseData()
+void MegaParse::parsePagesData()
 {
     QString jsonData;
     QFile data(mContentDir + "/data.json");
@@ -31,8 +35,29 @@ void MegaParse::parseData()
     QVariantList lPagesList = jsonDoc.toVariant().toMap().value("pages").toList();
     foreach(QVariant page, lPagesList)
     {
-        mPagesList.append(new Page(page.toMap(), mContentDir, QSize(800,800)));
+        mPagesList.append(new Page(page.toMap(), mContentDir, QSize(qApp->desktop()->screenGeometry().width()/1.5, qApp->desktop()->screenGeometry().height()/1.5)));
     }
+}
+
+void MegaParse::parseTemplatesData()
+{
+    QString jsonData;
+    QDir lDataDir = QDir(mContentDir + "/templates/");
+    foreach(QFileInfo lFileInfo, lDataDir.entryInfoList(QDir::Files))
+    {
+        QFile data(lFileInfo.absoluteFilePath());
+        if (data.open(QFile::ReadOnly))
+        {
+            QTextStream in(&data);
+            jsonData = in.readAll();
+        }
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData.toUtf8());
+    //    qDebug() << jsonDoc.isObject();
+        qDebug() << jsonDoc.toVariant().toMap();
+        mTemplatesList.append(new Page(jsonDoc.toVariant().toMap(), mContentDir, QSize(800,800)));
+    }
+
+
 }
 
 void MegaParse::setContentDir(const QString pDir)

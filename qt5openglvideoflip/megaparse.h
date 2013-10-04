@@ -11,7 +11,8 @@ class MegaParse : public QObject
 public:
     explicit MegaParse(QObject *parent = 0);
     ~MegaParse();
-    void parseData();
+    void parsePagesData();
+    void parseTemplatesData();
     void setContentDir(const QString pDir);
     QList<Page*> pagesList();
 
@@ -19,6 +20,7 @@ signals:
     
 private:
     QList<Page*> mPagesList;
+    QList<Page*> mTemplatesList;
     QString mContentDir;
 };
 
