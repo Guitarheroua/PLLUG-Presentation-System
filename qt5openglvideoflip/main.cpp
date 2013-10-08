@@ -89,9 +89,26 @@ int main(int argc, char *argv[])
 //    #if defined(Q_OS_WIN)
 //        qputenv("QTWEBKIT_PLUGIN_PATH", "C:\\Windows\\System32\\Macromed\\Flash");
 //    #endif
+    QString fshader;
+    QFile file1(":/shaders/flipPage.fsh"/*pContentDir+"/../resources/shaders/flipPage.fsh"*/);
+    if (file1.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        fshader = file1.readAll();
+    }
+    QString vshader;
+    QFile file2(":/shaders/flipPage.vsh");
+    if (file2.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        vshader = file2.readAll();
+    }
+
 
             QQuickView view1;
-            view1.setSource(QUrl::fromLocalFile("qml/DemoView/TestPage.qml"));
+            view1.rootContext()->setContextProperty("vshader", vshader);
+            view1.rootContext()->setContextProperty("fshader",fshader);
+            view1.rootContext()->setContextProperty("screenPixelWidth", qApp->desktop()->screenGeometry().width());
+            view1.rootContext()->setContextProperty("screenPixelHeight",qApp->desktop()->screenGeometry().height());
+            view1.setSource(QUrl::fromLocalFile("qml/DemoView/TestPresentation.qml"));
     //        QQuickItem *item = view1.rootObject()->findChild<QQuickItem*>("webView",Qt::FindChildrenRecursively);
     //        if (item)
     //        {

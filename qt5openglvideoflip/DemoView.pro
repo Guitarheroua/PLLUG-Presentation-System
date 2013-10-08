@@ -45,18 +45,22 @@ OTHER_FILES += \
     qml/DemoView/testWebView.qml \
     qml/DemoView/TestPage.qml \
     qml/DemoView/Block.qml \
-    qml/DemoView/TemplatesList.qml
+    qml/DemoView/TemplatesList.qml \
+    qml/DemoView/TestPresentation.qml \
+    qml/DemoView/PageFlipShaderEffect.qml \
+    qml/DemoView/Swirl.qml \
+    qml/DemoView/BackgroundSwirls.qml
 
 RESOURCES += \
     resources.qrc
 
 macx
 {
-    OBJECTIVE_SOURCES += machelper.mm
-    LIBS += -framework Cocoa \
-    -framework Foundation \
-    -framework AppKit \
-    -framework Carbon
+#    OBJECTIVE_SOURCES += machelper.mm
+#    LIBS += -framework Cocoa \
+#    -framework Foundation \
+#    -framework AppKit \
+#    -framework Carbon
 
     WEBPROCESS.files = libexec/QtWebProcess
     WEBPROCESS.path = Contents/MacOS
