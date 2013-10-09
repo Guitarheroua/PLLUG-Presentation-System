@@ -49,7 +49,9 @@ OTHER_FILES += \
     qml/DemoView/TestPresentation.qml \
     qml/DemoView/PageFlipShaderEffect.qml \
     qml/DemoView/Swirl.qml \
-    qml/DemoView/BackgroundSwirls.qml
+    qml/DemoView/BackgroundSwirls.qml \
+    qml/DemoView/EmptySlide.qml \
+    qml/DemoView/StartScreen.qml
 
 RESOURCES += \
     resources.qrc

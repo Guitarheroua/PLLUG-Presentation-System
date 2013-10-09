@@ -37,7 +37,7 @@ private:
     QString mContentDir;
     BlocksModel *mBlockModel;
     QQmlEngine* mEngine;
-    QQuickItem *mBackgroundRect;
+    QQuickItem *mSlide;
     Helper *mHelper;
 };
 

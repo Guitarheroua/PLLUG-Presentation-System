@@ -27,7 +27,7 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     mParser->setContentDir(pContentDir);
     qDebug() << "content dir = " << pContentDir;
     mParser->parsePagesData();
-    mParser->parseTemplatesData();
+//    mParser->parseTemplatesData();
 
     this->setSurfaceType(QQuickView::OpenGLSurface);
 

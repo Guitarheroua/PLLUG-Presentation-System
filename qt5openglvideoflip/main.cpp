@@ -89,6 +89,7 @@ int main(int argc, char *argv[])
 //    #if defined(Q_OS_WIN)
 //        qputenv("QTWEBKIT_PLUGIN_PATH", "C:\\Windows\\System32\\Macromed\\Flash");
 //    #endif
+
     QString fshader;
     QFile file1(":/shaders/flipPage.fsh"/*pContentDir+"/../resources/shaders/flipPage.fsh"*/);
     if (file1.open(QIODevice::ReadOnly | QIODevice::Text))

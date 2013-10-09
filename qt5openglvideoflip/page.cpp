@@ -3,6 +3,7 @@
 #include <QQmlEngine>
 #include <QDebug>
 #include <QDir>
+#include <QFile>
 #include <QApplication>
 #include "helper.h"
 
@@ -12,24 +13,29 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, QQu
     mEngine = new QQmlEngine();
     mContentDir = pContentDir;
 
-    QQmlComponent *component = new QQmlComponent(mEngine,QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/rectangle.qml").arg(pContentDir)));
+    qDebug() << "[[[" << QFile(QString::fromLatin1("%1/../qml/DemoView/EmptySlide.qml").arg(pContentDir)).exists();
+
+    QQmlComponent *component = new QQmlComponent(mEngine,QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/EmptySlide.qml").arg(pContentDir)));
+    qDebug() << "====";
     QObject *object = component->create();
-    mBackgroundRect = qobject_cast<QQuickItem*>(object);
+    qDebug() << "++++";
+    mSlide = qobject_cast<QQuickItem*>(object);
+    qDebug() << "11111";
 
     connect(this,SIGNAL(widthChanged()), this, SLOT(slotPageWidgthChanged()));
     connect(this,SIGNAL(heightChanged()), this, SLOT(slotPageHeightChanged()));
 
     this->setProperty("width",pSize.width());
     this->setProperty("height",pSize.height());
-    mBackgroundRect->setProperty("width",pSize.width());
-    mBackgroundRect->setProperty("height",pSize.height());
+    mSlide->setProperty("width",pSize.width());
+    mSlide->setProperty("height",pSize.height());
 
     QString lBackColor = pMap.value("background-color").toString();
-    mBackgroundRect->setProperty("color", lBackColor);
+    mSlide->setProperty("color", lBackColor);
     QString lBackImage = pMap.value("background-image").toString();
     if (!lBackImage.isEmpty())
     {
-        mBackgroundRect->setProperty("backgroundImage", QUrl::fromLocalFile(QString::fromLatin1("%1/image/%2").arg(mContentDir).arg(lBackImage)));
+        mSlide->setProperty("backgroundImage", QUrl::fromLocalFile(QString::fromLatin1("%1/image/%2").arg(mContentDir).arg(lBackImage)));
     }
 
     QVariantList lVarBlockList = pMap.value("blocks").toList();
@@ -38,7 +44,7 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, QQu
     {
         mBlockModel->addBlock(new Block(lvarBlock.toMap()));
     }
-    mBackgroundRect->setParentItem(this);
+    mSlide->setParentItem(this);
     connect(this, SIGNAL(modelChanged()), this, SLOT(createBlocks()));
 
     emit modelChanged();
@@ -48,7 +54,7 @@ Page::Page(QQuickItem *content, QQuickItem *parent)
 {
     QQmlComponent *component = new QQmlComponent(mEngine,"/qml/DemoView/rectangle.qml");
     QObject *object = component->create();
-    mBackgroundRect = qobject_cast<QQuickItem*>(object);
+    mSlide = qobject_cast<QQuickItem*>(object);
 
     connect(this,SIGNAL(widthChanged()), this, SLOT(slotPageWidgthChanged()));
     connect(this,SIGNAL(heightChanged()), this, SLOT(slotPageHeightChanged()));
@@ -56,8 +62,8 @@ Page::Page(QQuickItem *content, QQuickItem *parent)
     this->setWidth(content->width());
     this->setHeight(content->height());
 
-    mBackgroundRect->setParentItem(this);
-    content->setParentItem(mBackgroundRect);
+    mSlide->setParentItem(this);
+    content->setParentItem(mSlide);
 }
 
 Page::~Page()
@@ -108,12 +114,12 @@ void Page::createBlocks()
 
 void Page::slotPageWidgthChanged()
 {
-    mBackgroundRect->setProperty("width", this->width());
+    mSlide->setProperty("width", this->width());
 }
 
 void Page::slotPageHeightChanged()
 {
-    mBackgroundRect->setProperty("height", this->height());
+    mSlide->setProperty("height", this->height());
 }
 
 void Page::webViewUrlChanged(QString pUrl )
@@ -132,6 +138,7 @@ void Page::webViewUrlChanged(QString pUrl )
 
 QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption pCaption, int pWidth, int pHeight,float pX, float pY, QString pBackgrond)
 {
+    qDebug() << "\nPage::createItem\n" << pMediaContent.type;
     QQmlComponent *component = new QQmlComponent(mEngine, QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/%2.qml").arg(mContentDir).arg(pMediaContent.type)));
     QObject *object = component->create();
 
@@ -142,7 +149,7 @@ QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption p
         return NULL;
     }
 
-    item->setParentItem(mBackgroundRect);
+    item->setParentItem(mSlide);
     item->setFlags(QQuickItem::ItemHasContents);
 
     if (pMediaContent.type == "web")
@@ -156,10 +163,10 @@ QQuickItem *Page::createItem(Block::MediaContent pMediaContent, Block::Caption p
     }
     item->setProperty("color", pBackgrond);
     item->setProperty("aspect", pMediaContent.aspect);
-    item->setProperty("widthCoeff", pWidth/mBackgroundRect->width());
-    item->setProperty("heightCoeff", pHeight/mBackgroundRect->height());
-    item->setProperty("xCoeff", pX/mBackgroundRect->width());
-    item->setProperty("yCoeff", pY/mBackgroundRect->height());
+    item->setProperty("widthCoeff", pWidth/mSlide->width());
+    item->setProperty("heightCoeff", pHeight/mSlide->height());
+    item->setProperty("xCoeff", pX/mSlide->width());
+    item->setProperty("yCoeff", pY/mSlide->height());
 
     item->setProperty("fontSize", pCaption.fontSize);
     item->setProperty("fontFamily", pCaption.fontFamily);
