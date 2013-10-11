@@ -51,7 +51,10 @@ OTHER_FILES += \
     qml/DemoView/Swirl.qml \
     qml/DemoView/BackgroundSwirls.qml \
     qml/DemoView/EmptySlide.qml \
-    qml/DemoView/StartScreen.qml
+    qml/DemoView/StartScreen.qml \
+    qml/DemoView/OldDemoMain.qml \
+    qml/DemoView/FeaturesPanel.qml \
+    qml/DemoView/SlidesListPanel.qml
 
 RESOURCES += \
     resources.qrc

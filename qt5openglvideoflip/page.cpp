@@ -15,7 +15,7 @@ Page::Page(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, QQu
 
     qDebug() << "[[[" << QFile(QString::fromLatin1("%1/../qml/DemoView/EmptySlide.qml").arg(pContentDir)).exists();
 
-    QQmlComponent *component = new QQmlComponent(mEngine,QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/EmptySlide.qml").arg(pContentDir)));
+    QQmlComponent *component = new QQmlComponent(mEngine,QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/rectangle.qml").arg(pContentDir)));
     qDebug() << "====";
     QObject *object = component->create();
     qDebug() << "++++";

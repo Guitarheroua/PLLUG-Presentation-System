@@ -11,5 +11,6 @@ Slide
         source: slide.backgroundImage
     }
     title: "Empty slide"
+    visible: false
 
 }

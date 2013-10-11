@@ -50,13 +50,17 @@ Item {
 
     id: slide
 
-    property bool isSlide: true;
+    property bool isSlide: true
 
-    property string title;
+    property string title
     property variant content: []
     property string centeredText
     property string writeInText;
     property string notes;
+
+    property string codeFontFamily: parent.codeFontFamily;
+    property string code;
+    property real codeFontSize: baseFontSize * 0.6;
 
     property real fontSize: parent.height * 0.05
     property real fontScale: 1
@@ -68,10 +72,12 @@ Item {
     property real contentWidth: width
 
     // Define the slide to be the "content area"
-    x: parent.width * 0.05
-    y: parent.height * 0.2
-    width: parent.width * 0.9
-    height: parent.height * 0.7
+    //    x: parent.width * 0.05
+    //    y: parent.height * 0.2
+    //    width: parent.width * 0.9
+    //    height: parent.height * 0.7
+    width: parent.width
+    height: parent.height
 
     property real masterWidth: parent.width
     property real masterHeight: parent.height
@@ -82,102 +88,223 @@ Item {
 
     visible: false
 
+    onCodeChanged: {
+        listModel.clear();
+        var codeLines = slide.code.split("\n");
+        for (var i=0; i<codeLines.length; ++i) {
+            listModel.append({
+                                 line: i,
+                                 code: codeLines[i]
+                             });
+        }
+    }
+
     Text {
         id: titleText
         font.pixelSize: titleFontSize
-        text: title;
+        text: title
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.bottom: parent.top
-        anchors.bottomMargin: parent.fontSize * 1.5
+        anchors.top: parent.top
+        anchors.topMargin: parent.fontSize * 1.5
         font.bold: true;
         font.family: slide.fontFamily
         color: slide.titleColor
         horizontalAlignment: Text.Center
-        z: 1
     }
-
-    Text {
-        id: centeredId
-        width: parent.width
-        anchors.centerIn: parent
-        anchors.verticalCenterOffset: - parent.y / 3
-        text: centeredText
-        horizontalAlignment: Text.Center
-        font.pixelSize: baseFontSize
-        font.family: slide.fontFamily
-        color: slide.textColor
-        wrapMode: Text.Wrap
-    }
-
-    Text {
-        id: writeInTextId
-        property int length;
-        font.family: slide.fontFamily
-        font.pixelSize: baseFontSize
-        color: slide.textColor
-
-        anchors.fill: parent;
-        wrapMode: Text.Wrap
-
-        text: slide.writeInText.substring(0, length);
-
-        NumberAnimation on length {
-            from: 0;
-            to: slide.writeInText.length;
-            duration: slide.writeInText.length * 30;
-            running: slide.visible && parent.visible && slide.writeInText.length > 0
+    Item
+    {
+        id: contentItem
+        x: parent.width * 0.05
+        y: parent.height * 0.2
+        width: parent.width * 0.9
+        height: parent.height * 0.7
+        Text {
+            id: centeredId
+            width: parent.width
+            anchors.centerIn: parent
+            anchors.verticalCenterOffset: - parent.y / 3
+            text: centeredText
+            horizontalAlignment: Text.Center
+            font.pixelSize: baseFontSize
+            font.family: slide.fontFamily
+            color: slide.textColor
+            wrapMode: Text.Wrap
         }
 
-        visible: slide.writeInText != undefined;
+        Text {
+            id: writeInTextId
+            property int length;
+            font.family: slide.fontFamily
+            font.pixelSize: baseFontSize
+            color: slide.textColor
+
+            anchors.fill: parent
+            wrapMode: Text.Wrap
+
+            text: slide.writeInText.substring(0, length);
+
+            NumberAnimation on length {
+                from: 0;
+                to: slide.writeInText.length;
+                duration: slide.writeInText.length * 30;
+                running: slide.visible && parent.visible && slide.writeInText.length > 0
+            }
+
+            visible: slide.writeInText != undefined;
+        }
+
+
+        Column {
+            id: contentId
+            anchors.fill: parent
+
+            Repeater {
+                model: content.length
+
+                Row {
+                    id: row
+
+                    function decideIndentLevel(s) { return s.charAt(0) == " " ? 1 + decideIndentLevel(s.substring(1)) : 0 }
+                    property int indentLevel: decideIndentLevel(content[index])
+                    property int nextIndentLevel: index < content.length - 1 ? decideIndentLevel(content[index+1]) : 0
+                    property real indentFactor: (10 - row.indentLevel * 2) / 10;
+
+                    height: text.height + (nextIndentLevel == 0 ? 1 : 0.3) * slide.baseFontSize * slide.bulletSpacing
+                    x: slide.baseFontSize * indentLevel
+
+                    Rectangle {
+                        id: dot
+                        y: baseFontSize * row.indentFactor / 2
+                        width: baseFontSize / 4
+                        height: baseFontSize / 4
+                        color: slide.textColor
+                        radius: width / 2
+                        smooth: true
+                        opacity: text.text.length == 0 ? 0 : 1
+                    }
+
+                    Rectangle {
+                        id: space
+                        width: dot.width * 2
+                        height: 1
+                        color: "#00ffffff"
+                    }
+
+                    Text {
+                        id: text
+                        width: slide.contentWidth - parent.x - dot.width - space.width
+                        font.pixelSize: baseFontSize * row.indentFactor
+                        text: content[index]
+                        textFormat: Text.PlainText
+                        wrapMode: Text.WordWrap
+                        color: slide.textColor
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: slide.fontFamily
+                    }
+                }
+            }
+        }
     }
 
+    Item
+    {
+        id: codeItem
+        x: parent.width * 0.05
+        y: parent.height * 0.2
+        width: parent.width * 0.9
+        height: parent.height * 0.7
+        visible: (code != "")
+        Rectangle
+        {
+            id: codeItemBackground
+            anchors.fill: parent
+            radius: height / 10;
+            gradient: Gradient {
+                GradientStop { position: 0; color: Qt.rgba(0.8, 0.8, 0.8, 0.5); }
+                GradientStop { position: 1; color: Qt.rgba(0.2, 0.2, 0.2, 0.5); }
+            }
+            border.color: slide.textColor;
+            border.width: height / 250;
+            antialiasing: true
+        }
 
-    Column {
-        id: contentId
-        anchors.fill: parent
+        ListModel
+        {
+            id: listModel
+        }
 
-        Repeater {
-            model: content.length
 
-            Row {
-                id: row
+        onVisibleChanged: {
+            listView.focus = slide.visible;
+            listView.currentIndex = -1;
+        }
 
-                function decideIndentLevel(s) { return s.charAt(0) == " " ? 1 + decideIndentLevel(s.substring(1)) : 0 }
-                property int indentLevel: decideIndentLevel(content[index])
-                property int nextIndentLevel: index < content.length - 1 ? decideIndentLevel(content[index+1]) : 0
-                property real indentFactor: (10 - row.indentLevel * 2) / 10;
+        ListView {
+            id: listView;
 
-                height: text.height + (nextIndentLevel == 0 ? 1 : 0.3) * slide.baseFontSize * slide.bulletSpacing
-                x: slide.baseFontSize * indentLevel
+            anchors.fill: parent;
+            anchors.margins: codeItemBackground.radius / 2
+            clip: true
 
-                Rectangle {
-                    id: dot
-                    y: baseFontSize * row.indentFactor / 2
-                    width: baseFontSize / 4
-                    height: baseFontSize / 4
-                    color: slide.textColor
-                    radius: width / 2
-                    smooth: true
-                    opacity: text.text.length == 0 ? 0 : 1
+            model: listModel;
+            focus: true;
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    listView.focus = true;
+                    listView.currentIndex = listView.indexAt(mouse.x, mouse.y + listView.contentY);
                 }
 
+            }
+
+            delegate: Item {
+
+                id: itemDelegate
+
+                height: lineLabel.height
+                width: parent.width
+
                 Rectangle {
-                    id: space
-                    width: dot.width * 2
-                    height: 1
-                    color: "#00ffffff"
+                    id: lineLabelBackground
+                    width: lineLabel.height * 3;
+                    height: lineLabel.height;
+                    color: slide.textColor;
+                    opacity: 0.1;
                 }
 
                 Text {
-                    id: text
-                    width: slide.contentWidth - parent.x - dot.width - space.width
-                    font.pixelSize: baseFontSize * row.indentFactor
-                    text: content[index]
-                    textFormat: Text.PlainText
-                    wrapMode: Text.WordWrap
+                    id: lineLabel
+                    anchors.right: lineLabelBackground.right;
+                    text: (line+1) + ":"
+                    color: slide.textColor;
+                    font.family: slide.codeFontFamily
+                    font.pixelSize: slide.codeFontSize
+                    font.bold: itemDelegate.ListView.isCurrentItem;
+                    opacity: itemDelegate.ListView.isCurrentItem ? 1 : 0.9;
+
+                }
+
+                Rectangle {
+                    id: lineContentBackground
+                    anchors.fill: lineContent;
+                    anchors.leftMargin: -height / 2;
                     color: slide.textColor
-                    horizontalAlignment: Text.AlignLeft
-                    font.family: slide.fontFamily
+                    opacity: 0.2
+                    visible: itemDelegate.ListView.isCurrentItem;
+                }
+
+                Text {
+                    id: lineContent
+                    anchors.left: lineLabelBackground.right
+                    anchors.leftMargin: lineContent.height;
+                    anchors.right: parent.right;
+                    color: slide.textColor;
+                    text: code;
+                    font.family: slide.codeFontFamily
+                    font.pixelSize: slide.codeFontSize
+                    font.bold: itemDelegate.ListView.isCurrentItem;
+                    opacity: itemDelegate.ListView.isCurrentItem ? 1 : 0.9;
                 }
             }
         }

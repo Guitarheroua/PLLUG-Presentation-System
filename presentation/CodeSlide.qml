@@ -49,8 +49,6 @@ Slide {
     property string code;
     property real codeFontSize: baseFontSize * 0.6;
 
-
-
     Rectangle {
         id: background
         anchors.fill: parent
@@ -85,6 +83,7 @@ Slide {
     onVisibleChanged: {
         listView.focus = slide.visible;
         listView.currentIndex = -1;
+        console.log(" code slide visible",slide.visible, listView.focus)
     }
 
     ListView {
@@ -96,6 +95,10 @@ Slide {
 
         model: listModel;
         focus: true;
+        onFocusChanged:
+        {
+            console.log(" \nFOCUS\n",listView.focus)
+        }
 
         MouseArea {
             anchors.fill: parent
@@ -104,6 +107,10 @@ Slide {
                 listView.currentIndex = listView.indexAt(mouse.x, mouse.y + listView.contentY);
             }
 
+        }
+        Keys.onLeftPressed:
+        {
+            console.log("\nLEFT\n")
         }
 
         delegate: Item {

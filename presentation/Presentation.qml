@@ -55,6 +55,8 @@ Item {
     property color textColor: "black"
     property string fontFamily: "Helvetica"
     property string codeFontFamily: "Courier New"
+    property QtObject effect : null
+
 
     // Private API
     property bool _faded: false
@@ -116,6 +118,13 @@ Item {
     }
 
     function goToNextSlide() {
+        if (effect != null)
+        {
+            if (effect.running)
+                return
+            effect.goToNextSlide()
+            return
+        }
         root._userNum = 0
         if (_faded)
             return
@@ -130,6 +139,13 @@ Item {
     }
 
     function goToPreviousSlide() {
+        if (effect != null)
+        {
+            if (effect.running)
+                return
+            effect.goToPreviousSlide()
+            return
+        }
         root._userNum = 0
         if (root._faded)
             return
@@ -158,6 +174,30 @@ Item {
             }
         }
     }
+
+    function goToSlide(index) {
+        if (index != currentSlide)
+        {
+//            if (effect != null)
+//            {
+//                effect.goToSlide(index)
+//                return
+//            }
+
+            root._userNum = 0
+            if (_faded)
+                return
+            if ((index < root.slides.length) && (index >=0)) {
+                var from = slides[currentSlide]
+                var to = slides[index]
+                if (switchSlides(from, to, true)) {
+                    currentSlide = index;
+                    root.focus = true;
+                }
+            }
+        }
+    }
+
 
     focus: true
 

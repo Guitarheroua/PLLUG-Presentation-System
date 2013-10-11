@@ -4,13 +4,18 @@ import Qt.labs.presentation 1.0
 
 Presentation {
     id: presentation
-    width: 1280
-    height: 720
+    width: screenPixelWidth
+    height: screenPixelHeight
     MouseArea{
         anchors.fill:parent
         onClicked: {
 
         }
+    }
+    effect: flipEffect
+    onCurrentSlideChanged:
+    {
+        slidesListPanel.selectSlide(currentSlide)
     }
 
     function addNewSlide()
@@ -62,7 +67,6 @@ Presentation {
             height: 150
             x: 5
             y: 5
-            z: presentation.z + 1
 
         }
     }
@@ -97,10 +101,10 @@ Presentation {
         Clock{}
     }
 
-    CodeSlide
+    Slide
     {
         title: "code slide"
-
+        visible: false
         code: " RECT* rect = (RECT*) message->lParam;
         int fWidth = frameGeometry().width() - width();
         int fHeight = frameGeometry().height() - height();
@@ -114,25 +118,34 @@ Presentation {
             break;"
     }
 
-    //    PageFlipShaderEffect
-    //    {
-    //        id: effect
-    //        currentPage: 0
-    //        onCurrentPageChanged:
-    //        {
-    //            presentation.currentSlide = currentPage
-    //        }
+    Slide {
+        title: "Last Slide"
+        visible: false
+        centeredText: "Place some text here"
+        fontScale: 2
+        Clock{}
+    }
 
-    //        vertexShader: vshader
-    //        fragmentShader: fshader
+    PageFlipShaderEffect
+    {
+        id: flipEffect
+        currentSlide: presentation.currentSlide
+        onCurrentSlideChanged:
+        {
+            presentation.currentSlide = currentSlide
+        }
+        screenWidth: presentation.width
+        screenHeight: presentation.height
+        vertexShader: vshader
+        fragmentShader: fshader
 
-    //    }
+    }
 
     Rectangle{
-        id: optionsSlide
+        id: optionsSlideRect
         width: 210
         height: presentation.height
-        color: "lightgreen"
+        color: "gray"
         x: presentation.width - 10
         z: presentation.z + 2
 
@@ -151,6 +164,8 @@ Presentation {
         //                block1.width = text
         //            }
         //        }
+
+
         Rectangle
         {
             id: rect1
@@ -177,7 +192,7 @@ Presentation {
                 onClicked:
                 {
                     backgroundLoader.setSource("BackgroundSwirls.qml")
-                    optionsSlide.state = "closed"
+                    optionsSlideRect.state = "closed"
                 }
             }
 
@@ -208,7 +223,7 @@ Presentation {
                 onClicked:
                 {
                     presentation.addNewSlide()
-                    optionsSlide.state = "closed"
+                    optionsSlideRect.state = "closed"
                 }
             }
 
@@ -240,10 +255,61 @@ Presentation {
                 onClicked:
                 {
                     presentation.removeSlideAt(presentation.currentSlide)
-                    optionsSlide.state = "closed"
+                    optionsSlideRect.state = "closed"
                 }
             }
 
+        }
+
+        Rectangle
+        {
+            id: goToSlideRect
+            anchors
+            {
+                top : removeSlideRect.bottom
+                left : parent.left
+                topMargin: 20
+                leftMargin : 20
+            }
+            width: text4.width+ 10
+            height: text4.height
+            z: parent.z + 2
+            radius: 4
+            Text{
+                id: text4
+                anchors.centerIn: parent
+                text: "Go to slide: "
+                font.pointSize: 12
+            }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    var index = parseInt(goToSlideIndexTextField.text)
+                    if ( !isNaN(index))
+                    {
+                        presentation.goToSlide(index)
+                        optionsSlideRect.state = "closed"
+                    }
+
+                }
+            }
+
+        }
+        TextField
+        {
+            id: goToSlideIndexTextField
+            text: "0"
+            width: 50
+            z: parent.z + 2
+            anchors
+            {
+                top:removeSlideRect.bottom
+                topMargin: 20
+                left: goToSlideRect.right
+                leftMargin : 10
+            }
         }
 
         MouseArea
@@ -251,11 +317,11 @@ Presentation {
             id: optionsSlideMouseArea
             anchors.fill: parent
             drag.axis: Drag.XAxis
-            drag.target: optionsSlide
-            drag.minimumX: presentation.width - optionsSlide.width
+            drag.target: optionsSlideRect
+            drag.minimumX: presentation.width - optionsSlideRect.width
             drag.maximumX: presentation.width - 10
             onClicked: {
-                optionsSlide.state = (optionsSlide.state === "closed") ? "opened" : "closed"
+                optionsSlideRect.state = (optionsSlideRect.state === "closed") ? "opened" : "closed"
             }
 
         }
@@ -263,16 +329,16 @@ Presentation {
         states:[
             State {
                 name: "opened"
-                PropertyChanges { target: optionsSlide; x: optionsSlideMouseArea.drag.minimumX}
+                PropertyChanges { target: optionsSlideRect; x: optionsSlideMouseArea.drag.minimumX}
             },
             State {
                 name: "closed"
-                PropertyChanges { target: optionsSlide; x: optionsSlideMouseArea.drag.maximumX }
+                PropertyChanges { target: optionsSlideRect; x: optionsSlideMouseArea.drag.maximumX }
             }]
-        onStateChanged:
-        {
-            console.log(optionsSlide.state)
-        }
+        //        onStateChanged:
+        //        {
+        //            console.log(optionsSlideRect.state)
+        //        }
 
         Behavior on x { SmoothedAnimation { velocity: 400 } }
 
@@ -280,5 +346,15 @@ Presentation {
 
     }
 
+    SlidesListPanel
+    {
+        id: slidesListPanel
+        slides: presentation.slides
+        z: flipEffect.z + 1
+        onSlideSelected:
+        {
+            presentation.goToSlide(index)
+        }
+    }
 
 }
