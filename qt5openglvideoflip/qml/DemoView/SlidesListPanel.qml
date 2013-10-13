@@ -17,7 +17,6 @@ Rectangle {
 
     function updateModel()
     {
-        console.log("update model")
         for (var i=0; i< slides.length; ++i)
         {
             slidesModel.append({"index":i, "title":slides[i].title})

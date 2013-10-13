@@ -28,6 +28,16 @@ ShaderEffect
     property real defaultAnimationDuration : 1000
     property real minAnimationDuration : 200
 
+    property int nextSlideIndex
+//    SequentialAnimation {
+//        id: anim
+//        property real duration: defaultAnimationDuration
+//             NumberAnimation { target: effect; property: "angle"; from:(backAnim) ? 270.0 : 90.0; to: (backAnim) ? 90.0 : 270.0; duration: anim.duration }
+//             NumberAnimation { target: effect; property: "angle"; from:(backAnim) ? 270.0 : 90.0; to: (backAnim) ? 90.0 : 270.0; duration: anim.duration }
+//             NumberAnimation { target: effect; property: "angle"; from:(backAnim) ? 270.0 : 90.0; to: (backAnim) ? 90.0 : 270.0; duration: anim.duration }
+//         }
+
+
     PropertyAnimation on angle
     {
         id: anim
@@ -43,12 +53,12 @@ ShaderEffect
                 if (!effect.backAnim )
                 {
                     effect.parent.slides[effect.currentSlide].visible = false
-                    effect.currentSlide++;
+                    effect.currentSlide = effect.nextSlideIndex;
                 }
                 else
                 {
                     effect.parent.slides[effect.currentSlide].visible = false
-                    effect.currentSlide--;
+                    effect.currentSlide = effect.nextSlideIndex;
                 }
             }
         }
@@ -57,54 +67,39 @@ ShaderEffect
 
     function goToNextSlide()
     {
-        effect.backAnim = false
-        if ( effect.parent.slides[effect.currentSlide+1] )
-        {
-            effect.parent.slides[effect.currentSlide].visible = true
-            effect.parent.slides[effect.currentSlide+1].visible = true
-            sourceItem1.sourceItem = effect.parent.slides[effect.currentSlide]
-            sourceItem2.sourceItem = effect.parent.slides[effect.currentSlide+1]
-            anim.start()
-        }
+        goToSlide(effect.currentSlide+1)
     }
 
     function goToPreviousSlide()
     {
-        effect.backAnim = true
-        if ( effect.currentSlide > 0)
-        {
-            effect.parent.slides[effect.currentSlide-1].visible = true
-            effect.parent.slides[effect.currentSlide].visible = true
-            sourceItem1.sourceItem = effect.parent.slides[effect.currentSlide-1]
-            sourceItem2.sourceItem = effect.parent.slides[effect.currentSlide]
-            anim.start()
-        }
+        goToSlide(effect.currentSlide-1)
     }
     function goToSlide(index)
     {
-        //        anim.duration = minAnimationDuration
-        //        if (index < currentSlide)
-        //        {
-        //            while (currentSlide != index)
-        //            {
-        //                while(!anim.running)
-        //                    goToPreviousSlide()
-        //            }
+        effect.nextSlideIndex = index
+        if (index < currentSlide)
+        {
+            effect.backAnim = true
+            if ( effect.currentSlide > 0)
+            {
+                effect.parent.slides[effect.nextSlideIndex].visible = true
+                sourceItem1.sourceItem = effect.parent.slides[effect.nextSlideIndex]
+                sourceItem2.sourceItem = effect.parent.slides[effect.currentSlide]
+                anim.start()
+            }
 
-        //        }
-        //        else
-        //        {
-        //            while (currentSlide != index)
-        //            {
-        //                console.log("`````")
-        //                while(!anim.running)
-        //                {
-        //                    console.log("******")
-        //                    goToNextSlide()
-        //                }
-        //            }
-        //        }
-        //        anim.duration = defaultAnimationDuration
+        }
+        else
+        {
+            effect.backAnim = false
+            if ( effect.parent.slides[effect.nextSlideIndex] )
+            {
+                effect.parent.slides[effect.nextSlideIndex].visible = true
+                sourceItem1.sourceItem = effect.parent.slides[effect.currentSlide]
+                sourceItem2.sourceItem = effect.parent.slides[effect.nextSlideIndex]
+                anim.start()
+            }
+        }
     }
 
     //    MouseArea{

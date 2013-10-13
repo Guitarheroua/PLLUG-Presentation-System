@@ -289,7 +289,7 @@ Presentation {
                     var index = parseInt(goToSlideIndexTextField.text)
                     if ( !isNaN(index))
                     {
-                        presentation.goToSlide(index)
+                        presentation.goToSlide(index-1)
                         optionsSlideRect.state = "closed"
                     }
 

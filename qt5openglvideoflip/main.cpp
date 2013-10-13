@@ -107,8 +107,8 @@ int main(int argc, char *argv[])
             QQuickView view1;
             view1.rootContext()->setContextProperty("vshader", vshader);
             view1.rootContext()->setContextProperty("fshader",fshader);
-            view1.rootContext()->setContextProperty("screenPixelWidth", qApp->desktop()->screenGeometry().width());
-            view1.rootContext()->setContextProperty("screenPixelHeight",qApp->desktop()->screenGeometry().height());
+            view1.rootContext()->setContextProperty("screenPixelWidth", /*qApp->desktop()->screenGeometry().width()*/1280);
+            view1.rootContext()->setContextProperty("screenPixelHeight",/*qApp->desktop()->screenGeometry().height()*/720);
             view1.setSource(QUrl::fromLocalFile("qml/DemoView/TestPresentation.qml"));
     //        QQuickItem *item = view1.rootObject()->findChild<QQuickItem*>("webView",Qt::FindChildrenRecursively);
     //        if (item)
