@@ -26,9 +26,9 @@ Rectangle {
 
     function selectSlide(index)
     {
-        var position = index*(150 + slidesListView.pacing)
+        var position = index*(150 + slidesListView.spacing)
         if ( position > slidesListView.width/2 - 150/2)
-            contentX = position - (slidesListView.width/2 - 150/2)
+            slidesListView.contentX = position - (slidesListView.width/2 - 150/2)
         slidesListView.currentIndex = index
     }
 
@@ -40,7 +40,7 @@ Rectangle {
 
     Component
     {
-        id: delegate
+        id: listViewDelegate
         Rectangle{
             width: 150
             height: listViewItem.height
@@ -50,15 +50,63 @@ Rectangle {
                 anchors.centerIn: parent
                 text: (slides[model.index] != undefined)? slides[model.index].title : ""
             }
+//            Image{
+//                id: trashImage
+//                anchors.top: parent.top
+//                anchors.right: parent.right
+//                source: "qrc:///icons/trash.png"
+//                z: parent.z + 1
+//                opacity: 0.0
+//                MouseArea{
+//                    anchors.fill: parent
+//                    hoverEnabled: true
+//                    onClicked: {
+//                        presentation.removeSlideAt(model.index)
+//                    }
+//                    onEntered:
+//                    {
+//                        trashImage.opacity = 0.7
+//                    }
+//                    onExited:
+//                    {
+//                        trashImage.opacity = 0.0
+//                    }
+//                }
+//                Behavior on opacity { SmoothedAnimation{ velocity : 200}}
+//            }
+
             MouseArea
             {
                 anchors.fill: parent
                 hoverEnabled: true
+                drag.axis: Drag.YAxis
+                drag.minimumY:  0
+//                drag.maximumY:  listViewItem.height
+                drag.minimumX: 0
                 onClicked: {
                     slideSelected(model.index)
                 }
+                onPressed:
+                {
+                    var lx = mapToItem(slidesListView,mouseX,mouseY).x
+                    var ly = mapToItem(slidesListView,mouseX,mouseY).y
+                    drag.target = slidesListView.itemAt(lx,ly)
+//                    slidesListView.draggedIndex = model.index
+                }
+                onReleased:
+                {
+//                    var ax = mapToItem(slidesListView,mouseX,mouseY).x
+//                    var ay = mapToItem(slidesListView,mouseX,mouseY).y
+//                    console.log(slidesListView.indexAt(ax,ay),ax,ay)
+//                    slidesModel.move(slidesListView.draggedIndex, slidesListView.indexAt(ax,listViewItem.y),1)
+                }
             }
-
+//            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
+            onYChanged:
+            {
+                if (y > (mainRect.height - 20))
+                    presentation.removeSlideAt(model.index)
+            }
 
         }
     }
@@ -71,7 +119,7 @@ Rectangle {
             color: "#FFFF88"
             x: slidesListView.currentItem.x - 5
             y: slidesListView.currentItem.y - 5
-            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
+//            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
 
         }
     }
@@ -85,6 +133,7 @@ Rectangle {
             fill: parent
             topMargin: 10
             leftMargin: 10
+            bottomMargin: 10
         }
         z: parent.z+1
 
@@ -94,7 +143,7 @@ Rectangle {
             anchors.fill: parent
             focus: true
             model: slidesModel
-            delegate: delegate
+            delegate: listViewDelegate
             highlight: highlightBar
             highlightFollowsCurrentItem: false
             spacing: 10
@@ -102,11 +151,13 @@ Rectangle {
             boundsBehavior: ListView.StopAtBounds
             Behavior on contentX { SmoothedAnimation { velocity: 400 } }
 
-            onCurrentIndexChanged: {
-                var position = currentIndex*(currentItem.width + spacing)
-                if ( position > width/2 - currentItem.width/2)
-                    contentX = position - (width/2 - currentItem.width/2)
-            }
+//            property int draggedIndex: -1
+
+//            onCurrentIndexChanged: {
+//                var position = currentIndex*(currentItem.width + spacing)
+//                if ( position > width/2 - currentItem.width/2)
+//                    contentX = position - (width/2 - currentItem.width/2)
+//            }
         }
     }
 
@@ -119,7 +170,7 @@ Rectangle {
         drag.minimumY: parent.parent.height - mainRect.height
         drag.maximumY: parent.parent.height - 10
         onClicked: {
-            mainRect.state = (optionsSlideRect.state === "closed") ? "opened" : "closed"
+            mainRect.state = (mainRect.state === "closed") ? "opened" : "closed"
         }
 
     }

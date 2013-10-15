@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
 import Qt.labs.presentation 1.0
-import "templates"
 
 
 Presentation {
@@ -21,15 +20,18 @@ Presentation {
     }
 
 
-    function addNewSlide()
+    function addNewSlide(template)
     {
-        var component = Qt.createComponent("EmptySlide.qml");
-        var newSlide = component.createObject(presentation, {"title": "New Slide"});
+        var source = (template === "") ? "EmptySlide.qml" : template
+        var component = Qt.createComponent(source);
+        var newSlide = component.createObject(presentation/*, {"title": "New Slide"}*/);
         if (newSlide === null)
         {
             console.log("Error creating object");
         }
         presentation.newSlide(newSlide,presentation.currentSlide+1)
+        templatesListPanel.state = "opened"
+
     }
 
     function removeSlideAt(index)
@@ -45,20 +47,20 @@ Presentation {
     //    BackgroundSwirls {}
 
     textColor: "black"
-    Template7{
-    }
-    Template6{
-    }
-    Template5{
-    }
-    Template1{
-    }
-    Template2{
-    }
-    Template3{
-    }
-    Template4{
-    }
+    //    Template7{
+    //    }
+    //    Template6{
+    //    }
+    //    Template5{
+    //    }
+    //    Template1{
+    //    }
+    //    Template2{
+    //    }
+    //    Template3{
+    //    }
+    //    Template4{
+    //    }
 
 
     EmptySlide
@@ -160,15 +162,29 @@ Presentation {
         vertexShader: vshader
         fragmentShader: fshader
     }
-//    TemplatesListPanel
-//    {
-//        width: 210
-//        height: presentation.height
-//        color: "gray"
-//        x: presentation.width - 210
-//        z: presentation.z + 2
-//    }
-
+    TemplatesListPanel
+    {
+        id: templatesListPanel
+        width: 130
+        height: presentation.height
+        color: "gray"
+        x: presentation.width - width
+        z: presentation.z + 2
+        onTemplateSelected:
+        {
+            var component = Qt.createComponent(source);
+//            for (var i=0; i<presentation.slides[currentSlide].children.length;++i)
+//            {
+//                console.log("i",i)
+//                delete presentation.slides[currentSlide].children[i];
+//            }
+//            console.log(presentation.slides[currentSlide].children.length)
+            component.createObject(presentation.slides[currentSlide]);
+        }
+    }
+    OptionsPanel{
+        id: optionsPanel
+    }
 
 
     SlidesListPanel

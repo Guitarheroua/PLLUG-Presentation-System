@@ -3,25 +3,28 @@ import QtQuick.Controls 1.0
 import Qt.labs.presentation 1.0
 import "../"
 
-Slide {
-    id: mainRect
+Item
+{
+    id: templateItem
+    anchors.fill: parent
+
     Rectangle
     {
         id: titleRect
-        width: contentWidth
+        width: templateItem.parent.contentWidth
         height: textEdit.height
         anchors
         {
             horizontalCenter: parent.horizontalCenter
             top: parent.top
-            topMargin: titleItem.anchors.topMargin
+            topMargin: templateItem.parent.titleItem.anchors.topMargin
         }
 
-//        border
-//        {
-//            color: "lightgrey"
-//            width: 1
-//        }
+        //        border
+        //        {
+        //            color: "lightgrey"
+        //            width: 1
+        //        }
 
         TextInput
         {
@@ -32,16 +35,16 @@ Slide {
             }
 
             text: "Click to add text"
-            font.pointSize: titleFontSize
-//            BorderImage {
-//                id: borderImage
-//                source: "http://embed.polyvoreimg.com/cgi/img-thing/size/y/tid/33783871.jpg"
-//                width: parent.width;
-//                height: parent.height
-//                border.left: 5; border.top: 5
-//                border.right: 5; border.bottom: 5
-//                z: -1
-//            }
+            font.pointSize: templateItem.parent.titleFontSize
+            //            BorderImage {
+            //                id: borderImage
+            //                source: "http://embed.polyvoreimg.com/cgi/img-thing/size/y/tid/33783871.jpg"
+            //                width: parent.width;
+            //                height: parent.height
+            //                border.left: 5; border.top: 5
+            //                border.right: 5; border.bottom: 5
+            //                z: -1
+            //            }
             horizontalAlignment: Text.Center
             MouseArea
             {
@@ -49,7 +52,7 @@ Slide {
                 onClicked: {
                     textEdit.text = (textEdit.text === "Click to add text") ? "" : textEdit.text
                     textEdit.forceActiveFocus()
-//                    borderImage.visible = false
+                    //                    borderImage.visible = false
                 }
             }
         }
@@ -58,10 +61,10 @@ Slide {
     Rectangle
     {
         id: contentRect
-        x: contentX
-        y: contentY
-        width: contentWidth
-        height: contentHeight
+        x: templateItem.parent.contentX
+        y: templateItem.parent.contentY
+        width: templateItem.parent.contentWidth
+        height: templateItem.parent.contentHeight
         Grid{
             anchors.centerIn:  parent
             rows: 2

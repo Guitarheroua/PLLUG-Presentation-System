@@ -6,6 +6,7 @@
         <file alias="back.png">resources/icons/back.png</file>
         <file alias="forward.png">resources/icons/forward.png</file>
         <file alias="play.png">resources/icons/play.png</file>
+        <file alias="trash.png">resources/icons/trash.png</file>
     </qresource>
     <qresource prefix="/shaders">
         <file alias="flipPage.fsh">resources/shaders/flipPage.fsh</file>
