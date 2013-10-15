@@ -120,9 +120,10 @@ Item {
     function goToNextSlide() {
         if (effect != null)
         {
-            if (effect.running)
-                return
+//            if (effect.running)
+//                return
             effect.goToNextSlide()
+            root.focus = true
             return
         }
         root._userNum = 0
@@ -141,9 +142,10 @@ Item {
     function goToPreviousSlide() {
         if (effect != null)
         {
-            if (effect.running)
-                return
+//            if (effect.running)
+//                return
             effect.goToPreviousSlide()
+            root.focus = true
             return
         }
         root._userNum = 0
@@ -178,11 +180,14 @@ Item {
     function goToSlide(index) {
         if (index != currentSlide)
         {
-//            if (effect != null)
-//            {
-//                effect.goToSlide(index)
-//                return
-//            }
+            if (effect != null)
+            {
+//                if (effect.running)
+//                    return
+                effect.goToSlide(index)
+                root.focus = true
+                return
+            }
 
             root._userNum = 0
             if (_faded)

@@ -26,6 +26,9 @@ Rectangle {
 
     function selectSlide(index)
     {
+        var position = index*(150 + slidesListView.pacing)
+        if ( position > slidesListView.width/2 - 150/2)
+            contentX = position - (slidesListView.width/2 - 150/2)
         slidesListView.currentIndex = index
     }
 
@@ -52,11 +55,7 @@ Rectangle {
                 anchors.fill: parent
                 hoverEnabled: true
                 onClicked: {
-                    slidesListView.currentIndex = index
-//                    slidesListView.contentX =/* (parent.width+slidesListView.spacing)*index*/
-                    slidesListView.positionViewAtIndex(index,ListView.Center)
                     slideSelected(model.index)
-                    //                    mainRect.state = "closed"
                 }
             }
 
@@ -102,6 +101,12 @@ Rectangle {
             orientation: ListView.Horizontal
             boundsBehavior: ListView.StopAtBounds
             Behavior on contentX { SmoothedAnimation { velocity: 400 } }
+
+            onCurrentIndexChanged: {
+                var position = currentIndex*(currentItem.width + spacing)
+                if ( position > width/2 - currentItem.width/2)
+                    contentX = position - (width/2 - currentItem.width/2)
+            }
         }
     }
 

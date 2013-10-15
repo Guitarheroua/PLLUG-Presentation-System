@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
 import Qt.labs.presentation 1.0
+import "templates"
+
 
 Presentation {
     id: presentation
@@ -17,6 +19,7 @@ Presentation {
     {
         slidesListPanel.selectSlide(currentSlide)
     }
+
 
     function addNewSlide()
     {
@@ -42,6 +45,22 @@ Presentation {
     //    BackgroundSwirls {}
 
     textColor: "black"
+    Template7{
+    }
+    Template6{
+    }
+    Template5{
+    }
+    Template1{
+    }
+    Template2{
+    }
+    Template3{
+    }
+    Template4{
+    }
+
+
     EmptySlide
     {
         title: "first slide"
@@ -54,6 +73,7 @@ Presentation {
             " Controlled using QML properties and animations",
             "Snow"
         ]
+
     }
 
     Slide {
@@ -69,6 +89,7 @@ Presentation {
             y: 5
 
         }
+
     }
 
     Slide {
@@ -138,7 +159,6 @@ Presentation {
         screenHeight: presentation.height
         vertexShader: vshader
         fragmentShader: fshader
-
     }
 
     Rectangle{

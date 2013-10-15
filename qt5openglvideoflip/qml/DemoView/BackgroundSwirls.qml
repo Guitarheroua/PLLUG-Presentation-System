@@ -51,6 +51,7 @@ Item {
             GradientStop { position: 0; color: "lightsteelblue" }
             GradientStop { position: 1; color: "black" }
         }
+
     }
 
     Rectangle {

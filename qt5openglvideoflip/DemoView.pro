@@ -36,10 +36,8 @@ OTHER_FILES += \
     qml/DemoView/web.qml \
     qml/DemoView/video.qml \
     qml/DemoView/test.qml \
-    qml/DemoView/rectangle.qml \
     qml/DemoView/model.qml \
     qml/DemoView/main.qml \
-    qml/DemoView/image.qml \
     qml/DemoView/testwebview.qml \
     qml/DemoView/testvideo.qml \
     qml/DemoView/testWebView.qml \
@@ -54,7 +52,19 @@ OTHER_FILES += \
     qml/DemoView/StartScreen.qml \
     qml/DemoView/OldDemoMain.qml \
     qml/DemoView/FeaturesPanel.qml \
-    qml/DemoView/SlidesListPanel.qml
+    qml/DemoView/SlidesListPanel.qml \
+    qml/DemoView/items/web.qml \
+    qml/DemoView/items/video.qml \
+    qml/DemoView/items/image.qml \
+    qml/DemoView/items/text.qml \
+    qml/DemoView/templates/Template1.qml \
+    qml/DemoView/templates/Template2.qml \
+    qml/DemoView/templates/Template3.qml \
+    qml/DemoView/BackgroundRectangle.qml \
+    qml/DemoView/templates/Template4.qml \
+    qml/DemoView/templates/Template5.qml \
+    qml/DemoView/templates/Template6.qml \
+    qml/DemoView/templates/Template7.qml
 
 RESOURCES += \
     resources.qrc

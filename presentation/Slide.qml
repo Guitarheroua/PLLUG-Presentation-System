@@ -56,11 +56,11 @@ Item {
     property variant content: []
     property string centeredText
     property string writeInText;
-    property string notes;
+    property string notes
 
-    property string codeFontFamily: parent.codeFontFamily;
-    property string code;
-    property real codeFontSize: baseFontSize * 0.6;
+    property string codeFontFamily: parent.codeFontFamily
+    property string code
+    property real codeFontSize: baseFontSize * 0.6
 
     property real fontSize: parent.height * 0.05
     property real fontScale: 1
@@ -69,7 +69,16 @@ Item {
     property real titleFontSize: fontSize * 1.2 * fontScale
     property real bulletSpacing: 1
 
-    property real contentWidth: width
+//    property real contentWidth: width
+
+    property alias titleItem: titleText
+
+    property real contentX: parent.width * 0.05
+    property real contentY: parent.height * 0.2
+    property real contentWidth:  parent.width * 0.9
+    property real contentHeight: parent.height * 0.7
+
+
 
     // Define the slide to be the "content area"
     //    x: parent.width * 0.05
@@ -78,6 +87,15 @@ Item {
     //    height: parent.height * 0.7
     width: parent.width
     height: parent.height
+    Rectangle
+    {
+        anchors.fill: parent
+        color: "transparent"
+            border.width: 3
+            border.color: "black"
+    }
+
+
 
     property real masterWidth: parent.width
     property real masterHeight: parent.height
@@ -114,10 +132,10 @@ Item {
     Item
     {
         id: contentItem
-        x: parent.width * 0.05
-        y: parent.height * 0.2
-        width: parent.width * 0.9
-        height: parent.height * 0.7
+        x: contentX
+        y: contentY
+        width: contentWidth
+        height: contentHeight
         Text {
             id: centeredId
             width: parent.width
