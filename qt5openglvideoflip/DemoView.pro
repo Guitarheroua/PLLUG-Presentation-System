@@ -43,7 +43,6 @@ OTHER_FILES += \
     qml/DemoView/testWebView.qml \
     qml/DemoView/TestPage.qml \
     qml/DemoView/Block.qml \
-    qml/DemoView/TemplatesList.qml \
     qml/DemoView/TestPresentation.qml \
     qml/DemoView/PageFlipShaderEffect.qml \
     qml/DemoView/Swirl.qml \
@@ -64,7 +63,9 @@ OTHER_FILES += \
     qml/DemoView/templates/Template4.qml \
     qml/DemoView/templates/Template5.qml \
     qml/DemoView/templates/Template6.qml \
-    qml/DemoView/templates/Template7.qml
+    qml/DemoView/templates/Template7.qml \
+    qml/DemoView/TemplatesListPanel.qml \
+    qml/DemoView/OptionsPanel.qml
 
 RESOURCES += \
     resources.qrc
