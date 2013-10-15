@@ -237,13 +237,13 @@ Item {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
-        onClicked: {
-            if (mouse.button == Qt.RightButton)
-                goToPreviousSlide()
-            else
-                goToNextSlide()
-        }
+//        acceptedButtons: Qt.LeftButton | Qt.RightButton
+//        onClicked: {
+//            if (mouse.button == Qt.RightButton)
+//                goToPreviousSlide()
+//            else
+//                goToNextSlide()
+//        }
         onPressAndHold: goToPreviousSlide(); //A back mechanism for touch only devices
     }
 
