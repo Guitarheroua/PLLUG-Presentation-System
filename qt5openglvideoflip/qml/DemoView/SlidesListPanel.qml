@@ -17,6 +17,7 @@ Rectangle {
 
     function updateModel()
     {
+        slidesModel.clear()
         for (var i=0; i< slides.length; ++i)
         {
             slidesModel.append({"index":i, "title":slides[i].title})
@@ -44,7 +45,7 @@ Rectangle {
             Text{
                 id: text
                 anchors.centerIn: parent
-                text: slides[model.index].title
+                text: (slides[model.index] != undefined)? slides[model.index].title : ""
             }
             MouseArea
             {
@@ -52,8 +53,10 @@ Rectangle {
                 hoverEnabled: true
                 onClicked: {
                     slidesListView.currentIndex = index
+//                    slidesListView.contentX =/* (parent.width+slidesListView.spacing)*index*/
+                    slidesListView.positionViewAtIndex(index,ListView.Center)
                     slideSelected(model.index)
-                    mainRect.state = "closed"
+                    //                    mainRect.state = "closed"
                 }
             }
 
@@ -85,6 +88,7 @@ Rectangle {
             leftMargin: 10
         }
         z: parent.z+1
+
         ListView
         {
             id: slidesListView
@@ -96,6 +100,8 @@ Rectangle {
             highlightFollowsCurrentItem: false
             spacing: 10
             orientation: ListView.Horizontal
+            boundsBehavior: ListView.StopAtBounds
+            Behavior on contentX { SmoothedAnimation { velocity: 400 } }
         }
     }
 
