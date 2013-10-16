@@ -11,5 +11,7 @@
     <qresource prefix="/shaders">
         <file alias="flipPage.fsh">resources/shaders/flipPage.fsh</file>
         <file alias="flipPage.vsh">resources/shaders/flipPage.vsh</file>
+        <file alias="fire.fsh">resources/shaders/fire.fsh</file>
+        <file alias="fire.vsh">resources/shaders/fire.vsh</file>
     </qresource>
 </RCC>

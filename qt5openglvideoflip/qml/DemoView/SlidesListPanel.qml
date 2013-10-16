@@ -3,8 +3,9 @@ import QtQuick 2.0
 Rectangle {
     id: mainRect
     width: parent.width
-    height: 110
+    height: 120
     color: "gray"
+    opacity: 0.8
 
     property variant slides: []
 
@@ -41,6 +42,7 @@ Rectangle {
     Component
     {
         id: listViewDelegate
+
         Rectangle{
             width: 150
             height: listViewItem.height
@@ -50,30 +52,31 @@ Rectangle {
                 anchors.centerIn: parent
                 text: (slides[model.index] != undefined)? slides[model.index].title : ""
             }
-//            Image{
-//                id: trashImage
-//                anchors.top: parent.top
-//                anchors.right: parent.right
-//                source: "qrc:///icons/trash.png"
-//                z: parent.z + 1
-//                opacity: 0.0
-//                MouseArea{
-//                    anchors.fill: parent
-//                    hoverEnabled: true
-//                    onClicked: {
-//                        presentation.removeSlideAt(model.index)
-//                    }
-//                    onEntered:
-//                    {
-//                        trashImage.opacity = 0.7
-//                    }
-//                    onExited:
-//                    {
-//                        trashImage.opacity = 0.0
-//                    }
-//                }
-//                Behavior on opacity { SmoothedAnimation{ velocity : 200}}
-//            }
+            //            Image{
+            //                id: trashImage
+            //                anchors.top: parent.top
+            //                anchors.right: parent.right
+            //                source: "qrc:///icons/trash.png"
+            //                z: parent.z + 1
+            //                opacity: 0.0
+            //                MouseArea{
+            //                    anchors.fill: parent
+            //                    hoverEnabled: true
+            //                    onClicked: {
+            //                        presentation.removeSlideAt(model.index)
+            //                    }
+            //                    onEntered:
+            //                    {
+            //                        trashImage.opacity = 0.7
+            //                    }
+            //                    onExited:
+            //                    {
+            //                        trashImage.opacity = 0.0
+            //                    }
+            //                }
+            //                Behavior on opacity { SmoothedAnimation{ velocity : 200}}
+            //            }
+
 
             MouseArea
             {
@@ -81,7 +84,7 @@ Rectangle {
                 hoverEnabled: true
                 drag.axis: Drag.YAxis
                 drag.minimumY:  0
-//                drag.maximumY:  listViewItem.height
+                //                drag.maximumY:  listViewItem.height
                 drag.minimumX: 0
                 onClicked: {
                     slideSelected(model.index)
@@ -91,17 +94,17 @@ Rectangle {
                     var lx = mapToItem(slidesListView,mouseX,mouseY).x
                     var ly = mapToItem(slidesListView,mouseX,mouseY).y
                     drag.target = slidesListView.itemAt(lx,ly)
-//                    slidesListView.draggedIndex = model.index
+                    //                    slidesListView.draggedIndex = model.index
                 }
                 onReleased:
                 {
-//                    var ax = mapToItem(slidesListView,mouseX,mouseY).x
-//                    var ay = mapToItem(slidesListView,mouseX,mouseY).y
-//                    console.log(slidesListView.indexAt(ax,ay),ax,ay)
-//                    slidesModel.move(slidesListView.draggedIndex, slidesListView.indexAt(ax,listViewItem.y),1)
+                    //                    var ax = mapToItem(slidesListView,mouseX,mouseY).x
+                    //                    var ay = mapToItem(slidesListView,mouseX,mouseY).y
+                    //                    console.log(slidesListView.indexAt(ax,ay),ax,ay)
+                    //                    slidesModel.move(slidesListView.draggedIndex, slidesListView.indexAt(ax,listViewItem.y),1)
                 }
             }
-//            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
+            //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
             onYChanged:
             {
                 if (y > (mainRect.height - 20))
@@ -119,19 +122,53 @@ Rectangle {
             color: "#FFFF88"
             x: slidesListView.currentItem.x - 5
             y: slidesListView.currentItem.y - 5
-//            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
+            //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
 
         }
     }
 
+
+    Rectangle
+    {
+        id: addItem
+        anchors
+        {
+            top: parent.top
+            left: parent.left
+            bottom: parent.bottom
+            topMargin: 15
+            leftMargin: 10
+            bottomMargin: 10
+        }
+        width: 50
+        z: listViewItem.z+1
+        opacity: parent.opacity
+        color: "lightgrey"
+        Text {
+            text: qsTr("Add")
+            anchors.centerIn: parent
+        }
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked: {
+                console.log("click")
+                presentation.addNewSlide("")
+            }
+        }
+
+    }
 
     Item
     {
         id: listViewItem
         anchors
         {
-            fill: parent
-            topMargin: 10
+            top: parent.top
+            left: addItem.right
+            bottom: parent.bottom
+            right:parent.right
+            topMargin: 15
             leftMargin: 10
             bottomMargin: 10
         }
@@ -151,13 +188,13 @@ Rectangle {
             boundsBehavior: ListView.StopAtBounds
             Behavior on contentX { SmoothedAnimation { velocity: 400 } }
 
-//            property int draggedIndex: -1
+            //            property int draggedIndex: -1
 
-//            onCurrentIndexChanged: {
-//                var position = currentIndex*(currentItem.width + spacing)
-//                if ( position > width/2 - currentItem.width/2)
-//                    contentX = position - (width/2 - currentItem.width/2)
-//            }
+            //            onCurrentIndexChanged: {
+            //                var position = currentIndex*(currentItem.width + spacing)
+            //                if ( position > width/2 - currentItem.width/2)
+            //                    contentX = position - (width/2 - currentItem.width/2)
+            //            }
         }
     }
 

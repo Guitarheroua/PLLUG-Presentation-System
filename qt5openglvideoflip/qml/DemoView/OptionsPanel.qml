@@ -6,6 +6,7 @@ Rectangle{
     width: 210
     height: parent.height
     color: "gray"
+    opacity: 0.7
     x: parent.width - 10
     z: parent.z + 2
 

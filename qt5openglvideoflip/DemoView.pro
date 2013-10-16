@@ -56,7 +56,6 @@ OTHER_FILES += \
     qml/DemoView/items/video.qml \
     qml/DemoView/items/image.qml \
     qml/DemoView/items/text.qml \
-    qml/DemoView/templates/Template1.qml \
     qml/DemoView/templates/Template2.qml \
     qml/DemoView/templates/Template3.qml \
     qml/DemoView/BackgroundRectangle.qml \
@@ -65,7 +64,15 @@ OTHER_FILES += \
     qml/DemoView/templates/Template6.qml \
     qml/DemoView/templates/Template7.qml \
     qml/DemoView/TemplatesListPanel.qml \
-    qml/DemoView/OptionsPanel.qml
+    qml/DemoView/OptionsPanel.qml \
+    qml/DemoView/presentation/SlideCounter.qml \
+    qml/DemoView/presentation/Slide.qml \
+    qml/DemoView/presentation/Presentation.qml \
+    qml/DemoView/presentation/CodeSlide.qml \
+    qml/DemoView/presentation/Clock.qml \
+    qml/DemoView/templates/Template1.qml \
+    qml/DemoView/FireEffect.qml \
+    qml/DemoView/items/title.qml
 
 RESOURCES += \
     resources.qrc

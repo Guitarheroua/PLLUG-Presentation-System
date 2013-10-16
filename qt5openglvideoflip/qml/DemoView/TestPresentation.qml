@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
 import Qt.labs.presentation 1.0
+import "presentation"
+import "templates"
 
 
 Presentation {
@@ -30,6 +32,7 @@ Presentation {
             console.log("Error creating object");
         }
         presentation.newSlide(newSlide,presentation.currentSlide+1)
+        //        optionsPanel.state = "closed"
         templatesListPanel.state = "opened"
 
     }
@@ -47,20 +50,6 @@ Presentation {
     //    BackgroundSwirls {}
 
     textColor: "black"
-    //    Template7{
-    //    }
-    //    Template6{
-    //    }
-    //    Template5{
-    //    }
-    //    Template1{
-    //    }
-    //    Template2{
-    //    }
-    //    Template3{
-    //    }
-    //    Template4{
-    //    }
 
 
     EmptySlide
@@ -83,14 +72,7 @@ Presentation {
         fontScale: 2
         visible: false
         title: "anim slide"
-        Block{
-            id: block1
-            width: 200
-            height: 150
-            x: 5
-            y: 5
 
-        }
 
     }
 
@@ -159,8 +141,6 @@ Presentation {
         }
         screenWidth: presentation.width
         screenHeight: presentation.height
-        vertexShader: vshader
-        fragmentShader: fshader
     }
     TemplatesListPanel
     {
@@ -172,19 +152,29 @@ Presentation {
         z: presentation.z + 2
         onTemplateSelected:
         {
-            var component = Qt.createComponent(source);
-//            for (var i=0; i<presentation.slides[currentSlide].children.length;++i)
-//            {
-//                console.log("i",i)
-//                delete presentation.slides[currentSlide].children[i];
-//            }
-//            console.log(presentation.slides[currentSlide].children.length)
-            component.createObject(presentation.slides[currentSlide]);
+            if (source != "")
+            {
+                var component = Qt.createComponent(source);
+                for (var i=0; i<presentation.slides[currentSlide].children.length; ++i)
+                {
+                    var templateToRemove;
+                    if (presentation.slides[currentSlide].children[i].objectName === "template")
+                    {
+                        templateToRemove = presentation.slides[currentSlide].children[i]
+                        if (templateToRemove)
+                        {
+                            templateToRemove.destroy();
+                            break;
+                        }
+                    }
+                }
+                component.createObject(presentation.slides[currentSlide], {"objectName": "template"});
+            }
         }
     }
-    OptionsPanel{
-        id: optionsPanel
-    }
+    //    OptionsPanel{
+    //        id: optionsPanel
+    //    }
 
 
     SlidesListPanel
@@ -195,6 +185,14 @@ Presentation {
         onSlideSelected:
         {
             presentation.goToSlide(index)
+        }
+    }
+    MouseArea
+    {
+        anchors.fill: parent
+        onClicked: {
+            slidesListPanel.state = "closed"
+            templatesListPanel.state = "closed"
         }
     }
 

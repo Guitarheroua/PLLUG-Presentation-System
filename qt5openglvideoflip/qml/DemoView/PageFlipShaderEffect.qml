@@ -6,6 +6,9 @@ ShaderEffect
     id: effect
     anchors.fill: parent
     anchors.centerIn: parent
+
+    vertexShader: helper.readShader("flipPage.vsh")
+    fragmentShader: helper.readShader("flipPage.fsh")
     property int currentSlide
 
     property variant source: ShaderEffectSource{
@@ -36,7 +39,6 @@ ShaderEffect
     //             NumberAnimation { target: effect; property: "angle"; from:(backAnim) ? 270.0 : 90.0; to: (backAnim) ? 90.0 : 270.0; duration: anim.duration }
     //             NumberAnimation { target: effect; property: "angle"; from:(backAnim) ? 270.0 : 90.0; to: (backAnim) ? 90.0 : 270.0; duration: anim.duration }
     //         }
-
 
     PropertyAnimation on angle
     {

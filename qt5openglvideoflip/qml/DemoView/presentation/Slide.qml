@@ -71,7 +71,7 @@ Item {
 
 //    property real contentWidth: width
 
-    property alias titleItem: titleText
+    property real topTitleMargin: parent.fontSize * 1.5
 
     property real contentX: parent.width * 0.05
     property real contentY: parent.height * 0.2
@@ -121,9 +121,9 @@ Item {
         id: titleText
         font.pixelSize: titleFontSize
         text: title
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.horizontalCenter:  parent.horizontalCenter
         anchors.top: parent.top
-        anchors.topMargin: parent.fontSize * 1.5
+        anchors.topMargin: topTitleMargin
         font.bold: true;
         font.family: slide.fontFamily
         color: slide.titleColor

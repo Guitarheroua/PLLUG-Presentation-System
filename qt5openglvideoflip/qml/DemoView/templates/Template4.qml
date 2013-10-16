@@ -14,16 +14,18 @@ Item
         height: textEdit.height
         anchors
         {
-            horizontalCenter: parent.horizontalCenter
-            top: parent.top
-            topMargin: templateItem.parent.titleItem.anchors.topMargin
+            horizontalCenter: templateItem.parent.horizontalCenter
+            top: templateItem.parent.top
+            topMargin: /*templateItem.parent.topTitleMargin*/20
         }
 
-//        border
-//        {
-//            color: "lightgrey"
-//            width: 1
-//        }
+        color: "transparent"
+
+        border
+        {
+            color: "lightgrey"
+            width: 1
+        }
 
         TextInput
         {

@@ -3,9 +3,11 @@ import "templates"
 
 Rectangle {
     id: templatesPanelRect
-    width: 110
+    width: 120
     height: parent.height
-    color: "gray"
+    color: "lightgray"
+    opacity: 0.7
+
     property int templateHeight : 100
 
     signal templateSelected(var source)
@@ -28,7 +30,7 @@ Rectangle {
             Text{
                 id: text
                 anchors.centerIn: parent
-                text: "Template " + (model.index + 1)
+                text: (model.index === 0) ? "Empty template": "Template " + (model.index)
             }
 
             MouseArea
@@ -38,7 +40,8 @@ Rectangle {
 
                 onClicked: {
                     selectTemplate(model.index)
-                    templateSelected("templates/Template"+ (model.index+1)+".qml")
+                    var source = (model.index === 0) ? "" : "templates/Template"+ (model.index)+".qml"
+                    templateSelected(source)
                 }
             }
 
@@ -68,7 +71,7 @@ Rectangle {
         {
             fill: parent
             topMargin: 10
-            leftMargin: 10
+            leftMargin: 15
         }
         z: parent.z+1
 
@@ -77,13 +80,15 @@ Rectangle {
             id: templatesListView
             anchors.fill: parent
             focus: true
-            model: 7
+            model: 8
             delegate: delegate
             highlight: highlightBar
             highlightFollowsCurrentItem: false
+            highlightRangeMode: ListView.NoHighlightRange
             spacing: 10
             orientation: ListView.Vertical
             boundsBehavior: ListView.StopAtBounds
+
             Behavior on contentY { SmoothedAnimation { velocity: 400 } }
 
 //            onCurrentIndexChanged: {
@@ -91,6 +96,7 @@ Rectangle {
 //                if ( position > width/2 - currentItem.width/2)
 //                    contentX = position - (width/2 - currentItem.width/2)
 //            }
+
         }
     }
     MouseArea

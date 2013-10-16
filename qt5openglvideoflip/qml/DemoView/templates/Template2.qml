@@ -3,29 +3,35 @@ import QtQuick 2.0
 import QtQuick 2.0
 import QtQuick.Controls 1.0
 import Qt.labs.presentation 1.0
+import "../items"
 import "../"
 
 Item
 {
     id: templateItem
     anchors.fill: parent
+    //    property real topTitleMargin: parent.topTitleMargin
+    //    property real contentWidth: parent.contentWidth
+    //    property real titleFontSize: parent.titleFontSize
+
     Rectangle
     {
         id: titleRect
-        width: templateItem.parent.contentWidth
+        width: parent.contentWidth
         height: textEdit.height
         anchors
         {
             horizontalCenter: parent.horizontalCenter
             top: parent.top
-            topMargin: templateItem.parent.titleItem.anchors.topMargin
+            topMargin: /*parent.topTitleMargin*/20
         }
+        color: "transparent"
 
-//        border
-//        {
-//            color: "lightgrey"
-//            width: 1
-//        }
+        border
+        {
+            color: "lightgrey"
+            width: 1
+        }
 
         TextInput
         {
@@ -37,15 +43,15 @@ Item
 
             text: "Click to add text"
             font.pointSize: templateItem.parent.titleFontSize
-//            BorderImage {
-//                id: borderImage
-//                source: "http://embed.polyvoreimg.com/cgi/img-thing/size/y/tid/33783871.jpg"
-//                width: parent.width;
-//                height: parent.height
-//                border.left: 5; border.top: 5
-//                border.right: 5; border.bottom: 5
-//                z: -1
-//            }
+            //            BorderImage {
+            //                id: borderImage
+            //                source: "http://embed.polyvoreimg.com/cgi/img-thing/size/y/tid/33783871.jpg"
+            //                width: parent.width;
+            //                height: parent.height
+            //                border.left: 5; border.top: 5
+            //                border.right: 5; border.bottom: 5
+            //                z: -1
+            //            }
             horizontalAlignment: Text.Center
             MouseArea
             {
@@ -53,7 +59,7 @@ Item
                 onClicked: {
                     textEdit.text = (textEdit.text === "Click to add text") ? "" : textEdit.text
                     textEdit.forceActiveFocus()
-//                    borderImage.visible = false
+                    //                    borderImage.visible = false
                 }
             }
         }

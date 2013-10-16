@@ -216,7 +216,7 @@ Item {
         if (event.key >= Qt.Key_0 && event.key <= Qt.Key_9)
             _userNum = 10 * _userNum + (event.key - Qt.Key_0)
         else {
-            if (event.key == Qt.Key_Return || event.key == Qt.Key_Enter)
+            if (event.key == Qt.Key_Return /*|| event.key == Qt.Key_Enter*/)
                 goToUserSlide();
             else if (event.key == Qt.Key_Backspace)
                 goToPreviousSlide();
