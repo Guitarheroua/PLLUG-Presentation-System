@@ -37,6 +37,7 @@ Rectangle {
     Item
     {
         id: menu
+        z: parent.z+1
         anchors
         {
             centerIn: parent
@@ -180,6 +181,7 @@ Rectangle {
                 break
 
             }
+            menu.visible = false
 
         }
 

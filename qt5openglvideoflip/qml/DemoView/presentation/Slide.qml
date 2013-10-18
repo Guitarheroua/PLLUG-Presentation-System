@@ -104,6 +104,9 @@ Item {
     property color textColor: parent.textColor;
     property string fontFamily: parent.fontFamily;
 
+    property var selectedItem: null
+    property bool editSelectedItemProperties: false
+
     visible: false
 
     onCodeChanged: {

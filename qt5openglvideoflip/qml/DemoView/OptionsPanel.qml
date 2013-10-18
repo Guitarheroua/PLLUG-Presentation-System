@@ -7,25 +7,7 @@ Rectangle{
     height: parent.height
     color: "gray"
     opacity: 0.7
-    x: parent.width - 10
     z: parent.z + 2
-
-    //        TextField
-    //        {
-    //            property alias itemWidth: block1.width
-    //            text: itemWidth
-    //            width: 50
-    //            z:2
-    //            anchors
-    //            {
-    //                left: parent.left
-    //                leftMargin : 10
-    //            }
-    //            onTextChanged: {
-    //                block1.width = text
-    //            }
-    //        }
-
 
     Rectangle
     {
@@ -180,7 +162,7 @@ Rectangle{
         drag.axis: Drag.XAxis
         drag.target: optionsSlideRect
         drag.minimumX: presentation.width - optionsSlideRect.width
-        drag.maximumX: presentation.width - 10
+        drag.maximumX: presentation.width
         onClicked: {
             optionsSlideRect.state = (optionsSlideRect.state === "closed") ? "opened" : "closed"
         }

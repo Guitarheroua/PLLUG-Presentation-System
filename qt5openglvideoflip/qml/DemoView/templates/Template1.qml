@@ -3,6 +3,7 @@ import QtQuick.Controls 1.0
 import Qt.labs.presentation 1.0
 import "../"
 import "../items/"
+import "../presentation"
 
 Item
 {
@@ -79,33 +80,62 @@ Item
     {
         id: gridDelegate
         Item{
+            id: delegateItem
+            property bool selected
+            width: 410
+            height: 260
             Rectangle {
                 id: highlightRect
-                width: block.width + 10;
-                height: block.height + 10
+                //                width: block.width + 10;
+                //                height: block.height + 10
+                anchors.fill: parent
                 color: "lightsteelblue"
-                x: block.x - 5
-                y: block.y - 5
-                visible: false
+                //                x: block.x - 5
+                //                y: block.y - 5
+                visible: (gridView.currentIndex === index && selected)
+                onVisibleChanged:
+                {
+                    if (!visible)
+                        templateItem.parent.editSelectedItemProperties = false
+                }
+
                 //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
             }
 
             Block{
                 id: block
-                width: 400
-                height: 250
-
+                width: parent.width-10
+                height: parent.height-10
+                anchors.centerIn: parent
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        highlightRect.visible = !highlightRect.visible
                         gridView.currentIndex = index
-                        console.log("!!!!")
+                        delegateItem.selected = true
+                        templateItem.parent.selectedItem = gridView.currentItem
+                    }
+                    onPressAndHold:
+                    {
+                        gridView.currentIndex = index
+                        delegateItem.selected = true
+                        templateItem.parent.selectedItem = gridView.currentItem
+                        templateItem.parent.editSelectedItemProperties = !templateItem.parent.editSelectedItemProperties
                     }
                 }
             }
+            Component.onCompleted:
+            {
+                selected = false
+            }
+//            Behavior on x{SmoothedAnimation{velocity: 400}}
+//            Behavior on y{SmoothedAnimation{velocity: 400}}
+//            Behavior on width{SmoothedAnimation{velocity: 410}}
+//            Behavior on height{SmoothedAnimation{velocity: 260}}
         }
+
     }
+
+
 
 
 
@@ -115,16 +145,24 @@ Item
         x: templateItem.parent.contentX
         y: templateItem.parent.contentY
         width: templateItem.parent.contentWidth
-        height: templateItem.parent.contentHeight
+        height: templateItem.parent.contentHeight+10
         z: parent.z +1
+
+
         GridView{
             id: gridView
-            anchors.fill:  parent
-            anchors.centerIn: parent
+            anchors
+            {
+                fill:  parent
+                leftMargin: (parent.width - cellWidth*2)/2
+                rightMargin: (parent.width - cellWidth*2)/2
+            }
             model: 4
             delegate: gridDelegate
-            cellWidth: 420
-            cellHeight: 270
+            boundsBehavior: GridView.StopAtBounds
+            cellWidth: 410
+            cellHeight: 260
+            interactive: false
             //            highlight: highlightBar
             //            highlightFollowsCurrentItem: false
 

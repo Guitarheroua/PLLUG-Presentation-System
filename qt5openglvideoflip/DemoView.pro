@@ -50,12 +50,10 @@ OTHER_FILES += \
     qml/DemoView/EmptySlide.qml \
     qml/DemoView/StartScreen.qml \
     qml/DemoView/OldDemoMain.qml \
-    qml/DemoView/FeaturesPanel.qml \
     qml/DemoView/SlidesListPanel.qml \
     qml/DemoView/items/web.qml \
     qml/DemoView/items/video.qml \
     qml/DemoView/items/image.qml \
-    qml/DemoView/items/text.qml \
     qml/DemoView/templates/Template2.qml \
     qml/DemoView/templates/Template3.qml \
     qml/DemoView/BackgroundRectangle.qml \
@@ -72,7 +70,9 @@ OTHER_FILES += \
     qml/DemoView/presentation/Clock.qml \
     qml/DemoView/templates/Template1.qml \
     qml/DemoView/FireEffect.qml \
-    qml/DemoView/items/title.qml
+    qml/DemoView/items/title.qml \
+    qml/DemoView/items/textItem.qml \
+    qml/DemoView/ItemPropertiesPanel.qml
 
 RESOURCES += \
     resources.qrc

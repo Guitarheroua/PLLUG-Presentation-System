@@ -5,7 +5,7 @@ Rectangle {
     id: templatesPanelRect
     width: 120
     height: parent.height
-    color: "lightgray"
+    color: "#9AC0CD"
     opacity: 0.7
 
     property int templateHeight : 100

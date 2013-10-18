@@ -51,6 +51,11 @@ Presentation {
 
     textColor: "black"
 
+//    Slide{
+//        Template1{
+
+//        }
+//    }
 
     EmptySlide
     {
@@ -168,13 +173,30 @@ Presentation {
                         }
                     }
                 }
-                component.createObject(presentation.slides[currentSlide], {"objectName": "template"});
+                var template = component.createObject(presentation.slides[currentSlide], {"objectName": "template"});
             }
         }
     }
-    //    OptionsPanel{
-    //        id: optionsPanel
-    //    }
+        OptionsPanel{
+            id: optionsPanel
+        }
+
+    ItemPropertiesPanel
+    {
+        id: itemPropertiesPanel
+        currentItem: presentation.slides[currentSlide].selectedItem
+        state: (presentation.slides[currentSlide].editSelectedItemProperties) ? "opened" : "closed"
+        z: flipEffect.z + 1
+//        MouseArea
+//        {
+//            anchors.fill: parent
+//            onDoubleClicked:
+//            {
+//                presentation.slides[currentSlide].editSelectedItemProperties = false
+//            }
+//        }
+
+    }
 
 
     SlidesListPanel
@@ -193,6 +215,10 @@ Presentation {
         onClicked: {
             slidesListPanel.state = "closed"
             templatesListPanel.state = "closed"
+        }
+        onPressAndHold:
+        {
+            optionsPanel.state = (optionsPanel.state === "closed") ? "opened" : "closed"
         }
     }
 

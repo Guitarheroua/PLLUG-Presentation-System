@@ -11,11 +11,11 @@ Rectangle
     property string captionAlign
     property string textAlign
 
-    property real widthCoeff
-    property real heightCoeff
+    property real widthCoeff : 1
+    property real heightCoeff : 1
 
-    property real xCoeff
-    property real yCoeff
+    property real xCoeff : 1
+    property real yCoeff : 1
 
     onAspectChanged:
     {
@@ -63,7 +63,10 @@ Rectangle
 
     onParentChanged:
     {
-//        console.log("!!!!!", parent.width)
+        widthCoeff = width/parent.width
+        heightCoeff = height/parent.height
+        xCoeff = x/parent.width
+        yCoeff = y/parent.height
     }
 
     states:[
@@ -94,34 +97,34 @@ Rectangle
     ]
     state: "native"
 
-    MouseArea
-    {
-        anchors.fill: parent
-        hoverEnabled: true
-        onEntered:
-        {
-            if ( item.state != "full")
-            {
-                titleRect.opacity = 0.7
-            }
-        }
-        onExited:
-        {
-            titleRect.opacity = 0.0
-        }
-        onDoubleClicked:
-        {
-            if ( item.state === "native")
-            {
-                item.state = "full"
-                titleRect.opacity = 0.0
-            }
-            else
-            {
-                item.state = "native"
-            }
-        }
-    }
+//    MouseArea
+//    {
+//        anchors.fill: parent
+//        hoverEnabled: true
+//        onEntered:
+//        {
+//            if ( item.state != "full")
+//            {
+//                titleRect.opacity = 0.7
+//            }
+//        }
+//        onExited:
+//        {
+//            titleRect.opacity = 0.0
+//        }
+//        onDoubleClicked:
+//        {
+//            if ( item.state === "native")
+//            {
+//                item.state = "full"
+//                titleRect.opacity = 0.0
+//            }
+//            else
+//            {
+//                item.state = "native"
+//            }
+//        }
+//    }
 
     Image
     {
@@ -153,6 +156,7 @@ Rectangle
             PropertyAnimation{}
         }
     }
+
 }
 
 
