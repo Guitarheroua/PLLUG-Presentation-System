@@ -13,5 +13,9 @@
         <file alias="flipPage.vsh">resources/shaders/flipPage.vsh</file>
         <file alias="fire.fsh">resources/shaders/fire.fsh</file>
         <file alias="fire.vsh">resources/shaders/fire.vsh</file>
+        <file alias="starSky.fsh">resources/shaders/starSky.fsh</file>
+        <file alias="starSky.vsh">resources/shaders/starSky.vsh</file>
+        <file alias="underwater.fsh">resources/shaders/underwater.fsh</file>
+        <file alias="underwater.vsh">resources/shaders/underwater.vsh</file>
     </qresource>
 </RCC>

@@ -3,6 +3,7 @@ import QtQuick.Controls 1.0
 import Qt.labs.presentation 1.0
 import "presentation"
 import "templates"
+import "panels"
 
 
 Presentation {
@@ -15,7 +16,8 @@ Presentation {
 
         }
     }
-    effect: flipEffect
+    textColor: "black"
+//    effect: flipEffect
     onCurrentSlideChanged:
     {
         slidesListPanel.selectSlide(currentSlide)
@@ -42,14 +44,22 @@ Presentation {
         presentation.removeSlide(index)
     }
 
-    Loader {
-        id : backgroundLoader
-        anchors.fill: parent
+    function addTransition(source)
+    {
+        var transitionComponent = Qt.createComponent(source);
+        var effect = transitionComponent.createObject(presentation, {"currentSlide": presentation.currentSlide,
+                                                                  "screenWidth": presentation.width,
+                                                                  "screenHeight" : presentation.height });
+        presentation.effect = effect
     }
 
-    //    BackgroundSwirls {}
+//    Loader {
+//        id : backgroundLoader
+//        anchors.fill: parent
+//    }
 
-    textColor: "black"
+
+
 
 //    Slide{
 //        Template1{
@@ -79,6 +89,7 @@ Presentation {
         title: "anim slide"
 
 
+
     }
 
     Slide {
@@ -95,7 +106,6 @@ Presentation {
             " Emitter",
             " ImageParticle"
         ]
-
 
     }
     Slide {
@@ -136,17 +146,17 @@ Presentation {
         Clock{}
     }
 
-    PageFlipShaderEffect
-    {
-        id: flipEffect
-        currentSlide: presentation.currentSlide
-        onCurrentSlideChanged:
-        {
-            presentation.currentSlide = currentSlide
-        }
-        screenWidth: presentation.width
-        screenHeight: presentation.height
-    }
+//    PageFlipShaderEffect
+//    {
+//        id: flipEffect
+//        currentSlide: presentation.currentSlide
+//        onCurrentSlideChanged:
+//        {
+//            presentation.currentSlide = currentSlide
+//        }
+//        screenWidth: presentation.width
+//        screenHeight: presentation.height
+//    }
     TemplatesListPanel
     {
         id: templatesListPanel
@@ -186,7 +196,7 @@ Presentation {
         id: itemPropertiesPanel
         currentItem: presentation.slides[currentSlide].selectedItem
         state: (presentation.slides[currentSlide].editSelectedItemProperties) ? "opened" : "closed"
-        z: flipEffect.z + 1
+        z: 3
 //        MouseArea
 //        {
 //            anchors.fill: parent
@@ -203,7 +213,7 @@ Presentation {
     {
         id: slidesListPanel
         slides: presentation.slides
-        z: flipEffect.z + 1
+        z: 3
         onSlideSelected:
         {
             presentation.goToSlide(index)

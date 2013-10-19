@@ -47,7 +47,11 @@ Item {
     id: root
 
     property variant slides: []
-    property int currentSlide;
+    property int currentSlide : (effect) ? effect.currentSlide : 0
+    onCurrentSlideChanged:
+    {
+        console.log("slide", currentSlide)
+    }
 
     property bool showNotes: false;
 

@@ -12,11 +12,11 @@ Rectangle
     property string captionAlign
     property string textAlign
 
-    property real widthCoeff
-    property real heightCoeff
+    property real widthCoeff : 1
+    property real heightCoeff : 1
 
-    property real xCoeff
-    property real yCoeff
+    property real xCoeff : 1
+    property real yCoeff : 1
 
     property int titleY
 
@@ -54,6 +54,14 @@ Rectangle
             fullscreenImage.anchors.left = titleRect.left
             backImage.anchors.left = fullscreenImage.right
         }
+    }
+
+    onParentChanged:
+    {
+        widthCoeff = width/parent.width
+        heightCoeff = height/parent.height
+        xCoeff = x/parent.width
+        yCoeff = y/parent.height
     }
 
 

@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import "templates"
+import "../templates"
 
 Rectangle {
     id: templatesPanelRect

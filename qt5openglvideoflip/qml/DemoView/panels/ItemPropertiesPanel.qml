@@ -6,15 +6,15 @@ Rectangle
     property var currentItem
     width: 200
     height: 200
-    color: "#363636"
+    color: "lightsteelblue"
     visible: true
     Item
     {
         anchors
         {
             fill: parent
-            topMargin: 10
-            leftMargin: 10
+            topMargin: 20
+            leftMargin: 20
         }
 
         Column{

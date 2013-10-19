@@ -79,7 +79,6 @@ Item {
     property real contentHeight: parent.height * 0.7
 
 
-
     // Define the slide to be the "content area"
     //    x: parent.width * 0.05
     //    y: parent.height * 0.2

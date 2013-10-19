@@ -111,7 +111,7 @@ Item
                     anchors.fill: parent
                     onClicked: {
                         gridView.currentIndex = index
-                        delegateItem.selected = true
+                        delegateItem.selected = !delegateItem.selected
                         templateItem.parent.selectedItem = gridView.currentItem
                     }
                     onPressAndHold:
@@ -139,9 +139,9 @@ Item
 
 
 
-    Rectangle
+    Item
     {
-        id: contentRect
+        id: contentItem
         x: templateItem.parent.contentX
         y: templateItem.parent.contentY
         width: templateItem.parent.contentWidth

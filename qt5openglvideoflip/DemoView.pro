@@ -45,7 +45,6 @@ OTHER_FILES += \
     qml/DemoView/Block.qml \
     qml/DemoView/TestPresentation.qml \
     qml/DemoView/PageFlipShaderEffect.qml \
-    qml/DemoView/Swirl.qml \
     qml/DemoView/BackgroundSwirls.qml \
     qml/DemoView/EmptySlide.qml \
     qml/DemoView/StartScreen.qml \
@@ -71,8 +70,17 @@ OTHER_FILES += \
     qml/DemoView/templates/Template1.qml \
     qml/DemoView/FireEffect.qml \
     qml/DemoView/items/title.qml \
-    qml/DemoView/items/textItem.qml \
-    qml/DemoView/ItemPropertiesPanel.qml
+    qml/DemoView/ItemPropertiesPanel.qml \
+    qml/DemoView/items/editedText.qml \
+    qml/DemoView/panels/TemplatesListPanel.qml \
+    qml/DemoView/panels/SlidesListPanel.qml \
+    qml/DemoView/panels/OptionsPanel.qml \
+    qml/DemoView/panels/ItemPropertiesPanel.qml \
+    qml/DemoView/background/FireEffect.qml \
+    qml/DemoView/background/BackgroundSwirls.qml \
+    qml/DemoView/background/StarSkyEffect.qml \
+    qml/DemoView/background/UnderwaterEffect.qml \
+    qml/DemoView/background/BackgroundSwirls2.qml
 
 RESOURCES += \
     resources.qrc
