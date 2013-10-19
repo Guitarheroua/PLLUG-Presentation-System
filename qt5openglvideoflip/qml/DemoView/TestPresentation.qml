@@ -17,7 +17,7 @@ Presentation {
         }
     }
     textColor: "black"
-//    effect: flipEffect
+    //    effect: flipEffect
     onCurrentSlideChanged:
     {
         slidesListPanel.selectSlide(currentSlide)
@@ -34,8 +34,7 @@ Presentation {
             console.log("Error creating object");
         }
         presentation.newSlide(newSlide,presentation.currentSlide+1)
-        //        optionsPanel.state = "closed"
-        templatesListPanel.state = "opened"
+        templatesListPanel.state = "closed"
 
     }
 
@@ -44,28 +43,53 @@ Presentation {
         presentation.removeSlide(index)
     }
 
-    function addTransition(source)
+    function removeTransition()
     {
-        var transitionComponent = Qt.createComponent(source);
-        var effect = transitionComponent.createObject(presentation, {"currentSlide": presentation.currentSlide,
-                                                                  "screenWidth": presentation.width,
-                                                                  "screenHeight" : presentation.height });
-        presentation.effect = effect
+        for (var i=0; i<presentation.children.length; ++i)
+        {
+            var transitionToRemove;
+            if (presentation.children[i].objectName === "transition")
+            {
+                transitionToRemove = presentation.children[i]
+                if (transitionToRemove)
+                {
+                    transitionToRemove.destroy();
+                    presentation.effect = null;
+                    break;
+                }
+            }
+        }
+
     }
 
-//    Loader {
-//        id : backgroundLoader
-//        anchors.fill: parent
-//    }
+    function addTransition(source)
+    {
+        if (source != "")
+        {
+            var transitionComponent = Qt.createComponent(source);
+            console.log("\ncurr slide",presentation.currentSlide )
+            var effect = transitionComponent.createObject(presentation, {"objectName": "transition",
+                                                              "currentSlide": presentation.currentSlide,
+                                                              "screenWidth": presentation.width,
+                                                              "screenHeight" : presentation.height });
+            presentation.effect = effect
+            console.log("\ncurr flip slide",presentation.effect.currentSlide, effect.currentSlide )
+        }
+    }
+
+    //    Loader {
+    //        id : backgroundLoader
+    //        anchors.fill: parent
+    //    }
 
 
 
 
-//    Slide{
-//        Template1{
+    //    Slide{
+    //        Template1{
 
-//        }
-//    }
+    //        }
+    //    }
 
     EmptySlide
     {
@@ -146,17 +170,17 @@ Presentation {
         Clock{}
     }
 
-//    PageFlipShaderEffect
-//    {
-//        id: flipEffect
-//        currentSlide: presentation.currentSlide
-//        onCurrentSlideChanged:
-//        {
-//            presentation.currentSlide = currentSlide
-//        }
-//        screenWidth: presentation.width
-//        screenHeight: presentation.height
-//    }
+    //    PageFlipShaderEffect
+    //    {
+    //        id: flipEffect
+    //        currentSlide: presentation.currentSlide
+    //        onCurrentSlideChanged:
+    //        {
+    //            presentation.currentSlide = currentSlide
+    //        }
+    //        screenWidth: presentation.width
+    //        screenHeight: presentation.height
+    //    }
     TemplatesListPanel
     {
         id: templatesListPanel
@@ -169,7 +193,6 @@ Presentation {
         {
             if (source != "")
             {
-                var component = Qt.createComponent(source);
                 for (var i=0; i<presentation.slides[currentSlide].children.length; ++i)
                 {
                     var templateToRemove;
@@ -183,13 +206,14 @@ Presentation {
                         }
                     }
                 }
+                var component = Qt.createComponent(source);
                 var template = component.createObject(presentation.slides[currentSlide], {"objectName": "template"});
             }
         }
     }
-        OptionsPanel{
-            id: optionsPanel
-        }
+    OptionsPanel{
+        id: optionsPanel
+    }
 
     ItemPropertiesPanel
     {
@@ -197,14 +221,14 @@ Presentation {
         currentItem: presentation.slides[currentSlide].selectedItem
         state: (presentation.slides[currentSlide].editSelectedItemProperties) ? "opened" : "closed"
         z: 3
-//        MouseArea
-//        {
-//            anchors.fill: parent
-//            onDoubleClicked:
-//            {
-//                presentation.slides[currentSlide].editSelectedItemProperties = false
-//            }
-//        }
+        //        MouseArea
+        //        {
+        //            anchors.fill: parent
+        //            onDoubleClicked:
+        //            {
+        //                presentation.slides[currentSlide].editSelectedItemProperties = false
+        //            }
+        //        }
 
     }
 

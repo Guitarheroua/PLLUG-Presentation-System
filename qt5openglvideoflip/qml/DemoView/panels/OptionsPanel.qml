@@ -62,6 +62,7 @@ Rectangle{
             height: delegateItemText.height+lineRect.height
             color: "transparent"
             property int ind: model.index
+            property int subItemHeight: 25
             Text {
                 id: delegateItemText
                 text: model.name
@@ -75,8 +76,8 @@ Rectangle{
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    subItem.visible = !subItem.visible
-                    rect.height = (subItem.visible) ? rect.height + 80 : delegateItemText.height+lineRect.height
+                    subItemsRect.visible = !subItemsRect.visible
+                    rect.height = (subItemsRect.visible) ? rect.height + optionsModel.get(rect.ind).contents.count*subItemHeight + 10 : delegateItemText.height+lineRect.height
                 }
             }
 
@@ -93,7 +94,7 @@ Rectangle{
                 color: "steelblue"
             }
             Item{
-                id: subItem
+                id: subItemsRect
                 anchors
                 {
                     top: lineRect.bottom
@@ -110,9 +111,12 @@ Rectangle{
                         {
                             id: rect1
                             width: rect.width
-                            height: 25
+                            height: subItemHeight
                             color: "grey"
-                            Text {
+                            property color unselectedItemColor: "grey"
+                            property bool selected: false
+                            Text
+                            {
                                 text: model.name
                                 anchors.centerIn: parent
                                 font.pointSize: 10
@@ -122,14 +126,24 @@ Rectangle{
                                 anchors.fill: parent
                                 onClicked:
                                 {
+                                    rect1.selected = !rect1.selected
+                                    rect1.color = (rect1.selected ) ? Qt.darker(rect1.color, 1.5) : unselectedItemColor
                                     if (optionsModel.get(rect.ind).name === "Background")
                                     {
                                         addBackground(model.source)
                                     }
                                     else if (optionsModel.get(rect.ind).name === "Transitions")
                                     {
-                                        presentation.addTransition(model.source)
+                                        if(rect1.selected)
+                                        {
+                                            presentation.addTransition(model.source)
+                                        }
+                                        else
+                                        {
+                                            presentation.removeTransition()
+                                        }
                                     }
+
                                     optionsPanelRect.state = "closed"
                                 }
                                 //                                onPressed:
