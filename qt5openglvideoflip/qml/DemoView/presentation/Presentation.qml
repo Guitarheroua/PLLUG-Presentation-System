@@ -47,12 +47,7 @@ Item {
     id: root
 
     property variant slides: []
-    property int currentSlide : (effect) ? effect.currentSlide : currentSlide
-    onCurrentSlideChanged:
-    {
-        console.log("slide.....", currentSlide)
-    }
-
+    property int currentSlide
     property bool showNotes: false;
 
     property color titleColor: textColor;
@@ -60,6 +55,10 @@ Item {
     property string fontFamily: "Helvetica"
     property string codeFontFamily: "Courier New"
     property QtObject effect : null
+    onEffectChanged:
+    {
+        console.log("effect", effect, effect.currentSlide)
+    }
 
 
     // Private API

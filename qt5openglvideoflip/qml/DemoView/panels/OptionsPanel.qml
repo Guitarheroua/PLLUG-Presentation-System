@@ -9,16 +9,6 @@ Rectangle{
     opacity: 0.7
     z: parent.z + 2
 
-    function addBackground(source)
-    {
-        for(var i=0; i<presentation.slides.length; ++i)
-        {
-            var background = Qt.createComponent(source);
-            background.createObject(presentation.slides[i], {"z": "-1"});
-        }
-    }
-
-
     ListModel
     {
         id: optionsModel
@@ -28,15 +18,15 @@ Rectangle{
             contents: [
                 ListElement {
                     name: "Swirls"
-                    source: "../background/BackgroundSwirls.qml"
+                    source: "background/BackgroundSwirls.qml"
                 },
                 ListElement {
                     name: "Fire"
-                    source: "../background/FireEffect.qml"
+                    source: "background/FireEffect.qml"
                 },
                 ListElement {
                     name: "Underwater"
-                    source: "../background/UnderwaterEffect.qml"
+                    source: "background/UnderwaterEffect.qml"
                 }
             ]
         }
@@ -130,7 +120,14 @@ Rectangle{
                                     rect1.color = (rect1.selected ) ? Qt.darker(rect1.color, 1.5) : unselectedItemColor
                                     if (optionsModel.get(rect.ind).name === "Background")
                                     {
-                                        addBackground(model.source)
+                                        if(rect1.selected)
+                                        {
+                                            presentation.addBackground(model.source)
+                                        }
+                                        else
+                                        {
+                                            presentation.removeBackground(model.source)
+                                        }
                                     }
                                     else if (optionsModel.get(rect.ind).name === "Transitions")
                                     {
@@ -350,6 +347,8 @@ Rectangle{
         State {
             name: "opened"
             PropertyChanges { target: optionsPanelRect; x: optionsSlideMouseArea.drag.minimumX}
+            PropertyChanges { target: layoutsListPanel; state: "closed"}
+            PropertyChanges { target: slidesListPanel; state: "closed"}
         },
         State {
             name: "closed"

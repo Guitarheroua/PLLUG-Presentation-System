@@ -2,7 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 1.0
 import Qt.labs.presentation 1.0
 import "presentation"
-import "templates"
+import "layouts"
 import "panels"
 
 
@@ -24,9 +24,9 @@ Presentation {
     }
 
 
-    function addNewSlide(template)
+    function addNewSlide(layout)
     {
-        var source = (template === "") ? "EmptySlide.qml" : template
+        var source = (layout === "") ? "EmptySlide.qml" : layout
         var component = Qt.createComponent(source);
         var newSlide = component.createObject(presentation/*, {"title": "New Slide"}*/);
         if (newSlide === null)
@@ -34,13 +34,62 @@ Presentation {
             console.log("Error creating object");
         }
         presentation.newSlide(newSlide,presentation.currentSlide+1)
-        templatesListPanel.state = "closed"
+        layoutsListPanel.state = "opened"
 
     }
 
     function removeSlideAt(index)
     {
         presentation.removeSlide(index)
+    }
+
+    function addBackground(source)
+    {
+        if (source != "")
+        {
+            for(var i=0; i<presentation.slides.length; ++i)
+            {
+                var background = Qt.createComponent(source);
+                background.createObject(presentation.slides[i], {"objectName": source, z: "-1"});
+            }
+        }
+    }
+
+    function removeBackground(source)
+    {
+        if (source != "")
+        {
+            for (var i=0; i<presentation.slides.length; ++i)
+            {
+                for (var j=0; j<presentation.slides[i].children.length; ++j)
+                {
+                    var effectToRemove;
+                    if (presentation.slides[i].children[j].objectName === source)
+                    {
+                        effectToRemove = presentation.slides[i].children[j]
+                        if (effectToRemove)
+                        {
+                            effectToRemove.destroy();
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    function addTransition(source)
+    {
+        if (source != "")
+        {
+            var transitionComponent = Qt.createComponent(source);
+            var effect = transitionComponent.createObject(presentation, {"objectName": "transition",
+                                                              "currentSlide": presentation.currentSlide,
+                                                              "screenWidth": presentation.width,
+                                                              "screenHeight" : presentation.height });
+            presentation.effect = effect
+        }
     }
 
     function removeTransition()
@@ -61,22 +110,6 @@ Presentation {
         }
 
     }
-
-    function addTransition(source)
-    {
-        if (source != "")
-        {
-            var transitionComponent = Qt.createComponent(source);
-            console.log("\ncurr slide",presentation.currentSlide )
-            var effect = transitionComponent.createObject(presentation, {"objectName": "transition",
-                                                              "currentSlide": presentation.currentSlide,
-                                                              "screenWidth": presentation.width,
-                                                              "screenHeight" : presentation.height });
-            presentation.effect = effect
-            console.log("\ncurr flip slide",presentation.effect.currentSlide, effect.currentSlide )
-        }
-    }
-
     //    Loader {
     //        id : backgroundLoader
     //        anchors.fill: parent
@@ -181,33 +214,33 @@ Presentation {
     //        screenWidth: presentation.width
     //        screenHeight: presentation.height
     //    }
-    TemplatesListPanel
+    LayoutsListPanel
     {
-        id: templatesListPanel
+        id: layoutsListPanel
         width: 130
         height: presentation.height
         color: "gray"
         x: presentation.width - width
         z: presentation.z + 2
-        onTemplateSelected:
+        onLayoutSelected:
         {
             if (source != "")
             {
                 for (var i=0; i<presentation.slides[currentSlide].children.length; ++i)
                 {
-                    var templateToRemove;
-                    if (presentation.slides[currentSlide].children[i].objectName === "template")
+                    var layoutToRemove;
+                    if (presentation.slides[currentSlide].children[i].objectName === "layout")
                     {
-                        templateToRemove = presentation.slides[currentSlide].children[i]
-                        if (templateToRemove)
+                        layoutToRemove = presentation.slides[currentSlide].children[i]
+                        if (layoutToRemove)
                         {
-                            templateToRemove.destroy();
+                            layoutToRemove.destroy();
                             break;
                         }
                     }
                 }
                 var component = Qt.createComponent(source);
-                var template = component.createObject(presentation.slides[currentSlide], {"objectName": "template"});
+                component.createObject(presentation.slides[currentSlide], {"objectName": "layout"});
             }
         }
     }
@@ -248,7 +281,7 @@ Presentation {
         anchors.fill: parent
         onClicked: {
             slidesListPanel.state = "closed"
-            templatesListPanel.state = "closed"
+            layoutsListPanel.state = "closed"
         }
         onPressAndHold:
         {

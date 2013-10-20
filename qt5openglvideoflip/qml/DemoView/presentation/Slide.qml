@@ -118,6 +118,9 @@ Item {
                              });
         }
     }
+//    onParentChanged: {
+//        console.log(parent,topTitleMargin, fontSize * 1.5,height * 0.05)
+//    }
 
     Text {
         id: titleText
@@ -125,11 +128,12 @@ Item {
         text: title
         anchors.horizontalCenter:  parent.horizontalCenter
         anchors.top: parent.top
-        anchors.topMargin: topTitleMargin
+        anchors.topMargin: parent.topTitleMargin
         font.bold: true;
         font.family: slide.fontFamily
         color: slide.titleColor
         horizontalAlignment: Text.Center
+
     }
     Item
     {

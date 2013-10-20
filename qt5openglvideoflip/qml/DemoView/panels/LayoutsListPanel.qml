@@ -1,23 +1,22 @@
 import QtQuick 2.0
-import "../templates"
 
 Rectangle {
-    id: templatesPanelRect
+    id: layoutsPanelRect
     width: 120
     height: parent.height
     color: "#9AC0CD"
     opacity: 0.7
 
-    property int templateHeight : 100
+    property int layoutHeight : 100
 
-    signal templateSelected(var source)
+    signal layoutSelected(var source)
 
-    function selectTemplate(index)
+    function selectLayout(index)
     {
-        var position = index*(templateHeight + templatesListView.spacing)
-        if ( position > templatesListView.height/2 - templateHeight/2)
-            templatesListView.contentY = position - (templatesListView.height/2 - templateHeight/2)
-        templatesListView.currentIndex = index
+        var position = index*(layoutHeight + layoutsListView.spacing)
+        if ( position > layoutsListView.height/2 - layoutHeight/2)
+            layoutsListView.contentY = position - (layoutsListView.height/2 - layoutHeight/2)
+        layoutsListView.currentIndex = index
     }
 
     Component
@@ -25,12 +24,12 @@ Rectangle {
         id: delegate
         Rectangle{
             width: listViewItem.width
-            height: templateHeight
+            height: layoutHeight
             color: "white"
             Text{
                 id: text
                 anchors.centerIn: parent
-                text: (model.index === 0) ? "Empty template": "Template " + (model.index)
+                text: (model.index === 0) ? "Empty template": "Layout " + (model.index)
             }
 
             MouseArea
@@ -39,9 +38,9 @@ Rectangle {
                 hoverEnabled: true
 
                 onClicked: {
-                    selectTemplate(model.index)
-                    var source = (model.index === 0) ? "" : "templates/Template"+ (model.index)+".qml"
-                    templateSelected(source)
+                    selectLayout(model.index)
+                    var source = (model.index === 0) ? "" : "layouts/Layout"+ (model.index)+".qml"
+                    layoutSelected(source)
                 }
             }
 
@@ -53,11 +52,11 @@ Rectangle {
     Component {
         id: highlightBar
         Rectangle {
-            width: templatesListView.currentItem.width + 10;
-            height: templatesListView.currentItem.height + 10
+            width: layoutsListView.currentItem.width + 10;
+            height: layoutsListView.currentItem.height + 10
             color: "#FFFF88"
-            x: templatesListView.currentItem.x - 5
-            y: templatesListView.currentItem.y - 5
+            x: layoutsListView.currentItem.x - 5
+            y: layoutsListView.currentItem.y - 5
 //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
 
         }
@@ -77,7 +76,7 @@ Rectangle {
 
         ListView
         {
-            id: templatesListView
+            id: layoutsListView
             anchors.fill: parent
             focus: true
             model: 8
@@ -101,14 +100,15 @@ Rectangle {
     }
     MouseArea
     {
-        id: templatesPanelMouseArea
+        id: layoutsPanelMouseArea
         anchors.fill: parent
         drag.axis: Drag.XAxis
-        drag.target: templatesPanelRect
-        drag.minimumX: presentation.width - templatesPanelRect.width
+        drag.target: layoutsPanelRect
+        drag.minimumX: presentation.width - layoutsPanelRect.width
         drag.maximumX: presentation.width - 10
         onClicked: {
-            templatesPanelRect.state = (templatesPanelRect.state === "closed") ? "opened" : "closed"
+            layoutsPanelRect.state = (layoutsPanelRect.state === "closed") ? "opened" : "closed"
+            slidesListPanel.state = "closed"
         }
 
     }
@@ -116,11 +116,13 @@ Rectangle {
     states:[
         State {
             name: "opened"
-            PropertyChanges { target: templatesPanelRect; x: templatesPanelMouseArea.drag.minimumX}
+            PropertyChanges { target: layoutsPanelRect; x: layoutsPanelMouseArea.drag.minimumX}
+            PropertyChanges { target: slidesListPanel; state: "closed"}
+            PropertyChanges { target: optionsPanel; state: "closed"}
         },
         State {
             name: "closed"
-            PropertyChanges { target: templatesPanelRect; x: templatesPanelMouseArea.drag.maximumX }
+            PropertyChanges { target: layoutsPanelRect; x: layoutsPanelMouseArea.drag.maximumX }
         }]
 
     Behavior on x { SmoothedAnimation { velocity: 400 } }

@@ -53,13 +53,7 @@ OTHER_FILES += \
     qml/DemoView/items/web.qml \
     qml/DemoView/items/video.qml \
     qml/DemoView/items/image.qml \
-    qml/DemoView/templates/Template2.qml \
-    qml/DemoView/templates/Template3.qml \
     qml/DemoView/BackgroundRectangle.qml \
-    qml/DemoView/templates/Template4.qml \
-    qml/DemoView/templates/Template5.qml \
-    qml/DemoView/templates/Template6.qml \
-    qml/DemoView/templates/Template7.qml \
     qml/DemoView/TemplatesListPanel.qml \
     qml/DemoView/OptionsPanel.qml \
     qml/DemoView/presentation/SlideCounter.qml \
@@ -67,12 +61,9 @@ OTHER_FILES += \
     qml/DemoView/presentation/Presentation.qml \
     qml/DemoView/presentation/CodeSlide.qml \
     qml/DemoView/presentation/Clock.qml \
-    qml/DemoView/templates/Template1.qml \
     qml/DemoView/FireEffect.qml \
-    qml/DemoView/items/title.qml \
     qml/DemoView/ItemPropertiesPanel.qml \
     qml/DemoView/items/editedText.qml \
-    qml/DemoView/panels/TemplatesListPanel.qml \
     qml/DemoView/panels/SlidesListPanel.qml \
     qml/DemoView/panels/OptionsPanel.qml \
     qml/DemoView/panels/ItemPropertiesPanel.qml \
@@ -80,7 +71,16 @@ OTHER_FILES += \
     qml/DemoView/background/BackgroundSwirls.qml \
     qml/DemoView/background/StarSkyEffect.qml \
     qml/DemoView/background/UnderwaterEffect.qml \
-    qml/DemoView/background/BackgroundSwirls2.qml
+    qml/DemoView/background/BackgroundSwirls2.qml \
+    qml/DemoView/panels/LayoutsListPanel.qml \
+    qml/DemoView/layouts/Layout1.qml \
+    qml/DemoView/layouts/Layout2.qml \
+    qml/DemoView/layouts/Layout3.qml \
+    qml/DemoView/layouts/Layout4.qml \
+    qml/DemoView/layouts/Layout5.qml \
+    qml/DemoView/layouts/Layout6.qml \
+    qml/DemoView/layouts/Layout7.qml \
+    qml/DemoView/items/titleItem.qml
 
 RESOURCES += \
     resources.qrc

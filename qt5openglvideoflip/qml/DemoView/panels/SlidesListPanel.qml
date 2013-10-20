@@ -4,8 +4,8 @@ Rectangle {
     id: mainRect
     width: parent.width
     height: 120
-    color: "gray"
-    opacity: 0.8
+    color: "black"
+    opacity: 0.7
 
     property variant slides: []
 
@@ -119,7 +119,7 @@ Rectangle {
         Rectangle {
             width: slidesListView.currentItem.width + 10;
             height: slidesListView.currentItem.height + 10
-            color: "#FFFF88"
+            color: "steelblue"
             x: slidesListView.currentItem.x - 5
             y: slidesListView.currentItem.y - 5
             //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
@@ -216,6 +216,8 @@ Rectangle {
         State {
             name: "opened"
             PropertyChanges { target: mainRect; y: mouseArea.drag.minimumY}
+            PropertyChanges { target: layoutsListPanel; state: "closed"}
+            PropertyChanges { target: optionsPanel; state: "closed"}
         },
         State {
             name: "closed"

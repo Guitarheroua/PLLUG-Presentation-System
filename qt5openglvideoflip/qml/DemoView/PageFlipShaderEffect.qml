@@ -10,22 +10,20 @@ ShaderEffect
     vertexShader: helper.readShader("flipPage.vsh")
     fragmentShader: helper.readShader("flipPage.fsh")
     property int currentSlide
+    onCurrentSlideChanged:
+    {
+        parent.currentSlide = currentSlide
+    }
 
     property variant source: ShaderEffectSource{
         id: sourceItem1
         sourceItem: ((effect.parent.slides != undefined) && effect.currentSlide < effect.parent.slides.length) ? effect.parent.slides[effect.currentSlide] : null
         hideSource: true
-        onSourceItemChanged: {
-            console.log("source1", sourceItem)
-        }
     }
     property variant source1: ShaderEffectSource{
         id: sourceItem2
         sourceItem: ((effect.parent.slides != undefined) && effect.currentSlide+1 < effect.parent.slides.length) ? effect.parent.slides[effect.currentSlide+1] : null
         hideSource: true
-        onSourceItemChanged: {
-            console.log("source2", sourceItem)
-        }
     }
     onParentChanged:
     {
