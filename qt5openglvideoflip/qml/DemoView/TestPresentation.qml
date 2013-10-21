@@ -10,12 +10,6 @@ Presentation {
     id: presentation
     width: screenPixelWidth
     height: screenPixelHeight
-    MouseArea{
-        anchors.fill:parent
-        onClicked: {
-
-        }
-    }
     textColor: "black"
     //    effect: flipEffect
     onCurrentSlideChanged:
@@ -279,11 +273,9 @@ Presentation {
         onClicked: {
             slidesListPanel.state = "closed"
             layoutsListPanel.state = "closed"
+            optionsPanel.state = "Closed"
         }
-        onPressAndHold:
-        {
-            optionsPanel.state = (optionsPanel.state === "closed") ? "opened" : "closed"
-        }
+
     }
 
 }

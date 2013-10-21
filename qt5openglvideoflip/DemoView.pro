@@ -71,7 +71,6 @@ OTHER_FILES += \
     qml/DemoView/background/BackgroundSwirls.qml \
     qml/DemoView/background/StarSkyEffect.qml \
     qml/DemoView/background/UnderwaterEffect.qml \
-    qml/DemoView/background/BackgroundSwirls2.qml \
     qml/DemoView/panels/LayoutsListPanel.qml \
     qml/DemoView/layouts/Layout1.qml \
     qml/DemoView/layouts/Layout2.qml \

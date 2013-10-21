@@ -125,8 +125,8 @@ Rectangle {
         State {
             name: "opened"
             PropertyChanges { target: layoutsPanelRect; x: layoutsPanelMouseArea.drag.minimumX}
-            PropertyChanges { target: slidesListPanel; state: "closed"}
-            PropertyChanges { target: optionsPanel; state: "closed"}
+//            PropertyChanges { target: slidesListPanel; state: "closed"}
+//            PropertyChanges { target: optionsPanel; state: "closed"}
         },
         State {
             name: "closed"

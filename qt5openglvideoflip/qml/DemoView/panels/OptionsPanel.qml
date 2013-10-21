@@ -11,11 +11,10 @@ Rectangle{
     property var currentItem : presentation.slides[currentSlide].selectedItem
     property bool slideProperties: false
     property bool itemProperties: false
-//    state: (presentation.slides[currentSlide].editSelectedItemProperties) ? "opened" : "closed"
 
     ListModel
     {
-        id: optionsModel
+        id: slideOptionsModel
 
         ListElement {
             name: "Background"
@@ -72,7 +71,7 @@ Rectangle{
                 anchors.fill: parent
                 onClicked: {
                     subItemsRect.visible = !subItemsRect.visible
-                    rect.height = (subItemsRect.visible) ? rect.height + optionsModel.get(rect.ind).contents.count*subItemHeight + 10 : delegateItemText.height+lineRect.height
+                    rect.height = (subItemsRect.visible) ? rect.height + slideOptionsModel.get(rect.ind).contents.count*subItemHeight + 10 : delegateItemText.height+lineRect.height
                 }
             }
 
@@ -101,7 +100,7 @@ Rectangle{
                     spacing: 2
                     Repeater
                     {
-                        model: optionsModel.get(rect.ind).contents
+                        model: slideOptionsModel.get(rect.ind).contents
                         Rectangle
                         {
                             id: rect1
@@ -123,7 +122,7 @@ Rectangle{
                                 {
                                     rect1.selected = !rect1.selected
                                     rect1.color = (rect1.selected ) ? Qt.darker(rect1.color, 1.5) : unselectedItemColor
-                                    if (optionsModel.get(rect.ind).name === "Background")
+                                    if (slideOptionsModel.get(rect.ind).name === "Background")
                                     {
                                         if(rect1.selected)
                                         {
@@ -134,7 +133,7 @@ Rectangle{
                                             presentation.removeBackground(model.source)
                                         }
                                     }
-                                    else if (optionsModel.get(rect.ind).name === "Transitions")
+                                    else if (slideOptionsModel.get(rect.ind).name === "Transitions")
                                     {
                                         if(rect1.selected)
                                         {
@@ -146,7 +145,7 @@ Rectangle{
                                         }
                                     }
 
-                                    optionsPanelRect.state = "closed"
+                                    optionsPanelRect.state = "Closed"
                                 }
                                 //                                onPressed:
                                 //                                {
@@ -180,7 +179,7 @@ Rectangle{
         ListView{
             id: optionsListView
             anchors.fill: parent
-            model: optionsModel
+            model: slideOptionsModel
             delegate: optionsListViewDelegate
             //            z: parent.z+1
 
@@ -336,6 +335,42 @@ Rectangle{
     //    }
 
 
+//    ListModel
+//    {
+//        id: itemPropertiesModel
+
+//        ListElement {
+//            name: "Size"
+//            contents: [
+//                ListElement {
+//                    name: "Width"
+//                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.width : 0
+//                },
+//                ListElement {
+//                    name: "Height"
+//                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.height : 0
+//                }
+//            ]
+//        }
+//        ListElement {
+//            name: "Position"
+//            contents: [
+//                ListElement {
+//                    name: "X"
+//                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.x : 0
+//                },
+//                ListElement {
+//                    name: "Y"
+//                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.y : 0
+//                },
+//                ListElement {
+//                    name: "Z"
+//                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.z : 0
+//                }
+
+//            ]
+//        }
+//    }
 
     Item
     {
@@ -556,20 +591,27 @@ Rectangle{
         drag.minimumX: presentation.width - optionsPanelRect.width
         drag.maximumX: presentation.width
         onClicked: {
-            optionsPanelRect.state = (optionsPanelRect.state === "closed") ? "opened" : "closed"
+            optionsPanelRect.state = (optionsPanelRect.state != "Closed") ? "Closed" : optionsPanelRect.state
         }
 
     }
 
     states:[
         State {
-            name: "opened"
+            name: "ItemProperties"
+            when: presentation.slides[presentation.currentSlide].editSelectedItemProperties
             PropertyChanges { target: optionsPanelRect; x: optionsSlideMouseArea.drag.minimumX}
-            PropertyChanges { target: layoutsListPanel; state: "closed"}
-            PropertyChanges { target: slidesListPanel; state: "closed"}
+            PropertyChanges { target: optionsPanelRect; itemProperties: true }
+            PropertyChanges { target: optionsPanelRect; slideProperties: false }
         },
         State {
-            name: "closed"
+            name: "SlideProperties"
+            PropertyChanges { target: optionsPanelRect; x: optionsSlideMouseArea.drag.minimumX}
+            PropertyChanges { target: optionsPanelRect; slideProperties: true }
+            PropertyChanges { target: optionsPanelRect; itemProperties: false }
+        },
+        State {
+            name: "Closed"
             PropertyChanges { target: optionsPanelRect; x: optionsSlideMouseArea.drag.maximumX }
         }]
     //        onStateChanged:
@@ -579,6 +621,6 @@ Rectangle{
 
     Behavior on x { SmoothedAnimation { velocity: 400 } }
 
-    state: "closed"
+    state: "Closed"
 
 }

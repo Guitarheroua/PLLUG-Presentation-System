@@ -3,7 +3,6 @@ import QtQuick.Controls 1.0
 import Qt.labs.presentation 1.0
 import "../"
 import "../items/"
-import "../presentation"
 
 Item
 {
