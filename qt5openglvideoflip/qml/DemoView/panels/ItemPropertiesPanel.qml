@@ -4,9 +4,11 @@ Rectangle
 {
     id: itemPropertiesRect
     property var currentItem
-    width: 200
-    height: 200
-    color: "lightsteelblue"
+    width: 210
+    height: parent.height
+    color: "black"
+    opacity: 0.7
+    z: parent.z + 2
     visible: true
     Item
     {

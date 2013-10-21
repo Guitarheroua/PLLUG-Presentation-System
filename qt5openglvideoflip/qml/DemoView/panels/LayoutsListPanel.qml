@@ -1,10 +1,17 @@
 import QtQuick 2.0
+import "../presentation"
 
 Rectangle {
     id: layoutsPanelRect
-    width: 120
+    width: 130
     height: parent.height
-    color: "#9AC0CD"
+    x: parent.width - width
+    z: parent.z + 2
+    onLayoutSelected:
+    {
+        presentation.setLayout(source)
+    }
+    color: "black"
     opacity: 0.7
 
     property int layoutHeight : 100
@@ -29,7 +36,7 @@ Rectangle {
             Text{
                 id: text
                 anchors.centerIn: parent
-                text: (model.index === 0) ? "Empty template": "Layout " + (model.index)
+                text: (model.index === 0) ? "Empty": "Layout " + (model.index)
             }
 
             MouseArea
@@ -39,7 +46,7 @@ Rectangle {
 
                 onClicked: {
                     selectLayout(model.index)
-                    var source = (model.index === 0) ? "" : "layouts/Layout"+ (model.index)+".qml"
+                    var source = (model.index === 0) ? "Empty": "layouts/Layout"+ (model.index)+".qml"
                     layoutSelected(source)
                 }
             }
@@ -54,7 +61,7 @@ Rectangle {
         Rectangle {
             width: layoutsListView.currentItem.width + 10;
             height: layoutsListView.currentItem.height + 10
-            color: "#FFFF88"
+            color: "steelblue"
             x: layoutsListView.currentItem.x - 5
             y: layoutsListView.currentItem.y - 5
 //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
@@ -105,7 +112,8 @@ Rectangle {
         drag.axis: Drag.XAxis
         drag.target: layoutsPanelRect
         drag.minimumX: presentation.width - layoutsPanelRect.width
-        drag.maximumX: presentation.width - 10
+        drag.maximumX: (layoutsPanelMouseArea.enabled) ? presentation.width - 10 : presentation.width
+        enabled: presentation.slides[presentation.currentSlide].layout != ""
         onClicked: {
             layoutsPanelRect.state = (layoutsPanelRect.state === "closed") ? "opened" : "closed"
             slidesListPanel.state = "closed"

@@ -15,7 +15,7 @@ Item
         anchors
         {
             horizontalCenter: templateItem.parent.horizontalCenter
-            top: templateItem.parent.top
+            top: parent.top
             topMargin: /*templateItem.parent.topTitleMargin*/20
         }
 

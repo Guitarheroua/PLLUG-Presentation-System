@@ -26,9 +26,9 @@ Presentation {
 
     function addNewSlide(layout)
     {
-        var source = (layout === "") ? "EmptySlide.qml" : layout
+        var source = (layout === "Empty") ? "EmptySlide.qml" : layout
         var component = Qt.createComponent(source);
-        var newSlide = component.createObject(presentation/*, {"title": "New Slide"}*/);
+        var newSlide = component.createObject(presentation, {"layout": layout});
         if (newSlide === null)
         {
             console.log("Error creating object");
@@ -41,6 +41,28 @@ Presentation {
     function removeSlideAt(index)
     {
         presentation.removeSlide(index)
+    }
+
+    function setLayout(source)
+    {
+        if (source != "")
+        {
+            for (var i=0; i<presentation.slides[currentSlide].children.length; ++i)
+            {
+                var layoutToRemove;
+                if (presentation.slides[currentSlide].children[i].objectName === "layout")
+                {
+                    layoutToRemove = presentation.slides[currentSlide].children[i]
+                    if (layoutToRemove)
+                    {
+                        layoutToRemove.destroy();
+                        break;
+                    }
+                }
+            }
+            var component = Qt.createComponent(source);
+            component.createObject(presentation.slides[currentSlide], {"objectName": "layout"});
+        }
     }
 
     function addBackground(source)
@@ -217,53 +239,28 @@ Presentation {
     LayoutsListPanel
     {
         id: layoutsListPanel
-        width: 130
-        height: presentation.height
-        color: "gray"
-        x: presentation.width - width
-        z: presentation.z + 2
-        onLayoutSelected:
-        {
-            if (source != "")
-            {
-                for (var i=0; i<presentation.slides[currentSlide].children.length; ++i)
-                {
-                    var layoutToRemove;
-                    if (presentation.slides[currentSlide].children[i].objectName === "layout")
-                    {
-                        layoutToRemove = presentation.slides[currentSlide].children[i]
-                        if (layoutToRemove)
-                        {
-                            layoutToRemove.destroy();
-                            break;
-                        }
-                    }
-                }
-                var component = Qt.createComponent(source);
-                component.createObject(presentation.slides[currentSlide], {"objectName": "layout"});
-            }
-        }
+
     }
     OptionsPanel{
         id: optionsPanel
     }
 
-    ItemPropertiesPanel
-    {
-        id: itemPropertiesPanel
-        currentItem: presentation.slides[currentSlide].selectedItem
-        state: (presentation.slides[currentSlide].editSelectedItemProperties) ? "opened" : "closed"
-        z: 3
-        //        MouseArea
-        //        {
-        //            anchors.fill: parent
-        //            onDoubleClicked:
-        //            {
-        //                presentation.slides[currentSlide].editSelectedItemProperties = false
-        //            }
-        //        }
+//    ItemPropertiesPanel
+//    {
+//        id: itemPropertiesPanel
+//        currentItem: presentation.slides[currentSlide].selectedItem
+//        state: (presentation.slides[currentSlide].editSelectedItemProperties) ? "opened" : "closed"
+//        z: 3
+//        //        MouseArea
+//        //        {
+//        //            anchors.fill: parent
+//        //            onDoubleClicked:
+//        //            {
+//        //                presentation.slides[currentSlide].editSelectedItemProperties = false
+//        //            }
+//        //        }
 
-    }
+//    }
 
 
     SlidesListPanel

@@ -8,6 +8,10 @@ Rectangle{
     color: "black"
     opacity: 0.7
     z: parent.z + 2
+    property var currentItem : presentation.slides[currentSlide].selectedItem
+    property bool slideProperties: false
+    property bool itemProperties: false
+//    state: (presentation.slides[currentSlide].editSelectedItemProperties) ? "opened" : "closed"
 
     ListModel
     {
@@ -56,7 +60,8 @@ Rectangle{
             Text {
                 id: delegateItemText
                 text: model.name
-                color: "lightsteelblue"
+//                color: "lightsteelblue"
+                color: "white"
                 font
                 {
                     pointSize: 14
@@ -80,7 +85,7 @@ Rectangle{
                     left: parent.left
                 }
                 width: parent.width
-                height: 2
+                height: 3
                 color: "steelblue"
             }
             Item{
@@ -165,6 +170,7 @@ Rectangle{
 
     Item{
         id: listViewItem
+        visible: slideProperties
         anchors
         {
             fill: parent
@@ -328,6 +334,218 @@ Rectangle{
     //            leftMargin : 10
     //        }
     //    }
+
+
+
+    Item
+    {
+        visible: itemProperties
+        anchors
+        {
+            fill: parent
+            topMargin: 20
+            leftMargin: 20
+        }
+
+        Column{
+            spacing : 10
+            Row{
+                spacing: 20
+                Rectangle
+                {
+                    id: widthRect
+                    width: 50
+                    height: widthLabel.height+10
+                    Text
+                    {
+                        id: widthLabel
+                        text: "Width"
+                        anchors.centerIn: parent
+                        font.pointSize: 9
+                    }
+
+                }
+                Rectangle
+                {
+                    width: 50
+                    height: widthRect.height
+                    z: optionsPanelRect.z +1
+                    TextInput
+                    {
+                        id: widthTextInput
+                        anchors.centerIn: parent
+                        text: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.width : 0
+                        font.pointSize: 10
+                        validator: IntValidator{
+                            bottom: 50;
+                            top: /*(itemPropertiesRect.visible) ? itemPropertiesRect.width : 0*/600
+                        }
+                        focus: true
+                        onTextChanged: {
+                            if (optionsPanelRect.currentItem != undefined && optionsPanelRect.visible && text != "")
+                            {
+                                console.log("width", text)
+                                optionsPanelRect.currentItem.width =  parseInt(text)
+                            }
+                        }
+                        KeyNavigation.up: yTextInput
+                        KeyNavigation.down: heightTextInput
+                        KeyNavigation.tab: heightTextInput
+                        KeyNavigation.backtab: yTextInput
+                    }
+                }
+
+            }
+            Row{
+                spacing: 20
+                Rectangle
+                {
+                    id: heightRect
+                    width: heightLabel.width+10
+                    height: heightLabel.height+10
+                    Text
+                    {
+                        id: heightLabel
+                        anchors.centerIn: parent
+                        text: "Height"
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.pointSize: 10
+                    }
+
+                }
+                Rectangle
+                {
+                    width: 50
+                    height: heightRect.height
+                    z: optionsPanelRect.z +1
+                    TextInput
+                    {
+                        id: heightTextInput
+                        anchors.centerIn:  parent
+                        text: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.height : 0
+                        font.pointSize: 10
+                        focus: true
+                        z: optionsPanelRect.z +1
+                        validator: IntValidator{
+                            bottom: 50;
+                            top: /*(itemPropertiesRect.visible) ? itemPropertiesRect.height : 0*/600
+                        }
+                        onTextChanged: {
+                            if (optionsPanelRect.currentItem != undefined && optionsPanelRect.visible && text != "")
+                            {
+                                optionsPanelRect.currentItem.height = parseInt(text)
+                            }
+                        }
+                        KeyNavigation.up: widthTextInput
+                        KeyNavigation.down: xTextInput
+                        KeyNavigation.tab: xTextInput
+                        KeyNavigation.backtab: widthTextInput
+                    }
+                }
+
+            }
+            Row{
+                spacing: 20
+                Rectangle
+                {
+                    id: xRect
+                    width: 50
+                    height: xLabel.height+10
+                    Text
+                    {
+                        id: xLabel
+                        anchors.centerIn: parent
+                        text: "X"
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.pointSize: 10
+                    }
+
+                }
+                Rectangle
+                {
+                    width: 50
+                    height: xRect.height
+                    z: optionsPanelRect.z +1
+                    TextInput
+                    {
+                        id: xTextInput
+                        anchors.centerIn:  parent
+                        text: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.x : 0
+                        font.pointSize: 10
+                        focus: true
+                        z: optionsPanelRect.z +1
+                        validator: IntValidator{
+                            bottom: 50;
+                            top: /*(itemPropertiesRect.visible) ? (itemPropertiesRect.width - itemPropertiesRect.currentItem.width) : 0*/600
+                        }
+                        onTextChanged: {
+                            if (optionsPanelRect.currentItem != undefined && optionsPanelRect.visible && text != "")
+                            {
+                                optionsPanelRect.currentItem.x = parseInt(text)
+                            }
+                        }
+                        KeyNavigation.up: heightTextInput
+                        KeyNavigation.down: yTextInput
+                        KeyNavigation.tab: yTextInput
+                        KeyNavigation.backtab: heightTextInput
+                    }
+                }
+
+            }
+
+            Row{
+                spacing: 20
+                Rectangle
+                {
+                    id: yRect
+                    width: 50
+                    height: yLabel.height+10
+                    Text
+                    {
+                        id: yLabel
+                        anchors.centerIn:  parent
+                        text: "Y"
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.pointSize: 10
+                    }
+
+                }
+                Rectangle
+                {
+                    width: 50
+                    height: yRect.height
+                    z: optionsPanelRect.z +1
+                    TextInput
+                    {
+                        id: yTextInput
+                        anchors.centerIn:  parent
+                        text: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.y : 0
+                        font.pointSize: 10
+                        focus: true
+                        z: optionsPanelRect.z +1
+                        validator: IntValidator{
+                            bottom: 50
+                            top: /*(itemPropertiesRect.visible) ? (itemPropertiesRect.height - itemPropertiesRect.currentItem.height) : 0*/600
+                        }
+                        onTextChanged: {
+                            if (optionsPanelRect.currentItem != undefined && optionsPanelRect.visible && text != "")
+                            {
+                                optionsPanelRect.currentItem.y = parseInt(text)
+                            }
+                        }
+                        KeyNavigation.up: xTextInput
+                        KeyNavigation.down: widthTextInput
+                        KeyNavigation.tab: widthTextInput
+                        KeyNavigation.backtab: xTextInput
+                    }
+                }
+
+            }
+        }
+    }
 
     MouseArea
     {

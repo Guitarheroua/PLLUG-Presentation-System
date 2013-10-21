@@ -17,7 +17,7 @@ Item
     Rectangle
     {
         id: titleRect
-        width: parent.contentWidth
+        width: templateItem.parent.contentWidth
         height: textEdit.height
         anchors
         {

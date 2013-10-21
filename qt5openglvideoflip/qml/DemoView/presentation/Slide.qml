@@ -54,6 +54,7 @@ Item {
 
     property string title
     property variant content: []
+    property string layout: ""
     property string centeredText
     property string writeInText;
     property string notes

@@ -28,8 +28,8 @@ Rectangle {
     function selectSlide(index)
     {
         var position = index*(150 + slidesListView.spacing)
-        if ( position > slidesListView.width/2 - 150/2)
-            slidesListView.contentX = position - (slidesListView.width/2 - 150/2)
+        if ( position > (slidesListView.width - addItem.width)/2 - 150/2)
+            slidesListView.contentX = position - ((slidesListView.width - addItem.width)/2 - 150/2)
         slidesListView.currentIndex = index
     }
 
@@ -47,6 +47,7 @@ Rectangle {
             width: 150
             height: listViewItem.height
             color: "white"
+//            opacity: (slidesListView.currentIndex === model.index) ? 1.0 : 0.8
             Text{
                 id: text
                 anchors.centerIn: parent
@@ -103,6 +104,11 @@ Rectangle {
                     //                    console.log(slidesListView.indexAt(ax,ay),ax,ay)
                     //                    slidesModel.move(slidesListView.draggedIndex, slidesListView.indexAt(ax,listViewItem.y),1)
                 }
+                onPressAndHold:
+                {
+                    optionsPanel.slideProperties = true
+                    optionsPanel.state = "opened"
+                }
             }
             //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
             onYChanged:
@@ -116,14 +122,17 @@ Rectangle {
 
     Component {
         id: highlightBar
-        Rectangle {
-            width: slidesListView.currentItem.width + 10;
-            height: slidesListView.currentItem.height + 10
-            color: "steelblue"
-            x: slidesListView.currentItem.x - 5
-            y: slidesListView.currentItem.y - 5
-            //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
+        Item
+        {
+            Rectangle {
+                width: slidesListView.currentItem.width + 10;
+                height: slidesListView.currentItem.height + 10
+                color: "steelblue"
+                x: slidesListView.currentItem.x - 5
+                y: slidesListView.currentItem.y - 5
+                //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
 
+            }
         }
     }
 
@@ -143,7 +152,7 @@ Rectangle {
         width: 50
         z: listViewItem.z+1
         opacity: parent.opacity
-        color: "lightgrey"
+        color: "steelblue"
         Text {
             text: qsTr("Add")
             anchors.centerIn: parent
@@ -152,8 +161,7 @@ Rectangle {
         {
             anchors.fill: parent
             onClicked: {
-                console.log("click")
-                presentation.addNewSlide("")
+                presentation.addNewSlide("Empty")
             }
         }
 
@@ -167,7 +175,7 @@ Rectangle {
             top: parent.top
             left: addItem.right
             bottom: parent.bottom
-            right:parent.right
+            right: parent.right
             topMargin: 15
             leftMargin: 10
             bottomMargin: 10
@@ -177,7 +185,10 @@ Rectangle {
         ListView
         {
             id: slidesListView
-            anchors.fill: parent
+            anchors
+            {
+                fill: parent
+            }
             focus: true
             model: slidesModel
             delegate: listViewDelegate
@@ -186,6 +197,7 @@ Rectangle {
             spacing: 10
             orientation: ListView.Horizontal
             boundsBehavior: ListView.StopAtBounds
+            clip: true
             Behavior on contentX { SmoothedAnimation { velocity: 400 } }
 
             //            property int draggedIndex: -1
@@ -216,7 +228,8 @@ Rectangle {
         State {
             name: "opened"
             PropertyChanges { target: mainRect; y: mouseArea.drag.minimumY}
-            PropertyChanges { target: layoutsListPanel; state: "closed"}
+            //            PropertyChanges { target: layoutsListPanel; state: "closed"}
+
             PropertyChanges { target: optionsPanel; state: "closed"}
         },
         State {
