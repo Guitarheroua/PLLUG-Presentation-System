@@ -87,14 +87,13 @@ Item {
     //    height: parent.height * 0.7
     width: parent.width
     height: parent.height
-    Rectangle
-    {
-        anchors.fill: parent
-        color: "transparent"
-            border.width: 3
-            border.color: "black"
-    }
-
+//    Rectangle
+//    {
+//        anchors.fill: parent
+//        color: "transparent"
+//            border.width: 3
+//            border.color: "black"
+//    }
 
 
     property real masterWidth: parent.width

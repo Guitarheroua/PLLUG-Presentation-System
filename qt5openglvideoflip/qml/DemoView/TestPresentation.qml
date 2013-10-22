@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
-import Qt.labs.presentation 1.0
+//import Qt.labs.presentation 1.0
 import "presentation"
 import "layouts"
 import "panels"

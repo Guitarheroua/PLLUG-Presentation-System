@@ -1,6 +1,4 @@
 import QtQuick 2.0
-import QtQuick.Controls 1.0
-import Qt.labs.presentation 1.0
 import "../"
 import "../items/"
 
@@ -135,9 +133,6 @@ Item
     }
 
 
-
-
-
     Item
     {
         id: contentItem
@@ -145,7 +140,7 @@ Item
         y: templateItem.parent.contentY
         width: templateItem.parent.contentWidth
         height: templateItem.parent.contentHeight+10
-        z: parent.z +1
+        z: parent.z + 1
 
 
         GridView{

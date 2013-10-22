@@ -69,6 +69,33 @@ Rectangle {
         }
     }
 
+    Item{
+        id: arrowItem
+        anchors
+        {
+            left: parent.left
+            leftMargin: 3
+            verticalCenter: parent.verticalCenter
+        }
+
+        Row
+        {
+            spacing: 2
+            Repeater{
+                model: 2
+                Rectangle
+                {
+                    width: 3
+                    height: 30
+                    color: "steelblue"
+                    radius: 3
+
+                }
+            }
+
+        }
+    }
+
 
     Item
     {
@@ -125,13 +152,19 @@ Rectangle {
         State {
             name: "opened"
             PropertyChanges { target: layoutsPanelRect; x: layoutsPanelMouseArea.drag.minimumX}
-//            PropertyChanges { target: slidesListPanel; state: "closed"}
-//            PropertyChanges { target: optionsPanel; state: "closed"}
         },
         State {
             name: "closed"
             PropertyChanges { target: layoutsPanelRect; x: layoutsPanelMouseArea.drag.maximumX }
         }]
+
+    onStateChanged:{
+        if (state === "opened")
+        {
+            slidesListPanel.state = "closed"
+            optionsPanel.state = "Closed"
+        }
+    }
 
     Behavior on x { SmoothedAnimation { velocity: 400 } }
 

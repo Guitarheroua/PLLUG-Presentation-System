@@ -9,8 +9,14 @@ Rectangle{
     opacity: 0.7
     z: parent.z + 2
     property var currentItem : presentation.slides[currentSlide].selectedItem
+    property bool itemEditing: presentation.slides[presentation.currentSlide].editSelectedItemProperties
     property bool slideProperties: false
     property bool itemProperties: false
+    onItemEditingChanged:
+    {
+        if(!itemEditing && state === "ItemProperties")
+            state = "Closed"
+    }
 
     ListModel
     {
@@ -59,7 +65,7 @@ Rectangle{
             Text {
                 id: delegateItemText
                 text: model.name
-//                color: "lightsteelblue"
+                //                color: "lightsteelblue"
                 color: "white"
                 font
                 {
@@ -114,6 +120,7 @@ Rectangle{
                                 text: model.name
                                 anchors.centerIn: parent
                                 font.pointSize: 10
+                                color: "white"
                             }
                             MouseArea
                             {
@@ -335,42 +342,42 @@ Rectangle{
     //    }
 
 
-//    ListModel
-//    {
-//        id: itemPropertiesModel
+    //    ListModel
+    //    {
+    //        id: itemPropertiesModel
 
-//        ListElement {
-//            name: "Size"
-//            contents: [
-//                ListElement {
-//                    name: "Width"
-//                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.width : 0
-//                },
-//                ListElement {
-//                    name: "Height"
-//                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.height : 0
-//                }
-//            ]
-//        }
-//        ListElement {
-//            name: "Position"
-//            contents: [
-//                ListElement {
-//                    name: "X"
-//                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.x : 0
-//                },
-//                ListElement {
-//                    name: "Y"
-//                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.y : 0
-//                },
-//                ListElement {
-//                    name: "Z"
-//                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.z : 0
-//                }
+    //        ListElement {
+    //            name: "Size"
+    //            contents: [
+    //                ListElement {
+    //                    name: "Width"
+    //                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.width : 0
+    //                },
+    //                ListElement {
+    //                    name: "Height"
+    //                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.height : 0
+    //                }
+    //            ]
+    //        }
+    //        ListElement {
+    //            name: "Position"
+    //            contents: [
+    //                ListElement {
+    //                    name: "X"
+    //                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.x : 0
+    //                },
+    //                ListElement {
+    //                    name: "Y"
+    //                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.y : 0
+    //                },
+    //                ListElement {
+    //                    name: "Z"
+    //                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.z : 0
+    //                }
 
-//            ]
-//        }
-//    }
+    //            ]
+    //        }
+    //    }
 
     Item
     {
@@ -381,6 +388,7 @@ Rectangle{
             topMargin: 20
             leftMargin: 20
         }
+        z: parent.z + 1
 
         Column{
             spacing : 10
@@ -572,9 +580,58 @@ Rectangle{
                             }
                         }
                         KeyNavigation.up: xTextInput
+                        KeyNavigation.down: zTextInput
+                        KeyNavigation.tab: zTextInput
+                        KeyNavigation.backtab: xTextInput
+                    }
+                }
+
+            }
+            Row{
+                spacing: 20
+                Rectangle
+                {
+                    id: zRect
+                    width: 50
+                    height: yLabel.height+10
+                    Text
+                    {
+                        id: zLabel
+                        anchors.centerIn:  parent
+                        text: "Z"
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.pointSize: 10
+                    }
+
+                }
+                Rectangle
+                {
+                    width: 50
+                    height: zRect.height
+                    z: optionsPanelRect.z +1
+                    TextInput
+                    {
+                        id: zTextInput
+                        anchors.centerIn:  parent
+                        text: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.z : 0
+                        font.pointSize: 10
+                        focus: true
+                        z: optionsPanelRect.z +1
+                        validator: IntValidator{
+                            bottom: 50
+                            top: /*(itemPropertiesRect.visible) ? (itemPropertiesRect.height - itemPropertiesRect.currentItem.height) : 0*/600
+                        }
+                        onTextChanged: {
+                            if (optionsPanelRect.currentItem != undefined && optionsPanelRect.visible && text != "")
+                            {
+                                optionsPanelRect.currentItem.z = parseInt(text)
+                            }
+                        }
+                        KeyNavigation.up: yTextInput
                         KeyNavigation.down: widthTextInput
                         KeyNavigation.tab: widthTextInput
-                        KeyNavigation.backtab: xTextInput
+                        KeyNavigation.backtab: yTextInput
                     }
                 }
 
@@ -601,23 +658,27 @@ Rectangle{
             name: "ItemProperties"
             when: presentation.slides[presentation.currentSlide].editSelectedItemProperties
             PropertyChanges { target: optionsPanelRect; x: optionsSlideMouseArea.drag.minimumX}
-            PropertyChanges { target: optionsPanelRect; itemProperties: true }
-            PropertyChanges { target: optionsPanelRect; slideProperties: false }
         },
         State {
             name: "SlideProperties"
             PropertyChanges { target: optionsPanelRect; x: optionsSlideMouseArea.drag.minimumX}
-            PropertyChanges { target: optionsPanelRect; slideProperties: true }
-            PropertyChanges { target: optionsPanelRect; itemProperties: false }
         },
         State {
             name: "Closed"
             PropertyChanges { target: optionsPanelRect; x: optionsSlideMouseArea.drag.maximumX }
         }]
-    //        onStateChanged:
-    //        {
-    //            console.log(optionsSlideRect.state)
-    //        }
+
+    onStateChanged :
+    {
+        if (state != "Closed")
+        {
+            itemProperties = (state === "ItemProperties")
+            slideProperties = (state === "SlideProperties")
+            slidesListPanel.state = "closed"
+            layoutsListPanel.state = "closed"
+        }
+
+    }
 
     Behavior on x { SmoothedAnimation { velocity: 400 } }
 

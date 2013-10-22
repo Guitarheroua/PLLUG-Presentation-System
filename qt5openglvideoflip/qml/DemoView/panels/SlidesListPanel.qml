@@ -13,6 +13,7 @@ Rectangle {
 
     onSlidesChanged:
     {
+        console.log("UPDATE")
         updateModel()
     }
 
@@ -27,10 +28,11 @@ Rectangle {
 
     function selectSlide(index)
     {
-        var position = index*(150 + slidesListView.spacing)
-        if ( position > (slidesListView.width - addItem.width)/2 - 150/2)
-            slidesListView.contentX = position - ((slidesListView.width - addItem.width)/2 - 150/2)
+        console.log("select slide")
+        var position = index*(slidesListView.itemWidth + 10)
         slidesListView.currentIndex = index
+        if ( position > (slidesListView.width - addItem.width)/2 - slidesListView.itemWidth/2)
+            slidesListView.contentX = position - ((slidesListView.width - addItem.width)/2 - slidesListView.itemWidth/2)
     }
 
     ListModel
@@ -43,53 +45,68 @@ Rectangle {
     {
         id: listViewDelegate
         Rectangle{
-            id: rect
-            width: 150
+            id: delegateRect
+            width: slidesListView.itemWidth + 10
             height: listViewItem.height
+            color: "transparent"
+            Rectangle {
+                id: hightlightRect
+                width: parent.width
+                height: parent.height
+                color: "steelblue"
+                visible: slidesListView.currentIndex === index
+                //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
 
-            color: "white"
-            z: parent.z+1
-            //            opacity: (slidesListView.currentIndex === model.index) ? 1.0 : 0.8
-            Text{
-                id: text
-                anchors.centerIn: parent
-                text: (slides[model.index] != undefined)? slides[model.index].title : ""
             }
             Rectangle
             {
-                id: slideNumberRect
-                color: "steelblue"
-                width: slideNumberText.width+8
-                height: slideNumberText.height+5
-                anchors
-                {
-                    top: parent.top
-                    right: parent.right
-                }
-                Text {
-                    id: slideNumberText
+                width: /*(slidesListView.currentIndex === index) ? */parent.width-10 /*: parent.width*/
+                height: /*(slidesListView.currentIndex === index) ? */parent.height - 10 /*: parent.height*/
+                anchors.centerIn: parent
+                color: "white"
+                z: parent.z+1
+                //            opacity: (slidesListView.currentIndex === model.index) ? 1.0 : 0.8
+                Text{
+                    id: text
                     anchors.centerIn: parent
-                    text: model.index + 1
-                    color: "white"
-                    font.pointSize: 9
-
+                    text: (slides[model.index] != undefined)? slides[model.index].title : ""
                 }
-                //                opacity: 0.0
-                z: parent.z + 1
-                MouseArea
+                Rectangle
                 {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    //                    onEntered:
-                    //                    {
-                    //                        slideNumberRect.opacity = 0.7
-                    //                    }
-                    //                    onExited:
-                    //                    {
-                    //                        slideNumberRect.opacity = 0.0
-                    //                    }
+                    id: slideNumberRect
+                    color: "steelblue"
+                    width: slideNumberText.width+8
+                    height: slideNumberText.height+5
+                    anchors
+                    {
+                        top: parent.top
+                        right: parent.right
+                    }
+                    Text {
+                        id: slideNumberText
+                        anchors.centerIn: parent
+                        text: model.index + 1
+                        color: "white"
+                        font.pointSize: 9
+
+                    }
+                    //                opacity: 0.0
+                    z: parent.z + 1
+                    MouseArea
+                    {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        //                    onEntered:
+                        //                    {
+                        //                        slideNumberRect.opacity = 0.7
+                        //                    }
+                        //                    onExited:
+                        //                    {
+                        //                        slideNumberRect.opacity = 0.0
+                        //                    }
+                    }
+                    Behavior on opacity { SmoothedAnimation{ velocity : 200}}
                 }
-                Behavior on opacity { SmoothedAnimation{ velocity : 200}}
             }
             states:[
                 State{
@@ -116,22 +133,26 @@ Rectangle {
                 if (slidesListView.draggedIndex === model.index )
                 {
                     deleteImage.opacity = y/(parent.height+5)
-                    if (y > parent.height/2 )
-                    {
-                        console.log("y",y)
-                        anim.from = y
-                        anim.start()
-                        //                        y = parent.height+5
-                        //                        presentation.removeSlideAt(model.index)
-                    }
                 }
             }
             PropertyAnimation{
-                id: anim
-                target: rect
+                id: downAnimation
+                target: delegateRect
                 property: "y"
-                to: rect.height+5
-                duration: 2000
+                to: delegateRect.height+5
+                duration: 1000
+
+            }
+            PropertyAnimation{
+                id: upAnimation
+                target: delegateRect
+                property: "y"
+                to: 0
+                duration: 1000
+                onRunningChanged:
+                {
+                    slidesListView.draggedIndex = (!running)? -1 : slidesListView.draggedIndex
+                }
 
             }
 
@@ -163,6 +184,21 @@ Rectangle {
 
                 onReleased:
                 {
+                    if (parent.y > parent.height/2 )
+                    {
+                        console.log("y",parent.y)
+                        downAnimation.from = parent.y
+                        downAnimation.start()
+                        //                        y = parent.height+5
+                        //                        presentation.removeSlideAt(model.index)
+                    }
+                    else
+                    {
+                        upAnimation.from = parent.y
+                        upAnimation.to = 0
+                        upAnimation.start()
+                    }
+
                     //                    var ax = mapToItem(slidesListView,mouseX,mouseY).x
                     //                    var ay = mapToItem(slidesListView,mouseX,mouseY).y
                     //                    console.log(slidesListView.indexAt(ax,ay),ax,ay)
@@ -214,6 +250,7 @@ Rectangle {
         Text {
             text: qsTr("Add")
             anchors.centerIn: parent
+            color: "white"
         }
         MouseArea
         {
@@ -225,6 +262,33 @@ Rectangle {
 
     }
 
+    Item{
+        id: arrowItem
+        anchors
+        {
+            top: parent.top
+            topMargin: 3
+            horizontalCenter: parent.horizontalCenter
+        }
+
+        Column
+        {
+            spacing: 2
+            Repeater{
+                model: 2
+                Rectangle
+                {
+                    width: 30
+                    height: 3
+                    color: "steelblue"
+                    radius: 3
+
+                }
+            }
+
+        }
+    }
+
     Item
     {
         id: listViewItem
@@ -234,11 +298,13 @@ Rectangle {
             left: addItem.right
             bottom: parent.bottom
             right: parent.right
-            topMargin: 15
+            topMargin: 12
             leftMargin: 10
-            bottomMargin: 10
+            bottomMargin: 5
         }
         z: parent.z+1
+
+
         Item
         {
             id: imageItem
@@ -253,16 +319,15 @@ Rectangle {
                     slidesListView.itemAt(lx,ly+100).y = 0
                     deleteImage.opacity = 0.0
                     slidesListView.draggedIndex = -1
-                    z: parent.z-2
 
                 }
             }
             Image{
                 id: deleteImage
                 source: "qrc:///icons/delete.png"
-                x: slidesListView.draggedItemX
+                x: (slidesListView.draggedItemX + slidesListView.itemWidth) - width
                 opacity: 0.0
-                z : (opacity === 1.0) ? listViewItem.z+2 : z
+                z : (opacity === 1.0) ? listViewItem.z+2 : 0
 
                 MouseArea{
                     anchors.fill: parent
@@ -291,8 +356,14 @@ Rectangle {
             {
                 fill: parent
             }
+            onContentXChanged:
+            {
+                console.log("CONTENT X", contentX)
+            }
+
             property int draggedIndex: -1
             property int draggedItemX: -1
+            property int itemWidth: 150
             onDraggedIndexChanged: {
                 console.log("index", draggedIndex)
             }
@@ -300,15 +371,15 @@ Rectangle {
             focus: true
             model: slidesModel
             delegate: listViewDelegate
-            highlight: highlightBar
-            highlightFollowsCurrentItem: false
-            spacing: 10
+//            highlight: highlightBar
+//            highlightFollowsCurrentItem: false
+            spacing: 0
+            snapMode: ListView.SnapToItem
             orientation: ListView.Horizontal
             boundsBehavior: ListView.StopAtBounds
             clip: true
             Behavior on contentX { SmoothedAnimation { velocity: 400 } }
 
-            //            property int draggedIndex: -1
 
             //            onCurrentIndexChanged: {
             //                var position = currentIndex*(currentItem.width + spacing)
@@ -325,7 +396,7 @@ Rectangle {
         drag.axis: Drag.YAxis
         drag.target: mainRect
         drag.minimumY: parent.parent.height - mainRect.height
-        drag.maximumY: parent.parent.height - 10
+        drag.maximumY: parent.parent.height - 12
         onClicked: {
             mainRect.state = (mainRect.state === "closed") ? "opened" : "closed"
         }
@@ -344,6 +415,7 @@ Rectangle {
             name: "closed"
             PropertyChanges { target: mainRect; y: mouseArea.drag.maximumY }
         }]
+
 
     Behavior on y { SmoothedAnimation { velocity: 400 } }
 
