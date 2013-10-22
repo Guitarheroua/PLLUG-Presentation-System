@@ -70,9 +70,9 @@ Item {
     property real titleFontSize: fontSize * 1.2 * fontScale
     property real bulletSpacing: 1
 
-//    property real contentWidth: width
+    //    property real contentWidth: width
 
-    property real topTitleMargin: parent.fontSize * 1.5
+    property real topTitleMargin: fontSize * 1.5
 
     property real contentX: parent.width * 0.05
     property real contentY: parent.height * 0.2
@@ -87,13 +87,13 @@ Item {
     //    height: parent.height * 0.7
     width: parent.width
     height: parent.height
-//    Rectangle
-//    {
-//        anchors.fill: parent
-//        color: "transparent"
-//            border.width: 3
-//            border.color: "black"
-//    }
+        Rectangle
+        {
+            anchors.fill: parent
+            color: "transparent"
+                border.width: 2
+                border.color: "black"
+        }
 
 
     property real masterWidth: parent.width
@@ -118,22 +118,50 @@ Item {
                              });
         }
     }
-//    onParentChanged: {
-//        console.log(parent,topTitleMargin, fontSize * 1.5,height * 0.05)
-//    }
+    //    onParentChanged: {
+    //        console.log(parent,topTitleMargin, fontSize * 1.5,height * 0.05)
+    //    }
 
-    Text {
-        id: titleText
-        font.pixelSize: titleFontSize
-        text: title
+    Item{
+        id: titleItem
         anchors.horizontalCenter:  parent.horizontalCenter
         anchors.top: parent.top
         anchors.topMargin: parent.topTitleMargin
-        font.bold: true;
-        font.family: slide.fontFamily
-        color: slide.titleColor
-        horizontalAlignment: Text.Center
+        width: titleText.width
+        height: titleText.height
+        Text {
+            id: titleText
+            font.pixelSize: titleFontSize
+            text: title
+//            textFormat: TextEdit.RichText
+            anchors.horizontalCenter:  parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: parent.topTitleMargin
+            font.bold: true;
+            font.family: slide.fontFamily
+            color: slide.titleColor
+            horizontalAlignment: Text.Center
+            focus: true
+            z: 5
+            onTextChanged: {
+                slide.title = title
+            }
 
+                    MouseArea
+                    {
+                        anchors.fill: parent
+            //            onClicked: {
+            //                console.log("CLICk")
+            //            }
+
+                        onPressAndHold:
+                        {
+                            console.log("!!!!")
+                            selectedItem = titleItem
+                        }
+                    }
+
+        }
     }
     Item
     {
@@ -142,6 +170,8 @@ Item {
         y: contentY
         width: contentWidth
         height: contentHeight
+        z: 10
+
         Text {
             id: centeredId
             width: parent.width
@@ -333,5 +363,6 @@ Item {
             }
         }
     }
+
 
 }

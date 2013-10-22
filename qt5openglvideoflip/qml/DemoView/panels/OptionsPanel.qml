@@ -17,6 +17,10 @@ Rectangle{
         if(!itemEditing && state === "ItemProperties")
             state = "Closed"
     }
+    onCurrentItemChanged:
+    {
+        console.log("current item", currentItem)
+    }
 
     ListModel
     {

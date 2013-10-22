@@ -5,6 +5,7 @@
 
 class Page;
 class QWindow;
+class Helper;
 class MegaParse;
 class MainView : public QQuickView
 {
@@ -29,6 +30,7 @@ private:
     QSize mActualSize;
     QSize mOldSize;
     qreal mAspectRatio;
+    Helper* mHelper;
 
 };
 

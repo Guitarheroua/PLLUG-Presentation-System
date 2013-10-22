@@ -267,15 +267,15 @@ Presentation {
             presentation.goToSlide(index)
         }
     }
-    MouseArea
-    {
-        anchors.fill: parent
-        onClicked: {
-            slidesListPanel.state = "closed"
-            layoutsListPanel.state = "closed"
-            optionsPanel.state = "Closed"
-        }
+//    MouseArea
+//    {
+//        anchors.fill: parent
+//        onClicked: {
+//            slidesListPanel.state = "closed"
+//            layoutsListPanel.state = "closed"
+//            optionsPanel.state = "Closed"
+//        }
 
-    }
+//    }
 
 }

@@ -37,12 +37,12 @@ int main(int argc, char *argv[])
 #endif
         }
     }
-    //    MainView *view = new MainView(contentDir);
-    //#if defined(Q_OS_MAC)
-    //    MacHelper *helper = new MacHelper();
-    //    helper->setAspectRatio(view->winId());
-    //#endif
-    //    view->show();
+        MainView *view = new MainView(contentDir);
+    #if defined(Q_OS_MAC)
+        MacHelper *helper = new MacHelper();
+        helper->setAspectRatio(view->winId());
+    #endif
+        view->show();
 
     //    QString expectedPath = QCoreApplication::applicationDirPath() + QDir::separator() + "QtWebProcess";
     //    qDebug() << "\n!!!!!\n" << expectedPath << QFile(expectedPath).exists();
@@ -91,33 +91,15 @@ int main(int argc, char *argv[])
     //        qputenv("QTWEBKIT_PLUGIN_PATH", "C:\\Windows\\System32\\Macromed\\Flash");
     //    #endif
 
-    QString fshader;
-    QFile file1(":/shaders/fire.fsh"/*pContentDir+"/../resources/shaders/flipPage.fsh"*/);
-    if (file1.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        fshader = file1.readAll();
-    }
-    QString vshader;
-    QFile file2(":/shaders/flipPage.vsh");
-    if (file2.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        vshader = file2.readAll();
-    }
 
-    Helper* helper = new Helper();
-    QQuickView view1;
-    view1.rootContext()->setContextProperty("vshader", vshader);
-    view1.rootContext()->setContextProperty("fshader",fshader);
-    view1.rootContext()->setContextProperty("helper",helper);
-    view1.rootContext()->setContextProperty("screenPixelWidth", /*qApp->desktop()->screenGeometry().width()*/1280);
-    view1.rootContext()->setContextProperty("screenPixelHeight",/*qApp->desktop()->screenGeometry().height()*/720);
-    view1.setSource(QUrl::fromLocalFile("qml/DemoView/TestPresentation.qml"));
-    //        QQuickItem *item = view1.rootObject()->findChild<QQuickItem*>("webView",Qt::FindChildrenRecursively);
-    //        if (item)
-    //        {
-    //            qDebug() << "ITEM"<< item->setProperty("settings.pluginsEnabled", true) << item->setProperty("url", s5);
-    //        }
-    view1.show();
+//    Helper* helper = new Helper();
+//    QQuickView view1;
+//    view1.rootContext()->setContextProperty("helper",helper);
+//    view1.rootContext()->setContextProperty("screenPixelWidth", /*qApp->desktop()->screenGeometry().width()*/1280);
+//    view1.rootContext()->setContextProperty("screenPixelHeight",/*qApp->desktop()->screenGeometry().height()*/720);
+//    view1.setSource(QUrl::fromLocalFile("qml/DemoView/TestPresentation.qml"));
+
+//    view1.show();
 
     return app.exec();
 }

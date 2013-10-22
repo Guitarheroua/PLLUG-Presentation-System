@@ -3,7 +3,7 @@ import QtQuick 2.0
 Rectangle {
     id: mainRect
     width: parent.width
-    height: 120
+    height: parent.height/6
     color: "black"
     opacity: 0.7
 
@@ -307,8 +307,9 @@ Rectangle {
 
         Item
         {
-            id: imageItem
+            id: deleteImageItem
             anchors.fill: parent
+            anchors.topMargin: 5
             z: deleteImage.z
             MouseArea{
                 anchors.fill: parent
@@ -363,7 +364,7 @@ Rectangle {
 
             property int draggedIndex: -1
             property int draggedItemX: -1
-            property int itemWidth: 150
+            property int itemWidth: parent.width/8
             onDraggedIndexChanged: {
                 console.log("index", draggedIndex)
             }
@@ -371,8 +372,8 @@ Rectangle {
             focus: true
             model: slidesModel
             delegate: listViewDelegate
-//            highlight: highlightBar
-//            highlightFollowsCurrentItem: false
+            //            highlight: highlightBar
+            //            highlightFollowsCurrentItem: false
             spacing: 0
             snapMode: ListView.SnapToItem
             orientation: ListView.Horizontal
@@ -400,6 +401,22 @@ Rectangle {
         onClicked: {
             mainRect.state = (mainRect.state === "closed") ? "opened" : "closed"
         }
+        onReleased:
+        {
+            console.log("state1", mainRect.state, mainRect.y, drag.maximumY - mainRect.height/2)
+            if ( mainRect.y >= (drag.maximumY - mainRect.height/2 + 20) )
+            {
+                mainRect.y = drag.maximumY
+                mainRect.state = "closed"
+            }
+            else
+            {
+                mainRect.y = drag.minimumY
+                mainRect.state = "opened"
+            }
+
+            console.log("state2", mainRect.state)
+        }
 
     }
 
@@ -407,9 +424,6 @@ Rectangle {
         State {
             name: "opened"
             PropertyChanges { target: mainRect; y: mouseArea.drag.minimumY}
-            //            PropertyChanges { target: layoutsListPanel; state: "closed"}
-
-            //            PropertyChanges { target: optionsPanel; state: "closed"}
         },
         State {
             name: "closed"
@@ -417,7 +431,7 @@ Rectangle {
         }]
 
 
-    Behavior on y { SmoothedAnimation { velocity: 400 } }
+    Behavior on y { SmoothedAnimation { velocity: 200 } }
 
     state: "closed"
 }
