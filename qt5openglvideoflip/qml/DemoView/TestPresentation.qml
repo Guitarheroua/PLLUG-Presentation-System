@@ -18,11 +18,10 @@ Presentation {
     }
 
 
-    function addNewSlide(layout)
+    function addNewSlide()
     {
-        var source = (layout === "Empty") ? "EmptySlide.qml" : layout
-        var component = Qt.createComponent(source);
-        var newSlide = component.createObject(presentation, {"layout": layout});
+        var component = Qt.createComponent("presentation/Slide.qml");
+        var newSlide = component.createObject(presentation, {"layout": "Empty"});
         if (newSlide === null)
         {
             console.log("Error creating object");
@@ -54,8 +53,12 @@ Presentation {
                     }
                 }
             }
-            var component = Qt.createComponent(source);
-            component.createObject(presentation.slides[currentSlide], {"objectName": "layout"});
+            if (source != "Empty")
+            {
+                var component = Qt.createComponent(source);
+                component.createObject(presentation.slides[currentSlide], {"objectName": "layout"});
+                presentation.slides[currentSlide].layout = source
+            }
         }
     }
 
@@ -239,22 +242,22 @@ Presentation {
         id: optionsPanel
     }
 
-//    ItemPropertiesPanel
-//    {
-//        id: itemPropertiesPanel
-//        currentItem: presentation.slides[currentSlide].selectedItem
-//        state: (presentation.slides[currentSlide].editSelectedItemProperties) ? "opened" : "closed"
-//        z: 3
-//        //        MouseArea
-//        //        {
-//        //            anchors.fill: parent
-//        //            onDoubleClicked:
-//        //            {
-//        //                presentation.slides[currentSlide].editSelectedItemProperties = false
-//        //            }
-//        //        }
+    //    ItemPropertiesPanel
+    //    {
+    //        id: itemPropertiesPanel
+    //        currentItem: presentation.slides[currentSlide].selectedItem
+    //        state: (presentation.slides[currentSlide].editSelectedItemProperties) ? "opened" : "closed"
+    //        z: 3
+    //        //        MouseArea
+    //        //        {
+    //        //            anchors.fill: parent
+    //        //            onDoubleClicked:
+    //        //            {
+    //        //                presentation.slides[currentSlide].editSelectedItemProperties = false
+    //        //            }
+    //        //        }
 
-//    }
+    //    }
 
 
     SlidesListPanel
@@ -267,15 +270,15 @@ Presentation {
             presentation.goToSlide(index)
         }
     }
-//    MouseArea
-//    {
-//        anchors.fill: parent
-//        onClicked: {
-//            slidesListPanel.state = "closed"
-//            layoutsListPanel.state = "closed"
-//            optionsPanel.state = "Closed"
-//        }
+    //    MouseArea
+    //    {
+    //        anchors.fill: parent
+    //        onClicked: {
+    //            slidesListPanel.state = "closed"
+    //            layoutsListPanel.state = "closed"
+    //            optionsPanel.state = "Closed"
+    //        }
 
-//    }
+    //    }
 
 }

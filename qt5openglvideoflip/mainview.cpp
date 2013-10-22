@@ -76,7 +76,7 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     this->setResizeMode(QQuickView::SizeRootObjectToView);
 
 
-    mActualSize = QSize(qApp->desktop()->screenGeometry().width()/1.5, qApp->desktop()->screenGeometry().height()/1.5);
+    mActualSize = QSize(qApp->desktop()->screenGeometry().width()/1.25, qApp->desktop()->screenGeometry().height()/1.25);
     mOldSize = mActualSize;
     mAspectRatio = (qreal)mActualSize.width() / mActualSize.height();
     resize(mActualSize);

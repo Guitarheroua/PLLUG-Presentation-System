@@ -8,7 +8,7 @@ Rectangle{
     color: "black"
     opacity: 0.7
     z: parent.z + 2
-    property var currentItem : presentation.slides[currentSlide].selectedItem
+    property var selectedItem : presentation.slides[currentSlide].selectedItem
     property bool itemEditing: presentation.slides[presentation.currentSlide].editSelectedItemProperties
     property bool slideProperties: false
     property bool itemProperties: false
@@ -17,9 +17,14 @@ Rectangle{
         if(!itemEditing && state === "ItemProperties")
             state = "Closed"
     }
-    onCurrentItemChanged:
+    onSelectedItemChanged:
     {
-        console.log("current item", currentItem)
+        console.log("current item", selectedItem)
+        widthTextInput.text = (selectedItem != null) ? Math.round(selectedItem.width) : 0
+        heightTextInput.text = (selectedItem != null) ? Math.round(selectedItem.height) : 0
+        xTextInput.text = (selectedItem != null) ? Math.round(selectedItem.x) : 0
+        yTextInput.text = (selectedItem != null) ? Math.round(selectedItem.y) : 0
+        zTextInput.text = (selectedItem != null) ? Math.round(selectedItem.z) : 0
     }
 
     ListModel
@@ -421,7 +426,6 @@ Rectangle{
                     {
                         id: widthTextInput
                         anchors.centerIn: parent
-                        text: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.width : 0
                         font.pointSize: 10
                         validator: IntValidator{
                             bottom: 50;
@@ -429,10 +433,10 @@ Rectangle{
                         }
                         focus: true
                         onTextChanged: {
-                            if (optionsPanelRect.currentItem != undefined && optionsPanelRect.visible && text != "")
+                            if (optionsPanelRect.selectedItem != undefined && optionsPanelRect.visible && text != "")
                             {
                                 console.log("width", text)
-                                optionsPanelRect.currentItem.width =  parseInt(text)
+                                optionsPanelRect.selectedItem.width = parseInt(text)
                             }
                         }
                         KeyNavigation.up: yTextInput
@@ -466,11 +470,11 @@ Rectangle{
                     width: 50
                     height: heightRect.height
                     z: optionsPanelRect.z +1
+                    property bool needToUpdate: true
                     TextInput
                     {
                         id: heightTextInput
                         anchors.centerIn:  parent
-                        text: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.height : 0
                         font.pointSize: 10
                         focus: true
                         z: optionsPanelRect.z +1
@@ -479,9 +483,9 @@ Rectangle{
                             top: /*(itemPropertiesRect.visible) ? itemPropertiesRect.height : 0*/600
                         }
                         onTextChanged: {
-                            if (optionsPanelRect.currentItem != undefined && optionsPanelRect.visible && text != "")
+                            if (optionsPanelRect.selectedItem != undefined && optionsPanelRect.visible && text != "")
                             {
-                                optionsPanelRect.currentItem.height = parseInt(text)
+                                optionsPanelRect.selectedItem.height = parseInt(text)
                             }
                         }
                         KeyNavigation.up: widthTextInput
@@ -519,7 +523,6 @@ Rectangle{
                     {
                         id: xTextInput
                         anchors.centerIn:  parent
-                        text: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.x : 0
                         font.pointSize: 10
                         focus: true
                         z: optionsPanelRect.z +1
@@ -528,9 +531,9 @@ Rectangle{
                             top: /*(itemPropertiesRect.visible) ? (itemPropertiesRect.width - itemPropertiesRect.currentItem.width) : 0*/600
                         }
                         onTextChanged: {
-                            if (optionsPanelRect.currentItem != undefined && optionsPanelRect.visible && text != "")
+                            if (optionsPanelRect.selectedItem != undefined && optionsPanelRect.visible && text != "")
                             {
-                                optionsPanelRect.currentItem.x = parseInt(text)
+                                optionsPanelRect.selectedItem.x = parseInt(text)
                             }
                         }
                         KeyNavigation.up: heightTextInput
@@ -569,7 +572,6 @@ Rectangle{
                     {
                         id: yTextInput
                         anchors.centerIn:  parent
-                        text: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.y : 0
                         font.pointSize: 10
                         focus: true
                         z: optionsPanelRect.z +1
@@ -578,9 +580,9 @@ Rectangle{
                             top: /*(itemPropertiesRect.visible) ? (itemPropertiesRect.height - itemPropertiesRect.currentItem.height) : 0*/600
                         }
                         onTextChanged: {
-                            if (optionsPanelRect.currentItem != undefined && optionsPanelRect.visible && text != "")
+                            if (optionsPanelRect.selectedItem != undefined && optionsPanelRect.visible && text != "")
                             {
-                                optionsPanelRect.currentItem.y = parseInt(text)
+                                optionsPanelRect.selectedItem.y = parseInt(text)
                             }
                         }
                         KeyNavigation.up: xTextInput
@@ -618,7 +620,6 @@ Rectangle{
                     {
                         id: zTextInput
                         anchors.centerIn:  parent
-                        text: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.z : 0
                         font.pointSize: 10
                         focus: true
                         z: optionsPanelRect.z +1
@@ -627,9 +628,9 @@ Rectangle{
                             top: /*(itemPropertiesRect.visible) ? (itemPropertiesRect.height - itemPropertiesRect.currentItem.height) : 0*/600
                         }
                         onTextChanged: {
-                            if (optionsPanelRect.currentItem != undefined && optionsPanelRect.visible && text != "")
+                            if (optionsPanelRect.selectedItem != undefined && optionsPanelRect.visible && text != "")
                             {
-                                optionsPanelRect.currentItem.z = parseInt(text)
+                                optionsPanelRect.selectedItem.z = parseInt(text)
                             }
                         }
                         KeyNavigation.up: yTextInput
@@ -638,7 +639,6 @@ Rectangle{
                         KeyNavigation.backtab: yTextInput
                     }
                 }
-
             }
         }
     }
@@ -652,6 +652,7 @@ Rectangle{
         drag.minimumX: presentation.width - optionsPanelRect.width
         drag.maximumX: presentation.width
         onClicked: {
+            console.log("options panel")
             optionsPanelRect.state = (optionsPanelRect.state != "Closed") ? "Closed" : optionsPanelRect.state
         }
 

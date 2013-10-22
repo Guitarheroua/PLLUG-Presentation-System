@@ -1,6 +1,4 @@
 import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Controls.Styles 1.0
 import QtQuick.Dialogs 1.0
 
 Rectangle {
@@ -14,25 +12,7 @@ Rectangle {
         id: pageLoader
         anchors.fill: parent
         z: 2
-//        onLoaded:
-//        {
-//            contextMenu.enabled = false
-//        }
     }
-
-
-//    MouseArea {
-//        anchors.fill: parent
-//        acceptedButtons: Qt.AllButtons
-//        onClicked:
-//        {
-//            if( mouse.button === Qt.RightButton && pageLoader.status != Loader.Ready)
-//            {
-//                contextMenu.popup()
-//            }
-//        }
-//    }
-
 
     Item
     {
@@ -67,7 +47,7 @@ Rectangle {
                 {
                     anchors.fill: parent
                     onClicked: {
-                        pageLoader.source = "items/text.qml"
+                        pageLoader.source = "items/editedText.qml"
                         menu.selectedItem = 0;
                     }
                 }
@@ -133,39 +113,6 @@ Rectangle {
             }
         }
     }
-
-//    Menu
-//    {
-//        id: contextMenu
-//        title: "Menu"
-//        MenuItem
-//        {
-//            text: "Image"
-//            onTriggered:
-//            {
-//                fileDialog.nameFilters = ["Image files (*.jpg *.png)"];
-//                fileDialog.open();
-//            }
-
-//        }
-//        MenuItem
-//        {
-//            text: "Video"
-//            onTriggered:
-//            {
-//                fileDialog.nameFilters = ["Video files (*.mp4 *.avi)"];
-//                fileDialog.open();
-//            }
-//        }
-//        MenuItem
-//        {
-//            text: "Browser"
-//            onTriggered:
-//            {
-//                pageLoader.source = "web.qml"
-//            }
-//        }
-//    }
 
     FileDialog{
         id: fileDialog

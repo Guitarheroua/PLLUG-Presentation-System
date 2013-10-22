@@ -219,9 +219,9 @@ Item {
         if (event.key >= Qt.Key_0 && event.key <= Qt.Key_9)
             _userNum = 10 * _userNum + (event.key - Qt.Key_0)
         else {
-            if (event.key == Qt.Key_Return /*|| event.key == Qt.Key_Enter*/)
-                goToUserSlide();
-            else if (event.key == Qt.Key_Backspace)
+//            if (event.key == Qt.Key_Return /*|| event.key == Qt.Key_Enter*/)
+//                goToUserSlide();
+            /*else */if (event.key == Qt.Key_Backspace)
                 goToPreviousSlide();
             else if (event.key == Qt.Key_C)
                 root._faded = !root._faded;
@@ -237,19 +237,19 @@ Item {
         Behavior on opacity { NumberAnimation { duration: 250 } }
     }
 
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-//        acceptedButtons: Qt.LeftButton | Qt.RightButton
-        onClicked: {
-//            if (mouse.button == Qt.RightButton)
-//                goToPreviousSlide()
-//            else
-//                goToNextSlide()
-            console.log("!!!!!!")
-        }
-        onPressAndHold: goToPreviousSlide(); //A back mechanism for touch only devices
-    }
+//    MouseArea {
+//        id: mouseArea
+//        anchors.fill: parent
+////        acceptedButtons: Qt.LeftButton | Qt.RightButton
+//        onClicked: {
+////            if (mouse.button == Qt.RightButton)
+////                goToPreviousSlide()
+////            else
+////                goToNextSlide()
+//            console.log("!!!!!!")
+//        }
+//        onPressAndHold: goToPreviousSlide(); //A back mechanism for touch only devices
+//    }
 
     Window {
         id: notesWindow;

@@ -256,7 +256,7 @@ Rectangle {
         {
             anchors.fill: parent
             onClicked: {
-                presentation.addNewSlide("Empty")
+                presentation.addNewSlide()
             }
         }
 
@@ -359,7 +359,7 @@ Rectangle {
             }
             onContentXChanged:
             {
-                console.log("CONTENT X", contentX)
+//                console.log("CONTENT X", contentX)
             }
 
             property int draggedIndex: -1
@@ -403,7 +403,7 @@ Rectangle {
         }
         onReleased:
         {
-            console.log("state1", mainRect.state, mainRect.y, drag.maximumY - mainRect.height/2)
+//            console.log("state1", mainRect.state, mainRect.y, drag.maximumY - mainRect.height/2)
             if ( mainRect.y >= (drag.maximumY - mainRect.height/2 + 20) )
             {
                 mainRect.y = drag.maximumY
@@ -415,7 +415,7 @@ Rectangle {
                 mainRect.state = "opened"
             }
 
-            console.log("state2", mainRect.state)
+//            console.log("state2", mainRect.state)
         }
 
     }

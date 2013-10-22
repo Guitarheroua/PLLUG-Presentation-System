@@ -72,14 +72,15 @@ OTHER_FILES += \
     qml/DemoView/background/StarSkyEffect.qml \
     qml/DemoView/background/UnderwaterEffect.qml \
     qml/DemoView/panels/LayoutsListPanel.qml \
-    qml/DemoView/layouts/Layout1.qml \
-    qml/DemoView/layouts/Layout2.qml \
-    qml/DemoView/layouts/Layout3.qml \
     qml/DemoView/layouts/Layout4.qml \
     qml/DemoView/layouts/Layout5.qml \
     qml/DemoView/layouts/Layout6.qml \
     qml/DemoView/layouts/Layout7.qml \
-    qml/DemoView/items/titleItem.qml
+    qml/DemoView/items/titleItem.qml \
+    qml/DemoView/layouts/Layout3.qml \
+    qml/DemoView/items/Code.qml \
+    qml/DemoView/layouts/Layout2.qml \
+    qml/DemoView/layouts/Layout1.qml
 
 RESOURCES += \
     resources.qrc

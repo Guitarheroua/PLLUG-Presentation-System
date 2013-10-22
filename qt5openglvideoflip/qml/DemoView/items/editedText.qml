@@ -5,7 +5,6 @@ Rectangle
     id: item
     property string type : "text"
     property string backgroundColor
-//    property string source
     property int fontSize
     property string fontFamily
     property string fontColor
@@ -21,11 +20,13 @@ Rectangle
 
     TextEdit{
         id: textEdit
+        anchors.fill: parent
+        clip: true
         anchors.centerIn: parent
         text: defaultText
         font.family: "Halvetica"
         font.pixelSize: 15
-        color: "red"
+        color: "black"
     }
     MouseArea
     {

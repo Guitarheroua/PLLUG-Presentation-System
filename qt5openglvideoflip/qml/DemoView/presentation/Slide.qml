@@ -41,6 +41,7 @@
 
 
 import QtQuick 2.0
+import "../items"
 
 Item {
     /*
@@ -91,7 +92,7 @@ Item {
         {
             anchors.fill: parent
             color: "transparent"
-                border.width: 2
+                border.width: 1
                 border.color: "black"
         }
 
@@ -108,16 +109,7 @@ Item {
 
     visible: false
 
-    onCodeChanged: {
-        listModel.clear();
-        var codeLines = slide.code.split("\n");
-        for (var i=0; i<codeLines.length; ++i) {
-            listModel.append({
-                                 line: i,
-                                 code: codeLines[i]
-                             });
-        }
-    }
+
     //    onParentChanged: {
     //        console.log(parent,topTitleMargin, fontSize * 1.5,height * 0.05)
     //    }
@@ -142,7 +134,6 @@ Item {
             color: slide.titleColor
             horizontalAlignment: Text.Center
             focus: true
-            z: 5
             onTextChanged: {
                 slide.title = title
             }
@@ -234,7 +225,7 @@ Item {
                         color: slide.textColor
                         radius: width / 2
                         smooth: true
-                        opacity: text.text.length == 0 ? 0 : 1
+                        opacity: text.text.length === 0 ? 0 : 1
                     }
 
                     Rectangle {
@@ -260,108 +251,13 @@ Item {
         }
     }
 
-    Item
+    Code
     {
-        id: codeItem
+        code: slide.code
         x: parent.width * 0.05
         y: parent.height * 0.2
         width: parent.width * 0.9
         height: parent.height * 0.7
-        visible: (code != "")
-        Rectangle
-        {
-            id: codeItemBackground
-            anchors.fill: parent
-            radius: height / 10;
-            gradient: Gradient {
-                GradientStop { position: 0; color: Qt.rgba(0.8, 0.8, 0.8, 0.5); }
-                GradientStop { position: 1; color: Qt.rgba(0.2, 0.2, 0.2, 0.5); }
-            }
-            border.color: slide.textColor;
-            border.width: height / 250;
-            antialiasing: true
-        }
-
-        ListModel
-        {
-            id: listModel
-        }
-
-
-        onVisibleChanged: {
-            listView.focus = slide.visible;
-            listView.currentIndex = -1;
-        }
-
-        ListView {
-            id: listView;
-
-            anchors.fill: parent;
-            anchors.margins: codeItemBackground.radius / 2
-            clip: true
-
-            model: listModel;
-            focus: true;
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    listView.focus = true;
-                    listView.currentIndex = listView.indexAt(mouse.x, mouse.y + listView.contentY);
-                }
-
-            }
-
-            delegate: Item {
-
-                id: itemDelegate
-
-                height: lineLabel.height
-                width: parent.width
-
-                Rectangle {
-                    id: lineLabelBackground
-                    width: lineLabel.height * 3;
-                    height: lineLabel.height;
-                    color: slide.textColor;
-                    opacity: 0.1;
-                }
-
-                Text {
-                    id: lineLabel
-                    anchors.right: lineLabelBackground.right;
-                    text: (line+1) + ":"
-                    color: slide.textColor;
-                    font.family: slide.codeFontFamily
-                    font.pixelSize: slide.codeFontSize
-                    font.bold: itemDelegate.ListView.isCurrentItem;
-                    opacity: itemDelegate.ListView.isCurrentItem ? 1 : 0.9;
-
-                }
-
-                Rectangle {
-                    id: lineContentBackground
-                    anchors.fill: lineContent;
-                    anchors.leftMargin: -height / 2;
-                    color: slide.textColor
-                    opacity: 0.2
-                    visible: itemDelegate.ListView.isCurrentItem;
-                }
-
-                Text {
-                    id: lineContent
-                    anchors.left: lineLabelBackground.right
-                    anchors.leftMargin: lineContent.height;
-                    anchors.right: parent.right;
-                    color: slide.textColor;
-                    text: code;
-                    font.family: slide.codeFontFamily
-                    font.pixelSize: slide.codeFontSize
-                    font.bold: itemDelegate.ListView.isCurrentItem;
-                    opacity: itemDelegate.ListView.isCurrentItem ? 1 : 0.9;
-                }
-            }
-        }
     }
 
 

@@ -3,7 +3,7 @@ import "../presentation"
 
 Rectangle {
     id: layoutsPanelRect
-    width: 130
+    width: 140
     height: parent.height
     x: parent.width - width
     z: parent.z + 2
@@ -104,7 +104,7 @@ Rectangle {
         {
             fill: parent
             topMargin: 10
-            leftMargin: 15
+            leftMargin: 20
         }
         z: parent.z+1
 
@@ -139,7 +139,7 @@ Rectangle {
         drag.axis: Drag.XAxis
         drag.target: layoutsPanelRect
         drag.minimumX: presentation.width - layoutsPanelRect.width
-        drag.maximumX: (layoutsPanelMouseArea.enabled) ? presentation.width - 10 : presentation.width
+        drag.maximumX: (layoutsPanelMouseArea.enabled) ? presentation.width - 12 : presentation.width
         enabled: presentation.slides[presentation.currentSlide].layout != ""
         onClicked: {
             layoutsPanelRect.state = (layoutsPanelRect.state === "closed") ? "opened" : "closed"
