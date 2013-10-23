@@ -7,54 +7,7 @@ Item
     id: templateItem
     anchors.fill: parent
 
-    Rectangle
-    {
-        id: titleRect
-        width: templateItem.parent.contentWidth
-        height: textEdit.height
-        anchors
-        {
-            horizontalCenter: parent.horizontalCenter
-            top: parent.top
-            topMargin: /*templateItem.parent.topTitleMargin*/20
-        }
-        color: "transparent"
 
-        border
-        {
-            color: "lightgrey"
-            width: 1
-        }
-
-        TextInput
-        {
-            id: textEdit
-            anchors
-            {
-                centerIn: parent
-            }
-
-            text: "Click to add text"
-            font.pointSize: templateItem.parent.titleFontSize
-            horizontalAlignment: Text.Center
-            MouseArea
-            {
-                anchors.fill: parent
-                onClicked: {
-                    textEdit.text = (textEdit.text === "Click to add text") ? "" : textEdit.text
-                    textEdit.forceActiveFocus()
-                    //                    borderImage.visible = false
-                }
-            }
-            onFocusChanged: {
-                if (!focus)
-                {
-                    titleRect.visible = false
-                    templateItem.parent.title = textEdit.text
-                }
-            }
-        }
-    }
     Component {
         id: highlightBar
         Rectangle {

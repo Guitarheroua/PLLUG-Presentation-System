@@ -27,6 +27,7 @@ Presentation {
             console.log("Error creating object");
         }
         presentation.newSlide(newSlide,presentation.currentSlide+1)
+        console.log("title", newSlide.title)
         layoutsListPanel.state = "opened"
 
     }

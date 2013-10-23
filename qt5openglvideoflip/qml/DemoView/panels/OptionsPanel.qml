@@ -1,9 +1,11 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.0
+import QtQuick.Dialogs 1.0
+import "../components/ColorPicker"
 
 Rectangle{
     id: optionsPanelRect
-    width: 210
+    width: 310
     height: parent.height
     color: "black"
     opacity: 0.7
@@ -20,11 +22,11 @@ Rectangle{
     onSelectedItemChanged:
     {
         console.log("current item", selectedItem)
-        widthTextInput.text = (selectedItem != null) ? Math.round(selectedItem.width) : 0
-        heightTextInput.text = (selectedItem != null) ? Math.round(selectedItem.height) : 0
-        xTextInput.text = (selectedItem != null) ? Math.round(selectedItem.x) : 0
-        yTextInput.text = (selectedItem != null) ? Math.round(selectedItem.y) : 0
-        zTextInput.text = (selectedItem != null) ? Math.round(selectedItem.z) : 0
+//        widthTextInput.text = (selectedItem != null) ? Math.round(selectedItem.width) : 0
+//        heightTextInput.text = (selectedItem != null) ? Math.round(selectedItem.height) : 0
+//        xTextInput.text = (selectedItem != null) ? Math.round(selectedItem.x) : 0
+//        yTextInput.text = (selectedItem != null) ? Math.round(selectedItem.y) : 0
+//        zTextInput.text = (selectedItem != null) ? Math.round(selectedItem.z) : 0
     }
 
     ListModel
@@ -36,15 +38,15 @@ Rectangle{
             contents: [
                 ListElement {
                     name: "Swirls"
-                    source: "background/BackgroundSwirls.qml"
+                    value: "background/BackgroundSwirls.qml"
                 },
                 ListElement {
                     name: "Fire"
-                    source: "background/FireEffect.qml"
+                    value: "background/FireEffect.qml"
                 },
                 ListElement {
                     name: "Underwater"
-                    source: "background/UnderwaterEffect.qml"
+                    value: "background/UnderwaterEffect.qml"
                 }
             ]
         }
@@ -53,12 +55,24 @@ Rectangle{
             contents: [
                 ListElement {
                     name: "Flipping page"
-                    source: "PageFlipShaderEffect.qml"
+                    value: "PageFlipShaderEffect.qml"
                 }
 
             ]
         }
+
     }
+
+//    Component.onCompleted:
+//    {
+//        console.log("\ncount", slideOptionsModel.count)
+//        for(var i=0; i<textPropertiesModel.count; ++i)
+//        {
+//            slideOptionsModel.append(textPropertiesModel.get(i))
+//            slideOptionsModel.get(slideOptionsModel.count-1).contents = textPropertiesModel.get(i).contents
+//        }
+//    }
+
 
     Component
     {
@@ -142,18 +156,18 @@ Rectangle{
                                     {
                                         if(rect1.selected)
                                         {
-                                            presentation.addBackground(model.source)
+                                            presentation.addBackground(model.value)
                                         }
                                         else
                                         {
-                                            presentation.removeBackground(model.source)
+                                            presentation.removeBackground(model.value)
                                         }
                                     }
                                     else if (slideOptionsModel.get(rect.ind).name === "Transitions")
                                     {
                                         if(rect1.selected)
                                         {
-                                            presentation.addTransition(model.source)
+                                            presentation.addTransition(model.value)
                                         }
                                         else
                                         {
@@ -186,10 +200,12 @@ Rectangle{
     Item{
         id: listViewItem
         visible: slideProperties
+
         anchors
         {
             fill: parent
             margins: 5
+            bottomMargin: 400
         }
         z: parent.z+1
         ListView{
@@ -201,6 +217,12 @@ Rectangle{
 
         }
 
+    }
+    TextMenu
+    {
+        anchors.fill: parent
+        anchors.topMargin: parent.height - 300
+         z: parent.z+1
     }
 
     //        Rectangle
@@ -228,7 +250,7 @@ Rectangle{
     //                anchors.fill: parent
     //                onClicked:
     //                {
-    //                    //                backgroundLoader.setSource("../BackgroundSwirls.qml")
+    //                    //                backgroundLoader.setvalue("../BackgroundSwirls.qml")
     //                    addBackground("../background/BackgroundSwirls.qml")
     //                    optionsPanelRect.state = "closed"
     //                }
@@ -351,297 +373,261 @@ Rectangle{
     //    }
 
 
-    //    ListModel
-    //    {
-    //        id: itemPropertiesModel
 
-    //        ListElement {
-    //            name: "Size"
-    //            contents: [
-    //                ListElement {
-    //                    name: "Width"
-    //                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.width : 0
-    //                },
-    //                ListElement {
-    //                    name: "Height"
-    //                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.height : 0
-    //                }
-    //            ]
-    //        }
-    //        ListElement {
-    //            name: "Position"
-    //            contents: [
-    //                ListElement {
-    //                    name: "X"
-    //                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.x : 0
-    //                },
-    //                ListElement {
-    //                    name: "Y"
-    //                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.y : 0
-    //                },
-    //                ListElement {
-    //                    name: "Z"
-    //                    value: (optionsPanelRect.currentItem) ? optionsPanelRect.currentItem.z : 0
-    //                }
+//    Item
+//    {
+//        visible: itemProperties
+//        anchors
+//        {
+//            fill: parent
+//            topMargin: 20
+//            leftMargin: 20
+//        }
+//        z: parent.z + 1
 
-    //            ]
-    //        }
-    //    }
+//        Column{
+//            spacing : 10
+//            Row{
+//                spacing: 20
+//                Rectangle
+//                {
+//                    id: widthRect
+//                    width: 50
+//                    height: widthLabel.height+10
+//                    Text
+//                    {
+//                        id: widthLabel
+//                        text: "Width"
+//                        anchors.centerIn: parent
+//                        font.pointSize: 9
+//                    }
 
-    Item
-    {
-        visible: itemProperties
-        anchors
-        {
-            fill: parent
-            topMargin: 20
-            leftMargin: 20
-        }
-        z: parent.z + 1
+//                }
+//                Rectangle
+//                {
+//                    width: 50
+//                    height: widthRect.height
+//                    z: optionsPanelRect.z +1
+//                    TextInput
+//                    {
+//                        id: widthTextInput
+//                        anchors.centerIn: parent
+//                        font.pointSize: 10
+//                        validator: IntValidator{
+//                            bottom: 50;
+//                            top: /*(itemPropertiesRect.visible) ? itemPropertiesRect.width : 0*/600
+//                        }
+//                        focus: true
+//                        onTextChanged: {
+//                            if (optionsPanelRect.selectedItem != undefined && optionsPanelRect.visible && text != "")
+//                            {
+//                                console.log("width", text)
+//                                optionsPanelRect.selectedItem.width = parseInt(text)
+//                            }
+//                        }
+//                        KeyNavigation.up: yTextInput
+//                        KeyNavigation.down: heightTextInput
+//                        KeyNavigation.tab: heightTextInput
+//                        KeyNavigation.backtab: yTextInput
+//                    }
+//                }
 
-        Column{
-            spacing : 10
-            Row{
-                spacing: 20
-                Rectangle
-                {
-                    id: widthRect
-                    width: 50
-                    height: widthLabel.height+10
-                    Text
-                    {
-                        id: widthLabel
-                        text: "Width"
-                        anchors.centerIn: parent
-                        font.pointSize: 9
-                    }
+//            }
+//            Row{
+//                spacing: 20
+//                Rectangle
+//                {
+//                    id: heightRect
+//                    width: heightLabel.width+10
+//                    height: heightLabel.height+10
+//                    Text
+//                    {
+//                        id: heightLabel
+//                        anchors.centerIn: parent
+//                        text: "Height"
+//                        verticalAlignment: Text.AlignVCenter
+//                        horizontalAlignment: Text.AlignHCenter
+//                        font.pointSize: 10
+//                    }
 
-                }
-                Rectangle
-                {
-                    width: 50
-                    height: widthRect.height
-                    z: optionsPanelRect.z +1
-                    TextInput
-                    {
-                        id: widthTextInput
-                        anchors.centerIn: parent
-                        font.pointSize: 10
-                        validator: IntValidator{
-                            bottom: 50;
-                            top: /*(itemPropertiesRect.visible) ? itemPropertiesRect.width : 0*/600
-                        }
-                        focus: true
-                        onTextChanged: {
-                            if (optionsPanelRect.selectedItem != undefined && optionsPanelRect.visible && text != "")
-                            {
-                                console.log("width", text)
-                                optionsPanelRect.selectedItem.width = parseInt(text)
-                            }
-                        }
-                        KeyNavigation.up: yTextInput
-                        KeyNavigation.down: heightTextInput
-                        KeyNavigation.tab: heightTextInput
-                        KeyNavigation.backtab: yTextInput
-                    }
-                }
+//                }
+//                Rectangle
+//                {
+//                    width: 50
+//                    height: heightRect.height
+//                    z: optionsPanelRect.z +1
+//                    property bool needToUpdate: true
+//                    TextInput
+//                    {
+//                        id: heightTextInput
+//                        anchors.centerIn:  parent
+//                        font.pointSize: 10
+//                        focus: true
+//                        z: optionsPanelRect.z +1
+//                        validator: IntValidator{
+//                            bottom: 50;
+//                            top: /*(itemPropertiesRect.visible) ? itemPropertiesRect.height : 0*/600
+//                        }
+//                        onTextChanged: {
+//                            if (optionsPanelRect.selectedItem != undefined && optionsPanelRect.visible && text != "")
+//                            {
+//                                optionsPanelRect.selectedItem.height = parseInt(text)
+//                            }
+//                        }
+//                        KeyNavigation.up: widthTextInput
+//                        KeyNavigation.down: xTextInput
+//                        KeyNavigation.tab: xTextInput
+//                        KeyNavigation.backtab: widthTextInput
+//                    }
+//                }
 
-            }
-            Row{
-                spacing: 20
-                Rectangle
-                {
-                    id: heightRect
-                    width: heightLabel.width+10
-                    height: heightLabel.height+10
-                    Text
-                    {
-                        id: heightLabel
-                        anchors.centerIn: parent
-                        text: "Height"
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.pointSize: 10
-                    }
+//            }
+//            Row{
+//                spacing: 20
+//                Rectangle
+//                {
+//                    id: xRect
+//                    width: 50
+//                    height: xLabel.height+10
+//                    Text
+//                    {
+//                        id: xLabel
+//                        anchors.centerIn: parent
+//                        text: "X"
+//                        verticalAlignment: Text.AlignVCenter
+//                        horizontalAlignment: Text.AlignHCenter
+//                        font.pointSize: 10
+//                    }
 
-                }
-                Rectangle
-                {
-                    width: 50
-                    height: heightRect.height
-                    z: optionsPanelRect.z +1
-                    property bool needToUpdate: true
-                    TextInput
-                    {
-                        id: heightTextInput
-                        anchors.centerIn:  parent
-                        font.pointSize: 10
-                        focus: true
-                        z: optionsPanelRect.z +1
-                        validator: IntValidator{
-                            bottom: 50;
-                            top: /*(itemPropertiesRect.visible) ? itemPropertiesRect.height : 0*/600
-                        }
-                        onTextChanged: {
-                            if (optionsPanelRect.selectedItem != undefined && optionsPanelRect.visible && text != "")
-                            {
-                                optionsPanelRect.selectedItem.height = parseInt(text)
-                            }
-                        }
-                        KeyNavigation.up: widthTextInput
-                        KeyNavigation.down: xTextInput
-                        KeyNavigation.tab: xTextInput
-                        KeyNavigation.backtab: widthTextInput
-                    }
-                }
+//                }
+//                Rectangle
+//                {
+//                    width: 50
+//                    height: xRect.height
+//                    z: optionsPanelRect.z +1
+//                    TextInput
+//                    {
+//                        id: xTextInput
+//                        anchors.centerIn:  parent
+//                        font.pointSize: 10
+//                        focus: true
+//                        z: optionsPanelRect.z +1
+//                        validator: IntValidator{
+//                            bottom: 50;
+//                            top: /*(itemPropertiesRect.visible) ? (itemPropertiesRect.width - itemPropertiesRect.currentItem.width) : 0*/600
+//                        }
+//                        onTextChanged: {
+//                            if (optionsPanelRect.selectedItem != undefined && optionsPanelRect.visible && text != "")
+//                            {
+//                                optionsPanelRect.selectedItem.x = parseInt(text)
+//                            }
+//                        }
+//                        KeyNavigation.up: heightTextInput
+//                        KeyNavigation.down: yTextInput
+//                        KeyNavigation.tab: yTextInput
+//                        KeyNavigation.backtab: heightTextInput
+//                    }
+//                }
 
-            }
-            Row{
-                spacing: 20
-                Rectangle
-                {
-                    id: xRect
-                    width: 50
-                    height: xLabel.height+10
-                    Text
-                    {
-                        id: xLabel
-                        anchors.centerIn: parent
-                        text: "X"
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.pointSize: 10
-                    }
+//            }
 
-                }
-                Rectangle
-                {
-                    width: 50
-                    height: xRect.height
-                    z: optionsPanelRect.z +1
-                    TextInput
-                    {
-                        id: xTextInput
-                        anchors.centerIn:  parent
-                        font.pointSize: 10
-                        focus: true
-                        z: optionsPanelRect.z +1
-                        validator: IntValidator{
-                            bottom: 50;
-                            top: /*(itemPropertiesRect.visible) ? (itemPropertiesRect.width - itemPropertiesRect.currentItem.width) : 0*/600
-                        }
-                        onTextChanged: {
-                            if (optionsPanelRect.selectedItem != undefined && optionsPanelRect.visible && text != "")
-                            {
-                                optionsPanelRect.selectedItem.x = parseInt(text)
-                            }
-                        }
-                        KeyNavigation.up: heightTextInput
-                        KeyNavigation.down: yTextInput
-                        KeyNavigation.tab: yTextInput
-                        KeyNavigation.backtab: heightTextInput
-                    }
-                }
+//            Row{
+//                spacing: 20
+//                Rectangle
+//                {
+//                    id: yRect
+//                    width: 50
+//                    height: yLabel.height+10
+//                    Text
+//                    {
+//                        id: yLabel
+//                        anchors.centerIn:  parent
+//                        text: "Y"
+//                        verticalAlignment: Text.AlignVCenter
+//                        horizontalAlignment: Text.AlignHCenter
+//                        font.pointSize: 10
+//                    }
 
-            }
+//                }
+//                Rectangle
+//                {
+//                    width: 50
+//                    height: yRect.height
+//                    z: optionsPanelRect.z +1
+//                    TextInput
+//                    {
+//                        id: yTextInput
+//                        anchors.centerIn:  parent
+//                        font.pointSize: 10
+//                        focus: true
+//                        z: optionsPanelRect.z +1
+//                        validator: IntValidator{
+//                            bottom: 50
+//                            top: /*(itemPropertiesRect.visible) ? (itemPropertiesRect.height - itemPropertiesRect.currentItem.height) : 0*/600
+//                        }
+//                        onTextChanged: {
+//                            if (optionsPanelRect.selectedItem != undefined && optionsPanelRect.visible && text != "")
+//                            {
+//                                optionsPanelRect.selectedItem.y = parseInt(text)
+//                            }
+//                        }
+//                        KeyNavigation.up: xTextInput
+//                        KeyNavigation.down: zTextInput
+//                        KeyNavigation.tab: zTextInput
+//                        KeyNavigation.backtab: xTextInput
+//                    }
+//                }
 
-            Row{
-                spacing: 20
-                Rectangle
-                {
-                    id: yRect
-                    width: 50
-                    height: yLabel.height+10
-                    Text
-                    {
-                        id: yLabel
-                        anchors.centerIn:  parent
-                        text: "Y"
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.pointSize: 10
-                    }
+//            }
+//            Row{
+//                spacing: 20
+//                Rectangle
+//                {
+//                    id: zRect
+//                    width: 50
+//                    height: yLabel.height+10
+//                    Text
+//                    {
+//                        id: zLabel
+//                        anchors.centerIn:  parent
+//                        text: "Z"
+//                        verticalAlignment: Text.AlignVCenter
+//                        horizontalAlignment: Text.AlignHCenter
+//                        font.pointSize: 10
+//                    }
 
-                }
-                Rectangle
-                {
-                    width: 50
-                    height: yRect.height
-                    z: optionsPanelRect.z +1
-                    TextInput
-                    {
-                        id: yTextInput
-                        anchors.centerIn:  parent
-                        font.pointSize: 10
-                        focus: true
-                        z: optionsPanelRect.z +1
-                        validator: IntValidator{
-                            bottom: 50
-                            top: /*(itemPropertiesRect.visible) ? (itemPropertiesRect.height - itemPropertiesRect.currentItem.height) : 0*/600
-                        }
-                        onTextChanged: {
-                            if (optionsPanelRect.selectedItem != undefined && optionsPanelRect.visible && text != "")
-                            {
-                                optionsPanelRect.selectedItem.y = parseInt(text)
-                            }
-                        }
-                        KeyNavigation.up: xTextInput
-                        KeyNavigation.down: zTextInput
-                        KeyNavigation.tab: zTextInput
-                        KeyNavigation.backtab: xTextInput
-                    }
-                }
-
-            }
-            Row{
-                spacing: 20
-                Rectangle
-                {
-                    id: zRect
-                    width: 50
-                    height: yLabel.height+10
-                    Text
-                    {
-                        id: zLabel
-                        anchors.centerIn:  parent
-                        text: "Z"
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        font.pointSize: 10
-                    }
-
-                }
-                Rectangle
-                {
-                    width: 50
-                    height: zRect.height
-                    z: optionsPanelRect.z +1
-                    TextInput
-                    {
-                        id: zTextInput
-                        anchors.centerIn:  parent
-                        font.pointSize: 10
-                        focus: true
-                        z: optionsPanelRect.z +1
-                        validator: IntValidator{
-                            bottom: 50
-                            top: /*(itemPropertiesRect.visible) ? (itemPropertiesRect.height - itemPropertiesRect.currentItem.height) : 0*/600
-                        }
-                        onTextChanged: {
-                            if (optionsPanelRect.selectedItem != undefined && optionsPanelRect.visible && text != "")
-                            {
-                                optionsPanelRect.selectedItem.z = parseInt(text)
-                            }
-                        }
-                        KeyNavigation.up: yTextInput
-                        KeyNavigation.down: widthTextInput
-                        KeyNavigation.tab: widthTextInput
-                        KeyNavigation.backtab: yTextInput
-                    }
-                }
-            }
-        }
-    }
+//                }
+//                Rectangle
+//                {
+//                    width: 50
+//                    height: zRect.height
+//                    z: optionsPanelRect.z +1
+//                    TextInput
+//                    {
+//                        id: zTextInput
+//                        anchors.centerIn:  parent
+//                        font.pointSize: 10
+//                        focus: true
+//                        z: optionsPanelRect.z +1
+//                        validator: IntValidator{
+//                            bottom: 50
+//                            top: /*(itemPropertiesRect.visible) ? (itemPropertiesRect.height - itemPropertiesRect.currentItem.height) : 0*/600
+//                        }
+//                        onTextChanged: {
+//                            if (optionsPanelRect.selectedItem != undefined && optionsPanelRect.visible && text != "")
+//                            {
+//                                optionsPanelRect.selectedItem.z = parseInt(text)
+//                            }
+//                        }
+//                        KeyNavigation.up: yTextInput
+//                        KeyNavigation.down: widthTextInput
+//                        KeyNavigation.tab: widthTextInput
+//                        KeyNavigation.backtab: yTextInput
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     MouseArea
     {
@@ -688,5 +674,6 @@ Rectangle{
     Behavior on x { SmoothedAnimation { velocity: 400 } }
 
     state: "Closed"
+
 
 }

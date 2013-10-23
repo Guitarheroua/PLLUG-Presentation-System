@@ -80,7 +80,16 @@ OTHER_FILES += \
     qml/DemoView/layouts/Layout3.qml \
     qml/DemoView/items/Code.qml \
     qml/DemoView/layouts/Layout2.qml \
-    qml/DemoView/layouts/Layout1.qml
+    qml/DemoView/layouts/Layout1.qml \
+    qml/DemoView/panels/TextMenu.qml \
+    qml/DemoView/components/ColorPicker/ColorPicker.qml \
+    qml/DemoView/components/ColorPicker/NumberBox.qml \
+    qml/DemoView/components/ColorPicker/PanelBorder.qml \
+    qml/DemoView/components/ColorPicker/ColorUtils.js \
+    qml/DemoView/components/ColorPicker/SBPicker.qml \
+    qml/DemoView/panels/OptionsMenuItem.qml \
+    qml/DemoView/panels/ColorMenuItem.qml \
+    qml/DemoView/components/ColorPicker/ColorSlider.qml
 
 RESOURCES += \
     resources.qrc

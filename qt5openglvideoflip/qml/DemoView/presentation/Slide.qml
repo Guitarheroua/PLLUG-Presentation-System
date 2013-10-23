@@ -100,7 +100,9 @@ Item {
     property real masterWidth: parent.width
     property real masterHeight: parent.height
 
-    property color titleColor: parent.titleColor;
+    property color titleColor: parent.titleColor
+    property bool titleFontBold: true
+    property string titleFontFamily: parent.fontFamily
     property color textColor: parent.textColor;
     property string fontFamily: parent.fontFamily;
 
@@ -114,46 +116,71 @@ Item {
     //        console.log(parent,topTitleMargin, fontSize * 1.5,height * 0.05)
     //    }
 
-    Item{
-        id: titleItem
-        anchors.horizontalCenter:  parent.horizontalCenter
-        anchors.top: parent.top
-        anchors.topMargin: parent.topTitleMargin
-        width: titleText.width
-        height: titleText.height
-        Text {
+    Rectangle
+    {
+        id: titleRect
+        property string defaultTitleText: "Click to add title"
+        visible: (slide.title != "")
+        anchors
+        {
+            horizontalCenter: parent.horizontalCenter
+            top: parent.top
+            topMargin: parent.topTitleMargin
+        }
+        width: parent.contentWidth
+        height: 50
+        z: parent.z + 1
+
+        color: "transparent"
+        border
+        {
+            color: (slide.selectedItem === titleRect) ? "lightsteelblue" : "lightgrey"
+            width: (titleText.focus || titleText.text === titleRect.defaultTitleText ) ? 1 :0
+        }
+
+        TextInput
+        {
             id: titleText
+            anchors
+            {
+                fill: parent
+            }
+            wrapMode: TextInput.WordWrap
             font.pixelSize: titleFontSize
-            text: title
-//            textFormat: TextEdit.RichText
-            anchors.horizontalCenter:  parent.horizontalCenter
-            anchors.top: parent.top
-            anchors.topMargin: parent.topTitleMargin
-            font.bold: true;
-            font.family: slide.fontFamily
-            color: slide.titleColor
+            text: (slide.title === "") ? titleRect.defaultTitleText : slide.title
+            font.bold: titleFontBold
+            font.family: titleFontFamily
+            color: titleColor
             horizontalAlignment: Text.Center
             focus: true
-            onTextChanged: {
-                slide.title = title
+            onTextChanged:
+            {
+                slide.title = (titleText.text === titleRect.defaultTitleText) ? "" : titleText.text
+            }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked: {
+                    titleText.text = (titleText.text === titleRect.defaultTitleText ) ? "" : titleText.text
+                    titleText.forceActiveFocus()
+                }
+                onPressAndHold:
+                {
+                    console.log("pressed")
+                    slide.selectedItem = (slide.selectedItem === titleRect) ? null : titleRect
+                    slide.editSelectedItemProperties = !slide.editSelectedItemProperties
+                }
             }
 
-                    MouseArea
-                    {
-                        anchors.fill: parent
-            //            onClicked: {
-            //                console.log("CLICk")
-            //            }
-
-                        onPressAndHold:
-                        {
-                            console.log("!!!!")
-                            selectedItem = titleItem
-                        }
-                    }
-
+//            onFocusChanged: {
+//                if (!focus)
+//                {
+//                    slide.title = (titleText.text === titleRect.defaultTitleText) ? "" : titleText.text
+//                }
+//            }
         }
     }
+
     Item
     {
         id: contentItem

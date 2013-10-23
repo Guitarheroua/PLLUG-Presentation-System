@@ -50,7 +50,7 @@ Item {
     property int currentSlide
     property bool showNotes: false;
 
-    property color titleColor: textColor;
+    property color titleColor: /*textColor*/ "blue"
     property color textColor: "black"
     property string fontFamily: "Helvetica"
     property string codeFontFamily: "Courier New"
