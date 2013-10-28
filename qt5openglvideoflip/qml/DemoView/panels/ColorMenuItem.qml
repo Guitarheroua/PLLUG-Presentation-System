@@ -1,30 +1,35 @@
 import QtQuick 2.0
 import "../components/ColorPicker"
 
-Item
+Rectangle
 {
     id: colorMenuItem
     height: (colorPicker.visible) ? mainHeight + colorPicker.height : mainHeight
-    property alias selectedColor/*: propertyValueRect.color*/: colorPicker.colorValue
+    property color selectedColor:  colorPicker.colorValue
     property color selectedItemColor
     onSelectedColorChanged:
     {
-        console.log("***********",selectedColor)
+//        console.log("***********",selectedColor)
     }
-//    onSelectedItemColorChanged:
-//    {
+    onSelectedItemColorChanged:
+    {
 //        console.log(helper.getSaturation(selectedItemColor))
-//    }
+    }
 
     property color unselectedItemColor: "grey"
     property bool selected: false
     property real mainHeight
 
+    color: (!colorMenuItem.selected) ? colorMenuItem.unselectedItemColor : Qt.darker(colorMenuItem.unselectedItemColor, 1.5)
+
     Rectangle
     {
         id: menuItemRect
-        color: unselectedItemColor
+        z : parent.z + 1
+        color: "transparent"
         anchors.top: parent.top
+        height: 25
+        width: parent.width
         Row
         {
             spacing: 10
@@ -58,15 +63,16 @@ Item
                     x: 10
                     y: 2
                     color: colorMenuItem.selectedItemColor
+                    border.width: 1
+                    border.color: "black"
                     MouseArea
                     {
                         anchors.fill: parent
                         onClicked:
                         {
-                            colorPicker.visible = true
+                            colorMenuItem.selected = !colorMenuItem.selected
+                            colorPicker.visible = !colorPicker.visible
                             colorPicker.givenColor = colorMenuItem.selectedItemColor
-//                            colorPicker.hue = helper.hue(selectedItemColor)
-//                            colorPicker.saturation = helper.saturation(selectedItemColor)
                         }
                     }
                 }
@@ -78,8 +84,8 @@ Item
             onClicked:
             {
                 colorMenuItem.selected = !colorMenuItem.selected
-                colorMenuItem.selectedColor = (colorMenuItem.selected ) ? Qt.darker(colorMenuItem.color, 1.5) : colorMenuItem.unselectedItemColor
-
+                colorPicker.visible = !colorPicker.visible
+                colorPicker.givenColor = colorMenuItem.selectedItemColor
                 //            optionsPanelRect.state = "Closed"
             }
 
@@ -103,15 +109,13 @@ Item
         visible: false
         onVisibleChanged:
         {
-            parent.height = mainHeight + colorPicker.height
+            parent.height = (visible) ? mainHeight + colorPicker.height : mainHeight
         }
         onColorValueChanged:
         {
             colorMenuItem.selectedColor = colorValue
-            console.log(helper.saturation(colorValue))
-            console.log(helper.brightness(colorValue))
         }
 
-        z: parent.z +1
+        z: parent.z + 1
     }
 }

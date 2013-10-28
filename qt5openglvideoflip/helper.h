@@ -13,6 +13,7 @@ public:
     Q_INVOKABLE qreal hue(const QString&);
     Q_INVOKABLE qreal saturation(const QString&);
     Q_INVOKABLE qreal brightness(const QString&);
+    Q_INVOKABLE qreal alpha(const QString&);
     
 signals:
     

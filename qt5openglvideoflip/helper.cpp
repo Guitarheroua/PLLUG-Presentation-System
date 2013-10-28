@@ -26,20 +26,24 @@ QString Helper::readShader(const QString &pFileName)
 qreal Helper::hue(const QString &pColor)
 {
     QColor color(pColor);
-    qDebug() << "++++++" << color.hueF() ;
     return color.hueF();
 }
 
 qreal Helper::brightness(const QString &pColor)
 {
     QColor color(pColor);
-    qDebug() << "==========" << color.lightnessF() << 1 - color.lightnessF();
-    return color.lightnessF();
+    return 1 - color.lightnessF();
+}
+
+qreal Helper::alpha(const QString &pColor)
+{
+    QColor color(pColor);
+    return color.alphaF();
 }
 
 qreal Helper::saturation(const QString& pColor)
 {
     QColor color(pColor);
-    qDebug() << "__________" << color.saturationF();
+//    qDebug() << "__________" << color.saturationF();
     return color.saturationF();
 }

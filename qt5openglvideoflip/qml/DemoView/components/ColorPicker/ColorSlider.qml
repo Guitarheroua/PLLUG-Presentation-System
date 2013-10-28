@@ -2,10 +2,10 @@ import QtQuick 2.0
 
 Item {
     property real value: (1 - pickerCursor.y/height)
-    property real vv
-    onVvChanged:
+    property real givenValue
+    onGivenValueChanged:
     {
-        pickerCursor.y = (1-vv)*height
+        pickerCursor.y = (1-givenValue)*height
     }
 
 

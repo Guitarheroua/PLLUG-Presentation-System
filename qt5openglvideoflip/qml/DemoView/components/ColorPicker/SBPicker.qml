@@ -3,12 +3,21 @@ import QtQuick 2.0
 Item {
     id: root
     property real hueColor
+    property real givenSaturation
+    property real givenBrightness
     property real saturation : pickerCursor.x/width
     property real brightness : 1 - pickerCursor.y/height
-    onSaturationChanged:
+    onGivenSaturationChanged:
     {
-        console.log("\nsaturation\n",saturation)
+        pickerCursor.x = width * givenSaturation
     }
+    onGivenBrightnessChanged:
+    {
+        pickerCursor.y = givenBrightness*height
+        console.log("picker cursor y", pickerCursor.y)
+    }
+
+
 
     width: 200; height: 200
     clip: true

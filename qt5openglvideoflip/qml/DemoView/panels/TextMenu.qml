@@ -5,12 +5,11 @@ import QtQuick 2.0
 //    width: parent.width
 //    height: 200
 
-    Rectangle
-    {
+    Item{
         id: rect
         width: parent.width
         height: delegateItemText.height+lineRect.height
-        color: "transparent"
+//        color: "transparent"
         property int subItemHeight: 25
         Text {
             id: delegateItemText
@@ -58,7 +57,7 @@ import QtQuick 2.0
                 {
                     width: rect.width
                     height: rect.subItemHeight
-                    selectedItemColor: "green"
+                    selectedItemColor: "darkred"
                     onHeightChanged:
                     {
                         subItemsRect.height = (height === rect.subItemHeight) ? subItemsRect.height : subItemsRect.height + (height - subItemHeight)

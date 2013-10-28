@@ -1,15 +1,25 @@
 import QtQuick 2.0
 import "ColorUtils.js" as ColorUtils
-import QtGraphicalEffects 1.0
+//import QtGraphicalEffects 1.0
 
-Rectangle {
+Item {
     id: colorPicker
     property color colorValue: ColorUtils.hsba(hueSlider.value, sbPicker.saturation,
                                                sbPicker.brightness, alphaSlider.value)
     property color givenColor
     onGivenColorChanged:
     {
-        hueSlider.vv = helper.hue(givenColor)
+        hueSlider.givenValue = helper.hue(givenColor)
+        alphaSlider.givenValue = helper.alpha(givenColor)
+        sbPicker.givenSaturation = helper.saturation(givenColor)
+        sbPicker.givenBrightness = helper.brightness(givenColor)
+//        console.log("\ngiven color:", helper.hue(givenColor),helper.alpha(givenColor),helper.saturation(givenColor),helper.brightness(givenColor))
+        updateColor()
+        colorValue = Qt.hsla(helper.hue(givenColor),helper.saturation(givenColor),1-helper.brightness(givenColor),helper.alpha(givenColor))
+    }
+    onColorValueChanged:
+    {
+//        console.log("new COLOR",helper.hue(colorValue),helper.alpha(colorValue),helper.saturation(colorValue),helper.brightness(colorValue))
     }
 
     property alias hue: hueSlider.value
@@ -34,7 +44,7 @@ Rectangle {
     }
 
     width: 300; height: 200
-    color: "#3C3C3C"
+//    color: "#3C3C3C"
     Row {
         anchors.fill: parent
         spacing: 3
@@ -64,10 +74,6 @@ Rectangle {
             ColorSlider
             {
                 id: hueSlider; anchors.fill: parent
-                onValueChanged:
-                {
-                    console.log("changed", value)
-                }
             }
         }
 
@@ -98,9 +104,6 @@ Rectangle {
             spacing: 4
 
             // current color/alpha display rectangle
-            Rectangle {
-                width: parent.width; height: 30
-//                Checkerboard { cellSide: 5 }
                 Rectangle {
                     id: rect
                     width: parent.width; height: 30
@@ -108,7 +111,6 @@ Rectangle {
                     color: colorPicker.colorValue
 
                 }
-            }
 
             // "#XXXXXXXX" color value box
             PanelBorder {

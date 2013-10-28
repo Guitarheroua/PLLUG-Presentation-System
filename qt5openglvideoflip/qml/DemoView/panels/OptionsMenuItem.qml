@@ -53,19 +53,6 @@ Rectangle
         {
             menuItemRect.selected = !menuItemRect.selected
             menuItemRect.color = (menuItemRect.selected ) ? Qt.darker(menuItemRect.color, 1.5) : unselectedItemColor
-            //            if (slideOptionsModel.get(rect.ind).name === "Background")
-            //            {
-            //                if(menuItemRect.selected)
-            //                {
-            //                    presentation.addBackground(model.value)
-            //                }
-            //                else
-            //                {
-            //                    presentation.removeBackground(model.value)
-            //                }
-            //            }
-
-            //            optionsPanelRect.state = "Closed"
         }
         //                                onPressed:
         //                                {
