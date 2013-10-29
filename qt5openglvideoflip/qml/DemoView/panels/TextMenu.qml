@@ -10,6 +10,7 @@ import QtQuick 2.0
         width: parent.width
         height: delegateItemText.height+lineRect.height
 //        color: "transparent"
+        property var selectedItem
         property int subItemHeight: 25
         Text {
             id: delegateItemText
@@ -57,23 +58,31 @@ import QtQuick 2.0
                 {
                     width: rect.width
                     height: rect.subItemHeight
-                    selectedItemColor: "darkred"
+                    selectedItemColor: (selectedItem != null && selectedItem.textItem) ? selectedItem.textItem.color : "black"
                     onHeightChanged:
                     {
                         subItemsRect.height = (height === rect.subItemHeight) ? subItemsRect.height : subItemsRect.height + (height - subItemHeight)
+                    }
+                    onSelectedColorChanged:
+                    {
+                        selectedItem.textItem.color = selectedColor
                     }
                 }
                 OptionsMenuItem
                 {
                     propertyName: "Size"
-                    propertyValue: "12"
+                    propertyValue: (selectedItem != null && selectedItem.textItem) ? selectedItem.textItem.font.pointSize : 0
                     width: rect.width
                     height: rect.subItemHeight
+                    onPropertyValueChanged:
+                    {
+                        selectedItem.textItem.font.pointSize = parseFloat(propertyValue)
+                    }
                 }
                 OptionsMenuItem
                 {
                     propertyName: "Bold"
-                    propertyValue: "false"
+                    propertyValue: (selectedItem != null && selectedItem.textItem) ? selectedItem.textItem.font.bold : 0
                     width: rect.width
                     height: rect.subItemHeight
                 }

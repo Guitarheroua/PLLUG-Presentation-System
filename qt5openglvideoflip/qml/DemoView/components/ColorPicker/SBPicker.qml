@@ -14,7 +14,7 @@ Item {
     onGivenBrightnessChanged:
     {
         pickerCursor.y = givenBrightness*height
-        console.log("picker cursor y", pickerCursor.y)
+//        console.log("picker cursor y", pickerCursor.y)
     }
 
 

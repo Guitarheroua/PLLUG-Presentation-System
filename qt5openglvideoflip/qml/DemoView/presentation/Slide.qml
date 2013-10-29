@@ -88,13 +88,13 @@ Item {
     //    height: parent.height * 0.7
     width: parent.width
     height: parent.height
-        Rectangle
-        {
-            anchors.fill: parent
-            color: "transparent"
-                border.width: 1
-                border.color: "black"
-        }
+    Rectangle
+    {
+        anchors.fill: parent
+        color: "transparent"
+        border.width: 1
+        border.color: "black"
+    }
 
 
     property real masterWidth: parent.width
@@ -119,6 +119,8 @@ Item {
     Rectangle
     {
         id: titleRect
+        property string type: "title"
+        property alias textItem: titleText
         property string defaultTitleText: "Click to add title"
         visible: (slide.title != "")
         anchors
@@ -172,12 +174,12 @@ Item {
                 }
             }
 
-//            onFocusChanged: {
-//                if (!focus)
-//                {
-//                    slide.title = (titleText.text === titleRect.defaultTitleText) ? "" : titleText.text
-//                }
-//            }
+            //            onFocusChanged: {
+            //                if (!focus)
+            //                {
+            //                    slide.title = (titleText.text === titleRect.defaultTitleText) ? "" : titleText.text
+            //                }
+            //            }
         }
     }
 

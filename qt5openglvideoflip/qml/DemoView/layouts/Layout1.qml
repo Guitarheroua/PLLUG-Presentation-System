@@ -5,68 +5,6 @@ Item
 {
     id: templateItem
     anchors.fill: parent
-//    Rectangle
-//    {
-//        id: titleRect
-//        property string defaultTitleText: "Click to add text"
-//        width: templateItem.parent.contentWidth
-//        height: textEdit.height
-//        z: parent.z + 1
-//        anchors
-//        {
-//            horizontalCenter: parent.horizontalCenter
-//            top: parent.top
-//            topMargin: /*templateItem.parent.topTitleMargin*/20
-//        }
-//        color: "transparent"
-
-//        border
-//        {
-//            color: "lightgrey"
-//            width: (textEdit.focus || textEdit.text === titleRect.defaultTitleText ) ? 1 :0
-//        }
-////        Rectangle
-////        {
-////            id: highlightRect
-////            anchors.fill: parent
-////            color: "lightsteelblue"
-////            visible: blockItem.selected
-////            onVisibleChanged:
-////            {
-////                if (!visible)
-////                    templateItem.parent.editSelectedItemProperties = false
-////            }
-////        }
-//        MouseArea
-//        {
-//            anchors.fill: parent
-//            onClicked: {
-//                textEdit.text = (textEdit.text === titleRect.defaultTitleText ) ? "" : textEdit.text
-//                textEdit.forceActiveFocus()
-//            }
-//        }
-
-//        TextInput
-//        {
-//            id: textEdit
-//            anchors
-//            {
-//                centerIn: parent
-//            }
-////            visible: (focus || templateItem.parent.title != "")
-//            text: titleRect.defaultTitleText
-//            font.pixelSize: templateItem.parent.titleFontSize
-//            horizontalAlignment: Text.Center
-//            onFocusChanged: {
-//                if (!focus)
-//                {
-////                    titleRect.border.visible = focus
-//                    templateItem.parent.title = (textEdit.text === titleRect.defaultTitleText) ? "" : textEdit.text
-//                    textEdit.text = (textEdit.text === titleRect.defaultTitleText) ? titleRect.defaultTitleText : ""
-//                }
-//            }
-//        }
-//    }
 
     Rectangle
     {

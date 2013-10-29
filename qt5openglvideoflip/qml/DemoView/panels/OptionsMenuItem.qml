@@ -46,21 +46,14 @@ Rectangle
             }
         }
     }
-    MouseArea
-    {
-        anchors.fill: parent
-        onClicked:
-        {
-            menuItemRect.selected = !menuItemRect.selected
-            menuItemRect.color = (menuItemRect.selected ) ? Qt.darker(menuItemRect.color, 1.5) : unselectedItemColor
-        }
-        //                                onPressed:
-        //                                {
-        //                                    rect1.color = Qt.darker(rect1.color, 0.25);
-        //                                }
-        //                                onReleased:
-        //                                {
-        //                                    rect1.color = Qt.lighter(rect1.color, 0.25);
-        //                                }
-    }
+//    MouseArea
+//    {
+//        anchors.fill: parent
+//        onClicked:
+//        {
+//            menuItemRect.selected = !menuItemRect.selected
+//            menuItemRect.color = (menuItemRect.selected ) ? Qt.darker(menuItemRect.color, 1.5) : unselectedItemColor
+//        }
+
+//    }
 }

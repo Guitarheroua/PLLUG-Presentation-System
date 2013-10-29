@@ -89,7 +89,9 @@ OTHER_FILES += \
     qml/DemoView/components/ColorPicker/SBPicker.qml \
     qml/DemoView/panels/OptionsMenuItem.qml \
     qml/DemoView/panels/ColorMenuItem.qml \
-    qml/DemoView/components/ColorPicker/ColorSlider.qml
+    qml/DemoView/components/ColorPicker/ColorSlider.qml \
+    qml/DemoView/panels/PositionMenu.qml \
+    qml/DemoView/panels/SizeMenu.qml
 
 RESOURCES += \
     resources.qrc

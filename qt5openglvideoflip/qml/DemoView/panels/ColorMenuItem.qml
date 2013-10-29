@@ -5,7 +5,7 @@ Rectangle
 {
     id: colorMenuItem
     height: (colorPicker.visible) ? mainHeight + colorPicker.height : mainHeight
-    property color selectedColor:  colorPicker.colorValue
+    property alias selectedColor:  colorPicker.colorValue
     property color selectedItemColor
     onSelectedColorChanged:
     {
@@ -58,10 +58,10 @@ Rectangle
                 Rectangle
                 {
                     id: colorRect
-                    height: parent.height-4
-                    width: 50
-                    x: 10
-                    y: 2
+                    height: parent.height-6
+                    width: 30
+                    x: 3
+                    y: 3
                     color: colorMenuItem.selectedItemColor
                     border.width: 1
                     border.color: "black"
