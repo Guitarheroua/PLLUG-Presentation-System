@@ -2,9 +2,10 @@ import QtQuick 2.0
 
 Rectangle
 {
-    id: item
+    id: editedTextItem
     property string type : "text"
-    property string backgroundColor
+    property alias textItem: textEdit
+    property string backgroundColor : "transparent"
     property int fontSize
     property string fontFamily
     property string fontColor
@@ -15,26 +16,48 @@ Rectangle
     property real xCoeff
     property real yCoeff
 
-    property string defaultText: "Click to add text"
-    color: "white"
+    property string defaultText: "<b>Click</b> to add text"
+
+    color: backgroundColor
+    anchors.fill: parent
+    z: parent.z + 1
 
     TextEdit{
         id: textEdit
-        anchors.fill: parent
+        anchors
+        {
+            top:  parent.top
+            left: parent.left
+        }
         clip: true
         anchors.centerIn: parent
         text: defaultText
         font.family: "Halvetica"
         font.pixelSize: 15
         color: "black"
-    }
-    MouseArea
-    {
-        anchors.fill: parent
-        onClicked: {
-            textEdit.text = (textEdit.text === defaultText) ? "" : textEdit.text
-            textEdit.forceActiveFocus()
+        textFormat: TextEdit.RichText
+        selectByMouse: true
+        focus: true
+        activeFocusOnPress: true
+        onSelectedTextChanged:
+        {
+//            textEdit.text = selectedText;
+        }
+        MouseArea
+        {
+            anchors.fill: parent
+            onClicked: {
+                textEdit.text = (textEdit.text === defaultText) ? "" : textEdit.text
+    //            textEdit.forceActiveFocus()
+                textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y);
+                textEdit.selectWord()
+            }
+            onPressAndHold:
+            {
+
+            }
         }
     }
+
 
 }

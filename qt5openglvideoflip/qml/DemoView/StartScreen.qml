@@ -60,6 +60,6 @@ Rectangle
         }
     ]
     state: "opened"
-    Behavior on y { SmoothedAnimation { velocity: 600 } }
+    Behavior on y { SmoothedAnimation { velocity: 800 } }
 
 }

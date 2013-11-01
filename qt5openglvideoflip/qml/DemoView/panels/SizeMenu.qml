@@ -4,7 +4,7 @@ Item{
     id: sizeRect
     width: parent.width
     height: delegateItemText.height+lineRect.height
-//        color: "transparent"
+    //        color: "transparent"
     property var selectedItem
     property int subItemHeight: 25
     Text {
@@ -57,7 +57,11 @@ Item{
                 height: sizeRect.subItemHeight
                 onPropertyValueChanged:
                 {
-                    selectedItem.width = parseInt(propertyValue)
+                    if (sizeRect.selectedItem)
+                    {
+                        var value = parseInt(propertyValue)
+                        selectedItem.width = (!isNaN(value)) ? value : selectedItem.width
+                    }
                 }
             }
             OptionsMenuItem
@@ -68,7 +72,11 @@ Item{
                 height: sizeRect.subItemHeight
                 onPropertyValueChanged:
                 {
-                    selectedItem.height = parseInt(propertyValue)
+                    if (sizeRect.selectedItem)
+                    {
+                        var value = parseInt(propertyValue)
+                        selectedItem.height = (!isNaN(value)) ? value : selectedItem.height
+                    }
                 }
             }
 

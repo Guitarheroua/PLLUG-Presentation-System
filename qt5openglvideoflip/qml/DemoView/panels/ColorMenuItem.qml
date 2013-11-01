@@ -9,11 +9,11 @@ Rectangle
     property color selectedItemColor
     onSelectedColorChanged:
     {
-//        console.log("***********",selectedColor)
+        //        console.log("***********",selectedColor)
     }
     onSelectedItemColorChanged:
     {
-//        console.log(helper.getSaturation(selectedItemColor))
+        //        console.log(helper.getSaturation(selectedItemColor))
     }
 
     property color unselectedItemColor: "grey"
@@ -27,57 +27,28 @@ Rectangle
         id: menuItemRect
         z : parent.z + 1
         color: "transparent"
-        anchors.top: parent.top
-        height: 25
+        height: parent.width
         width: parent.width
-        Row
+        Rectangle
         {
-            spacing: 10
+            id: colorRect
             anchors.fill: parent
-            Item
+            anchors.margins: 4
+            color: colorMenuItem.selectedItemColor
+            border.width: 1
+            border.color: "lightgray"
+            MouseArea
             {
-                width: colorMenuItem.width/2
-                height: parent.height
-                Text
+                anchors.fill: parent
+                onClicked:
                 {
-                    id: propertyNameText
-                    anchors
-                    {
-                        fill: parent
-                        margins: 5
-                    }
-                    text: "Color"
-                    font.pointSize: 10
-                    color: "white"
-                }
-            }
-            Item
-            {
-                width: colorMenuItem.width/2
-                height: parent.height
-                Rectangle
-                {
-                    id: colorRect
-                    height: parent.height-6
-                    width: 30
-                    x: 3
-                    y: 3
-                    color: colorMenuItem.selectedItemColor
-                    border.width: 1
-                    border.color: "black"
-                    MouseArea
-                    {
-                        anchors.fill: parent
-                        onClicked:
-                        {
-                            colorMenuItem.selected = !colorMenuItem.selected
-                            colorPicker.visible = !colorPicker.visible
-                            colorPicker.givenColor = colorMenuItem.selectedItemColor
-                        }
-                    }
+                    colorMenuItem.selected = !colorMenuItem.selected
+                    colorPicker.visible = !colorPicker.visible
+                    colorPicker.givenColor = colorMenuItem.selectedItemColor
                 }
             }
         }
+
         MouseArea
         {
             anchors.fill: parent
@@ -95,7 +66,7 @@ Rectangle
     Component.onCompleted:
     {
         mainHeight = height
-        menuItemRect.height = mainHeight
+        colorMenuItem.height = mainHeight
 
     }
 

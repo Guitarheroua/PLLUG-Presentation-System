@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Dialogs 1.0
 
 Rectangle {
+    property alias contentItem: pageLoader.item
     border{
         color: "lightgray"
         width: 1
@@ -12,6 +13,10 @@ Rectangle {
         id: pageLoader
         anchors.fill: parent
         z: 2
+        onLoaded:
+        {
+            console.log("LOADED",pageLoader.item, pageLoader.item.textItem )
+        }
     }
 
     Item
@@ -49,6 +54,7 @@ Rectangle {
                     onClicked: {
                         pageLoader.source = "items/editedText.qml"
                         menu.selectedItem = 0;
+                        menu.visible = false
                     }
                 }
             }
@@ -108,6 +114,7 @@ Rectangle {
                     onClicked: {
                         pageLoader.source = "items/web.qml"
                         menu.selectedItem = 3;
+                        menu.visible = false
                     }
                 }
             }

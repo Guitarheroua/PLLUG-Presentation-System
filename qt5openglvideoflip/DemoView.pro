@@ -66,7 +66,6 @@ OTHER_FILES += \
     qml/DemoView/items/editedText.qml \
     qml/DemoView/panels/SlidesListPanel.qml \
     qml/DemoView/panels/OptionsPanel.qml \
-    qml/DemoView/panels/ItemPropertiesPanel.qml \
     qml/DemoView/background/FireEffect.qml \
     qml/DemoView/background/BackgroundSwirls.qml \
     qml/DemoView/background/StarSkyEffect.qml \
@@ -91,7 +90,8 @@ OTHER_FILES += \
     qml/DemoView/panels/ColorMenuItem.qml \
     qml/DemoView/components/ColorPicker/ColorSlider.qml \
     qml/DemoView/panels/PositionMenu.qml \
-    qml/DemoView/panels/SizeMenu.qml
+    qml/DemoView/panels/SizeMenu.qml \
+    qml/DemoView/panels/ToolbarItem.qml
 
 RESOURCES += \
     resources.qrc

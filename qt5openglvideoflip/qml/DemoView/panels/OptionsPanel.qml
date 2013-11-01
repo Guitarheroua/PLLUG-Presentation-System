@@ -5,7 +5,7 @@ import "../components/ColorPicker"
 
 Rectangle{
     id: optionsPanelRect
-    width: 310
+    width: 320
     height: parent.height
     color: "black"
     opacity: 0.7

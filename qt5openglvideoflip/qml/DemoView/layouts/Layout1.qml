@@ -14,6 +14,7 @@ Item
         width: templateItem.parent.contentWidth
         height: templateItem.parent.contentHeight
         z: parent.z + 1
+
         Item
         {
             id: blockItem
@@ -26,6 +27,7 @@ Item
                 anchors.fill: parent
                 color: "lightsteelblue"
                 visible: blockItem.selected
+                antialiasing: true
                 onVisibleChanged:
                 {
                     if (!visible)
@@ -39,16 +41,19 @@ Item
                 width: parent.width - 10
                 height:  parent.height - 10
                 anchors.centerIn: parent
+
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
                         blockItem.selected = !blockItem.selected
-                        templateItem.parent.selectedItem = blockItem
+                        templateItem.parent.selectedItem = (block.contentItem.textItem) ? block.contentItem : blockItem
+
                     }
                     onPressAndHold:
                     {
+                        console.log("QQQQQQ")
                         blockItem.selected = true
-                        templateItem.parent.selectedItem = blockItem
+                        templateItem.parent.selectedItem =  (block.contentItem.textItem) ? block.contentItem : blockItem
                         templateItem.parent.editSelectedItemProperties = !templateItem.parent.editSelectedItemProperties
                     }
                 }

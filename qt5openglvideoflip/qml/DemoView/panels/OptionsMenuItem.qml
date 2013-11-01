@@ -6,16 +6,15 @@ Rectangle
     color: "grey"
     property alias propertyName: propertyNameText.text
     property alias propertyValue: propertyValueText.text
-    property color unselectedItemColor: "grey"
-    property bool selected: false
     Row
     {
-        spacing: 10
+        spacing: (propertyName != "") ? 10 : 0
         anchors.fill: parent
         Item
         {
             width: menuItemRect.width/2
             height: menuItemRect.height
+            visible: propertyName != ""
             Text
             {
                 id: propertyNameText
@@ -30,30 +29,28 @@ Rectangle
         }
         Item
         {
-            width: menuItemRect.width/2
+            width: (propertyName != "") ? menuItemRect.width/2 : menuItemRect.width
             height: menuItemRect.height
-            TextEdit
+            Rectangle
             {
-                id: propertyValueText
-                focus: true
                 anchors
                 {
                     fill: parent
-                    margins: 5
+                    margins: 4
                 }
-                font.pointSize: 10
-                color: "white"
+                color: (propertyName === "") ? "lightgray" : "transparent"
+                TextEdit
+                {
+                    id: propertyValueText
+                    focus: true
+                    anchors
+                    {
+                        centerIn : parent
+                    }
+                    font.pointSize: 10
+                    color: (propertyName != "") ? "white" : "black"
+                }
             }
         }
     }
-//    MouseArea
-//    {
-//        anchors.fill: parent
-//        onClicked:
-//        {
-//            menuItemRect.selected = !menuItemRect.selected
-//            menuItemRect.color = (menuItemRect.selected ) ? Qt.darker(menuItemRect.color, 1.5) : unselectedItemColor
-//        }
-
-//    }
 }
