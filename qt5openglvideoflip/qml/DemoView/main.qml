@@ -16,21 +16,22 @@ Rectangle
         source: "TestPresentation.qml"
     }
 
-    StartScreen
-    {
-        id: startScreen
-    }
 
-    states:
-        [
-        State{
-            id: editState
-        },
-        State{
-            id: showState
-        }
+//    StartScreen
+//    {
+//        id: startScreen
+//    }
 
-    ]
+//    states:
+//        [
+//        State{
+//            id: editState
+//        },
+//        State{
+//            id: showState
+//        }
+
+//    ]
 
 
 

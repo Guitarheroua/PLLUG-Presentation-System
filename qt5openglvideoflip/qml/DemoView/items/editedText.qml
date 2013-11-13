@@ -16,7 +16,7 @@ Rectangle
     property real xCoeff
     property real yCoeff
 
-    property string defaultText: "<b>Click</b> to add text"
+    property string defaultText: "<span style=\"color:green\">Click</span> to add text"
 
     color: backgroundColor
     anchors.fill: parent
@@ -43,17 +43,33 @@ Rectangle
         {
 //            textEdit.text = selectedText;
         }
+        property bool selecting : false
         MouseArea
         {
             anchors.fill: parent
             onClicked: {
                 textEdit.text = (textEdit.text === defaultText) ? "" : textEdit.text
-    //            textEdit.forceActiveFocus()
-                textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y);
-                textEdit.selectWord()
+                textEdit.forceActiveFocus()
+                textEdit.deselect()
+                textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
             }
             onPressAndHold:
             {
+                textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
+                textEdit.selecting = true
+            }
+            onMouseXChanged:
+            {
+                if (textEdit.selecting)
+                {
+                    textEdit.moveCursorSelection(textEdit.positionAt(mouse.x+x,mouse.y+y), TextInput.SelectCharacters);
+                }
+            }
+            onReleased:
+            {
+                var prev = textEdit.getText(0,textEdit.selectionStart);
+                var after = textEdit.getText(textEdit.selectionEnd, textEdit.text.length - 1)
+                textEdit.text = prev+ "<span style=\"color:red; font-weight:bold; font-style:italic; font-size:20px\">" + textEdit.selectedText + "</span>"  + after
 
             }
         }
