@@ -1,6 +1,4 @@
 import QtQuick 2.0
-import QtWebKit 3.0
-import QtMultimedia 5.0
 
 Rectangle
 {
@@ -14,7 +12,8 @@ Rectangle
         id: presentationLoader
         anchors.fill: parent
         source: "TestPresentation.qml"
-    }
+        focus: true
+     }
 
 
 //    StartScreen

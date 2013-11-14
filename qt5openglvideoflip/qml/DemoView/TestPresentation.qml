@@ -130,19 +130,6 @@ Presentation {
         }
 
     }
-    //    Loader {
-    //        id : backgroundLoader
-    //        anchors.fill: parent
-    //    }
-
-
-
-
-    //    Slide{
-    //        Template1{
-
-    //        }
-    //    }
 
     EmptySlide
     {

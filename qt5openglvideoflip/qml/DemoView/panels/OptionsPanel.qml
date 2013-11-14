@@ -240,7 +240,7 @@ Rectangle{
 
         TextMenu
         {
-            visible: itemProperties
+            visible: ( itemProperties && optionsPanelRect.selectedItem.textItem)
             selectedItem: optionsPanelRect.selectedItem
             z: parent.z+1
         }

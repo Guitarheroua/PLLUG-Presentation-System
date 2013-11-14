@@ -16,6 +16,8 @@ Rectangle
     property real xCoeff
     property real yCoeff
 
+
+
     property string defaultText: "<span style=\"color:green\">Click</span> to add text"
 
     color: backgroundColor
@@ -36,7 +38,7 @@ Rectangle
         font.pixelSize: 15
         color: "black"
         textFormat: TextEdit.RichText
-        selectByMouse: true
+//        selectByMouse: true
         focus: true
         activeFocusOnPress: true
         onSelectedTextChanged:
@@ -44,6 +46,8 @@ Rectangle
 //            textEdit.text = selectedText;
         }
         property bool selecting : false
+        property string prev
+        property string after
         MouseArea
         {
             anchors.fill: parent
@@ -53,25 +57,26 @@ Rectangle
                 textEdit.deselect()
                 textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
             }
-            onPressAndHold:
-            {
-                textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
-                textEdit.selecting = true
-            }
-            onMouseXChanged:
-            {
-                if (textEdit.selecting)
-                {
-                    textEdit.moveCursorSelection(textEdit.positionAt(mouse.x+x,mouse.y+y), TextInput.SelectCharacters);
-                }
-            }
-            onReleased:
-            {
-                var prev = textEdit.getText(0,textEdit.selectionStart);
-                var after = textEdit.getText(textEdit.selectionEnd, textEdit.text.length - 1)
-                textEdit.text = prev+ "<span style=\"color:red; font-weight:bold; font-style:italic; font-size:20px\">" + textEdit.selectedText + "</span>"  + after
-
-            }
+//            onPressAndHold:
+//            {
+//                textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
+//                textEdit.selecting = true
+//            }
+//            onMouseXChanged:
+//            {
+//                if (textEdit.selecting)
+//                {
+//                    textEdit.moveCursorSelection(textEdit.positionAt(mouse.x+x,mouse.y+y), TextInput.SelectCharacters);
+//                }
+//            }
+//            onReleased:
+//            {
+//                textEdit.prev = textEdit.getText(0,textEdit.selectionStart);
+//                textEdit.after = textEdit.getText(textEdit.selectionEnd, textEdit.text.length - 1)
+//                console.log("\n", textEdit.prev, "\n", textEdit.after, "\n")
+//                textEdit.text = textEdit.prev + "<span style=\"color:red; font-weight:bold; font-style:italic; font-size:20px\">" + textEdit.selectedText + "</span>"  + textEdit.after
+//                console.log(textEdit.text)
+//            }
         }
     }
 

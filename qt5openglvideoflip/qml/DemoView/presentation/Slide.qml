@@ -122,7 +122,6 @@ Item {
         property string type: "title"
         property alias textItem: titleText
         property string defaultTitleText: "Click to add title"
-        visible: (slide.title != "")
         anchors
         {
             horizontalCenter: parent.horizontalCenter
@@ -154,7 +153,6 @@ Item {
             font.family: titleFontFamily
             color: titleColor
             horizontalAlignment: Text.Center
-            focus: true
             onTextChanged:
             {
                 slide.title = (titleText.text === titleRect.defaultTitleText) ? "" : titleText.text
@@ -165,6 +163,7 @@ Item {
                 onClicked: {
                     titleText.text = (titleText.text === titleRect.defaultTitleText ) ? "" : titleText.text
                     titleText.forceActiveFocus()
+
                 }
                 onPressAndHold:
                 {
@@ -174,12 +173,12 @@ Item {
                 }
             }
 
-            //            onFocusChanged: {
-            //                if (!focus)
-            //                {
-            //                    slide.title = (titleText.text === titleRect.defaultTitleText) ? "" : titleText.text
-            //                }
-            //            }
+                        onFocusChanged: {
+//                            if (!focus)
+//                            {
+//                                slide.title = (titleText.text === titleRect.defaultTitleText) ? "" : titleText.text
+//                            }
+                        }
         }
     }
 

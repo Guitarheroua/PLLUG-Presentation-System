@@ -1,10 +1,5 @@
 import QtQuick 2.0
 
-//Item {
-//    id: textMenuItem
-//    width: parent.width
-//    height: 200
-
 Item{
     id: rect
     width: parent.width

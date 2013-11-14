@@ -53,7 +53,7 @@ Item
                     {
                         console.log("QQQQQQ")
                         blockItem.selected = true
-                        templateItem.parent.selectedItem =  (block.contentItem.textItem) ? block.contentItem : blockItem
+                        templateItem.parent.selectedItem = (block.contentItem.textItem) ? block.contentItem : blockItem
                         templateItem.parent.editSelectedItemProperties = !templateItem.parent.editSelectedItemProperties
                     }
                 }
