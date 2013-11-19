@@ -22,12 +22,23 @@ Rectangle
     property real xCoeff
     property real yCoeff
 
-    property string defaultText: "<span style=\"color:green\">Click</span> to <span style=\"color:red\">add</span> text"
+    property string defaultText: "<span style=\"font-weight:bold\"><span style=\"color:green\">Click</span> to <span style=\"color:red\">add</span> text</span>"
 
     property string selectedTextProperties: ""
+    property string newTextProperties: ""
+    property var properties : []
 
     onFontBoldChanged:
     {
+        var isBold = (fontBold) ? "bold" : "normal"
+        var lIndex = selectedTextProperties.indexOf("font-weight:")
+        if ( lIndex != -1)
+        {
+            var s = selectedTextProperties.substring(lIndex,lIndex + 17 )
+            selectedTextProperties = selectedTextProperties.replace(s,"");
+        }
+        properties.push("font-weight:" + isBold);
+
         selectedTextProperties += "font-weight:bold;"
         formatSelectedText()
     }
@@ -45,7 +56,7 @@ Rectangle
         textEdit.after = textEdit.getFormattedText(textEdit.selectionEnd, textEdit.text.lastIndexOf(">")-textEdit.selectionEnd )
         textEdit.selected = textEdit.getFormattedText(textEdit.selectionStart, textEdit.selectionEnd);
         textEdit.selected = getTextStyle(textEdit.selected)
-        console.log("!!!!!!", textEdit.selected)
+        selectedTextProperties = textEdit.selected
         var k = textEdit.prev.indexOf("<!--EndFragment-->");
         textEdit.prev = textEdit.prev.substring(0,k);
         var i = textEdit.after.indexOf("<!--StartFragment-->");
@@ -60,6 +71,11 @@ Rectangle
         var i = pText.indexOf("<!--StartFragment-->");
         var j = pText.indexOf("<!--EndFragment-->");
         return pText.substring(i+20,j);
+    }
+
+    function parseStyle(pStyleString)
+    {
+
     }
 
     color: backgroundColor
