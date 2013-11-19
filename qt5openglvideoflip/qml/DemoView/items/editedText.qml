@@ -43,6 +43,9 @@ Rectangle
     {
         textEdit.prev = textEdit.getFormattedText(0,textEdit.selectionStart);
         textEdit.after = textEdit.getFormattedText(textEdit.selectionEnd, textEdit.text.lastIndexOf(">")-textEdit.selectionEnd )
+        textEdit.selected = textEdit.getFormattedText(textEdit.selectionStart, textEdit.selectionEnd);
+        textEdit.selected = getTextStyle(textEdit.selected)
+        console.log("!!!!!!", textEdit.selected)
         var k = textEdit.prev.indexOf("<!--EndFragment-->");
         textEdit.prev = textEdit.prev.substring(0,k);
         var i = textEdit.after.indexOf("<!--StartFragment-->");
@@ -50,6 +53,13 @@ Rectangle
 //                console.log("\n", textEdit.prev, "\n", textEdit.after, "\n", textEdit.selectedText)
         textEdit.text = textEdit.prev + "<span style=\""+ selectedTextProperties + "\">" + textEdit.selectedText + "</span>"  + textEdit.after
 //                console.log("\nRESULT\n", textEdit.text)
+    }
+
+    function getTextStyle(pText)
+    {
+        var i = pText.indexOf("<!--StartFragment-->");
+        var j = pText.indexOf("<!--EndFragment-->");
+        return pText.substring(i+20,j);
     }
 
     color: backgroundColor
@@ -80,6 +90,7 @@ Rectangle
         property bool selecting : false
         property string prev
         property string after
+        property string selected
         MouseArea
         {
             anchors.fill: parent
