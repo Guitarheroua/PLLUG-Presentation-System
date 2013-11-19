@@ -66,16 +66,16 @@ Item{
                         console.log(selectedItem.textItem.cursorPosition)
                         if (selectedItem != null && selectedItem.textItem)
                         {
-                            if (selectedItem.textItem.selectedText === "")
+//                            if (selectedItem.textItem.selectedText === "")
                             {
-                                selectedItem.textItem.color = selectedColor
+                                selectedItem.selectedColor = selectedColor
                             }
-                            else
-                            {
-                                var cursorPos = selectedItem.textItem.cursorPosition
-                                var selectedTextLength = selectedItem.textItem.selectedText.length
+//                            else
+//                            {
+//                                var cursorPos = selectedItem.textItem.cursorPosition
+//                                var selectedTextLength = selectedItem.textItem.selectedText.length
 
-                            }
+//                            }
 
                         }
                     }
@@ -90,7 +90,7 @@ Item{
                     {
                         if (selectedItem != null && selectedItem.textItem)
                         {
-                            selectedItem.textItem.font.pointSize = parseFloat(propertyValue)
+                            selectedItem.selectedFont.pointSize = parseFloat(propertyValue)
                         }
                     }
                 }
@@ -104,7 +104,7 @@ Item{
                     onSelectedChanged:
                     {
                         if (selectedItem != null && selectedItem.textItem)
-                            selectedItem.textItem.font.pointSize -= 1
+                            selectedItem.fontSize -= 1
                     }
                 }
                 ToolbarItem
@@ -117,7 +117,7 @@ Item{
                     onSelectedChanged:
                     {
                         if (selectedItem != null && selectedItem.textItem)
-                            selectedItem.textItem.font.pointSize += 1
+                            selectedItem.fontSize += 1
                     }
                 }
 
@@ -131,7 +131,7 @@ Item{
                     onSelectedChanged:
                     {
                         if (selectedItem != null && selectedItem.textItem)
-                            selectedItem.textItem.font.bold = selected
+                            selectedItem.fontBold = selected
                     }
                 }
                 ToolbarItem
@@ -144,7 +144,7 @@ Item{
                     onSelectedChanged:
                     {
                         if (selectedItem != null && selectedItem.textItem)
-                            selectedItem.textItem.font.italic = selected
+                            selectedItem.fontItalic = selected
                     }
                 }
                 ToolbarItem
@@ -157,7 +157,7 @@ Item{
                     onSelectedChanged:
                     {
                         if (selectedItem != null && selectedItem.textItem)
-                            selectedItem.textItem.font.underline = selected
+                            selectedItem.fontUnderline = selected
                     }
                 }
                 ToolbarItem
@@ -170,7 +170,7 @@ Item{
                     onSelectedChanged:
                     {
                         if (selectedItem != null && selectedItem.textItem)
-                            selectedItem.textItem.font.strikeout = selected
+                            selectedItem.fontSrikeout = selected
                     }
                 }
             }
