@@ -15,7 +15,7 @@ Rectangle {
         z: 2
         onLoaded:
         {
-            console.log("LOADED",pageLoader.item, pageLoader.item.textItem )
+            console.log("LOADED", pageLoader.item, pageLoader.item.textItem )
         }
     }
 

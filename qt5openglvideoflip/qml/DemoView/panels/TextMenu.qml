@@ -90,7 +90,7 @@ Item{
                     {
                         if (selectedItem != null && selectedItem.textItem)
                         {
-                            selectedItem.selectedFont.pointSize = parseFloat(propertyValue)
+                            selectedItem.fontSize = parseFloat(propertyValue)
                         }
                     }
                 }
@@ -170,7 +170,7 @@ Item{
                     onSelectedChanged:
                     {
                         if (selectedItem != null && selectedItem.textItem)
-                            selectedItem.fontSrikeout = selected
+                            selectedItem.fontStrikeout = selected
                     }
                 }
             }

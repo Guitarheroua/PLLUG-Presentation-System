@@ -36,7 +36,8 @@ Item
             }
             //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
 
-            Block{
+            Block
+            {
                 id: block
                 width: parent.width - 10
                 height:  parent.height - 10
@@ -51,10 +52,9 @@ Item
                     }
                     onPressAndHold:
                     {
-                        console.log("QQQQQQ")
                         blockItem.selected = true
                         templateItem.parent.selectedItem = (block.contentItem.textItem) ? block.contentItem : blockItem
-                        templateItem.parent.editSelectedItemProperties = !templateItem.parent.editSelectedItemProperties
+                        templateItem.parent.editSelectedItemProperties = /*!templateItem.parent.editSelectedItemProperties*/true
                     }
                 }
 

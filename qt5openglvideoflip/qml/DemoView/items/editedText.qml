@@ -8,7 +8,7 @@ Rectangle
     property color selectedColor
     property bool fontBold
     property bool fontItalic
-    property bool fontSize
+    property int fontSize
     property bool fontUnderline
     property bool fontStrikeout
 
@@ -22,59 +22,128 @@ Rectangle
     property real xCoeff
     property real yCoeff
 
-    property string defaultText: "<span style=\"font-weight:bold\"><span style=\"color:green\">Click</span> to <span style=\"color:red\">add</span> text</span>"
+    property string defaultText: "<span style=\"font-weight:bold\">
+    <span style=\"color:green\">Click here maybe oh no</span>to dsffdsdf qweq gdf<span style=\"color:red\">add gsdfg serf qqqq</span> text vcvcv jgyjt assa</span>"
 
     property string selectedTextProperties: ""
     property string newTextProperties: ""
-    property var properties : []
+//    property variant attributes: { 'color': 'black', 'font_weight': 'normal',
+//                                   'font_style': 'normal', 'font_size': 12,
+//                                   'text_decoration': 'none'}
+    property variant attributes: ({})
+
+    function createStyleString()
+    {
+        var rStyle = "<span style=\"";
+        for (var prop in attributes)
+        {
+            var lPropertyName = prop
+            rStyle += lPropertyName.replace("_", "-") + ":" + attributes[prop]+";"
+        }
+        rStyle = rStyle.substring(0,rStyle.lastIndexOf(";")) + "\">"
+        console.log(rStyle)
+        return rStyle
+    }
 
     onFontBoldChanged:
     {
-        var isBold = (fontBold) ? "bold" : "normal"
-        var lIndex = selectedTextProperties.indexOf("font-weight:")
-        if ( lIndex != -1)
-        {
-            var s = selectedTextProperties.substring(lIndex,lIndex + 17 )
-            selectedTextProperties = selectedTextProperties.replace(s,"");
-        }
-        properties.push("font-weight:" + isBold);
-
-        selectedTextProperties += "font-weight:bold;"
-        formatSelectedText()
+        changePropertyValue('font_weight', (fontBold) ? 'bold' : 'normal' )
     }
+
+    onFontItalicChanged:
+    {
+        changePropertyValue('font_style', (fontItalic) ? 'italic' : 'normal')
+    }
+
+    onFontSizeChanged:
+    {
+        changePropertyValue('font_size', fontSize+"pt")
+    }
+
+    onFontStrikeoutChanged:
+    {
+        changePropertyValue('text_decoration', (fontStrikeout) ? 'line-through' : 'none')
+    }
+    onFontUnderlineChanged:
+    {
+        changePropertyValue('text_decoration', (fontUnderline) ? 'underline' : 'none')
+    }
+
     onSelectedColorChanged:
     {
-        selectedTextProperties += "color:" + selectedColor + ";"
-        console.log(selectedTextProperties)
+        changePropertyValue('color', selectedColor)
+    }
+
+    function changePropertyValue(pProperty, pValue)
+    {
+        setPropertyValue(pProperty,pValue)
         formatSelectedText()
     }
 
+    function setPropertyValue(pProperty, pValue)
+    {
+        var temp = attributes
+        temp[pProperty] = pValue
+        attributes = temp
+    }
+
+    function addBullets()
+    {
+        var s1 = textEdit.getFormattedText(0, textEdit.cursorPosition)
+        console.log("_______________", s1, "\n")
+        var i = s1.lastIndexOf("<p style=");
+        var j = s1.lastIndexOf("</span>");
+        s1 = s1.substring(0,j);
+        var s2 = textEdit.getFormattedText(textEdit.cursorPosition, textEdit.text.lastIndexOf(">")+1)
+        console.log("_______________", s2, "\n")
+        var k = s2.indexOf("<!--StartFragment-->");
+        s2 = s2.substring(k,s2.lastIndexOf(">")+1)
+        s2 = s2.substring(s2.indexOf("\">")+2,s2.lastIndexOf(">")+1 )
+        console.log("_______________", s1, "\n", s2)
+        textEdit.text = s1+s2
+    }
 
     function formatSelectedText()
     {
+        console.log("$$$$$$$$$$$$", textEdit.getFormattedText(textEdit.selectionStart, textEdit.selectionEnd))
         textEdit.prev = textEdit.getFormattedText(0,textEdit.selectionStart);
         textEdit.after = textEdit.getFormattedText(textEdit.selectionEnd, textEdit.text.lastIndexOf(">")-textEdit.selectionEnd )
-        textEdit.selected = textEdit.getFormattedText(textEdit.selectionStart, textEdit.selectionEnd);
-        textEdit.selected = getTextStyle(textEdit.selected)
-        selectedTextProperties = textEdit.selected
         var k = textEdit.prev.indexOf("<!--EndFragment-->");
         textEdit.prev = textEdit.prev.substring(0,k);
         var i = textEdit.after.indexOf("<!--StartFragment-->");
         textEdit.after = textEdit.after.substring(i+20,textEdit.after.lastIndexOf(">")+1);
 //                console.log("\n", textEdit.prev, "\n", textEdit.after, "\n", textEdit.selectedText)
-        textEdit.text = textEdit.prev + "<span style=\""+ selectedTextProperties + "\">" + textEdit.selectedText + "</span>"  + textEdit.after
+        textEdit.selectionStartPos = textEdit.selectionStart
+        textEdit.selectionEndPos = textEdit.selectionEnd
+        textEdit.text = textEdit.prev + createStyleString() + textEdit.selectedText + "</span>"  + textEdit.after
+        textEdit.select(textEdit.selectionStartPos,textEdit.selectionEndPos )
+
 //                console.log("\nRESULT\n", textEdit.text)
     }
 
     function getTextStyle(pText)
     {
-        var i = pText.indexOf("<!--StartFragment-->");
-        var j = pText.indexOf("<!--EndFragment-->");
-        return pText.substring(i+20,j);
+        var i = pText.indexOf("<!--StartFragment-->")
+        var j = pText.indexOf("<!--EndFragment-->")
+        pText = pText.substring(i+20,j)
+        pText = pText.substring(1, pText.length )
+        pText = pText.substring(0,pText.indexOf('>'))
+        return pText;
     }
 
     function parseStyle(pStyleString)
     {
+        var i = pStyleString.indexOf("\"")
+        var k = pStyleString.lastIndexOf("\"")
+        var s = pStyleString.substring(i+1,k)
+        var list = s.split(";")
+        for(var i=0; i<list.length-1; ++i)
+        {
+            var l = list[i]
+            var lList = l.split(":")
+            var lName = lList[0].replace("-","_");
+            setPropertyValue(lName.trim(),lList[1])
+        }
 
     }
 
@@ -97,16 +166,29 @@ Rectangle
         color: "black"
         textFormat: TextEdit.RichText
         selectByMouse: true
+        mouseSelectionMode: TextInput.SelectWords
+        persistentSelection: true
         focus: true
         activeFocusOnPress: true
         onSelectedTextChanged:
         {
-//            textEdit.text = selectedText;
+            attributes = {}
+            textEdit.selected = textEdit.getFormattedText(textEdit.selectionStart, textEdit.selectionEnd);
+            parseStyle(getTextStyle(textEdit.selected))
         }
+        onCursorPositionChanged:
+        {
+            var a = textEdit.getFormattedText(textEdit.cursorPosition-1, textEdit.cursorPosition);
+//            console.log("^^^^^",a)
+        }
+
         property bool selecting : false
         property string prev
         property string after
         property string selected
+        property int selectionStartPos
+        property int selectionEndPos
+
         MouseArea
         {
             anchors.fill: parent
@@ -116,9 +198,15 @@ Rectangle
                 textEdit.deselect()
                 textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
             }
+            onDoubleClicked:
+            {
+                textEdit.selectWord()
+            }
+
             onPressAndHold:
             {
                 textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
+                addBullets()
                 textEdit.selecting = true
             }
             onMouseXChanged:
@@ -128,20 +216,16 @@ Rectangle
                     textEdit.moveCursorSelection(textEdit.positionAt(mouse.x+x,mouse.y+y), TextInput.SelectCharacters);
                 }
             }
-//            onReleased:
-//            {
-//                textEdit.prev = textEdit.getFormattedText(0,textEdit.selectionStart);
-//                textEdit.after = textEdit.getFormattedText(textEdit.selectionEnd, textEdit.text.lastIndexOf(">")-textEdit.selectionEnd )
-//                var k = textEdit.prev.indexOf("<!--EndFragment-->");
-//                textEdit.prev = textEdit.prev.substring(0,k);
-//                var i = textEdit.after.indexOf("<!--StartFragment-->");
-//                textEdit.after = textEdit.after.substring(i+20,textEdit.after.lastIndexOf(">")+1);
-////                console.log("\n", textEdit.prev, "\n", textEdit.after, "\n", textEdit.selectedText)
-//                textEdit.text = textEdit.prev + selectedTextProperties + textEdit.selectedText + "</span>"  + textEdit.after
-////                console.log("\nRESULT\n", textEdit.text)
-//            }
+
         }
+
     }
 
-
+    Keys.onPressed:
+    {
+        if ((event.key == Qt.Key_A) && (event.modifiers & Qt.ControlModifier))
+        {
+            textEdit.selectAll()
+        }
+    }
 }
