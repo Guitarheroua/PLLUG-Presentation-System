@@ -26,5 +26,6 @@
         <file alias="italic.png">resources/icons/text/text-italic.png</file>
         <file alias="strikeout.png">resources/icons/text/text-strikethrough.png</file>
         <file alias="underline.png">resources/icons/text/text-underline.png</file>
+        <file alias="bullets.png">resources/icons/text/List_bullets.png</file>
     </qresource>
 </RCC>

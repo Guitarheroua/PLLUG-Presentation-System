@@ -91,7 +91,8 @@ OTHER_FILES += \
     qml/DemoView/components/ColorPicker/ColorSlider.qml \
     qml/DemoView/panels/PositionMenu.qml \
     qml/DemoView/panels/SizeMenu.qml \
-    qml/DemoView/panels/ToolbarItem.qml
+    qml/DemoView/panels/ToolbarItem.qml \
+    qml/DemoView/StringUtils.js
 
 RESOURCES += \
     resources.qrc

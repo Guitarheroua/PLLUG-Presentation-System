@@ -263,7 +263,7 @@ Item {
                         color: "#00ffffff"
                     }
 
-                    Text {
+                    TextEdit {
                         id: text
                         width: slide.contentWidth - parent.x - dot.width - space.width
                         font.pixelSize: baseFontSize * row.indentFactor
@@ -273,6 +273,7 @@ Item {
                         color: slide.textColor
                         horizontalAlignment: Text.AlignLeft
                         font.family: slide.fontFamily
+                        focus: true
                     }
                 }
             }

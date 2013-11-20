@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import "../StringUtils.js" as StringUtils
 
 Rectangle
 {
@@ -11,6 +12,7 @@ Rectangle
     property int fontSize
     property bool fontUnderline
     property bool fontStrikeout
+    property bool bullets
 
     property string backgroundColor : "transparent"
     property string fontFamily
@@ -22,7 +24,7 @@ Rectangle
     property real xCoeff
     property real yCoeff
 
-    property string defaultText: "<span style=\"font-weight:bold\">
+    property string defaultText: /*"<ul><li><p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Click here maybe oh no</p></li>" +*/ "<span style=\"font-weight:bold\">
     <span style=\"color:green\">Click here maybe oh no</span>to dsffdsdf qweq gdf<span style=\"color:red\">add gsdfg serf qqqq</span> text vcvcv jgyjt assa</span>"
 
     property string selectedTextProperties: ""
@@ -74,6 +76,12 @@ Rectangle
         changePropertyValue('color', selectedColor)
     }
 
+    onBulletsChanged:
+    {
+        addBullets()
+    }
+
+
     function changePropertyValue(pProperty, pValue)
     {
         setPropertyValue(pProperty,pValue)
@@ -87,20 +95,25 @@ Rectangle
         attributes = temp
     }
 
+
     function addBullets()
     {
         var s1 = textEdit.getFormattedText(0, textEdit.cursorPosition)
-        console.log("_______________", s1, "\n")
         var i = s1.lastIndexOf("<p style=");
         var j = s1.lastIndexOf("</span>");
         s1 = s1.substring(0,j);
+        s1 = s1.insert(i,"<ul><li>")
         var s2 = textEdit.getFormattedText(textEdit.cursorPosition, textEdit.text.lastIndexOf(">")+1)
-        console.log("_______________", s2, "\n")
         var k = s2.indexOf("<!--StartFragment-->");
         s2 = s2.substring(k,s2.lastIndexOf(">")+1)
         s2 = s2.substring(s2.indexOf("\">")+2,s2.lastIndexOf(">")+1 )
-        console.log("_______________", s1, "\n", s2)
-        textEdit.text = s1+s2
+        var l = s2.indexOf("</p>")
+        s2 = s2.insert(l+4, "</li>")
+        console.log("_______________", s1+s2)
+        var s = s1+s2
+        s = s.replace("<!--StartFragment-->", "")
+        s = s.replace("<!--EndFragment-->", "")
+        textEdit.text = s
     }
 
     function formatSelectedText()
@@ -115,7 +128,9 @@ Rectangle
 //                console.log("\n", textEdit.prev, "\n", textEdit.after, "\n", textEdit.selectedText)
         textEdit.selectionStartPos = textEdit.selectionStart
         textEdit.selectionEndPos = textEdit.selectionEnd
-        textEdit.text = textEdit.prev + createStyleString() + textEdit.selectedText + "</span>"  + textEdit.after
+        var s = textEdit.prev + createStyleString() + textEdit.selectedText + "</span>"  + textEdit.after
+        console.log("\n++++",s )
+        textEdit.text = s
         textEdit.select(textEdit.selectionStartPos,textEdit.selectionEndPos )
 
 //                console.log("\nRESULT\n", textEdit.text)
@@ -206,7 +221,6 @@ Rectangle
             onPressAndHold:
             {
                 textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
-                addBullets()
                 textEdit.selecting = true
             }
             onMouseXChanged:

@@ -174,6 +174,23 @@ Item{
                     }
                 }
             }
+            Row
+            {
+                ToolbarItem
+                {
+                    id: bulletsItem
+                    imageSource: "qrc:///icons/text/bullets.png"
+                    width: rect.subItemHeight
+                    height: rect.subItemHeight
+                    selected: (selectedItem != null && selectedItem.textItem) ? selectedItem.textItem.font.strikeout : false
+                    onSelectedChanged:
+                    {
+                        if (selectedItem != null && selectedItem.textItem)
+                            selectedItem.bullets = selected
+                    }
+                }
+                spacing: 4.5
+            }
         }
 
 
