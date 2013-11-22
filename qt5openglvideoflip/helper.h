@@ -2,6 +2,7 @@
 #define HELPER_H
 
 #include <QObject>
+#include <qstringlist.h>
 
 class Helper : public QObject
 {
@@ -14,6 +15,10 @@ public:
     Q_INVOKABLE qreal saturation(const QString&);
     Q_INVOKABLE qreal brightness(const QString&);
     Q_INVOKABLE qreal alpha(const QString&);
+
+    Q_INVOKABLE QStringList fonts();
+    Q_INVOKABLE int fontIndex(const QString&);
+
     
 signals:
     

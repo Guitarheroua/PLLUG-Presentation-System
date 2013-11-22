@@ -5,6 +5,7 @@ Rectangle {
     property color unselectedItemColor: "grey"
     property bool selected: false
     property string imageSource: ""
+    property bool selectingItem: true
     color: (item.selected ) ? Qt.darker(item.color, 1.5) : unselectedItemColor
 
     Image
@@ -19,7 +20,24 @@ Rectangle {
         anchors.fill: parent
         onClicked:
         {
-            item.selected = !item.selected
+            if (selectingItem)
+            {
+                item.selected = !item.selected
+            }
+        }
+        onPressed:
+        {
+            if (!selectingItem)
+            {
+                item.selected = true
+            }
+        }
+        onReleased:
+        {
+            if (!selectingItem)
+            {
+                item.selected = false
+            }
         }
     }
 }

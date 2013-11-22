@@ -3,6 +3,7 @@ import QtQuick.Dialogs 1.0
 
 Rectangle {
     property alias contentItem: pageLoader.item
+    objectName: "block"
     border{
         color: "lightgray"
         width: 1
@@ -52,7 +53,7 @@ Rectangle {
                 {
                     anchors.fill: parent
                     onClicked: {
-                        pageLoader.source = "items/editedText.qml"
+                        pageLoader.source = "items/textItem.qml"
                         menu.selectedItem = 0;
                         menu.visible = false
                     }

@@ -2,6 +2,8 @@
 #include <QDebug>
 #include <QFile>
 #include <QColor>
+#include <QFontDatabase>
+
 
 Helper::Helper(QObject *parent) :
     QObject(parent)
@@ -41,9 +43,28 @@ qreal Helper::alpha(const QString &pColor)
     return color.alphaF();
 }
 
+QStringList Helper::fonts()
+{
+    QFontDatabase lDatabase;
+    return lDatabase.families();
+}
+
+int Helper::fontIndex(const QString &pFont)
+{
+    foreach (QString font, fonts())
+    {
+        if ( pFont == font)
+        {
+            return fonts().indexOf(font);
+        }
+    }
+    return 0;
+}
+
+
+
 qreal Helper::saturation(const QString& pColor)
 {
     QColor color(pColor);
-//    qDebug() << "__________" << color.saturationF();
     return color.saturationF();
 }

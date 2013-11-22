@@ -12,12 +12,13 @@ class MainView : public QQuickView
     Q_OBJECT
 public:
     explicit MainView( const QString& pContentDir, QWindow *parent = 0);
+    void savePresentation();
 
 protected:
 //    void resizeEvent(QResizeEvent *);
     bool nativeEvent(const QByteArray&, void*, long*);
+    bool event(QEvent * event);
 
-    
 signals:
     
 private slots:

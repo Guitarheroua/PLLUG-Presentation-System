@@ -11,7 +11,6 @@ Presentation {
     width: screenPixelWidth
     height: screenPixelHeight
     textColor: "black"
-    //    effect: flipEffect
     onCurrentSlideChanged:
     {
         slidesListPanel.selectSlide(currentSlide)
@@ -50,6 +49,7 @@ Presentation {
                     if (layoutToRemove)
                     {
                         layoutToRemove.destroy();
+                        presentation.slides[currentSlide].layout = "Empty"
                         break;
                     }
                 }
@@ -71,6 +71,7 @@ Presentation {
             {
                 var background = Qt.createComponent(source);
                 background.createObject(presentation.slides[i], {"objectName": source, z: "-1"});
+
             }
         }
     }
@@ -94,6 +95,7 @@ Presentation {
                         }
                     }
                 }
+
             }
         }
     }

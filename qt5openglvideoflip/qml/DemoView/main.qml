@@ -10,6 +10,7 @@ Rectangle
     Loader
     {
         id: presentationLoader
+        objectName: "PresentationLoader"
         anchors.fill: parent
         source: "TestPresentation.qml"
         focus: true

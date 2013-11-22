@@ -92,6 +92,7 @@ Item
 
         GridView{
             id: gridView
+            objectName: "blocksView"
             anchors
             {
                 fill:  parent

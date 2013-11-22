@@ -92,7 +92,9 @@ OTHER_FILES += \
     qml/DemoView/panels/PositionMenu.qml \
     qml/DemoView/panels/SizeMenu.qml \
     qml/DemoView/panels/ToolbarItem.qml \
-    qml/DemoView/StringUtils.js
+    qml/DemoView/StringUtils.js \
+    qml/DemoView/StringUtils.js \
+    qml/DemoView/items/textItem.qml
 
 RESOURCES += \
     resources.qrc

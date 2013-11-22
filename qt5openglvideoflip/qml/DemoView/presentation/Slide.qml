@@ -60,6 +60,8 @@ Item {
     property string writeInText;
     property string notes
 
+    property variant effects: []
+
     property string codeFontFamily: parent.codeFontFamily
     property string code
     property real codeFontSize: baseFontSize * 0.6
@@ -110,11 +112,6 @@ Item {
     property bool editSelectedItemProperties: false
 
     visible: false
-
-
-    //    onParentChanged: {
-    //        console.log(parent,topTitleMargin, fontSize * 1.5,height * 0.05)
-    //    }
 
     Rectangle
     {
