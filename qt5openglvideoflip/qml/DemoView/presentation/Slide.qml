@@ -54,6 +54,11 @@ Item {
     property bool isSlide: true
 
     property string title
+    onTitleChanged:
+    {
+        console.log("TITLE", title)
+    }
+
     property variant content: []
     property string layout: ""
     property string centeredText
@@ -62,11 +67,11 @@ Item {
 
     property variant effects: []
 
-    property string codeFontFamily: parent.codeFontFamily
+    property string codeFontFamily: (parent)? parent.codeFontFamily : ""
     property string code
     property real codeFontSize: baseFontSize * 0.6
 
-    property real fontSize: parent.height * 0.05
+    property real fontSize: (parent) ? parent.height * 0.05 : 0
     property real fontScale: 1
 
     property real baseFontSize: fontSize * fontScale
@@ -77,10 +82,10 @@ Item {
 
     property real topTitleMargin: fontSize * 1.5
 
-    property real contentX: parent.width * 0.05
-    property real contentY: parent.height * 0.2
-    property real contentWidth:  parent.width * 0.9
-    property real contentHeight: parent.height * 0.7
+    property real contentX: (parent) ? parent.width * 0.05 : 0
+    property real contentY: (parent) ? parent.height * 0.2 : 0
+    property real contentWidth:  (parent) ? parent.width * 0.9 : 0
+    property real contentHeight: (parent) ? parent.height * 0.7 : 0
 
 
     // Define the slide to be the "content area"
@@ -88,30 +93,34 @@ Item {
     //    y: parent.height * 0.2
     //    width: parent.width * 0.9
     //    height: parent.height * 0.7
-    width: parent.width
-    height: parent.height
+    width: (parent) ? parent.width : 0
+    height: (parent) ? parent.height : 0
     Rectangle
     {
-        anchors.fill: parent
+        anchors.fill: (parent) ? parent : null
         color: "transparent"
         border.width: 1
         border.color: "black"
     }
+    onParentChanged:
+    {
+        console.log("\nParent - ", parent)
+    }
 
 
-    property real masterWidth: parent.width
-    property real masterHeight: parent.height
+    property real masterWidth: (parent) ? parent.width : 0
+    property real masterHeight: (parent) ? parent.height : 0
 
-    property color titleColor: parent.titleColor
+    property color titleColor: (parent) ? parent.titleColor : "black"
     property bool titleFontBold: true
-    property string titleFontFamily: parent.fontFamily
-    property color textColor: parent.textColor;
-    property string fontFamily: parent.fontFamily;
+    property string titleFontFamily:(parent) ? parent.fontFamily : ""
+    property color textColor: (parent) ? parent.textColor : "black"
+    property string fontFamily: (parent) ? parent.fontFamily : ""
 
     property var selectedItem: null
     property bool editSelectedItemProperties: false
 
-    visible: false
+    visible: true
 
     Rectangle
     {

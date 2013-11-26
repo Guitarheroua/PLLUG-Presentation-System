@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-class Page;
+class Slide;
 
 class MegaParse : public QObject
 {
@@ -11,16 +11,16 @@ class MegaParse : public QObject
 public:
     explicit MegaParse(QObject *parent = 0);
     ~MegaParse();
-    void parsePagesData();
+    void parsePresenationData();
     void parseTemplatesData();
     void setContentDir(const QString pDir);
-    QList<Page*> pagesList();
+    QList<Slide*> pagesList();
 
 signals:
     
 private:
-    QList<Page*> mPagesList;
-    QList<Page*> mTemplatesList;
+    QList<Slide*> mPagesList;
+    QList<Slide*> mTemplatesList;
     QString mContentDir;
 };
 

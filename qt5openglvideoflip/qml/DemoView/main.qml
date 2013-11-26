@@ -12,7 +12,7 @@ Rectangle
         id: presentationLoader
         objectName: "PresentationLoader"
         anchors.fill: parent
-        source: "TestPresentation.qml"
+//        source: "TestPresentation.qml"
         focus: true
      }
 

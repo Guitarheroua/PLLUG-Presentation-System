@@ -1,5 +1,5 @@
-#ifndef PAGE_H
-#define PAGE_H
+#ifndef SLIDE_H
+#define SLIDE_H
 
 #include <QQuickItem>
 #include "block.h"
@@ -8,13 +8,13 @@ class Helper;
 class BlocksModel;
 class QQmlEngine;
 class BlocksModel;
-class Page : public QQuickItem
+class Slide : public QQuickItem
 {
     Q_OBJECT
 public:
-    Page(QVariantMap pMap, const QString& pContentDir, const QSize& pSize, QQuickItem *parent = 0);
-    Page(QQuickItem *content = 0, QQuickItem *parent = 0);
-    ~Page();
+    Slide(QVariantMap pMap, const QString& pContentDir, const QSize& pSize, QQuickItem *parent = 0);
+    Slide(QQuickItem *content = 0, QQuickItem *parent = 0);
+    ~Slide();
     void setModel(BlocksModel* pModel);
     BlocksModel *blockModel() const;
 
@@ -41,4 +41,4 @@ private:
     Helper *mHelper;
 };
 
-#endif // PAGE_H
+#endif // SLIDE_H

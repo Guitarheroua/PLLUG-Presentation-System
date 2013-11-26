@@ -3,7 +3,7 @@
 
 #include <QQuickView>
 
-class Page;
+class Slide;
 class QWindow;
 class Helper;
 class MegaParse;
@@ -12,7 +12,8 @@ class MainView : public QQuickView
     Q_OBJECT
 public:
     explicit MainView( const QString& pContentDir, QWindow *parent = 0);
-    void savePresentation();
+    void savePresentation(const QString& );
+    void readPresentation(const QString& );
 
 protected:
 //    void resizeEvent(QResizeEvent *);
@@ -26,8 +27,9 @@ private slots:
     void test1(int);
 
 private:
+    QString mContentDir;
     MegaParse *mParser;
-    QList<Page*> mPagesList;
+    QList<Slide*> mSlidesList;
     QSize mActualSize;
     QSize mOldSize;
     qreal mAspectRatio;

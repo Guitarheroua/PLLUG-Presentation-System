@@ -15,7 +15,6 @@
 #include "mainview.h"
 #include "machelper.h"
 #include "helper.h"
-#include "page.h"
 
 int main(int argc, char *argv[])
 {

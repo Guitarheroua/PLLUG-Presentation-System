@@ -7,8 +7,6 @@ TEMPLATE = app
 
 
 HEADERS += \
-    page.h \
-    pagemodel.h \
     megaparse.h \
     block.h \
     blocksmodel.h \
@@ -16,12 +14,11 @@ HEADERS += \
     mainview.h \
     machelper.h \
     helper.h \
-    webviewitem.h
+    webviewitem.h \
+    slide.h
 
 
 SOURCES += \
-    page.cpp \
-    pagemodel.cpp \
     megaparse.cpp \
     block.cpp \
     blocksmodel.cpp \
@@ -30,6 +27,7 @@ SOURCES += \
     mainview.cpp \
     helper.cpp \
     webviewitem.cpp \
+    slide.cpp
 
 
 OTHER_FILES += \
@@ -119,4 +117,3 @@ macx
     QMAKE_INFO_PLIST = Info.plist
 }
 
-FORMS +=

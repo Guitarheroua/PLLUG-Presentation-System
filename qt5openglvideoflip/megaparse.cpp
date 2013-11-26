@@ -7,8 +7,8 @@
 #include <QDebug>
 #include <QFile>
 #include <QDir>
+#include "slide.h"
 
-#include "page.h"
 
 MegaParse::MegaParse(QObject *parent) :
     QObject(parent)
@@ -21,7 +21,7 @@ MegaParse::~MegaParse()
     qDeleteAll(mTemplatesList);
 }
 
-void MegaParse::parsePagesData()
+void MegaParse::parsePresenationData()
 {
     QString jsonData;
     QFile data(mContentDir + "/data.json");
@@ -31,12 +31,17 @@ void MegaParse::parsePagesData()
         jsonData = in.readAll();
     }
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData.toUtf8());
-//    qDebug() << jsonDoc.isObject();
-    QVariantList lPagesList = jsonDoc.toVariant().toMap().value("pages").toList();
-    foreach(QVariant page, lPagesList)
+    QString lPresentationName = jsonDoc.toVariant().toMap().value("name").toString();
+    QString lSchemeVersion = jsonDoc.toVariant().toMap().value("schemeVersion").toString();
+    QVariantList lSlidesList = jsonDoc.toVariant().toMap().value("slides").toList();
+    QVariantList list;
+    foreach(QVariant slide, lSlidesList)
     {
-        mPagesList.append(new Page(page.toMap(), mContentDir, QSize(qApp->desktop()->screenGeometry().width()/1.5, qApp->desktop()->screenGeometry().height()/1.5)));
+//       mPagesList.append(new Slide(slide.toMap(), mContentDir, QSize(qApp->desktop()->screenGeometry().width()/1.5, qApp->desktop()->screenGeometry().height()/1.5)));
+//       list.append(QVariant(new Slide(slide.toMap(), mContentDir, QSize(qApp->desktop()->screenGeometry().width()/1.5, qApp->desktop()->screenGeometry().height()/1.5))));
     }
+
+
 }
 
 void MegaParse::parseTemplatesData()
@@ -54,7 +59,7 @@ void MegaParse::parseTemplatesData()
         QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData.toUtf8());
     //    qDebug() << jsonDoc.isObject();
         qDebug() << jsonDoc.toVariant().toMap();
-        mTemplatesList.append(new Page(jsonDoc.toVariant().toMap(), mContentDir, QSize(800,800)));
+        mTemplatesList.append(new Slide(jsonDoc.toVariant().toMap(), mContentDir, QSize(800,800)));
     }
 
 
@@ -65,7 +70,7 @@ void MegaParse::setContentDir(const QString pDir)
     mContentDir = pDir;
 }
 
-QList<Page *> MegaParse::pagesList()
+QList<Slide *> MegaParse::pagesList()
 {
     return mPagesList;
 }
