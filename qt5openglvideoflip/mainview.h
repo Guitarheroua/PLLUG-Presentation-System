@@ -13,7 +13,6 @@ class MainView : public QQuickView
 public:
     explicit MainView( const QString& pContentDir, QWindow *parent = 0);
     void savePresentation(const QString& );
-    void readPresentation(const QString& );
 
 protected:
 //    void resizeEvent(QResizeEvent *);
@@ -23,6 +22,7 @@ protected:
 signals:
     
 private slots:
+    void openPresentation(const QString& );
     void test(QQuickItem*);
     void test1(int);
 

@@ -133,84 +133,84 @@ Presentation {
 
     }
 
-    EmptySlide
-    {
-        title: "first slide"
-        visible: false
-        content: [
-            "Gradient Rectangle",
-            "Swirls using ShaderEffect",
-            " Movement using a vertexShader",
-            " Colorized using a gradient rect converted to a texture",
-            " Controlled using QML properties and animations",
-            "Snow"
-        ]
+//    Slide
+//    {
+//        title: "first slide"
+//        visible: false
+//        content: [
+//            "Gradient Rectangle",
+//            "Swirls using ShaderEffect",
+//            " Movement using a vertexShader",
+//            " Colorized using a gradient rect converted to a texture",
+//            " Controlled using QML properties and animations",
+//            "Snow"
+//        ]
 
-    }
+//    }
 
-    Slide {
-        centeredText: "Animated Background"
-        fontScale: 2
-        visible: false
-        title: "anim slide"
+//    Slide {
+//        centeredText: "Animated Background"
+//        fontScale: 2
+//        visible: false
+//        title: "anim slide"
 
 
 
-    }
+//    }
 
-    Slide {
-        title: "Composition"
-        visible: false
-        content: [
-            "Gradient Rectangle",
-            "Swirls using ShaderEffect",
-            " Movement using a vertexShader",
-            " Colorized using a gradient rect converted to a texture",
-            " Controlled using QML properties and animations",
-            "Snow",
-            " Using 'QtQuick.Particles 2.0'",
-            " Emitter",
-            " ImageParticle"
-        ]
+//    Slide {
+//        title: "Composition"
+//        visible: false
+//        content: [
+//            "Gradient Rectangle",
+//            "Swirls using ShaderEffect",
+//            " Movement using a vertexShader",
+//            " Colorized using a gradient rect converted to a texture",
+//            " Controlled using QML properties and animations",
+//            "Snow",
+//            " Using 'QtQuick.Particles 2.0'",
+//            " Emitter",
+//            " ImageParticle"
+//        ]
 
-    }
-    Slide {
-        title: "Slide"
-        visible: false
-        content: [
-            "  Text1",
-            "  Text2",
-            "  Text3",
+//    }
+//    Slide {
+//        title: "Slide"
+//        visible: false
+//        content: [
+//            "  Text1",
+//            "  Text2",
+//            "  Text3",
 
-        ]
-        fontScale: 1
-        Clock{}
-    }
+//        ]
+//        fontScale: 1
+//        Clock{}
+//    }
 
-    Slide
-    {
-        title: "code slide"
-        visible: false
-        code: " RECT* rect = (RECT*) message->lParam;
-        int fWidth = frameGeometry().width() - width();
-        int fHeight = frameGeometry().height() - height();
-        int nWidth = rect->right-rect->left - fWidth;
-        int nHeight = rect->bottom-rect->top - fHeight;
+//    Slide
+//    {
+//        title: "code slide"
+//        visible: false
+//        code: " RECT* rect = (RECT*) message->lParam;
+//        int fWidth = frameGeometry().width() - width();
+//        int fHeight = frameGeometry().height() - height();
+//        int nWidth = rect->right-rect->left - fWidth;
+//        int nHeight = rect->bottom-rect->top - fHeight;
 
-        switch(message->wParam) {
-        case WMSZ_BOTTOM:
-        case WMSZ_TOP:
-            rect->right = rect->left+(qreal)nHeight*mAspectRatio + fWidth;
-            break;"
-    }
+//        switch(message->wParam) {
+//        case WMSZ_BOTTOM:
+//        case WMSZ_TOP:
+//            rect->right = rect->left+(qreal)nHeight*mAspectRatio + fWidth;
+//            break;"
+//    }
 
-    Slide {
-        title: "Last Slide"
-        visible: false
-        centeredText: "Place some text here"
-        fontScale: 2
-        Clock{}
-    }
+//    Slide {
+//        title: "Last Slide"
+//        visible: false
+//        centeredText: "Place some text here"
+//        fontScale: 2
+//        Clock{}
+//    }
 
     //    PageFlipShaderEffect
     //    {

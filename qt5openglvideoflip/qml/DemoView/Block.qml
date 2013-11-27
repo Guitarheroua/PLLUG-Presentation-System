@@ -12,17 +12,23 @@ Rectangle {
     Loader
     {
         id: pageLoader
+        objectName: "blockLoader"
         anchors.fill: parent
         z: 2
         onLoaded:
         {
-            console.log("LOADED", pageLoader.item, pageLoader.item.textItem )
+//            console.log("LOADED", pageLoader.item )
+        }
+        onStatusChanged:
+        {
+            console.log("\n!!!!!!\n", pageLoader.status)
         }
     }
 
     Item
     {
         id: menu
+        objectName: "menu"
         z: parent.z+1
         anchors
         {

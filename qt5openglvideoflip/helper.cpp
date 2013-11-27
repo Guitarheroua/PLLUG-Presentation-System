@@ -5,7 +5,7 @@
 #include <QFontDatabase>
 
 
-Helper::Helper(QObject *parent) :
+Helper::Helper( QObject *parent) :
     QObject(parent)
 {
 }
@@ -61,6 +61,10 @@ int Helper::fontIndex(const QString &pFont)
     return 0;
 }
 
+void Helper::openPresentation(const QUrl &pPath)
+{
+    emit open(pPath.path().remove(0,1));
+}
 
 
 qreal Helper::saturation(const QString& pColor)

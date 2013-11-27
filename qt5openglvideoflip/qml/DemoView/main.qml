@@ -17,21 +17,21 @@ Rectangle
      }
 
 
-//    StartScreen
-//    {
-//        id: startScreen
-//    }
+    StartScreen
+    {
+        id: startScreen
+    }
 
-//    states:
-//        [
-//        State{
-//            id: editState
-//        },
-//        State{
-//            id: showState
-//        }
+    states:
+        [
+        State{
+            id: editState
+        },
+        State{
+            id: showState
+        }
 
-//    ]
+    ]
 
 
 

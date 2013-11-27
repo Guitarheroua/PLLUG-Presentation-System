@@ -226,7 +226,7 @@ Item {
                 from: 0;
                 to: slide.writeInText.length;
                 duration: slide.writeInText.length * 30;
-                running: slide.visible && parent.visible && slide.writeInText.length > 0
+                running: slide.visible /*&& parent.visible*/ && slide.writeInText.length > 0
             }
 
             visible: slide.writeInText != undefined;

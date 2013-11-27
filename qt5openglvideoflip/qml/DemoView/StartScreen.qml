@@ -9,37 +9,64 @@ Rectangle
     height: parent.height
     color: "lightsteelblue"
     z: 1
-//    Rectangle
-//    {
-//        id: openButton
-
-//    }
-    Rectangle
+    Column
     {
-        id: createButton
-        width: createButtonText.width + 10
-        height: 50
-        radius: 10
+        spacing: 10
         anchors.centerIn: parent
-        Text
+        Rectangle
         {
-            id: createButtonText
-            anchors.centerIn: parent
-            text: "Create new presentation"
-            font.pointSize: 20
-            font.italic: true
-        }
-        MouseArea
-        {
-            anchors.fill: parent
-            onClicked:
+            id: openButton
+            width: 350
+            height: 50
+            radius: 10
+            Text
             {
-                console.log("clicked")
-                startScreen.state = "closed"
+                anchors.centerIn: parent
+                text: "Open presentation"
+                font.pointSize: 20
+                font.italic: true
             }
-        }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    console.log("clicked")
+                    fileDialog.nameFilters = ["Presentation (*.json)"];
+                    fileDialog.open();
 
+                }
+            }
+
+        }
+        Rectangle
+        {
+            id: createButton
+            width: 350
+            height: 50
+            radius: 10
+            Text
+            {
+                anchors.centerIn: parent
+                text: "Create new presentation"
+                font.pointSize: 20
+                font.italic: true
+            }
+            MouseArea
+            {
+                anchors.fill: parent
+                onClicked:
+                {
+                    console.log("clicked")
+                    presentationLoader.setSource("TestPresentation.qml")
+                    startScreen.state = "closed"
+                }
+            }
+
+        }
     }
+
+
     states:
         [
         State {
@@ -60,6 +87,18 @@ Rectangle
         }
     ]
     state: "opened"
-    Behavior on y { SmoothedAnimation { velocity: 800 } }
+    Behavior on y { SmoothedAnimation { velocity: 1000 } }
+
+
+    FileDialog{
+        id: fileDialog
+        title: "Please choose a file"
+        selectMultiple: false
+        onAccepted: {
+             helper.openPresentation(fileDialog.fileUrl)
+             startScreen.state = "closed"
+        }
+
+    }
 
 }

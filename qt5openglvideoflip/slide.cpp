@@ -5,18 +5,26 @@
 #include <QDir>
 #include <QFile>
 #include <QApplication>
+#include <QQmlContext>
 #include "helper.h"
 
 Slide::Slide(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, QQuickItem *parent) :
     QQuickItem(parent)
 {
     mEngine = new QQmlEngine();
+    QQmlContext* lContext = mEngine->rootContext();
+    lContext->setContextProperty("helper",mHelper);
+//    lContext->setContextProperty("screenPixelWidth", qApp->desktop()->screenGeometry().width());
+//    lContext->setContextProperty("screenPixelHeight",qApp->desktop()->screenGeometry().height());
     mContentDir = pContentDir;
-
 
     QQmlComponent *component = new QQmlComponent(mEngine,QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/presentation/Slide.qml").arg(pContentDir)));
     QObject *object = component->create();
     mSlide = qobject_cast<QQuickItem*>(object);
+    mSlide->setParentItem(parent);
+
+    QVariant lSlide;
+    lSlide.setValue<QObject*>(object);
 
     connect(this,SIGNAL(widthChanged()), this, SLOT(slotPageWidgthChanged()));
     connect(this,SIGNAL(heightChanged()), this, SLOT(slotPageHeightChanged()));

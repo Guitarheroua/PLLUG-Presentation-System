@@ -12,7 +12,7 @@ class Slide : public QQuickItem
 {
     Q_OBJECT
 public:
-    Slide(QVariantMap pMap, const QString& pContentDir, const QSize& pSize, QQuickItem *parent = 0);
+    Slide(QVariantMap,const QString&, const QSize&, QQuickItem *parent = 0);
     Slide(QQuickItem *content = 0, QQuickItem *parent = 0);
     ~Slide();
     void setModel(BlocksModel* pModel);

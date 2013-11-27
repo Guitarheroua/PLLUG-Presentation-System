@@ -2,13 +2,15 @@
 #define HELPER_H
 
 #include <QObject>
-#include <qstringlist.h>
+#include <QStringList>
+#include <QUrl>
 
+class MainView;
 class Helper : public QObject
 {
     Q_OBJECT
 public:
-    explicit Helper(QObject *parent = 0);
+    explicit Helper(QObject *parent = 0 );
     Q_INVOKABLE void test1(const QString& pString);
     Q_INVOKABLE QString readShader(const QString& );
     Q_INVOKABLE qreal hue(const QString&);
@@ -19,10 +21,14 @@ public:
     Q_INVOKABLE QStringList fonts();
     Q_INVOKABLE int fontIndex(const QString&);
 
+    Q_INVOKABLE void openPresentation(const QUrl &);
     
 signals:
+    void open(const QString &);
     
 public slots:
+
+private:
     
 };
 
