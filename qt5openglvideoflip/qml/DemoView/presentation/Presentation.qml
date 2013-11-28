@@ -46,6 +46,7 @@ import QtQuick.Window 2.0
 Item {
     id: root
 
+    property bool enableEdit: true
     property variant slides: []
     property int currentSlide
     property bool showNotes: false;
@@ -64,6 +65,24 @@ Item {
     // Private API
     property bool _faded: false
     property int _userNum;
+
+    states: [
+        State {
+            name: "show"
+            PropertyChanges {
+                target: root
+                enableEdit: false
+            }
+        },
+        State{
+            name: "edit"
+            PropertyChanges {
+                target: root
+                enableEdit: true
+            }
+        }
+
+    ]
 
     Component.onCompleted: {
         var slideCount = 0;
@@ -237,19 +256,6 @@ Item {
         Behavior on opacity { NumberAnimation { duration: 250 } }
     }
 
-//    MouseArea {
-//        id: mouseArea
-//        anchors.fill: parent
-////        acceptedButtons: Qt.LeftButton | Qt.RightButton
-//        onClicked: {
-////            if (mouse.button == Qt.RightButton)
-////                goToPreviousSlide()
-////            else
-////                goToNextSlide()
-//            console.log("!!!!!!")
-//        }
-//        onPressAndHold: goToPreviousSlide(); //A back mechanism for touch only devices
-//    }
 
     Window {
         id: notesWindow;

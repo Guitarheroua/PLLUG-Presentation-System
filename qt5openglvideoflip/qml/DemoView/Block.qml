@@ -2,11 +2,18 @@ import QtQuick 2.0
 import QtQuick.Dialogs 1.0
 
 Rectangle {
+    id: item
     property alias contentItem: pageLoader.item
+    property bool enableEdit: true
     objectName: "block"
-    border{
+    border
+    {
         color: "lightgray"
-        width: 1
+        width: (enableEdit)? 1 : 0
+    }
+    function load(url)
+    {
+        pageLoader.setSource(url, {})
     }
 
     Loader
@@ -17,12 +24,9 @@ Rectangle {
         z: 2
         onLoaded:
         {
-//            console.log("LOADED", pageLoader.item )
+            console.log("LOADED", pageLoader.item )
         }
-        onStatusChanged:
-        {
-            console.log("\n!!!!!!\n", pageLoader.status)
-        }
+
     }
 
     Item
@@ -36,6 +40,7 @@ Rectangle {
         }
         width: 102
         height: 102
+        visible: item.enableEdit
 
         property int selectedItem: 0
 

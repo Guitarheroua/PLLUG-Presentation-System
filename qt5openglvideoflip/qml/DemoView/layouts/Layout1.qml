@@ -42,18 +42,20 @@ Item
                 width: parent.width - 10
                 height:  parent.height - 10
                 anchors.centerIn: parent
+                enableEdit: templateItem.parent.enableEdit
 
                 MouseArea{
                     anchors.fill: parent
+                    enabled: templateItem.parent.enableEdit
                     onClicked: {
                         blockItem.selected = !blockItem.selected
-                        templateItem.parent.selectedItem = (block.contentItem.textItem) ? block.contentItem : blockItem
+                        templateItem.parent.selectedItem = /*(block.contentItem.textItem) ?*/ block.contentItem /*: blockItem*/
 
                     }
                     onPressAndHold:
                     {
                         blockItem.selected = true
-                        templateItem.parent.selectedItem = (block.contentItem.textItem) ? block.contentItem : blockItem
+                        templateItem.parent.selectedItem = /*(block.contentItem.textItem) ?*/ block.contentItem /*: blockItem*/
                         templateItem.parent.editSelectedItemProperties = /*!templateItem.parent.editSelectedItemProperties*/true
                     }
                 }
@@ -68,6 +70,8 @@ Item
     }
     MouseArea
     {
+        id: itemMouseArea
+        enabled: templateItem.parent.enableEdit
         anchors.fill: parent
         onClicked:
         {
@@ -94,5 +98,7 @@ Item
     {
         templateItem.parent.title = "Click to add title"
     }
+
+
 }
 

@@ -59,6 +59,7 @@ Rectangle
                 {
                     console.log("clicked")
                     presentationLoader.setSource("TestPresentation.qml")
+                    helper.setCreatePresentationMode();
                     startScreen.state = "closed"
                 }
             }

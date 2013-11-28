@@ -231,6 +231,7 @@ Rectangle{
             selectedItem: optionsPanelRect.selectedItem
             z: parent.z+1
         }
+
         SizeMenu
         {
             visible: itemProperties
@@ -240,7 +241,7 @@ Rectangle{
 
         TextMenu
         {
-            visible: ( itemProperties && optionsPanelRect.selectedItem.textItem)
+            visible: ( itemProperties && optionsPanelRect.selectedItem && optionsPanelRect.selectedItem.textItem)
             selectedItem: optionsPanelRect.selectedItem
             z: parent.z+1
         }

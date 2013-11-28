@@ -1,83 +1,118 @@
 import QtQuick 2.0
 import "../"
 
+
 Item
 {
     id: templateItem
     anchors.fill: parent
-    Rectangle
-    {
-        id: titleRect
-        width: templateItem.parent.contentWidth
-        height: textEdit.height
-        anchors
-        {
-            horizontalCenter: templateItem.parent.horizontalCenter
-            top: parent.top
-            topMargin: /*templateItem.parent.topTitleMargin*/20
-        }
 
-        color: "transparent"
 
-        border
-        {
-            color: "lightgrey"
-            width: 1
-        }
+    Component {
+        id: highlightBar
+        Rectangle {
+            width: gridView.currentItem.width + 10;
+            height: gridView.currentItem.height + 10
+            color: "#FFFF88"
+            x: gridView.currentItem.x - 5
+            y: gridView.currentItem.y - 5
+            //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
 
-        TextInput
-        {
-            id: textEdit
-            anchors
-            {
-                centerIn: parent
-            }
-
-            text: "Click to add text"
-            font.pointSize: templateItem.parent.titleFontSize
-//            BorderImage {
-//                id: borderImage
-//                source: "http://embed.polyvoreimg.com/cgi/img-thing/size/y/tid/33783871.jpg"
-//                width: parent.width;
-//                height: parent.height
-//                border.left: 5; border.top: 5
-//                border.right: 5; border.bottom: 5
-//                z: -1
-//            }
-            horizontalAlignment: Text.Center
-            MouseArea
-            {
-                anchors.fill: parent
-                onClicked: {
-                    textEdit.text = (textEdit.text === "Click to add text") ? "" : textEdit.text
-                    textEdit.forceActiveFocus()
-//                    borderImage.visible = false
-                }
-            }
         }
     }
 
-    Rectangle
+    Component
     {
-        id: contentRect
+        id: gridDelegate
+        Item{
+            id: delegateItem
+            property bool selected
+            width: 300
+            height: 250
+            Rectangle {
+                id: highlightRect
+                //                width: block.width + 10;
+                //                height: block.height + 10
+                anchors.fill: parent
+                color: "lightsteelblue"
+                //                x: block.x - 5
+                //                y: block.y - 5
+                visible: (gridView.currentIndex === index && selected)
+                onVisibleChanged:
+                {
+                    if (!visible)
+                        templateItem.parent.editSelectedItemProperties = false
+                }
+
+                //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
+            }
+
+            Block{
+                id: block
+                width: parent.width-10
+                height: parent.height-10
+                anchors.centerIn: parent
+                enableEdit: templateItem.parent.enableEdit
+                MouseArea{
+                    anchors.fill: parent
+                    enabled: templateItem.parent.enableEdit
+                    onClicked: {
+                        console.log("\nINDEX\n", index)
+                        gridView.currentIndex = index
+                        delegateItem.selected = !delegateItem.selected
+                        templateItem.parent.selectedItem = gridView.currentItem
+                    }
+                    onPressAndHold:
+                    {
+                        gridView.currentIndex = index
+                        delegateItem.selected = true
+                        templateItem.parent.selectedItem = gridView.currentItem
+                        templateItem.parent.editSelectedItemProperties = !templateItem.parent.editSelectedItemProperties
+                    }
+                }
+            }
+            Component.onCompleted:
+            {
+                selected = false
+            }
+            //            Behavior on x{SmoothedAnimation{velocity: 400}}
+            //            Behavior on y{SmoothedAnimation{velocity: 400}}
+            //            Behavior on width{SmoothedAnimation{velocity: 410}}
+            //            Behavior on height{SmoothedAnimation{velocity: 260}}
+        }
+
+    }
+
+
+    Item
+    {
+        id: contentItem
         x: templateItem.parent.contentX
         y: templateItem.parent.contentY
         width: templateItem.parent.contentWidth
-        height: templateItem.parent.contentHeight
-        Grid{
-            anchors.centerIn:  parent
-            rows: 2
-            columns: 3
-            spacing: 20
-            Repeater
+        height: templateItem.parent.contentHeight+10
+        z: parent.z + 1
+
+        GridView{
+            id: gridView
+            objectName: "blocksView"
+            anchors
             {
-                model: 6
-                Block{
-                    width: 300
-                    height: 250
-                }
+                fill:  parent
+                leftMargin: (parent.width - cellWidth*3)/2
+                rightMargin: (parent.width - cellWidth*3)/2
             }
+            model: 6
+            delegate: gridDelegate
+            boundsBehavior: GridView.StopAtBounds
+            cellWidth: 300
+            cellHeight: 250
+            interactive: false
+            //            highlight: highlightBar
+            //            highlightFollowsCurrentItem: false
 
         }
     }
+
 }
+

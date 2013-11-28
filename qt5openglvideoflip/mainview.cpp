@@ -13,6 +13,7 @@
 #include <QJsonValue>
 #include <QJsonArray>
 #include <QMessageBox>
+#include <QTimer>
 
 #include "megaparse.h"
 #include "blocksview.h"
@@ -32,10 +33,12 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     //    mParser->parsePagesData();
     //    mParser->parseTemplatesData();
     mContentDir = pContentDir;
+    mMode = PresentationMode::SlideShow;
     this->setSurfaceType(QQuickView::OpenGLSurface);
 
     mHelper = new Helper();
     connect(mHelper, SIGNAL(open(QString)), this, SLOT(openPresentation(QString)));
+    connect(mHelper, SIGNAL(createPresentationMode()), this, SLOT(setCreatePresentationMode()));
     this->rootContext()->setContextProperty("helper",mHelper);
     this->rootContext()->setContextProperty("screenPixelWidth", qApp->desktop()->screenGeometry().width());
     this->rootContext()->setContextProperty("screenPixelHeight",qApp->desktop()->screenGeometry().height());
@@ -152,6 +155,7 @@ void MainView::savePresentation(const QString& pPath)
                         lJsonBlock.insert("heightCoeff", QJsonValue(QString(lBlock->property("heightCoeff").toString())));
                         lJsonBlock.insert("xCoeff", QJsonValue(QString(lBlock->property("xCoeff").toString())));
                         lJsonBlock.insert("yCoeff", QJsonValue(QString(lBlock->property("yCoeff").toString())));
+                        lJsonBlock.insert("rotation", QJsonValue(QString(lBlock->property("rotation").toString())));
                         lJsonBlocksArray.append(lJsonBlock);
                     }
                     qDebug() << "\n~~~~~~\n" << lJsonBlocksArray;
@@ -173,6 +177,7 @@ void MainView::savePresentation(const QString& pPath)
 
 void MainView::openPresentation(const QString& pPath)
 {
+    mMode = PresentationMode::SlideShow;
     QString jsonData;
     QFile lFile(pPath);
     qDebug() << pPath;
@@ -199,6 +204,7 @@ void MainView::openPresentation(const QString& pPath)
     qDebug() << lSlidesList;
     QVariant var;
     QQuickItem* pres = lLoader->property("item").value<QQuickItem*>();
+    pres->setProperty("enableEdit", false);
     QVariantList lSlidesItemList;
 
     int i=0;
@@ -229,10 +235,13 @@ void MainView::openPresentation(const QString& pPath)
         if (slide.toMap().value("layout").toString() != "")
         {
             QQmlComponent *c = new QQmlComponent(lEngine,QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/layouts/%2.qml").arg(mContentDir).arg(slide.toMap().value("layout").toString())));
+            qDebug() << "~~~~~~~~~~~~~``";
             QObject *o = c->create();
+             qDebug() << "~~~~~~~~~~~~~``";
             QQuickItem* layout = qobject_cast<QQuickItem*>(o);
             layout->setParentItem(lSlideItem);
             layout->setObjectName("layout");
+            layout->setProperty("state", "show");
             QQuickItem* lBlocksView = layout->findChild<QQuickItem*>("blocksView", Qt::FindChildrenRecursively);
             if (lBlocksView)
             {
@@ -241,6 +250,9 @@ void MainView::openPresentation(const QString& pPath)
                 {
                     lBlocksView->setProperty("currentIndex",i);
                     QQuickItem* l = lBlocksView->property("currentItem").value<QQuickItem*>();
+//                    l->setProperty("visible", false);
+                    qDebug() << l;
+//                    l->findChild<QQuickItem*>("block", Qt::FindChildrenRecursively)->childItems().at(1)->setProperty("visible",false);
                     lBlocksItemList.append(l->findChild<QQuickItem*>("block", Qt::FindChildrenRecursively));
                 }
                 qDebug() << "\nBLOCK VIEW\n" << lBlocksView->property("model");
@@ -262,39 +274,25 @@ void MainView::openPresentation(const QString& pPath)
                 {
                     lItemName = "textItem";
                 }
-
-                QQuickItem* lBlockLoader = blockItem->findChild<QQuickItem*>("blockLoader");
-                qDebug() << "..." << lBlockLoader;
-                    qDebug() << QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/items/%2.qml").arg(mContentDir).arg(lItemName));
-                lBlockLoader->setProperty("source", QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/items/%2.qml").arg(mContentDir).arg(lItemName)));
+                QUrl url = QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/items/%2.qml").arg(mContentDir).arg(lItemName));
+                qDebug() << lBlockMap.value("source") << lBlockType << blockItem->findChild<QQuickItem*>("menu") << blockItem;
+                QMetaObject::invokeMethod(blockItem, "load", Q_ARG(QVariant, url));
                 blockItem->findChild<QQuickItem*>("menu")->setProperty("visible", false);
-                qDebug() << "/////";
-                QQuickItem* lBlock = lBlockLoader->property("item").value<QQuickItem*>();
-                lBlock->setProperty("source", lBlockMap.value("source") );
+
+                QQuickItem* loader = blockItem->findChild<QQuickItem*>("blockLoader");
+                QQuickItem* item = loader->property("item").value<QQuickItem*>();
+                if (item)
+                {
+                    foreach (QString key, lBlockMap.keys())
+                    {
+                        const char* lKey = key.toLatin1().constData();
+                        item->setProperty(lKey, lBlockMap.value(key) );
+//                        qDebug() << key << "___" << lKey << "_____" << lBlockMap.value(key);
+                    }
+                }
                 i++;
-////                lJsonBlock.insert("type", QJsonValue(QString(lBlockType)));
-////                if ("text" == lBlockType)
-////                {
-////                    lJsonBlock.insert("fontFamily", QJsonValue(QString(lBlock->property("fontFamily").toString())));
-////                    lJsonBlock.insert("fontColor", QJsonValue(QString(lBlock->property("fontColor").toString())));
-////                    lJsonBlock.insert("fontBold", QJsonValue(bool(lBlock->property("fontBold").toBool())));
-////                    lJsonBlock.insert("fontItalic", QJsonValue(bool(lBlock->property("fontItalic").toBool())));
-////                    lJsonBlock.insert("fontSize", QJsonValue(double(lBlock->property("fontSize").toDouble())));
-////                    lJsonBlock.insert("fontUnderline", QJsonValue(bool(lBlock->property("fontUnderline").toBool())));
-////                    lJsonBlock.insert("fontStrikeout", QJsonValue(bool(lBlock->property("fontStrikeout").toBool())));
-////                }
-////                else
-////                {
-////                    lJsonBlock.insert("source", QJsonValue(QString(lBlock->property("source").toString())));
-////                }
-////                lJsonBlock.insert("widthCoeff", QJsonValue(QString(lBlock->property("widthCoeff").toString())));
-////                lJsonBlock.insert("heightCoeff", QJsonValue(QString(lBlock->property("heightCoeff").toString())));
-////                lJsonBlock.insert("xCoeff", QJsonValue(QString(lBlock->property("xCoeff").toString())));
-////                lJsonBlock.insert("yCoeff", QJsonValue(QString(lBlock->property("yCoeff").toString())));
-////                lJsonBlocksArray.append(lJsonBlock);
+
             }
-////            qDebug() << "\n~~~~~~\n" << lJsonBlocksArray;
-////            lJsonSlide.insert("blocks",lJsonBlocksArray);
         }
         QVariantList effects = lSlideMap.value("effects").toList();
         foreach (QVariant effect, effects)
@@ -314,6 +312,11 @@ void MainView::openPresentation(const QString& pPath)
 
 
 
+}
+
+void MainView::setCreatePresentationMode()
+{
+    mMode = PresentationMode::Create;
 }
 
 
@@ -372,7 +375,10 @@ bool MainView::event(QEvent *event)
 {
     if (event->type() == QEvent::Close)
     {
-        //        savePresentation("");
+        if (mMode == PresentationMode::Create || mMode == PresentationMode::Edit )
+        {
+            savePresentation("");
+        }
     }
     return QQuickView::event(event);
 }

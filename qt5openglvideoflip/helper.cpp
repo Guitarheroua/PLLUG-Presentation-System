@@ -66,6 +66,11 @@ void Helper::openPresentation(const QUrl &pPath)
     emit open(pPath.path().remove(0,1));
 }
 
+void Helper::setCreatePresentationMode()
+{
+    emit createPresentationMode();
+}
+
 
 qreal Helper::saturation(const QString& pColor)
 {

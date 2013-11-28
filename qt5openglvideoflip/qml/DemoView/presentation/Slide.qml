@@ -52,6 +52,7 @@ Item {
     id: slide
 
     property bool isSlide: true
+    property bool enableEdit: (parent)? parent.enableEdit : false
 
     property string title
     onTitleChanged:
@@ -122,12 +123,14 @@ Item {
 
     visible: true
 
+
     Rectangle
     {
         id: titleRect
         property string type: "title"
         property alias textItem: titleText
         property string defaultTitleText: "Click to add title"
+
         anchors
         {
             horizontalCenter: parent.horizontalCenter
@@ -142,7 +145,7 @@ Item {
         border
         {
             color: (slide.selectedItem === titleRect) ? "lightsteelblue" : "lightgrey"
-            width: (titleText.focus || titleText.text === titleRect.defaultTitleText ) ? 1 :0
+            width: (slide.enableEdit && (titleText.focus || titleText.text === titleRect.defaultTitleText) ) ? 1 :0
         }
 
         TextInput
@@ -163,6 +166,7 @@ Item {
             {
                 slide.title = (titleText.text === titleRect.defaultTitleText) ? "" : titleText.text
             }
+            enabled: slide.enableEdit
             MouseArea
             {
                 anchors.fill: parent

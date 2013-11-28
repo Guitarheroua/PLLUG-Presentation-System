@@ -11,6 +11,13 @@ class MainView : public QQuickView
 {
     Q_OBJECT
 public:
+    enum PresentationMode
+    {
+        Create,
+        Edit,
+        SlideShow
+    };
+
     explicit MainView( const QString& pContentDir, QWindow *parent = 0);
     void savePresentation(const QString& );
 
@@ -23,8 +30,10 @@ signals:
     
 private slots:
     void openPresentation(const QString& );
+    void setCreatePresentationMode();
     void test(QQuickItem*);
     void test1(int);
+
 
 private:
     QString mContentDir;
@@ -34,6 +43,7 @@ private:
     QSize mOldSize;
     qreal mAspectRatio;
     Helper* mHelper;
+    PresentationMode mMode;
 
 };
 

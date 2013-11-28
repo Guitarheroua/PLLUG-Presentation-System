@@ -22,9 +22,11 @@ public:
     Q_INVOKABLE int fontIndex(const QString&);
 
     Q_INVOKABLE void openPresentation(const QUrl &);
+    Q_INVOKABLE void setCreatePresentationMode();
     
 signals:
     void open(const QString &);
+    void createPresentationMode();
     
 public slots:
 

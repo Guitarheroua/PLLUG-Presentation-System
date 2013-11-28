@@ -70,8 +70,10 @@ Rectangle
     anchors.fill: parent
     z: parent.z + 1
 
-    TextEdit{
+    TextEdit
+    {
         id: textEdit
+        enabled: textItem.parent.parent.enableEdit
         anchors
         {
             top:  parent.top

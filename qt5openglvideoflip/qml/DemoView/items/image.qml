@@ -11,11 +11,11 @@ Rectangle
     property string captionAlign
     property string textAlign
 
-    property real widthCoeff : 1
+    property real widthCoeff :  1
     property real heightCoeff : 1
 
-    property real xCoeff : 1
-    property real yCoeff : 1
+    property real xCoeff :  0
+    property real yCoeff :  0
 
     onAspectChanged:
     {
@@ -67,6 +67,25 @@ Rectangle
         heightCoeff = height/parent.height
         xCoeff = x/parent.width
         yCoeff = y/parent.height
+        console.log("PARENT CHANGED", widthCoeff, heightCoeff, xCoeff, yCoeff)
+    }
+
+    onHeightChanged:
+    {
+        heightCoeff = height/parent.height
+        console.log("heightcoef", heightCoeff, height, parent.height)
+    }
+    onWidthChanged:
+    {
+        widthCoeff = width/parent.width
+    }
+    onXChanged:
+    {
+        xCoeff = x/parent.width
+    }
+    onYChanged:
+    {
+        yCoeff = y/parent.height
     }
 
     states:[
@@ -95,36 +114,36 @@ Rectangle
             }
         }
     ]
-    state: "native"
+    //    state: "native"
 
-//    MouseArea
-//    {
-//        anchors.fill: parent
-//        hoverEnabled: true
-//        onEntered:
-//        {
-//            if ( item.state != "full")
-//            {
-//                titleRect.opacity = 0.7
-//            }
-//        }
-//        onExited:
-//        {
-//            titleRect.opacity = 0.0
-//        }
-//        onDoubleClicked:
-//        {
-//            if ( item.state === "native")
-//            {
-//                item.state = "full"
-//                titleRect.opacity = 0.0
-//            }
-//            else
-//            {
-//                item.state = "native"
-//            }
-//        }
-//    }
+    //    MouseArea
+    //    {
+    //        anchors.fill: parent
+    //        hoverEnabled: true
+    //        onEntered:
+    //        {
+    //            if ( item.state != "full")
+    //            {
+    //                titleRect.opacity = 0.7
+    //            }
+    //        }
+    //        onExited:
+    //        {
+    //            titleRect.opacity = 0.0
+    //        }
+    //        onDoubleClicked:
+    //        {
+    //            if ( item.state === "native")
+    //            {
+    //                item.state = "full"
+    //                titleRect.opacity = 0.0
+    //            }
+    //            else
+    //            {
+    //                item.state = "native"
+    //            }
+    //        }
+    //    }
 
     Image
     {
@@ -146,7 +165,7 @@ Rectangle
         Text
         {
             id: titleText
-//            width: parent.width
+            //            width: parent.width
             objectName: "CaptionText"
             font.pixelSize: item.fontSize
             font.family: item.fontFamily
