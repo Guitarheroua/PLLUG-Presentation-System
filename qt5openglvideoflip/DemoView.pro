@@ -15,7 +15,8 @@ HEADERS += \
     machelper.h \
     helper.h \
     webviewitem.h \
-    slide.h
+    slide.h \
+    presentationmanager.h
 
 
 SOURCES += \
@@ -27,7 +28,8 @@ SOURCES += \
     mainview.cpp \
     helper.cpp \
     webviewitem.cpp \
-    slide.cpp
+    slide.cpp \
+    presentationmanager.cpp
 
 
 OTHER_FILES += \
@@ -92,7 +94,8 @@ OTHER_FILES += \
     qml/DemoView/panels/ToolbarItem.qml \
     qml/DemoView/StringUtils.js \
     qml/DemoView/StringUtils.js \
-    qml/DemoView/items/textItem.qml
+    qml/DemoView/layouts/Layout.qml \
+    qml/DemoView/items/TextItem.qml
 
 RESOURCES += \
     resources.qrc

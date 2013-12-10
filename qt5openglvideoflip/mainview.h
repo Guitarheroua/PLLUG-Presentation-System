@@ -7,19 +7,12 @@ class Slide;
 class QWindow;
 class Helper;
 class MegaParse;
+class PresentationManager;
 class MainView : public QQuickView
 {
     Q_OBJECT
 public:
-    enum PresentationMode
-    {
-        Create,
-        Edit,
-        SlideShow
-    };
-
     explicit MainView( const QString& pContentDir, QWindow *parent = 0);
-    void savePresentation(const QString& );
 
 protected:
 //    void resizeEvent(QResizeEvent *);
@@ -30,7 +23,6 @@ signals:
     
 private slots:
     void openPresentation(const QString& );
-    void setCreatePresentationMode();
     void test(QQuickItem*);
     void test1(int);
 
@@ -43,7 +35,7 @@ private:
     QSize mOldSize;
     qreal mAspectRatio;
     Helper* mHelper;
-    PresentationMode mMode;
+    PresentationManager* mManager;
 
 };
 

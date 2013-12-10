@@ -12,9 +12,8 @@ Rectangle
         id: presentationLoader
         objectName: "PresentationLoader"
         anchors.fill: parent
-//        source: "TestPresentation.qml"
         focus: true
-     }
+    }
 
 
     StartScreen

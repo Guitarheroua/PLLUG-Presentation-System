@@ -5,6 +5,7 @@ Rectangle {
     id: item
     property alias contentItem: pageLoader.item
     property bool enableEdit: true
+
     objectName: "block"
     border
     {
@@ -16,17 +17,13 @@ Rectangle {
         pageLoader.setSource(url, {})
     }
 
+
     Loader
     {
         id: pageLoader
         objectName: "blockLoader"
         anchors.fill: parent
         z: 2
-        onLoaded:
-        {
-            console.log("LOADED", pageLoader.item )
-        }
-
     }
 
     Item
@@ -38,11 +35,12 @@ Rectangle {
         {
             centerIn: parent
         }
-        width: 102
-        height: 102
+        width: Math.min(item.width, item.height)/4.5
+        height: width
         visible: item.enableEdit
 
         property int selectedItem: 0
+        property int itemWidth: width/2 - 1
 
         Grid
         {
@@ -52,19 +50,20 @@ Rectangle {
             anchors.fill: parent
             Rectangle
             {
-                width: 50
-                height: 50
+                width: menu.itemWidth
+                height:  menu.itemWidth
                 color: "gray"
                 Text
                 {
                     text: "Text"
                     anchors.centerIn: parent
+                    font.pixelSize: menu.itemWidth/4
                 }
                 MouseArea
                 {
                     anchors.fill: parent
                     onClicked: {
-                        pageLoader.source = "items/textItem.qml"
+                        pageLoader.source = "items/TextItem.qml"
                         menu.selectedItem = 0;
                         menu.visible = false
                     }
@@ -72,8 +71,8 @@ Rectangle {
             }
             Rectangle
             {
-                width: 50
-                height: 50
+                width:  menu.itemWidth
+                height:  menu.itemWidth
                 color: "gray"
                 Text
                 {
@@ -92,8 +91,8 @@ Rectangle {
             }
             Rectangle
             {
-                width: 50
-                height: 50
+                width:  menu.itemWidth
+                height:  menu.itemWidth
                 color: "gray"
                 Text
                 {
@@ -112,8 +111,8 @@ Rectangle {
             }
             Rectangle
             {
-                width: 50
-                height: 50
+                width:  menu.itemWidth
+                height:  menu.itemWidth
                 color: "gray"
                 Text
                 {

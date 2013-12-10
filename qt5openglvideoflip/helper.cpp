@@ -71,6 +71,16 @@ void Helper::setCreatePresentationMode()
     emit createPresentationMode();
 }
 
+void Helper::setScreenPixelSize(QSize pSize)
+{
+    mScreenSize = pSize;
+}
+
+QSize Helper::screenSize()
+{
+    return mScreenSize;
+}
+
 
 qreal Helper::saturation(const QString& pColor)
 {

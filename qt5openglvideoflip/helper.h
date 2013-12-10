@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QStringList>
 #include <QUrl>
+#include <QSize>
 
 class MainView;
 class Helper : public QObject
@@ -23,6 +24,9 @@ public:
 
     Q_INVOKABLE void openPresentation(const QUrl &);
     Q_INVOKABLE void setCreatePresentationMode();
+
+    void setScreenPixelSize(QSize);
+    QSize screenSize();
     
 signals:
     void open(const QString &);
@@ -31,6 +35,7 @@ signals:
 public slots:
 
 private:
+    QSize mScreenSize;
     
 };
 

@@ -98,6 +98,7 @@ Rectangle
         onAccepted: {
              helper.openPresentation(fileDialog.fileUrl)
              startScreen.state = "closed"
+            console.log("==========")
         }
 
     }

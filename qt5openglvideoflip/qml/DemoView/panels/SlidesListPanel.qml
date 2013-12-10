@@ -13,7 +13,6 @@ Rectangle {
 
     onSlidesChanged:
     {
-        console.log("UPDATE")
         updateModel()
     }
 

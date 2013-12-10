@@ -7,6 +7,10 @@ Item
     id: templateItem
     anchors.fill: parent
 
+    property int itemWidth
+    property int itemHeight
+    property int itemsCount
+    property int columnsCount
 
     Component {
         id: highlightBar
@@ -24,11 +28,14 @@ Item
     Component
     {
         id: gridDelegate
-        Item{
+        Rectangle{
             id: delegateItem
             property bool selected
-            width: contentItem.width/2.5
-            height: (index === 1)? contentItem.height : contentItem.height/2
+            property int itemIndex: index
+            width: gridView.cellWidth
+            height: gridView.cellHeight
+            objectName: "delegate"
+
             Rectangle {
                 id: highlightRect
                 //                width: block.width + 10;
@@ -40,32 +47,33 @@ Item
                 visible: (gridView.currentIndex === index && selected)
                 onVisibleChanged:
                 {
-                    if (!visible)
+                    if (!visible && templateItem.parent)
                         templateItem.parent.editSelectedItemProperties = false
                 }
 
                 //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
             }
 
-            Block{
+            Block
+            {
                 id: block
                 width: parent.width-10
                 height: parent.height-10
                 anchors.centerIn: parent
-                enableEdit: templateItem.parent.enableEdit
+                enableEdit: (templateItem.parent) ? templateItem.parent.enableEdit : false
                 MouseArea{
                     anchors.fill: parent
-                    enabled: templateItem.parent.enableEdit
+                    enabled: block.enableEdit
                     onClicked: {
                         gridView.currentIndex = index
                         delegateItem.selected = !delegateItem.selected
-                        templateItem.parent.selectedItem = gridView.currentItem
+                        templateItem.parent.selectedItem = gridView.currentItem.children[1].contentItem
                     }
                     onPressAndHold:
                     {
                         gridView.currentIndex = index
                         delegateItem.selected = true
-                        templateItem.parent.selectedItem = gridView.currentItem
+                        templateItem.parent.selectedItem = gridView.currentItem.children[1].contentItem
                         templateItem.parent.editSelectedItemProperties = !templateItem.parent.editSelectedItemProperties
                     }
                 }
@@ -85,32 +93,53 @@ Item
 
     Item
     {
-        id: contentItem
-        x: templateItem.parent.contentX
-        y: templateItem.parent.contentY
-        width: templateItem.parent.contentWidth
-        height: templateItem.parent.contentHeight+10
+        id: layoutContentItem
+        x: (templateItem.parent) ? templateItem.parent.contentX : 0
+        y: (templateItem.parent) ? templateItem.parent.contentY : 0
+        width: (templateItem.parent) ? templateItem.parent.contentWidth : 0
+        height: (templateItem.parent) ? templateItem.parent.contentHeight+10 : 0
         z: parent.z + 1
 
         GridView{
             id: gridView
             objectName: "blocksView"
+            function getItem(i)
+            {
+                    positionViewAtIndex(i, GridView.Visible)
+                    return getDelegateInstanceAt(i);
+            }
+
             anchors
             {
                 fill:  parent
-                leftMargin: (parent.width - cellWidth*2)/2
-                rightMargin: (parent.width - cellWidth*2)/2
+                leftMargin: (parent.width - cellWidth*columnsCount)/2
+                rightMargin: (parent.width - cellWidth*columnsCount)/2
             }
-            model: 3
+            model: itemsCount
             delegate: gridDelegate
             boundsBehavior: GridView.StopAtBounds
-            cellWidth: contentItem.width/2.5
-            cellHeight: contentItem.height/2
+            cellWidth: itemWidth
+            cellHeight: itemHeight
             interactive: false
             //            highlight: highlightBar
             //            highlightFollowsCurrentItem: false
+
+            function getDelegateInstanceAt(index) {
+                        for(var i = 0; i < contentItem.children.length; ++i) {
+                            var item = contentItem.children[i];
+                            // We have to check for the specific objectName we gave our
+                            // delegates above, since we also get some items that are not
+                            // our delegates here.
+                            if (item.objectName === "delegate" && item.itemIndex === index)
+                                return item;
+                        }
+                        return undefined;
+                    }
 
         }
     }
 
 }
+
+
+

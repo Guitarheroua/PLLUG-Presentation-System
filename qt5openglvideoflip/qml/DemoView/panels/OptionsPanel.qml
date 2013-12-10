@@ -10,7 +10,7 @@ Rectangle{
     color: "black"
     opacity: 0.7
     z: parent.z + 2
-    property var selectedItem : presentation.slides[currentSlide].selectedItem
+    property var selectedItem : presentation.slides[presentation.currentSlide].selectedItem
     property bool itemEditing: presentation.slides[presentation.currentSlide].editSelectedItemProperties
     property bool slideProperties: false
     property bool itemProperties: false
@@ -241,7 +241,7 @@ Rectangle{
 
         TextMenu
         {
-            visible: ( itemProperties && optionsPanelRect.selectedItem && optionsPanelRect.selectedItem.textItem)
+            visible: ( itemProperties && optionsPanelRect.selectedItem )
             selectedItem: optionsPanelRect.selectedItem
             z: parent.z+1
         }

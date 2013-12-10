@@ -3,7 +3,7 @@ import "../StringUtils.js" as StringUtils
 
 Rectangle
 {
-    id: textItem
+    id: textItemRect
     property string type : "text"
     property alias textItem: textEdit
     property color fontColor : "black"
@@ -24,6 +24,11 @@ Rectangle
     property real yCoeff
 
     property string defaultText: "Click to add text"
+
+    function getText()
+    {
+        return textEdit.getText(0,textEdit.text.length)
+    }
 
     onFontBoldChanged:
     {
@@ -73,7 +78,7 @@ Rectangle
     TextEdit
     {
         id: textEdit
-        enabled: textItem.parent.parent.enableEdit
+        enabled: textItemRect.parent.parent.enableEdit
         anchors
         {
             top:  parent.top

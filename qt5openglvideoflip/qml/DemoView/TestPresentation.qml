@@ -16,7 +16,6 @@ Presentation {
         slidesListPanel.selectSlide(currentSlide)
     }
 
-
     function addNewSlide()
     {
         var component = Qt.createComponent("presentation/Slide.qml");

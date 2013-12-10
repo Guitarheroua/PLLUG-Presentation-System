@@ -42,7 +42,7 @@
                 },
                 {
                     "heightCoeff": "1",
-                    "source": "file:///D:/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/image/cat.jpg",
+                    "source": "file:///D:/work/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/image/cat.jpg",
                     "type": "image",
                     "widthCoeff": "1",
                     "xCoeff": "0",
@@ -50,7 +50,7 @@
                 },
                 {
                     "heightCoeff": "1",
-                    "source": "file:///D:/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/video/demo.mp4",
+                    "source": "file:///D:/work/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/video/demo.mp4",
                     "type": "video",
                     "widthCoeff": "1",
                     "xCoeff": "0",
@@ -58,7 +58,7 @@
                 },
                 {
                     "heightCoeff": "1",
-                    "source": "file:///D:/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/image/flower2.jpg",
+                    "source": "file:///D:/work/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/image/flower2.jpg",
                     "type": "image",
                     "widthCoeff": "1",
                     "xCoeff": "0",
@@ -88,7 +88,7 @@
                 },
                 {
                     "heightCoeff": "1",
-                    "source": "file:///D:/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/image/flower3.jpg",
+                    "source": "file:///D:/work/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/image/flower3.jpg",
                     "type": "image",
                     "widthCoeff": "1",
                     "xCoeff": "0",
@@ -110,7 +110,7 @@
                 },
                 {
                     "heightCoeff": "1",
-                    "source": "file:///D:/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/image/cat.jpg",
+                    "source": "file:///D:/work/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/image/cat.jpg",
                     "type": "image",
                     "widthCoeff": "1",
                     "xCoeff": "0",
@@ -132,7 +132,7 @@
                 },
                 {
                     "heightCoeff": "1",
-                    "source": "file:///D:/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/image/flower1.jpg",
+                    "source": "file:///D:/work/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/image/flower1.jpg",
                     "type": "image",
                     "widthCoeff": "1",
                     "xCoeff": "0",

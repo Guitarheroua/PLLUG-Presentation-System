@@ -54,7 +54,7 @@ Item {
     property bool isSlide: true
     property bool enableEdit: (parent)? parent.enableEdit : false
 
-    property string title
+    property string title : titleRect.text
     onTitleChanged:
     {
         console.log("TITLE", title)
@@ -76,12 +76,12 @@ Item {
     property real fontScale: 1
 
     property real baseFontSize: fontSize * fontScale
-    property real titleFontSize: fontSize * 1.2 * fontScale
+    property real titleFontSize: fontSize * 1.15 * fontScale
     property real bulletSpacing: 1
 
     //    property real contentWidth: width
 
-    property real topTitleMargin: fontSize * 1.5
+    property real topTitleMargin: /*fontSize * 1.5*/parent.height*0.04
 
     property real contentX: (parent) ? parent.width * 0.05 : 0
     property real contentY: (parent) ? parent.height * 0.2 : 0
@@ -123,14 +123,14 @@ Item {
 
     visible: true
 
-
     Rectangle
     {
         id: titleRect
-        property string type: "title"
-        property alias textItem: titleText
-        property string defaultTitleText: "Click to add title"
-
+        visible: (layout != "") && (layout != "Empty")
+        property string text: textItem.getText()
+        property bool selected: false
+        property int borderWidth : (selected) ? 5 : 2
+        property color borderColor : (selected) ? "lightsteelblue" : "lightgrey"
         anchors
         {
             horizontalCenter: parent.horizontalCenter
@@ -138,59 +138,50 @@ Item {
             topMargin: parent.topTitleMargin
         }
         width: parent.contentWidth
-        height: 50
+        height: textItem.fontSize*2
         z: parent.z + 1
 
-        color: "transparent"
-        border
-        {
-            color: (slide.selectedItem === titleRect) ? "lightsteelblue" : "lightgrey"
-            width: (slide.enableEdit && (titleText.focus || titleText.text === titleRect.defaultTitleText) ) ? 1 :0
+        Rectangle {
+            id: highlightRect
+            anchors.fill: parent
+            color: titleRect.borderColor
+            visible: senableEdit
+            onVisibleChanged:
+            {
+                if (!visible )
+                    editSelectedItemProperties = false
+            }
         }
-
-        TextInput
+        Rectangle
         {
-            id: titleText
-            anchors
+            width: parent.width-titleRect.borderWidth*2
+            height: parent.height-titleRect.borderWidth*2
+            anchors.centerIn: parent
+            TextItem
             {
-                fill: parent
-            }
-            wrapMode: TextInput.WordWrap
-            font.pixelSize: titleFontSize
-            text: (slide.title === "") ? titleRect.defaultTitleText : slide.title
-            font.bold: titleFontBold
-            font.family: titleFontFamily
-            color: titleColor
-            horizontalAlignment: Text.Center
-            onTextChanged:
-            {
-                slide.title = (titleText.text === titleRect.defaultTitleText) ? "" : titleText.text
-            }
-            enabled: slide.enableEdit
-            MouseArea
-            {
-                anchors.fill: parent
-                onClicked: {
-                    titleText.text = (titleText.text === titleRect.defaultTitleText ) ? "" : titleText.text
-                    titleText.forceActiveFocus()
+                id: textItem
+                fontSize: titleFontSize
+                fontFamily: titleFontFamily
+                defaultText: "Click to add title"
 
+            }
+            MouseArea{
+                anchors.fill: parent
+                enabled: slide.enableEdit
+                onClicked: {
+                    selectedItem = textItem
+                    titleRect.selected = !titleRect.selected
                 }
                 onPressAndHold:
                 {
-                    console.log("pressed")
-                    slide.selectedItem = (slide.selectedItem === titleRect) ? null : titleRect
-                    slide.editSelectedItemProperties = !slide.editSelectedItemProperties
+                    editSelectedItemProperties = !editSelectedItemProperties
+                    titleRect.selected = !titleRect.selected
                 }
             }
-
-                        onFocusChanged: {
-//                            if (!focus)
-//                            {
-//                                slide.title = (titleText.text === titleRect.defaultTitleText) ? "" : titleText.text
-//                            }
-                        }
         }
     }
+
+
 
     Item
     {

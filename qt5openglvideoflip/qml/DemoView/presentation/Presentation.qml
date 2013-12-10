@@ -272,7 +272,7 @@ Item {
             font.pixelSize: 16
             wrapMode: Text.WordWrap
 
-            property string notes: root.slides[root.currentSlide].notes;
+            property string notes:  (root.slides[root.currentSlide].notes) ? root.slides[root.currentSlide].notes : "";
             text: notes == "" ? "Slide has no notes..." : notes;
             font.italic: notes == "";
         }
