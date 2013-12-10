@@ -38,7 +38,6 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     this->setSurfaceType(QQuickView::OpenGLSurface);
 
     mHelper = new Helper();
-    connect(mHelper, SIGNAL(open(QString)), this, SLOT(openPresentation(QString)));
     mHelper->setScreenPixelSize(qApp->desktop()->screenGeometry().size());
     this->rootContext()->setContextProperty("helper",mHelper);
     this->rootContext()->setContextProperty("screenPixelWidth", mHelper->screenSize().width());
@@ -58,6 +57,7 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
 
     mManager = new PresentationManager(mContentDir, this->rootObject());
     connect(mHelper, SIGNAL(createPresentationMode()), mManager, SLOT(setCreatePresentationMode()));
+    connect(mHelper, SIGNAL(open(QString)), mManager, SLOT(openPresentation(QString)));
 
     //    QQuickItem *rootItem = this->rootObject();
 
@@ -81,12 +81,6 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     //    connect(this, SIGNAL(heightChanged(int)), this, SLOT(test1(int)));
 }
 
-
-void MainView::openPresentation(const QString& pPath)
-{
-    mManager->openPresentation(pPath);
-
-}
 
 bool MainView::nativeEvent(const QByteArray& eventType, void* pMessage, long* result)
 {
@@ -199,7 +193,7 @@ void MainView::test(QQuickItem* item)
         qDebug() << "ZZZZZZZZZZz";
     }
     page->setParentItem(this->rootObject());
-    mSlidesList.append(page);
+//    mSlidesList.append(page);
 
 }
 

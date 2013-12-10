@@ -78,6 +78,7 @@ Rectangle {
                 {
                     text: "Image"
                     anchors.centerIn: parent
+                    font.pixelSize: menu.itemWidth/4
                 }
                 MouseArea
                 {
@@ -98,6 +99,7 @@ Rectangle {
                 {
                     text: "Video"
                     anchors.centerIn: parent
+                    font.pixelSize: menu.itemWidth/4
                 }
                 MouseArea
                 {
@@ -118,6 +120,7 @@ Rectangle {
                 {
                     text: "Browser"
                     anchors.centerIn: parent
+                    font.pixelSize: menu.itemWidth/4
                 }
                 MouseArea
                 {

@@ -9,7 +9,7 @@ Rectangle
     property color fontColor : "black"
     property bool fontBold : true
     property bool fontItalic : false
-    property double fontSize : 12
+    property double fontSize : 20
     property bool fontUnderline : false
     property bool fontStrikeout : false
     property bool bullets : false
@@ -67,13 +67,17 @@ Rectangle
 
     function addBullets()
     {
-
+        content = getText().split(/*String.fromCharCode(8233)*/"\n")
+        console.log("__________-", content)
+        textEdit.visible = false
     }
 
 
     color: backgroundColor
     anchors.fill: parent
     z: parent.z + 1
+
+
 
     TextEdit
     {
@@ -91,14 +95,14 @@ Rectangle
         {
 
             family: fontFamily
-            pointSize: fontSize
+            pixelSize: fontSize
             bold: fontBold
             italic: fontItalic
             underline: fontUnderline
             strikeout: fontStrikeout
         }
         color: fontColor
-        textFormat: TextEdit.RichText
+        textFormat: TextEdit.PlainText
         selectByMouse: true
         mouseSelectionMode: TextInput.SelectWords
         persistentSelection: true
@@ -111,7 +115,7 @@ Rectangle
         {
             anchors.fill: parent
             onClicked: {
-                textEdit.text = (textEdit.text === defaultText) ? "" : textEdit.text
+                textEdit.text = (textItemRect.getText() === defaultText) ? "" : textEdit.text
                 textEdit.forceActiveFocus()
                 textEdit.deselect()
                 textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
@@ -138,9 +142,74 @@ Rectangle
 
     }
 
+
+    property variant content: []
+    property real bulletSpacing: 1
+
+
+    Column {
+        id: contentId
+        anchors.fill: parent
+        spacing: 10
+        z: 10
+//        x : 50
+//        y: 50
+//        width: parent.width
+//        height: parent.height
+
+        Repeater {
+            model: content.length
+            height: 100
+
+            Row {
+                id: row
+
+                function decideIndentLevel(s) { return s.charAt(0) === " " ? 1 + decideIndentLevel(s.substring(1)) : 0 }
+                property int indentLevel: decideIndentLevel(content[index])
+                property int nextIndentLevel: index < content.length - 1 ? decideIndentLevel(content[index+1]) : 0
+                property real indentFactor: (10 - row.indentLevel * 2) / 10;
+
+                height: text.height + (nextIndentLevel == 0 ? 1 : 0.3) * fontSize * bulletSpacing
+
+                x: fontSize * indentLevel
+
+                Rectangle {
+                    id: dot
+                    y: fontSize * row.indentFactor / 2
+                    width: fontSize / 4
+                    height: fontSize / 4
+                    color: fontColor
+                    radius: width / 2
+                    smooth: true
+                    opacity: text.text.length === 0 ? 0 : 1
+                }
+
+                Rectangle {
+                    id: space
+                    width: dot.width * 2
+                    height: 1
+                    color: "#00ffffff"
+                }
+
+                TextEdit {
+                    id: text
+                    width: parent.width - parent.x - dot.width - space.width
+                    font.pixelSize: fontSize * row.indentFactor
+                    text: content[index]
+                    textFormat: Text.PlainText
+                    wrapMode: Text.WordWrap
+                    color: fontColor
+                    horizontalAlignment: Text.AlignLeft
+                    font.family: fontFamily
+                    focus: true
+                }
+            }
+        }
+    }
+
     Keys.onPressed:
     {
-        if ((event.key == Qt.Key_A) && (event.modifiers & Qt.ControlModifier))
+        if ((event.key === Qt.Key_A) && (event.modifiers & Qt.ControlModifier))
         {
             textEdit.selectAll()
         }

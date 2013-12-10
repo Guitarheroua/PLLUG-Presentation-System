@@ -22,7 +22,6 @@ protected:
 signals:
     
 private slots:
-    void openPresentation(const QString& );
     void test(QQuickItem*);
     void test1(int);
 
@@ -30,7 +29,7 @@ private slots:
 private:
     QString mContentDir;
     MegaParse *mParser;
-    QList<Slide*> mSlidesList;
+//    QList<Slide*> mSlidesList;
     QSize mActualSize;
     QSize mOldSize;
     qreal mAspectRatio;

@@ -76,7 +76,7 @@ Item {
     property real fontScale: 1
 
     property real baseFontSize: fontSize * fontScale
-    property real titleFontSize: fontSize * 1.15 * fontScale
+    property real titleFontSize: fontSize * 1.12 * fontScale
     property real bulletSpacing: 1
 
     //    property real contentWidth: width
@@ -138,14 +138,14 @@ Item {
             topMargin: parent.topTitleMargin
         }
         width: parent.contentWidth
-        height: textItem.fontSize*2
+        height: textItem.textItem.height*1.3
         z: parent.z + 1
 
         Rectangle {
             id: highlightRect
             anchors.fill: parent
             color: titleRect.borderColor
-            visible: senableEdit
+            visible: enableEdit
             onVisibleChanged:
             {
                 if (!visible )

@@ -18,7 +18,6 @@ public:
         SlideShow
     };
     explicit PresentationManager(const QString&, QQuickItem*, QObject *parent = 0);
-    void openPresentation(const QString&);
     void savePresentation(const QString &);
     void loadPresentation();
     PresentationMode mode();
@@ -26,6 +25,7 @@ public:
 signals:
 
 public slots:
+    void openPresentation(const QString&);
     void setBlockProperties(QQuickItem*, QVariantMap);
     void setCreatePresentationMode();
     void setShowPresentationMode();

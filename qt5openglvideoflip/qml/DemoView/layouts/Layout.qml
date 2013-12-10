@@ -33,8 +33,20 @@ Item
             property bool selected
             property int itemIndex: index
             width: gridView.cellWidth
-            height: gridView.cellHeight
+            height:  itemHeight()
             objectName: "delegate"
+            function itemHeight()
+            {
+                if (gridView.currentItem.children[1].contentItem && gridView.currentItem.children[1].contentItem.type === "text")
+                {
+                    console.log(gridView.currentItem.children[1].contentItem.textItem.height, gridView.cellHeight)
+                    if ( gridView.currentItem.children[1].contentItem.textItem.height > gridView.cellHeight)
+                    {
+                        return gridView.currentItem.children[1].contentItem.textItem.height*1.3
+                    }
+                }
+                return gridView.cellHeight
+            }
 
             Rectangle {
                 id: highlightRect
@@ -42,8 +54,6 @@ Item
                 //                height: block.height + 10
                 anchors.fill: parent
                 color: "lightsteelblue"
-                //                x: block.x - 5
-                //                y: block.y - 5
                 visible: (gridView.currentIndex === index && selected)
                 onVisibleChanged:
                 {
