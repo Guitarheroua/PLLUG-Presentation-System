@@ -150,16 +150,10 @@ Rectangle
     Column {
         id: contentId
         anchors.fill: parent
-        spacing: 10
-        z: 10
-//        x : 50
-//        y: 50
-//        width: parent.width
-//        height: parent.height
 
         Repeater {
+            id: repeater
             model: content.length
-            height: 100
 
             Row {
                 id: row
@@ -171,6 +165,8 @@ Rectangle
 
                 height: text.height + (nextIndentLevel == 0 ? 1 : 0.3) * fontSize * bulletSpacing
 
+                width: contentId.width
+
                 x: fontSize * indentLevel
 
                 Rectangle {
@@ -181,7 +177,7 @@ Rectangle
                     color: fontColor
                     radius: width / 2
                     smooth: true
-                    opacity: text.text.length === 0 ? 0 : 1
+//                    opacity: text.text.length === 0 ? 0 : 1
                 }
 
                 Rectangle {
@@ -202,6 +198,15 @@ Rectangle
                     horizontalAlignment: Text.AlignLeft
                     font.family: fontFamily
                     focus: true
+                    Keys.onPressed:
+                    {
+                        if (event.key === 16777220 && bullets)
+                        {
+                            var pushed = content.push("zgfd")
+//                            repeater.model += 1
+                            console.log("ENTER", content, pushed, content.length)
+                        }
+                    }
                 }
             }
         }
@@ -212,6 +217,11 @@ Rectangle
         if ((event.key === Qt.Key_A) && (event.modifiers & Qt.ControlModifier))
         {
             textEdit.selectAll()
+        }
+        if (event.key === 16777221 && bullets)
+        {
+            repeater.model += 1
+            console.log("ENTER")
         }
     }
 }
