@@ -4,13 +4,13 @@ import QtQuick.Dialogs 1.0
 Rectangle {
     id: item
     property alias contentItem: pageLoader.item
-    property bool enableEdit: true
+//    property bool enableEdit: true
 
     objectName: "block"
     border
     {
         color: "lightgray"
-        width: (enableEdit)? 1 : 0
+        width: (/*enableEdit*/ helper.enableEdit())? 1 : 0
     }
     function load(url)
     {
@@ -37,7 +37,7 @@ Rectangle {
         }
         width: Math.min(item.width, item.height)/4.5
         height: width
-        visible: item.enableEdit
+        visible: /*item.enableEdit*/ helper.enableEdit()
 
         property int selectedItem: 0
         property int itemWidth: width/2 - 1

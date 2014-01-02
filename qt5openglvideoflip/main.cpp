@@ -91,14 +91,6 @@ int main(int argc, char *argv[])
     //    #endif
 
 
-//    Helper* helper = new Helper();
-//    QQuickView view1;
-//    view1.rootContext()->setContextProperty("helper",helper);
-//    view1.rootContext()->setContextProperty("screenPixelWidth", /*qApp->desktop()->screenGeometry().width()*/1280);
-//    view1.rootContext()->setContextProperty("screenPixelHeight",/*qApp->desktop()->screenGeometry().height()*/720);
-//    view1.setSource(QUrl::fromLocalFile("qml/DemoView/TestPresentation.qml"));
-
-//    view1.show();
 
     return app.exec();
 }

@@ -52,10 +52,9 @@ Item
                 width: parent.width-10
                 height: parent.height-10
                 anchors.centerIn: parent
-                enableEdit: templateItem.parent.enableEdit
                 MouseArea{
                     anchors.fill: parent
-                    enabled: templateItem.parent.enableEdit
+                    enabled: helper.enableEdit()
                     onClicked: {
                         gridView.currentIndex = index
                         delegateItem.selected = !delegateItem.selected

@@ -64,7 +64,6 @@ Rectangle
         yCoeff = y/parent.height
     }
 
-
     Rectangle
     {
         id: titleRect

@@ -4,8 +4,8 @@ Layout
 {
     itemsCount: 1
     columnsCount: 1
-    itemWidth: 880
-    itemHeight: 520
+    itemWidth: (parent) ? parent.width*0.7 : 880
+    itemHeight: (parent) ? parent.height*0.745 : 520
 }
 
 

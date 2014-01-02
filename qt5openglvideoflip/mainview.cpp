@@ -55,8 +55,8 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     QString lSourceFile = QString::fromLatin1("%1/../qml/DemoView/main.qml").arg(pContentDir);
     this->setSource(QUrl::fromLocalFile(lSourceFile));
 
-    mManager = new PresentationManager(mContentDir, this->rootObject());
-    connect(mHelper, SIGNAL(createPresentationMode()), mManager, SLOT(setCreatePresentationMode()));
+    mManager = new PresentationManager(mContentDir, this->rootObject(), mHelper);
+    connect(mHelper, SIGNAL(createPresentationMode()), mManager, SLOT(setCreateEditPresentationMode()));
     connect(mHelper, SIGNAL(open(QString)), mManager, SLOT(openPresentation(QString)));
 
     //    QQuickItem *rootItem = this->rootObject();
@@ -76,6 +76,7 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     mActualSize = QSize(qApp->desktop()->screenGeometry().width()/1.1, qApp->desktop()->screenGeometry().height()/1.1);
     mOldSize = mActualSize;
     mAspectRatio = (qreal)mActualSize.width() / mActualSize.height();
+    qDebug() << mActualSize;
     resize(mActualSize);
 
     //    connect(this, SIGNAL(heightChanged(int)), this, SLOT(test1(int)));

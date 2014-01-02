@@ -37,7 +37,8 @@ Item{
         height: 3
         color: "steelblue"
     }
-    Item{
+    Item
+    {
         id: subItemsRect
         anchors
         {

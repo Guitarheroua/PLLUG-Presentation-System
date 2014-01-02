@@ -8,6 +8,7 @@
 Helper::Helper( QObject *parent) :
     QObject(parent)
 {
+    mEnableEdit = false;
 }
 
 void Helper::test1(const QString &pString)
@@ -68,7 +69,13 @@ void Helper::openPresentation(const QUrl &pPath)
 
 void Helper::setCreatePresentationMode()
 {
+    mEnableEdit = true;
     emit createPresentationMode();
+}
+
+bool Helper::enableEdit()
+{
+    return mEnableEdit;
 }
 
 void Helper::setScreenPixelSize(QSize pSize)
@@ -79,6 +86,11 @@ void Helper::setScreenPixelSize(QSize pSize)
 QSize Helper::screenSize()
 {
     return mScreenSize;
+}
+
+void Helper::setEnableEdit(bool pValue)
+{
+    mEnableEdit = pValue;
 }
 
 

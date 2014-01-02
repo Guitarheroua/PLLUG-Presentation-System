@@ -15,6 +15,11 @@ Presentation {
     {
         slidesListPanel.selectSlide(currentSlide)
     }
+    Component.onCompleted:
+    {
+        addNewSlide()
+        layoutsListPanel.state = "closed"
+    }
 
     function addNewSlide()
     {

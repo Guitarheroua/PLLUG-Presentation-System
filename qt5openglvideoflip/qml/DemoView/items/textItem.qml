@@ -5,6 +5,7 @@ Rectangle
 {
     id: textItemRect
     property string type : "text"
+    property string text
     property alias textItem: textEdit
     property color fontColor : "black"
     property bool fontBold : true
@@ -82,7 +83,7 @@ Rectangle
     TextEdit
     {
         id: textEdit
-        enabled: textItemRect.parent.parent.enableEdit
+        enabled: /*textItemRect.parent.parent.enableEdit*/ helper.enableEdit()
         anchors
         {
             top:  parent.top
@@ -90,10 +91,14 @@ Rectangle
         }
         clip: true
         anchors.centerIn: parent
-        text: defaultText
+        text: (textItemRect.text === "") ? defaultText : textItemRect.text
+        onTextChanged:
+        {
+            textItemRect.text = text
+        }
+
         font
         {
-
             family: fontFamily
             pixelSize: fontSize
             bold: fontBold

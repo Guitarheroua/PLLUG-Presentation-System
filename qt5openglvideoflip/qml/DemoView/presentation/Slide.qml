@@ -52,12 +52,13 @@ Item {
     id: slide
 
     property bool isSlide: true
-    property bool enableEdit: (parent)? parent.enableEdit : false
+    property bool enableEdit: /*(parent)? parent.enableEdit : false*/ helper.enableEdit()
 
-    property string title : titleRect.text
+    property string title : ""
     onTitleChanged:
     {
         console.log("TITLE", title)
+        textItem.text = title
     }
 
     property variant content: []
@@ -81,7 +82,7 @@ Item {
 
     //    property real contentWidth: width
 
-    property real topTitleMargin: /*fontSize * 1.5*/parent.height*0.04
+    property real topTitleMargin: /*fontSize * 1.5*/(parent)? parent.height*0.04 : 0
 
     property real contentX: (parent) ? parent.width * 0.05 : 0
     property real contentY: (parent) ? parent.height * 0.2 : 0
@@ -127,7 +128,7 @@ Item {
     {
         id: titleRect
         visible: (layout != "") && (layout != "Empty")
-        property string text: textItem.getText()
+
         property bool selected: false
         property int borderWidth : (selected) ? 5 : 2
         property color borderColor : (selected) ? "lightsteelblue" : "lightgrey"
@@ -145,7 +146,7 @@ Item {
             id: highlightRect
             anchors.fill: parent
             color: titleRect.borderColor
-            visible: enableEdit
+            visible: helper.enableEdit()
             onVisibleChanged:
             {
                 if (!visible )
@@ -162,12 +163,16 @@ Item {
                 id: textItem
                 fontSize: titleFontSize
                 fontFamily: titleFontFamily
-                defaultText: "Click to add title"
+                defaultText:  "Click to add title"
+                onTextChanged:
+                {
+                    slide.title = (text !== slide.title) ? text : slide.title
+                }
 
             }
             MouseArea{
                 anchors.fill: parent
-                enabled: slide.enableEdit
+                enabled: helper.enableEdit()
                 onClicked: {
                     selectedItem = textItem
                     titleRect.selected = !titleRect.selected

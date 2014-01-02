@@ -105,6 +105,7 @@ Item {
             root.currentSlide = 0;
             root.slides[root.currentSlide].visible = true;
         }
+        root.goToSlide(0)
     }
 
     function newSlide(slide,index) {

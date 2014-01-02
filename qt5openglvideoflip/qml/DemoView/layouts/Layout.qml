@@ -70,10 +70,9 @@ Item
                 width: parent.width-10
                 height: parent.height-10
                 anchors.centerIn: parent
-                enableEdit: (templateItem.parent) ? templateItem.parent.enableEdit : false
                 MouseArea{
                     anchors.fill: parent
-                    enabled: block.enableEdit
+                    enabled: helper.enableEdit()
                     onClicked: {
                         gridView.currentIndex = index
                         delegateItem.selected = !delegateItem.selected
@@ -110,11 +109,12 @@ Item
         height: (templateItem.parent) ? templateItem.parent.contentHeight+10 : 0
         z: parent.z + 1
 
-        GridView{
+        GridView {
             id: gridView
             objectName: "blocksView"
             function getItem(i)
             {
+
                     positionViewAtIndex(i, GridView.Visible)
                     return getDelegateInstanceAt(i);
             }
@@ -137,16 +137,18 @@ Item
             function getDelegateInstanceAt(index) {
                         for(var i = 0; i < contentItem.children.length; ++i) {
                             var item = contentItem.children[i];
-                            // We have to check for the specific objectName we gave our
-                            // delegates above, since we also get some items that are not
-                            // our delegates here.
                             if (item.objectName === "delegate" && item.itemIndex === index)
+                            {
+                                console.log("return item", item)
                                 return item;
+                            }
                         }
                         return undefined;
                     }
 
         }
+
+
     }
 
 }

@@ -24,9 +24,12 @@ public:
 
     Q_INVOKABLE void openPresentation(const QUrl &);
     Q_INVOKABLE void setCreatePresentationMode();
+    Q_INVOKABLE bool enableEdit();
 
     void setScreenPixelSize(QSize);
     QSize screenSize();
+
+    Q_INVOKABLE void setEnableEdit(bool);
     
 signals:
     void open(const QString &);
@@ -36,6 +39,7 @@ public slots:
 
 private:
     QSize mScreenSize;
+    bool mEnableEdit;
     
 };
 

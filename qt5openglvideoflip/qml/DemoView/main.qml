@@ -15,6 +15,23 @@ Rectangle
         focus: true
     }
 
+//    Rectangle
+//    {
+//        width: 50
+//        height: 50
+//        z: 10
+//        color: "red"
+//        opacity: 0.5
+//        MouseArea
+//        {
+//            anchors.fill: parent
+//            onClicked:
+//            {
+//                helper.setEnableEdit(false)
+//                console.log(helper.enableEdit())
+//            }
+//        }
+//    }
 
     StartScreen
     {
