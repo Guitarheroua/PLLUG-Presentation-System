@@ -83,9 +83,24 @@ void Helper::setScreenPixelSize(QSize pSize)
     mScreenSize = pSize;
 }
 
+void Helper::setMainViewSize(QSize pSize)
+{
+    mMainViewSize = pSize;
+}
+
 QSize Helper::screenSize()
 {
     return mScreenSize;
+}
+
+qreal Helper::mainViewWidth()
+{
+    return mMainViewSize.width();
+}
+
+qreal Helper::mainViewHeight()
+{
+    return mMainViewSize.height();
 }
 
 void Helper::setEnableEdit(bool pValue)

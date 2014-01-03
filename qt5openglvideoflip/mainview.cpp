@@ -74,6 +74,7 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
 
 
     mActualSize = QSize(qApp->desktop()->screenGeometry().width()/1.1, qApp->desktop()->screenGeometry().height()/1.1);
+    mHelper->setMainViewSize(mActualSize);
     mOldSize = mActualSize;
     mAspectRatio = (qreal)mActualSize.width() / mActualSize.height();
     qDebug() << mActualSize;

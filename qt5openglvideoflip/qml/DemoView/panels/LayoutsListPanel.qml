@@ -113,7 +113,7 @@ Rectangle {
             id: layoutsListView
             anchors.fill: parent
             focus: true
-            model: 8
+            model: 5
             delegate: delegate
             highlight: highlightBar
             highlightFollowsCurrentItem: false

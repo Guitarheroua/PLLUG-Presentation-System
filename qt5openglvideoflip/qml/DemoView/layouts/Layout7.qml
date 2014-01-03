@@ -91,7 +91,8 @@ Item
         height: templateItem.parent.contentHeight+10
         z: parent.z + 1
 
-        GridView{
+        GridView
+        {
             id: gridView
             objectName: "blocksView"
             anchors

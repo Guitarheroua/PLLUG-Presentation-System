@@ -81,6 +81,10 @@ void PresentationManager::openPresentation(const QString &pPath)
         {
             QQmlComponent *c = new QQmlComponent(lEngine,QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/layouts/%2.qml").arg(mContentDir).arg(slide.toMap().value("layout").toString())));
             QObject *o = c->create();
+            if (!o)
+            {
+                qDebug() << "\nbad layout\n";
+            }
             QQuickItem* layout = qobject_cast<QQuickItem*>(o);
             layout->setParentItem(lSlideItem);
             layout->setObjectName("layout");
@@ -133,12 +137,9 @@ void PresentationManager::openPresentation(const QString &pPath)
 
     }
     qDebug() << "\nSlides: " << mPresentation->property("slides");
-    mPresentation->setProperty("currentSlide", 0);
-
-
 }
 
-void PresentationManager::savePresentation( const QString& pPath)
+void PresentationManager::savePresentation(const QString& pPath)
 {
     qDebug() << "SAVE";
     QFile lFile(pPath);

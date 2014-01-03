@@ -27,7 +27,10 @@ public:
     Q_INVOKABLE bool enableEdit();
 
     void setScreenPixelSize(QSize);
-    QSize screenSize();
+    void setMainViewSize(QSize);
+    Q_INVOKABLE QSize screenSize();
+    Q_INVOKABLE qreal mainViewWidth();
+    Q_INVOKABLE qreal mainViewHeight();
 
     Q_INVOKABLE void setEnableEdit(bool);
     
@@ -39,6 +42,7 @@ public slots:
 
 private:
     QSize mScreenSize;
+    QSize mMainViewSize;
     bool mEnableEdit;
     
 };
