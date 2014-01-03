@@ -7,6 +7,7 @@ Rectangle {
 //    property bool enableEdit: true
 
     objectName: "block"
+    color: (helper.enableEdit())? "white" :"transparent"
     border
     {
         color: "lightgray"

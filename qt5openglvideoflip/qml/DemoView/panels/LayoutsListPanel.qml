@@ -1,9 +1,10 @@
 import QtQuick 2.0
 import "../presentation"
 
-Rectangle {
+Rectangle
+{
     id: layoutsPanelRect
-    width: 140
+    width: presentation.width*0.113
     height: parent.height
     x: parent.width - width
     z: parent.z + 2
@@ -14,7 +15,9 @@ Rectangle {
     color: "black"
     opacity: 0.7
 
-    property int layoutHeight : 100
+    property int layoutHeight : presentation.height*0.143
+
+    property real fontSize : presentation.height * 0.017
 
     signal layoutSelected(var source)
 
@@ -29,7 +32,8 @@ Rectangle {
     Component
     {
         id: delegate
-        Rectangle{
+        Rectangle
+        {
             width: listViewItem.width
             height: layoutHeight
             color: "white"
@@ -37,6 +41,7 @@ Rectangle {
                 id: text
                 anchors.centerIn: parent
                 text: (model.index === 0) ? "Empty": "Layout " + (model.index)
+                font.pixelSize: fontSize
             }
 
             MouseArea
@@ -50,8 +55,6 @@ Rectangle {
                     layoutSelected(source)
                 }
             }
-
-
         }
     }
 

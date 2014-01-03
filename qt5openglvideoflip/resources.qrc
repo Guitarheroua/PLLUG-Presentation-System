@@ -28,4 +28,7 @@
         <file alias="underline.png">resources/icons/text/text-underline.png</file>
         <file alias="bullets.png">resources/icons/text/List_bullets.png</file>
     </qresource>
+    <qresource prefix="/images">
+        <file alias="presentation.png">resources/images/presentacion.png</file>
+    </qresource>
 </RCC>

@@ -13,12 +13,13 @@ Presentation {
     textColor: "black"
     onCurrentSlideChanged:
     {
+        console.log("\ncurrent slide changed\n")
         slidesListPanel.selectSlide(currentSlide)
     }
     Component.onCompleted:
     {
         addNewSlide()
-        layoutsListPanel.state = "closed"
+//        layoutsListPanel.state = "closed"
     }
 
     function addNewSlide()
@@ -110,26 +111,26 @@ Presentation {
         if (source != "")
         {
             var transitionComponent = Qt.createComponent(source);
-            var effect = transitionComponent.createObject(presentation, {"objectName": "transition",
+            var transition = transitionComponent.createObject(presentation, {"objectName": source,
                                                               "currentSlide": presentation.currentSlide,
                                                               "screenWidth": presentation.width,
                                                               "screenHeight" : presentation.height });
-            presentation.effect = effect
+            presentation.transition = transition
         }
     }
 
-    function removeTransition()
+    function removeTransition(source)
     {
         for (var i=0; i<presentation.children.length; ++i)
         {
             var transitionToRemove;
-            if (presentation.children[i].objectName === "transition")
+            if (presentation.children[i].objectName === source)
             {
                 transitionToRemove = presentation.children[i]
                 if (transitionToRemove)
                 {
                     transitionToRemove.destroy();
-                    presentation.effect = null;
+                    presentation.transition = null;
                     break;
                 }
             }

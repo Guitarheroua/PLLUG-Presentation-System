@@ -55,10 +55,10 @@ Item {
     property color textColor: "black"
     property string fontFamily: "Helvetica"
     property string codeFontFamily: "Courier New"
-    property QtObject effect : null
-    onEffectChanged:
+    property QtObject transition : null
+    onTransitionChanged:
     {
-        console.log("effect", effect, effect.currentSlide)
+        console.log("\ntransition\n", transition, transition.currentSlide)
     }
 
 
@@ -140,11 +140,11 @@ Item {
     }
 
     function goToNextSlide() {
-        if (effect != null)
+        if (transition != null)
         {
 //            if (effect.running)
 //                return
-            effect.goToNextSlide()
+            transition.goToNextSlide()
             root.focus = true
             return
         }
@@ -162,11 +162,11 @@ Item {
     }
 
     function goToPreviousSlide() {
-        if (effect != null)
+        if (transition != null)
         {
 //            if (effect.running)
 //                return
-            effect.goToPreviousSlide()
+            transition.goToPreviousSlide()
             root.focus = true
             return
         }
@@ -202,11 +202,11 @@ Item {
     function goToSlide(index) {
         if (index != currentSlide)
         {
-            if (effect != null)
+            if (transition != null)
             {
 //                if (effect.running)
 //                    return
-                effect.goToSlide(index)
+                transition.goToSlide(index)
                 root.focus = true
                 return
             }

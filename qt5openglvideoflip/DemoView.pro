@@ -44,7 +44,6 @@ OTHER_FILES += \
     qml/DemoView/TestPage.qml \
     qml/DemoView/Block.qml \
     qml/DemoView/TestPresentation.qml \
-    qml/DemoView/PageFlipShaderEffect.qml \
     qml/DemoView/BackgroundSwirls.qml \
     qml/DemoView/EmptySlide.qml \
     qml/DemoView/StartScreen.qml \
@@ -95,7 +94,8 @@ OTHER_FILES += \
     qml/DemoView/StringUtils.js \
     qml/DemoView/StringUtils.js \
     qml/DemoView/layouts/Layout.qml \
-    qml/DemoView/items/TextItem.qml
+    qml/DemoView/items/TextItem.qml \
+    qml/DemoView/transition/PageFlipShaderEffect.qml
 
 RESOURCES += \
     resources.qrc

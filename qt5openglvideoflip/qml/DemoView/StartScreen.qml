@@ -9,10 +9,24 @@ Rectangle
     height: parent.height
     color: "lightsteelblue"
     z: 1
+    Image
+    {
+        anchors.fill: parent
+        source: "qrc:///images/presentation.png"
+    }
+
     Column
     {
-        spacing: 10
-        anchors.centerIn: parent
+        spacing: 25
+        anchors
+        {
+            right: parent.right
+            bottom: parent.bottom
+
+            rightMargin: 100
+            bottomMargin : 90
+        }
+
         Rectangle
         {
             id: openButton
@@ -74,7 +88,7 @@ Rectangle
             name: "opened"
             PropertyChanges {
                 target: startScreen
-                y: 0
+                x: 0
 
             }
         },
@@ -82,13 +96,13 @@ Rectangle
             name: "closed"
             PropertyChanges {
                 target: startScreen
-                y: -startScreen.height
+                x: -startScreen.width
 
             }
         }
     ]
     state: "opened"
-    Behavior on y { SmoothedAnimation { velocity: 1000 } }
+    Behavior on x { SmoothedAnimation { velocity: 2000 } }
 
 
     FileDialog{
@@ -98,7 +112,7 @@ Rectangle
         onAccepted: {
              helper.openPresentation(fileDialog.fileUrl)
              startScreen.state = "closed"
-            console.log("==========")
+             console.log("==========", presentationLoader.item.currentSlide, presentationLoader.item.slides[presentationLoader.item.currentSlide].title)
         }
 
     }

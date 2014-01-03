@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import "../StringUtils.js" as StringUtils
 
-Rectangle
+Item
 {
     id: textItemRect
     property string type : "text"
@@ -74,7 +74,7 @@ Rectangle
     }
 
 
-    color: backgroundColor
+//    color: backgroundColor
     anchors.fill: parent
     z: parent.z + 1
 

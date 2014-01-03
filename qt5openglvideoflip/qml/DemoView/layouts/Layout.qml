@@ -28,7 +28,7 @@ Item
     Component
     {
         id: gridDelegate
-        Rectangle{
+        Item{
             id: delegateItem
             property bool selected
             property int itemIndex: index

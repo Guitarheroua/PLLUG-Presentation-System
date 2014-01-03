@@ -46,7 +46,8 @@ Item{
             left: parent.left
         }
         visible: false
-        Column{
+        Column
+        {
             id: propertiesColumn
             anchors.fill: parent
             spacing: 2

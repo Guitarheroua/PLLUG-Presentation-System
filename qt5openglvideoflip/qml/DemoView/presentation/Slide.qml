@@ -67,7 +67,7 @@ Item {
     property string writeInText;
     property string notes
 
-    property variant effects: []
+    property variant transitions: []
 
     property string codeFontFamily: (parent)? parent.codeFontFamily : ""
     property string code
@@ -124,7 +124,7 @@ Item {
 
     visible: true
 
-    Rectangle
+    Item
     {
         id: titleRect
         visible: (layout != "") && (layout != "Empty")
@@ -158,6 +158,7 @@ Item {
             width: parent.width-titleRect.borderWidth*2
             height: parent.height-titleRect.borderWidth*2
             anchors.centerIn: parent
+            color: (helper.enableEdit())? "white" : "transparent"
             TextItem
             {
                 id: textItem

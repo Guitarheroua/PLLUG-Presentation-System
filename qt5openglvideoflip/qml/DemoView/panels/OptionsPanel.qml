@@ -55,7 +55,7 @@ Rectangle{
             contents: [
                 ListElement {
                     name: "Flipping page"
-                    value: "PageFlipShaderEffect.qml"
+                    value: "transition/PageFlipShaderEffect.qml"
                 }
 
             ]
@@ -171,7 +171,7 @@ Rectangle{
                                         }
                                         else
                                         {
-                                            presentation.removeTransition()
+                                            presentation.removeTransition(model.value)
                                         }
                                     }
 
