@@ -142,6 +142,7 @@ void PresentationManager::openPresentation(const QString &pPath)
 void PresentationManager::savePresentation(const QString& pPath)
 {
     qDebug() << "SAVE";
+
     QFile lFile(pPath);
     if (lFile.open(QIODevice::WriteOnly))
     {

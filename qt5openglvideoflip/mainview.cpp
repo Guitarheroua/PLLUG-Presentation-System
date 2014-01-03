@@ -14,6 +14,7 @@
 #include <QJsonArray>
 #include <QMessageBox>
 #include <QTimer>
+#include <QFileDialog>
 
 #include "presentationmanager.h"
 #include "megaparse.h"
@@ -34,7 +35,10 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     //    mParser->parsePagesData();
     //    mParser->parseTemplatesData();
     mContentDir = pContentDir;
-
+#if defined(Q_OS_MAC)
+    //DON"T FORGET TO CHANGE PATH BEFORE DEPLOY!!!!
+    mContentDir = "/Users/Admin/Projects/qt5openglvideoflip/qt5openglvideoflip/data";
+#endif
     this->setSurfaceType(QQuickView::OpenGLSurface);
 
     mHelper = new Helper();
@@ -52,7 +56,7 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     //    this->rootContext()->setContextProperty("filesModel", list);
 
 
-    QString lSourceFile = QString::fromLatin1("%1/../qml/DemoView/main.qml").arg(pContentDir);
+    QString lSourceFile = QString::fromLatin1("%1/../qml/DemoView/main.qml").arg(mContentDir);
     this->setSource(QUrl::fromLocalFile(lSourceFile));
 
     mManager = new PresentationManager(mContentDir, this->rootObject(), mHelper);
@@ -142,7 +146,8 @@ bool MainView::event(QEvent *event)
     {
         if (mManager->mode() == PresentationManager::Create || mManager->mode() == PresentationManager::Edit )
         {
-            mManager->savePresentation("test.json");
+            QString lFilePath = QFileDialog::getSaveFileName(0, tr("Save Presentation"), QDir::currentPath(), tr("Presentation (*.json)"));
+            mManager->savePresentation(lFilePath);
         }
     }
     return QQuickView::event(event);
@@ -195,7 +200,7 @@ void MainView::test(QQuickItem* item)
         qDebug() << "ZZZZZZZZZZz";
     }
     page->setParentItem(this->rootObject());
-//    mSlidesList.append(page);
+    //    mSlidesList.append(page);
 
 }
 

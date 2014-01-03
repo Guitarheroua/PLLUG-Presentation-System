@@ -102,11 +102,11 @@ RESOURCES += \
 
 macx
 {
-#    OBJECTIVE_SOURCES += machelper.mm
-#    LIBS += -framework Cocoa \
-#    -framework Foundation \
-#    -framework AppKit \
-#    -framework Carbon
+    OBJECTIVE_SOURCES += machelper.mm
+    LIBS += -framework Cocoa \
+    -framework Foundation \
+    -framework AppKit \
+    -framework Carbon
 
     WEBPROCESS.files = libexec/QtWebProcess
     WEBPROCESS.path = Contents/MacOS

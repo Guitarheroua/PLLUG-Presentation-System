@@ -64,7 +64,11 @@ int Helper::fontIndex(const QString &pFont)
 
 void Helper::openPresentation(const QUrl &pPath)
 {
-    emit open(pPath.path().remove(0,1));
+    QString lPath = pPath.path();
+#if defined(Q_OS_WIN)
+lPath.remove(0,1);
+#endif
+    emit open(lPath);
 }
 
 void Helper::setCreatePresentationMode()
