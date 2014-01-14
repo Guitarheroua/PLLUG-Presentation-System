@@ -107,14 +107,18 @@ Item {
         }
     }
 
-    function newSlide(slide,index) {
+    function newSlide(slide,index,isOpening) {
+        console.log("NEW!!!")
         var lSlides = root.slides
         if (slide.isSlide) {
             lSlides.splice(index, 0, slide);
             slides = lSlides
             root.slides = lSlides
         }
-        goToNextSlide()
+        if (!isOpening)
+        {
+            goToNextSlide()
+        }
     }
 
     function removeSlide(index) {
@@ -142,8 +146,8 @@ Item {
     function goToNextSlide() {
         if (transition != null)
         {
-//            if (effect.running)
-//                return
+            //            if (effect.running)
+            //                return
             transition.goToNextSlide()
             root.focus = true
             return
@@ -164,8 +168,8 @@ Item {
     function goToPreviousSlide() {
         if (transition != null)
         {
-//            if (effect.running)
-//                return
+            //            if (effect.running)
+            //                return
             transition.goToPreviousSlide()
             root.focus = true
             return
@@ -204,8 +208,8 @@ Item {
         {
             if (transition != null)
             {
-//                if (effect.running)
-//                    return
+                //                if (effect.running)
+                //                    return
                 transition.goToSlide(index)
                 root.focus = true
                 return
@@ -238,8 +242,8 @@ Item {
         if (event.key >= Qt.Key_0 && event.key <= Qt.Key_9)
             _userNum = 10 * _userNum + (event.key - Qt.Key_0)
         else {
-//            if (event.key == Qt.Key_Return /*|| event.key == Qt.Key_Enter*/)
-//                goToUserSlide();
+            //            if (event.key == Qt.Key_Return /*|| event.key == Qt.Key_Enter*/)
+            //                goToUserSlide();
             /*else */if (event.key == Qt.Key_Backspace)
                 goToPreviousSlide();
             else if (event.key == Qt.Key_C)

@@ -37,8 +37,8 @@ void BlocksView::test()
             QString lSource = mModel->data(index,mModel->SourceRole).toString();
             int lWidth = mModel->data(index,mModel->WidthRole).toInt();
             int lHeight = mModel->data(index,mModel->HeightRole).toInt();
-            float lX = mModel->data(index,mModel->XRole).toInt();
-            float lY = mModel->data(index,mModel->YRole).toInt();
+//            float lX = mModel->data(index,mModel->XRole).toInt();
+//            float lY = mModel->data(index,mModel->YRole).toInt();
             QQuickItem* item = createItem(lType,lSource,lWidth,lHeight);
             if (item)
             {
@@ -51,6 +51,7 @@ void BlocksView::test()
 
 QQuickItem *BlocksView::createItem(QString pType, QString pSource, int pWidth, int pHeight)
 {
+    Q_UNUSED(pType);
     QQmlComponent *component = new QQmlComponent(mEngine,QUrl::fromLocalFile("video.qml"));
     QObject *object = component->create();
 

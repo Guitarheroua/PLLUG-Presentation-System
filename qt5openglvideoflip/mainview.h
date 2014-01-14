@@ -15,8 +15,10 @@ public:
     explicit MainView( const QString& pContentDir, QWindow *parent = 0);
 
 protected:
-//    void resizeEvent(QResizeEvent *);
+    //    void resizeEvent(QResizeEvent *);
+#if defined(Q_OS_WIN)
     bool nativeEvent(const QByteArray&, void*, long*);
+#endif
     bool event(QEvent * event);
 
 signals:
@@ -29,7 +31,7 @@ private slots:
 private:
     QString mContentDir;
     MegaParse *mParser;
-//    QList<Slide*> mSlidesList;
+    //    QList<Slide*> mSlidesList;
     QSize mActualSize;
     QSize mOldSize;
     qreal mAspectRatio;

@@ -197,11 +197,13 @@ Rectangle{
 
     }
 
-    Column{
+    Column
+    {
         anchors.fill: parent
         anchors.leftMargin: 5
         z: parent.z+1
-        Item{
+        Item
+        {
             id: listViewItem
             visible: slideProperties
 

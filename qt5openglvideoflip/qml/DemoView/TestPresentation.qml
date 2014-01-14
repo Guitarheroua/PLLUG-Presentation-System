@@ -28,9 +28,9 @@ Presentation {
         var newSlide = component.createObject(presentation, {"layout": "Empty"});
         if (newSlide === null)
         {
-            console.log("Error creating object");
+            console.log("Error creating object", component.status, component.url, component.errorString());
         }
-        presentation.newSlide(newSlide,presentation.currentSlide+1)
+        presentation.newSlide(newSlide, presentation.currentSlide+1, false)
         console.log("title", newSlide.title)
         layoutsListPanel.state = "opened"
 
@@ -43,7 +43,7 @@ Presentation {
 
     function setLayout(source)
     {
-        if (source != "")
+        if (source !== "")
         {
             for (var i=0; i<presentation.slides[currentSlide].children.length; ++i)
             {
@@ -108,9 +108,10 @@ Presentation {
 
     function addTransition(source)
     {
-        if (source != "")
+        if (source !== "")
         {
             var transitionComponent = Qt.createComponent(source);
+            console.log(transitionComponent.url, transitionComponent.errorString() )
             var transition = transitionComponent.createObject(presentation, {"objectName": source,
                                                               "currentSlide": presentation.currentSlide,
                                                               "screenWidth": presentation.width,

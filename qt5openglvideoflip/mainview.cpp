@@ -37,7 +37,7 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     mContentDir = pContentDir;
 #if defined(Q_OS_MAC)
     //DON"T FORGET TO CHANGE PATH BEFORE DEPLOY!!!!
-    mContentDir = "/Users/Admin/Projects/qt5openglvideoflip/qt5openglvideoflip/data";
+    mContentDir = "/Users/Admin/Projects/qt5openglvideoflip_1/qt5openglvideoflip/data";
 #endif
     this->setSurfaceType(QQuickView::OpenGLSurface);
 
@@ -77,7 +77,7 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     this->setResizeMode(QQuickView::SizeRootObjectToView);
 
 
-    mActualSize = QSize(qApp->desktop()->screenGeometry().width()/1.1, qApp->desktop()->screenGeometry().height()/1.1);
+    mActualSize = QSize(qApp->desktop()->screenGeometry().width()/2.0, qApp->desktop()->screenGeometry().height()/2.0);
     mHelper->setMainViewSize(mActualSize);
     mOldSize = mActualSize;
     mAspectRatio = (qreal)mActualSize.width() / mActualSize.height();
@@ -87,12 +87,13 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     //    connect(this, SIGNAL(heightChanged(int)), this, SLOT(test1(int)));
 }
 
-
+#if defined(Q_OS_WIN)
 bool MainView::nativeEvent(const QByteArray& eventType, void* pMessage, long* result)
 {
     Q_UNUSED(eventType);
     Q_UNUSED(result);
-#if defined(Q_OS_WIN)
+
+//#if defined(Q_OS_WIN)
     MSG* message = (MSG*)pMessage;
     switch(message->message)
     {
@@ -137,8 +138,10 @@ bool MainView::nativeEvent(const QByteArray& eventType, void* pMessage, long* re
         return false;
     };
     return true;
-#endif
+//#endif
+
 }
+#endif
 
 bool MainView::event(QEvent *event)
 {

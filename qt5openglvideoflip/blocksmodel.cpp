@@ -57,6 +57,7 @@ QVariant BlocksModel::data(const QModelIndex &index, int role) const
 
 int BlocksModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return mBlocksList.count();
 }
 

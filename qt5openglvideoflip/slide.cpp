@@ -57,6 +57,7 @@ Slide::Slide(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, Q
 
 Slide::Slide(QQuickItem *content, QQuickItem *parent)
 {
+    Q_UNUSED(parent);
     QQmlComponent *component = new QQmlComponent(mEngine,"/qml/DemoView/rectangle.qml");
     QObject *object = component->create();
     mSlide = qobject_cast<QQuickItem*>(object);
@@ -89,10 +90,6 @@ BlocksModel *Slide::blockModel() const
     return mBlockModel;
 }
 
-bool Slide::test1(qreal x, qreal y)
-{
-    return true;
-}
 
 void Slide::createBlocks()
 {
@@ -129,6 +126,7 @@ void Slide::slotPageHeightChanged()
 
 void Slide::webViewUrlChanged(QString pUrl )
 {
+    Q_UNUSED(pUrl);
     QQuickItem *item = qobject_cast<QQuickItem*>(sender());
     QQuickItem *child = item->findChild<QQuickItem*>("fullScreenImage",Qt::FindChildrenRecursively);
     QQuickItem* newitem = item;

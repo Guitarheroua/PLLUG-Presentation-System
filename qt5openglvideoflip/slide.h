@@ -18,7 +18,6 @@ public:
     void setModel(BlocksModel* pModel);
     BlocksModel *blockModel() const;
 
-    Q_INVOKABLE bool test1(qreal x, qreal y);
 
 signals:
     void modelChanged();

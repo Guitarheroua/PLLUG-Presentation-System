@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import Qt.labs.presentation 1.0
 
 ShaderEffect
 {
@@ -17,12 +16,12 @@ ShaderEffect
 
     property variant source: ShaderEffectSource{
         id: sourceItem1
-        sourceItem: ((effect.parent.slides != undefined) && effect.currentSlide < effect.parent.slides.length) ? effect.parent.slides[effect.currentSlide] : null
+        sourceItem: ((effect.parent.slides !== undefined) && effect.currentSlide < effect.parent.slides.length) ? effect.parent.slides[effect.currentSlide] : null
         hideSource: true
     }
     property variant source1: ShaderEffectSource{
         id: sourceItem2
-        sourceItem: ((effect.parent.slides != undefined) && effect.currentSlide+1 < effect.parent.slides.length) ? effect.parent.slides[effect.currentSlide+1] : null
+        sourceItem: ((effect.parent.slides !== undefined) && effect.currentSlide+1 < effect.parent.slides.length) ? effect.parent.slides[effect.currentSlide+1] : null
         hideSource: true
     }
 

@@ -89,7 +89,8 @@ void PresentationManager::openPresentation(const QString &pPath)
 
         //        QQuickItem* item = new Slide(slide.toMap(), mContentDir, QSize(qApp->desktop()->screenGeometry().width()/1.5, qApp->desktop()->screenGeometry().height()/1.5));
         var.setValue<QObject*>(object);
-        QMetaObject::invokeMethod(mPresentation, "newSlide", Q_ARG(QVariant, var), Q_ARG(QVariant, i));
+        bool b = true;
+        QMetaObject::invokeMethod(mPresentation, "newSlide", Q_ARG(QVariant, var), Q_ARG(QVariant, i), Q_ARG(QVariant, b));
         lSlidesItemList = mPresentation->property("slides").value<QVariantList>();
         QQuickItem* lSlideItem = lSlidesItemList.at(i).value<QQuickItem*>();
         lSlideItem->setProperty("title", lSlideMap.value("title").toString() );
@@ -169,12 +170,19 @@ void PresentationManager::savePresentation(const QString& pPath)
         lObject.insert("schemeVersion", QJsonValue(QString("1.0")));
 
         QQuickItem* lPresentation = mRootObject->findChild<QQuickItem*>("PresentationLoader")->property("item").value<QQuickItem*>();
+        if (!lPresentation)
+        {
+            qDebug() << "NO PRESENTATION";
+        }
         qDebug() << "!!!!!!";
         QVariantList lSlides =  lPresentation->property("slides").value<QVariantList>();
         QQuickItem* lTransition =  lPresentation->property("transition").value<QQuickItem*>();
-        QString lTransitionName = lTransition->objectName().remove(0,11);
-        qDebug() << "\n~~~~~~~~~\n" << lTransition;
-        lObject.insert("transition",QString(lTransitionName.remove(lTransitionName.length()-4,4)) );
+        if (lTransition)
+        {
+            QString lTransitionName = lTransition->objectName().remove(0,11);
+            qDebug() << "\n~~~~~~~~~\n" << lTransition;
+            lObject.insert("transition",QString(lTransitionName.remove(lTransitionName.length()-4,4)) );
+        }
         QJsonObject lJsonSlide;
         QJsonArray lSlidesArray;
         foreach (QVariant lSlide, lSlides)
