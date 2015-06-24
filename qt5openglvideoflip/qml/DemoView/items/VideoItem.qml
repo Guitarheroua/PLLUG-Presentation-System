@@ -1,9 +1,8 @@
-import QtQuick 2.0
+import QtQuick 2.4
 import QtMultimedia 5.0
 
-Rectangle
-{
-    id: item
+Rectangle {
+    id: videoItemRoot
     property string type : "video"
     property string source
     property string aspect
@@ -19,52 +18,40 @@ Rectangle
     property real yCoeff : 1
     property int titleY
 
-    onAspectChanged:
-    {
-        if ( item.aspect === "crop")
-        {
+    onAspectChanged: {
+        if ( videoItemRoot.aspect === "crop") {
             videoOutput.fillMode = VideoOutput.PreserveAspectCrop
         }
-        else if ( item.aspect === "fit")
-        {
+        else if ( videoItemRoot.aspect === "fit") {
             videoOutput.fillMode = VideoOutput.PreserveAspectFit
         }
-        else if ( item.aspect === "stretch")
-        {
+        else if ( videoItemRoot.aspect === "stretch") {
             videoOutput.fillMode = VideoOutput.Stretch
         }
     }
 
-    onCaptionAlignChanged:
-    {
-        if ( item.captionAlign === "top" )
-        {
+    onCaptionAlignChanged: {
+        if ( videoItemRoot.captionAlign === "top" ) {
             titleRect.anchors.top = titleRect.parent.top
         }
-        else if ( item.captionAlign === "bottom" )
-        {
+        else if ( videoItemRoot.captionAlign === "bottom" ) {
             titleRect.anchors.bottom = titleRect.parent.bottom
         }
     }
 
-    onTextAlignChanged:
-    {
-        if ( item.textAlign === "center")
-        {
+    onTextAlignChanged: {
+        if ( videoItemRoot.textAlign === "center") {
             titleText.horizontalAlignment = Text.AlignHCenter
         }
-        else  if ( item.textAlign === "left")
-        {
+        else  if ( videoItemRoot.textAlign === "left") {
             titleText.horizontalAlignment = Text.AlignLeft
         }
-        else  if ( item.textAlign === "right")
-        {
+        else  if ( videoItemRoot.textAlign === "right") {
             titleText.horizontalAlignment = Text.AlignRight
         }
     }
 
-    onParentChanged:
-    {
+    onParentChanged: {
         widthCoeff = width/parent.width
         heightCoeff = height/parent.height
         xCoeff = x/parent.width
@@ -75,9 +62,9 @@ Rectangle
         State {
             name: "full"
             PropertyChanges {
-                target: item
-                width: (item.parent) ? item.parent.width : 0
-                height: (item.parent) ? item.parent.height : 0
+                target: videoItemRoot
+                width: (videoItemRoot.parent) ? videoItemRoot.parent.width : 0
+                height: (videoItemRoot.parent) ? videoItemRoot.parent.height : 0
                 x: 0
                 y: 0
                 z: 2
@@ -88,11 +75,11 @@ Rectangle
             name: "native"
 
             PropertyChanges {
-                target: item
-                width: (item.parent) ? widthCoeff*item.parent.width : 0
-                height: (item.parent) ? heightCoeff*item.parent.height : 0
-                x: (item.parent) ? xCoeff*item.parent.width : 0
-                y: (item.parent) ? yCoeff*item.parent.height : 0
+                target: videoItemRoot
+                width: (videoItemRoot.parent) ? widthCoeff*videoItemRoot.parent.width : 0
+                height: (videoItemRoot.parent) ? heightCoeff*videoItemRoot.parent.height : 0
+                x: (videoItemRoot.parent) ? xCoeff*videoItemRoot.parent.width : 0
+                y: (videoItemRoot.parent) ? yCoeff*videoItemRoot.parent.height : 0
                 z: 1
 
             }
@@ -100,31 +87,27 @@ Rectangle
     ]
     state: "native"
 
-    Rectangle
-    {
+    Rectangle {
         id: titleRect
         objectName: "Caption"
         width: parent.width
         height: titleText.height + 5
         opacity: 0.0
         z: 1
-        Text
-        {
+        Text {
             id: titleText
             objectName: "CaptionText"
             width: parent.width
-            font.pixelSize: item.fontSize
-            font.family: item.fontFamily
+            font.pixelSize: videoItemRoot.fontSize
+            font.family: videoItemRoot.fontFamily
             verticalAlignment: Text.AlignVCenter
         }
-        Behavior on opacity
-        {
+        Behavior on opacity {
             PropertyAnimation{}
         }
     }
 
-    Image
-    {
+    Image {
         id: replayImage
         source: "qrc:/icons/replay.png"
         width: 50
@@ -133,19 +116,16 @@ Rectangle
         anchors.verticalCenter: parent.verticalCenter
         visible: false
         z : 1
-        MouseArea
-        {
+        MouseArea {
             anchors.fill: parent
-            onClicked:
-            {
+            onClicked: {
                 mediaPlayer.play()
-                mouseArea.prevPos = 0
+                videoItemMouseArea.prevPos = 0
             }
         }
     }
 
-    Image
-    {
+    Image {
         id: playImage
         source: "qrc:/icons/play.png"
         width: 50
@@ -154,102 +134,82 @@ Rectangle
         anchors.verticalCenter: parent.verticalCenter
         visible: true
         z : 1
-        MouseArea
-        {
+        MouseArea {
             anchors.fill: parent
-            onClicked:
-            {
+            onClicked: {
                 playImage.visible = false
                 mediaPlayer.play()
-                mouseArea.prevPos = 0
+                videoItemMouseArea.prevPos = 0
             }
         }
     }
 
 
 
-    MouseArea
-    {
-        id: mouseArea
+    MouseArea {
+        id: videoItemMouseArea
         anchors.fill: parent
         hoverEnabled: true
         property real prevPos: 0
         property real coeff: mediaPlayer.duration/videoOutput.width
         property real adds
-        onClicked:
-        {
-            if (mediaPlayer.playbackState == MediaPlayer.PlayingState)
-            {
-                mediaPlayer.pause();
+        onClicked: {
+            if (mediaPlayer.playbackState == MediaPlayer.PlayingState) {
+                mediaPlayer.pause()
             }
-            else
-            {
-                if (mediaPlayer.playbackState == MediaPlayer.PausedState )
-                {
-                    mediaPlayer.play();
+            else {
+                if (mediaPlayer.playbackState == MediaPlayer.PausedState ) {
+                    mediaPlayer.play()
                 }
             }
         }
-        onDoubleClicked:
-        {
-            if ( item.state === "native")
-            {
-                item.state = "full"
+        onDoubleClicked: {
+            if ( videoItemRoot.state === "native") {
+                videoItemRoot.state = "full"
                 titleRect.opacity = 0.0
             }
-            else
-            {
-                item.state = "native"
+            else {
+                videoItemRoot.state = "native"
             }
         }
 
 
-        onEntered:
-        {
-            if ( item.state != "full")
-            {
+        onEntered: {
+            if ( videoItemRoot.state != "full") {
                 titleRect.opacity = 0.7
             }
         }
-        onExited:
-        {
+        onExited: {
             titleRect.opacity = 0.0
         }
 
-        onPressAndHold:
-        {
+        onPressAndHold: {
             mediaPlayer.seeking = true
             mediaPlayer.play()
         }
 
-        onReleased:
-        {
-            if ( mediaPlayer.seeking)
-            {
+        onReleased: {
+            if ( mediaPlayer.seeking) {
                 mediaPlayer.seeking = false
             }
 
         }
 
-        onMouseXChanged:
-        {
-            if ( mediaPlayer.seeking  && (mouseX >= 0))
-            {
+        onMouseXChanged: {
+            if ( mediaPlayer.seeking  && (mouseX >= 0)) {
                 adds = (mouseX - prevPos) *coeff
-//                console.log(mouseX, mediaPlayer.position, adds)
-                if ( (mediaPlayer.position + adds  < mediaPlayer.duration) && (mediaPlayer.position + adds  > 0))
-                {
-//                    console.log("seek")
+                if ( (mediaPlayer.position + adds  < mediaPlayer.duration)
+                        && (mediaPlayer.position + adds  > 0)) {
                     mediaPlayer.seek(mediaPlayer.position + adds )
                 }
-                else
-                {
-                    if (mediaPlayer.position + adds  >= mediaPlayer.duration )
+                else {
+                    if (mediaPlayer.position + adds  >= mediaPlayer.duration ) {
                         mediaPlayer.seek(mediaPlayer.duration)
-                    if (mediaPlayer.position + adds  <= 0 )
+                    }
+                    if (mediaPlayer.position + adds  <= 0 ) {
                         mediaPlayer.seek(0)
+                    }
                 }
-
                 prevPos = mouseX
             }
         }
@@ -257,47 +217,39 @@ Rectangle
     }
 
 
-
-    MediaPlayer
-    {
+    MediaPlayer {
         id: mediaPlayer
-        source: item.source
-//        autoPlay:  true
+        source: videoItemRoot.source
+        //        autoPlay:  true
         autoLoad: true
         volume: 0.0
-//        playbackRate: 4.0
+        //        playbackRate: 4.0
 
         property bool seeking : false
-//        loops: Animation.Infinite
+        //        loops: Animation.Infinite
 
-        onPositionChanged:
-        {
-//            if (( mediaPlayer.position < mediaPlayer.duration) && ( mediaPlayer.position > mediaPlayer.duration - 500 ) )
-//            {
-//                console.log("!!!!!!!!!!!!")
-////                mediaPlayer.pause()
-//            }
+        onPositionChanged:  {
+            //            if (( mediaPlayer.position < mediaPlayer.duration)
+            //                          && ( mediaPlayer.position > mediaPlayer.duration - 500 ) )
+            //            {
+            ////                mediaPlayer.pause()
+            //            }
         }
-        onStatusChanged:
-        {
-            if (mediaPlayer.status === MediaPlayer.Loaded)
-            {
+        onStatusChanged: {
+            if (mediaPlayer.status === MediaPlayer.Loaded) {
                 mediaPlayer.volume = 0.0
                 mediaPlayer.play()
                 mediaPlayer.seek(1)
                 mediaPlayer.pause()
                 mediaPlayer.volume = 1.0
             }
-            if (mediaPlayer.status === MediaPlayer.EndOfMedia)
-            {
-//                item.color = "black"
+            if (mediaPlayer.status === MediaPlayer.EndOfMedia) {
                 replayImage.visible = true
                 mediaPlayer.seeking = false
             }
 
         }
-        onPlaying:
-        {
+        onPlaying: {
             replayImage.visible = false
         }
 
@@ -305,13 +257,11 @@ Rectangle
 
     }
 
-    VideoOutput
-    {
+    VideoOutput {
         id: videoOutput
         source: mediaPlayer
         anchors.fill: parent
-        onVisibleChanged:
-        {
+        onVisibleChanged: {
             mediaPlayer.pause()
         }
     }

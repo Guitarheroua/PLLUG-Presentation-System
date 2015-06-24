@@ -1,11 +1,9 @@
-import QtQuick 2.0
+import QtQuick 2.4
 
-Rectangle
-{
+Rectangle {
     id: rect
     property string backgroundImage
-    Image
-    {
+    Image {
         anchors.fill: parent
         source: rect.backgroundImage
     }

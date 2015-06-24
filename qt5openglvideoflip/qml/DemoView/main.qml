@@ -1,45 +1,23 @@
-import QtQuick 2.0
+import QtQuick 2.4
 
-Rectangle
-{
+Rectangle {
     id: mainRect
     objectName: "mainRect"
 //    color: "lightblue"
     width: 1280
     height: 720
-    Loader
-    {
+    Loader {
         id: presentationLoader
         objectName: "PresentationLoader"
         anchors.fill: parent
         focus: true
     }
 
-//    Rectangle
-//    {
-//        width: 50
-//        height: 50
-//        z: 10
-//        color: "red"
-//        opacity: 0.5
-//        MouseArea
-//        {
-//            anchors.fill: parent
-//            onClicked:
-//            {
-//                helper.setEnableEdit(false)
-//                console.log(helper.enableEdit())
-//            }
-//        }
-//    }
-
-    StartScreen
-    {
+    StartScreen {
         id: startScreen
     }
 
-    states:
-        [
+    states: [
         State{
             id: editState
         },

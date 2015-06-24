@@ -40,7 +40,7 @@
 ****************************************************************************/
 
 
-import QtQuick 2.0
+import QtQuick 2.4
 import "../items"
 
 Item {
@@ -55,12 +55,6 @@ Item {
     property bool enableEdit: /*(parent)? parent.enableEdit : false*/ helper.enableEdit()
 
     property string title : ""
-    onTitleChanged:
-    {
-        console.log("TITLE", title)
-        textItem.text = title
-    }
-
     property variant content: []
     property string layout: ""
     property string centeredText
@@ -89,7 +83,6 @@ Item {
     property real contentWidth:  (parent) ? parent.width * 0.9 : 0
     property real contentHeight: (parent) ? parent.height * 0.7 : 0
 
-
     // Define the slide to be the "content area"
     //    x: parent.width * 0.05
     //    y: parent.height * 0.2
@@ -97,18 +90,6 @@ Item {
     //    height: parent.height * 0.7
     width: (parent) ? parent.width : 0
     height: (parent) ? parent.height : 0
-    Rectangle
-    {
-        anchors.fill: (parent) ? parent : null
-        color: "transparent"
-        border.width: 1
-        border.color: "black"
-    }
-    onParentChanged:
-    {
-        console.log("\nParent - ", parent)
-    }
-
 
     property real masterWidth: (parent) ? parent.width : 0
     property real masterHeight: (parent) ? parent.height : 0
@@ -124,16 +105,24 @@ Item {
 
     visible: true
 
-    Item
-    {
+    onTitleChanged: {
+        textItem.text = title
+    }
+    Rectangle  {
+        anchors.fill: (parent) ? parent : null
+        color: "transparent"
+        border.width: 1
+        border.color: "black"
+    }
+
+    Item  {
         id: titleRect
         visible: (layout != "") && (layout != "Empty")
 
         property bool selected: false
         property int borderWidth : (selected) ? 5 : 2
         property color borderColor : (selected) ? "lightsteelblue" : "lightgrey"
-        anchors
-        {
+        anchors {
             horizontalCenter: parent.horizontalCenter
             top: parent.top
             topMargin: parent.topTitleMargin
@@ -147,39 +136,34 @@ Item {
             anchors.fill: parent
             color: titleRect.borderColor
             visible: helper.enableEdit()
-            onVisibleChanged:
-            {
+            onVisibleChanged: {
                 if (!visible )
                     editSelectedItemProperties = false
             }
         }
-        Rectangle
-        {
+        Rectangle {
             width: parent.width-titleRect.borderWidth*2
             height: parent.height-titleRect.borderWidth*2
             anchors.centerIn: parent
             color: (helper.enableEdit())? "white" : "transparent"
-            TextItem
-            {
+            TextItem {
                 id: textItem
                 fontSize: titleFontSize
                 fontFamily: titleFontFamily
                 defaultText:  "Click to add title"
-                onTextChanged:
-                {
+                onTextChanged: {
                     slide.title = (text !== slide.title) ? text : slide.title
                 }
 
             }
-            MouseArea{
+            MouseArea {
                 anchors.fill: parent
                 enabled: helper.enableEdit()
                 onClicked: {
                     selectedItem = textItem
                     titleRect.selected = !titleRect.selected
                 }
-                onPressAndHold:
-                {
+                onPressAndHold: {
                     editSelectedItemProperties = !editSelectedItemProperties
                     titleRect.selected = !titleRect.selected
                 }
@@ -187,17 +171,13 @@ Item {
         }
     }
 
-
-
-    Item
-    {
+    Item {
         id: contentItem
         x: contentX
         y: contentY
         width: contentWidth
         height: contentHeight
         z: 10
-
         Text {
             id: centeredId
             width: parent.width
@@ -233,25 +213,19 @@ Item {
             visible: slide.writeInText != undefined;
         }
 
-
         Column {
             id: contentId
             anchors.fill: parent
-
             Repeater {
                 model: content.length
-
                 Row {
                     id: row
-
                     function decideIndentLevel(s) { return s.charAt(0) == " " ? 1 + decideIndentLevel(s.substring(1)) : 0 }
                     property int indentLevel: decideIndentLevel(content[index])
                     property int nextIndentLevel: index < content.length - 1 ? decideIndentLevel(content[index+1]) : 0
                     property real indentFactor: (10 - row.indentLevel * 2) / 10;
-
                     height: text.height + (nextIndentLevel == 0 ? 1 : 0.3) * slide.baseFontSize * slide.bulletSpacing
                     x: slide.baseFontSize * indentLevel
-
                     Rectangle {
                         id: dot
                         y: baseFontSize * row.indentFactor / 2
@@ -262,14 +236,12 @@ Item {
                         smooth: true
                         opacity: text.text.length === 0 ? 0 : 1
                     }
-
                     Rectangle {
                         id: space
                         width: dot.width * 2
                         height: 1
                         color: "#00ffffff"
                     }
-
                     TextEdit {
                         id: text
                         width: slide.contentWidth - parent.x - dot.width - space.width
@@ -287,8 +259,7 @@ Item {
         }
     }
 
-    Code
-    {
+    Code {
         code: slide.code
         x: parent.width * 0.05
         y: parent.height * 0.2

@@ -1,8 +1,7 @@
-import QtQuick 2.0
+import QtQuick 2.4
 
-Rectangle
-{
-    id: item
+Rectangle {
+    id: imageItemRoot
     property string type : "image"
     property string source
     property string aspect
@@ -17,74 +16,56 @@ Rectangle
     property real xCoeff :  0
     property real yCoeff :  0
 
-    onAspectChanged:
-    {
-        if ( item.aspect === "crop")
-        {
+    onAspectChanged: {
+        if ( imageItemRoot.aspect === "crop") {
             image.fillMode = Image.PreserveAspectCrop
         }
-        else if ( item.aspect === "fit")
-        {
+        else if ( imageItemRoot.aspect === "fit") {
             image.fillMode = Image.PreserveAspectFit
         }
-        else if ( item.aspect === "stretch")
-        {
+        else if ( imageItemRoot.aspect === "stretch") {
             image.fillMode = Image.Stretch
         }
     }
 
-    onCaptionAlignChanged:
-    {
-        if ( item.captionAlign === "top" )
-        {
+    onCaptionAlignChanged: {
+        if ( imageItemRoot.captionAlign === "top" ) {
             titleRect.anchors.top = titleRect.parent.top
         }
-        else if ( item.captionAlign === "bottom" )
-        {
+        else if ( imageItemRoot.captionAlign === "bottom" ) {
             titleRect.anchors.bottom = titleRect.parent.bottom
         }
     }
 
-    onTextAlignChanged:
-    {
-        if ( item.textAlign === "center")
-        {
+    onTextAlignChanged: {
+        if ( imageItemRoot.textAlign === "center") {
             titleText.horizontalAlignment = Text.AlignHCenter
         }
-        else  if ( item.textAlign === "left")
-        {
+        else  if ( imageItemRoot.textAlign === "left") {
             titleText.horizontalAlignment = Text.AlignLeft
         }
-        else  if ( item.textAlign === "right")
-        {
+        else  if ( imageItemRoot.textAlign === "right") {
             titleText.horizontalAlignment = Text.AlignRight
         }
     }
 
-    onParentChanged:
-    {
+    onParentChanged: {
         widthCoeff = width/parent.width
         heightCoeff = height/parent.height
         xCoeff = x/parent.width
         yCoeff = y/parent.height
-        console.log("PARENT CHANGED", widthCoeff, heightCoeff, xCoeff, yCoeff)
     }
 
-    onHeightChanged:
-    {
+    onHeightChanged: {
         heightCoeff = height/parent.height
-        console.log("heightcoef", heightCoeff, height, parent.height)
     }
-    onWidthChanged:
-    {
+    onWidthChanged: {
         widthCoeff = width/parent.width
     }
-    onXChanged:
-    {
+    onXChanged: {
         xCoeff = x/parent.width
     }
-    onYChanged:
-    {
+    onYChanged: {
         yCoeff = y/parent.height
     }
 
@@ -92,9 +73,9 @@ Rectangle
         State {
             name: "full"
             PropertyChanges {
-                target: item
-                width: (item.parent) ? item.parent.width : 0
-                height: (item.parent) ? item.parent.height : 0
+                target: imageItemRoot
+                width: (imageItemRoot.parent) ? imageItemRoot.parent.width : 0
+                height: (imageItemRoot.parent) ? imageItemRoot.parent.height : 0
                 x: 0
                 y: 0
                 z: 2
@@ -104,18 +85,17 @@ Rectangle
         State {
             name: "native"
             PropertyChanges {
-                target: item
-                width: (item.parent) ? widthCoeff*item.parent.width : 0
-                height: (item.parent) ? heightCoeff*item.parent.height : 0
-                x: (item.parent) ? xCoeff*item.parent.width : 0
-                y: (item.parent) ? yCoeff*item.parent.height : 0
+                target: imageItemRoot
+                width: (imageItemRoot.parent) ? widthCoeff*imageItemRoot.parent.width : 0
+                height: (imageItemRoot.parent) ? heightCoeff*imageItemRoot.parent.height : 0
+                x: (imageItemRoot.parent) ? xCoeff*imageItemRoot.parent.width : 0
+                y: (imageItemRoot.parent) ? yCoeff*imageItemRoot.parent.height : 0
                 z: 1
 
             }
         }
     ]
-    //    state: "native"
-
+    // maybe will be useful someday:)
     //    MouseArea
     //    {
     //        anchors.fill: parent
@@ -145,34 +125,30 @@ Rectangle
     //        }
     //    }
 
-    Image
-    {
+    Image {
         id: image
         anchors.fill : parent
-        source: item.source
+        source: imageItemRoot.source
         antialiasing: true
 
     }
 
-    Rectangle
-    {
+    Rectangle {
         id: titleRect
         objectName: "Caption"
         width: parent.width
-        height:  titleText.height + 5
+        height: titleText.height + 5
         opacity: 0.0
         z: 1
-        Text
-        {
+        Text  {
             id: titleText
             //            width: parent.width
             objectName: "CaptionText"
-            font.pixelSize: item.fontSize
-            font.family: item.fontFamily
+            font.pixelSize: imageItemRoot.fontSize
+            font.family: imageItemRoot.fontFamily
             verticalAlignment: Text.AlignVCenter
         }
-        Behavior on opacity
-        {
+        Behavior on opacity {
             PropertyAnimation{}
         }
     }

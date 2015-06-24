@@ -33,9 +33,6 @@ SOURCES += \
 
 
 OTHER_FILES += \
-    qml/DemoView/web.qml \
-    qml/DemoView/video.qml \
-    qml/DemoView/test.qml \
     qml/DemoView/model.qml \
     qml/DemoView/main.qml \
     qml/DemoView/testwebview.qml \
@@ -49,9 +46,6 @@ OTHER_FILES += \
     qml/DemoView/StartScreen.qml \
     qml/DemoView/OldDemoMain.qml \
     qml/DemoView/SlidesListPanel.qml \
-    qml/DemoView/items/web.qml \
-    qml/DemoView/items/video.qml \
-    qml/DemoView/items/image.qml \
     qml/DemoView/BackgroundRectangle.qml \
     qml/DemoView/TemplatesListPanel.qml \
     qml/DemoView/OptionsPanel.qml \
@@ -62,7 +56,6 @@ OTHER_FILES += \
     qml/DemoView/presentation/Clock.qml \
     qml/DemoView/FireEffect.qml \
     qml/DemoView/ItemPropertiesPanel.qml \
-    qml/DemoView/items/editedText.qml \
     qml/DemoView/panels/SlidesListPanel.qml \
     qml/DemoView/panels/OptionsPanel.qml \
     qml/DemoView/background/FireEffect.qml \
@@ -74,7 +67,6 @@ OTHER_FILES += \
     qml/DemoView/layouts/Layout5.qml \
     qml/DemoView/layouts/Layout6.qml \
     qml/DemoView/layouts/Layout7.qml \
-    qml/DemoView/items/titleItem.qml \
     qml/DemoView/layouts/Layout3.qml \
     qml/DemoView/items/Code.qml \
     qml/DemoView/layouts/Layout2.qml \
@@ -94,29 +86,38 @@ OTHER_FILES += \
     qml/DemoView/StringUtils.js \
     qml/DemoView/StringUtils.js \
     qml/DemoView/layouts/Layout.qml \
-    qml/DemoView/items/TextItem.qml \
-    qml/DemoView/transition/PageFlipShaderEffect.qml
+    qml/DemoView/transition/PageFlipShaderEffect.qml \
+    qml/DemoView/BlockMenu.qml \
+    qml/DemoView/BlockMenuItem.qml \
+    qml/DemoView/StartScreenButton.qml \
+    qml/DemoView/items/EditedText.qml \
+    qml/DemoView/items/TitleItem.qml \
+    qml/DemoView/items/ImageItem.qml \
+    qml/DemoView/items/VideoItem.qml \
+    qml/DemoView/items/WebItem.qml \
+    qml/DemoView/items/TextItem.qml
 
 RESOURCES += \
     resources.qrc
 
-macx
-{
-    OBJECTIVE_SOURCES += machelper.mm
-    LIBS += -framework Cocoa \
-    -framework Foundation \
-    -framework AppKit \
-    -framework Carbon
+#macx
+#{
+#    OBJECTIVE_SOURCES += machelper.mm
+#    LIBS += -framework Cocoa \
+#    -framework Foundation \
+#    -framework AppKit \
+#    -framework Carbon
 
-    WEBPROCESS.files = libexec/QtWebProcess
-    WEBPROCESS.path = Contents/MacOS
-    QML.files = qml
-    QML.path = Contents/Resources
-    DATA.files = data
-    DATA.path = Contents/Resources
-    QMAKE_BUNDLE_DATA += WEBPROCESS
-    QMAKE_BUNDLE_DATA += QML
-    QMAKE_BUNDLE_DATA += DATA
-    QMAKE_INFO_PLIST = Info.plist
-}
+#    WEBPROCESS.files = libexec/QtWebProcess
+#    WEBPROCESS.path = Contents/MacOS
+#    QML.files = qml
+#    QML.path = Contents/Resources
+#    DATA.files = data
+#    DATA.path = Contents/Resources
+#    QMAKE_BUNDLE_DATA += WEBPROCESS
+#    QMAKE_BUNDLE_DATA += QML
+#    QMAKE_BUNDLE_DATA += DATA
+#    QMAKE_INFO_PLIST = Info.plist
+#}
+
 

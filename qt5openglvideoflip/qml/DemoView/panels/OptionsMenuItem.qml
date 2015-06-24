@@ -1,25 +1,20 @@
-import QtQuick 2.0
+import QtQuick 2.4
 
-Rectangle
-{
+Rectangle {
     id: menuItemRect
     color: "grey"
     property alias propertyName: propertyNameText.text
     property alias propertyValue: propertyValueText.text
-    Row
-    {
+    Row {
         spacing: (propertyName != "") ? 10 : 0
         anchors.fill: parent
-        Item
-        {
+        Item {
             width: menuItemRect.width/2
             height: menuItemRect.height
-            visible: propertyName != ""
-            Text
-            {
+            visible: propertyName !== ""
+            Text {
                 id: propertyNameText
-                anchors
-                {
+                anchors {
                     fill: parent
                     margins: 5
                 }
@@ -27,24 +22,19 @@ Rectangle
                 color: "white"
             }
         }
-        Item
-        {
+        Item {
             width: (propertyName != "") ? menuItemRect.width/2 : menuItemRect.width
             height: menuItemRect.height
-            Rectangle
-            {
-                anchors
-                {
+            Rectangle {
+                anchors {
                     fill: parent
                     margins: 4
                 }
                 color: (propertyName === "") ? "lightgray" : "transparent"
-                TextEdit
-                {
+                TextEdit {
                     id: propertyValueText
                     focus: true
-                    anchors
-                    {
+                    anchors {
                         centerIn : parent
                     }
                     font.pointSize: 10

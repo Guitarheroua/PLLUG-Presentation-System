@@ -1,7 +1,6 @@
-import QtQuick 2.0
+import QtQuick 2.4
 
-ShaderEffect
-{
+ShaderEffect {
     id: effect
     anchors.fill: parent
     anchors.centerIn: parent
@@ -9,8 +8,7 @@ ShaderEffect
     vertexShader: helper.readShader("flipPage.vsh")
     fragmentShader: helper.readShader("flipPage.fsh")
     property int currentSlide : 0
-    onCurrentSlideChanged:
-    {
+    onCurrentSlideChanged: {
         parent.currentSlide = currentSlide
     }
 
@@ -43,25 +41,20 @@ ShaderEffect
     //             NumberAnimation { target: effect; property: "angle"; from:(backAnim) ? 270.0 : 90.0; to: (backAnim) ? 90.0 : 270.0; duration: anim.duration }
     //         }
 
-    PropertyAnimation on angle
-    {
+    PropertyAnimation on angle {
         id: anim
         from: (backAnim) ? 270.0 : 90.0
         to: (backAnim) ? 90.0 : 270.0
         //            loops: Animation.Infinite
         running: false
         duration: defaultAnimationDuration
-        onRunningChanged:
-        {
-            if (!anim.running)
-            {
-                if (!effect.backAnim )
-                {
+        onRunningChanged: {
+            if (!anim.running) {
+                if (!effect.backAnim ) {
                     effect.parent.slides[effect.currentSlide].visible = false
                     effect.currentSlide = effect.nextSlideIndex;
                 }
-                else
-                {
+                else {
                     effect.parent.slides[effect.currentSlide].visible = false
                     effect.currentSlide = effect.nextSlideIndex;
                 }
@@ -70,39 +63,28 @@ ShaderEffect
 
     }
 
-    function goToNextSlide()
-    {
-
+    function goToNextSlide() {
         goToSlide(effect.currentSlide+1)
     }
 
-    function goToPreviousSlide()
-    {
+    function goToPreviousSlide() {
         goToSlide(effect.currentSlide-1)
     }
-    function goToSlide(index)
-    {
-        console.log("\ngo to slide \n", index)
-        if (!anim.running)
-        {
+    function goToSlide(index) {
+        if (!anim.running) {
             effect.nextSlideIndex = index
-            if (index < currentSlide)
-            {
+            if (index < currentSlide) {
                 effect.backAnim = true
-                if ( effect.currentSlide > 0)
-                {
+                if ( effect.currentSlide > 0) {
                     effect.parent.slides[effect.nextSlideIndex].visible = true
                     sourceItem1.sourceItem = effect.parent.slides[effect.nextSlideIndex]
                     sourceItem2.sourceItem = effect.parent.slides[effect.currentSlide]
                     anim.start()
                 }
-
             }
-            else
-            {
+            else {
                 effect.backAnim = false
-                if ( effect.parent.slides[effect.nextSlideIndex] )
-                {
+                if ( effect.parent.slides[effect.nextSlideIndex] ) {
                     effect.parent.slides[effect.nextSlideIndex].visible = true
                     sourceItem1.sourceItem = effect.parent.slides[effect.currentSlide]
                     sourceItem2.sourceItem = effect.parent.slides[effect.nextSlideIndex]
@@ -111,25 +93,4 @@ ShaderEffect
             }
         }
     }
-
-    //    MouseArea{
-    //        anchors.fill:parent
-    //        acceptedButtons: Qt.RightButton
-    //        onClicked:
-    //        {
-    //            if ( mouse.button === Qt.RightButton )
-    //            {
-    //                if (mouseX > effect.parent.width/2)
-    //                {
-    //                    effect.goToNextSlide()
-    //                }
-    //                else
-    //                {
-    //                    effect.goToPreviousSlide()
-    //                }
-
-    //            }
-
-    //        }
-    //    }
 }

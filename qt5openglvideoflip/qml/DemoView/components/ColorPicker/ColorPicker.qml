@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.4
 import "ColorUtils.js" as ColorUtils
 //import QtGraphicalEffects 1.0
 
@@ -7,39 +7,28 @@ Item {
     property color colorValue: ColorUtils.hsba(hueSlider.value, sbPicker.saturation,
                                                sbPicker.brightness, alphaSlider.value)
     property color givenColor
-    onGivenColorChanged:
-    {
+    onGivenColorChanged: {
         hueSlider.givenValue = helper.hue(givenColor)
         alphaSlider.givenValue = helper.alpha(givenColor)
         sbPicker.givenSaturation = helper.saturation(givenColor)
         sbPicker.givenBrightness = helper.brightness(givenColor)
-//        console.log("\ngiven color:", helper.hue(givenColor),helper.alpha(givenColor),helper.saturation(givenColor),helper.brightness(givenColor))
         updateColor()
         colorValue = Qt.hsla(helper.hue(givenColor),helper.saturation(givenColor),1-helper.brightness(givenColor),helper.alpha(givenColor))
     }
-    onColorValueChanged:
-    {
-//        console.log("new COLOR",helper.hue(colorValue),helper.alpha(colorValue),helper.saturation(colorValue),helper.brightness(colorValue))
-    }
-
     property alias hue: hueSlider.value
     property alias saturation: sbPicker.saturation
     property alias brightness: sbPicker.brightness
     property alias alpha: alphaSlider.value
-    onHueChanged:
-    {
+    onHueChanged: {
         updateColor()
     }
-    onSaturationChanged:
-    {
+    onSaturationChanged: {
         updateColor()
     }
-    onBrightnessChanged:
-    {
+    onBrightnessChanged: {
         updateColor()
     }
-    onAlphaChanged:
-    {
+    onAlphaChanged: {
        updateColor()
     }
 
@@ -71,8 +60,7 @@ Item {
                     GradientStop { position: 0.0;  color: "#FF0000" }
                 }
             }
-            ColorSlider
-            {
+            ColorSlider {
                 id: hueSlider; anchors.fill: parent
             }
         }
@@ -81,7 +69,6 @@ Item {
         Item {
             id: alphaPicker
             width: 12; height: parent.height
-//            Checkerboard { cellSide: 4 }
             //  alpha intensity gradient background
             Rectangle {
                 anchors.fill: parent
@@ -90,8 +77,7 @@ Item {
                     GradientStop { position: 1.0; color: "#00000000" }
                 }
             }
-            ColorSlider
-            {
+            ColorSlider {
                 id: alphaSlider; anchors.fill: parent
             }
         }
@@ -170,8 +156,7 @@ Item {
         }
     }
 
-    function updateColor()
-    {
+    function updateColor() {
         colorValue = ColorUtils.hsba(hue, saturation,
                                       brightness, alpha)
     }

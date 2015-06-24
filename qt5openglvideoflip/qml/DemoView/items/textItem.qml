@@ -1,8 +1,7 @@
-import QtQuick 2.0
+import QtQuick 2.4
 import "../StringUtils.js" as StringUtils
 
-Item
-{
+Item {
     id: textItemRect
     property string type : "text"
     property string text
@@ -14,6 +13,8 @@ Item
     property bool fontUnderline : false
     property bool fontStrikeout : false
     property bool bullets : false
+    property variant content: []
+    property real bulletSpacing: 1
 
     property string backgroundColor : "transparent"
     property string fontFamily: "Arial"
@@ -26,79 +27,58 @@ Item
 
     property string defaultText: "Click to add text"
 
-    function getText()
-    {
+    function getText() {
         return textEdit.getText(0,textEdit.text.length)
     }
 
-    onFontBoldChanged:
-    {
+    onFontBoldChanged: {
 //        textEdit.font.bold = fontBold
     }
 
-    onFontItalicChanged:
-    {
+    onFontItalicChanged: {
 //        textEdit.font.italic = fontItalic
     }
 
-    onFontSizeChanged:
-    {
+    onFontSizeChanged: {
 //        textEdit.font.pointSize = fontSize
     }
 
-    onFontStrikeoutChanged:
-    {
+    onFontStrikeoutChanged: {
 //        textEdit.font.strikeout = fontStrikeout
     }
-    onFontUnderlineChanged:
-    {
+    onFontUnderlineChanged: {
 //        textEdit.font.underline = fontUnderline
     }
 
-    onFontColorChanged:
-    {
+    onFontColorChanged: {
 //        textEdit.color = fontColor
     }
 
-    onBulletsChanged:
-    {
+    onBulletsChanged: {
         addBullets()
     }
 
-
-    function addBullets()
-    {
+    function addBullets() {
         content = getText().split(/*String.fromCharCode(8233)*/"\n")
-        console.log("__________-", content)
         textEdit.visible = false
     }
-
 
 //    color: backgroundColor
     anchors.fill: parent
     z: parent.z + 1
 
-
-
-    TextEdit
-    {
+    TextEdit  {
         id: textEdit
-        enabled: /*textItemRect.parent.parent.enableEdit*/ helper.enableEdit()
-        anchors
-        {
+        property bool selecting : false
+        enabled: helper.enableEdit()
+        anchors {
             top:  parent.top
             left: parent.left
         }
         clip: true
         anchors.centerIn: parent
         text: (textItemRect.text === "") ? defaultText : textItemRect.text
-        onTextChanged:
-        {
-            textItemRect.text = text
-        }
-
-        font
-        {
+        font {
             family: fontFamily
             pixelSize: fontSize
             bold: fontBold
@@ -113,11 +93,11 @@ Item
         persistentSelection: true
         focus: true
         activeFocusOnPress: true
+        onTextChanged: {
+            textItemRect.text = text
+        }
 
-        property bool selecting : false
-
-        MouseArea
-        {
+        MouseArea {
             anchors.fill: parent
             onClicked: {
                 textEdit.text = (textItemRect.getText() === defaultText) ? "" : textEdit.text
@@ -125,32 +105,21 @@ Item
                 textEdit.deselect()
                 textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
             }
-            onDoubleClicked:
-            {
+            onDoubleClicked: {
                 textEdit.selectWord()
             }
 
-            onPressAndHold:
-            {
+            onPressAndHold: {
                 textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
                 textEdit.selecting = true
             }
-            onMouseXChanged:
-            {
-                if (textEdit.selecting)
-                {
+            onMouseXChanged: {
+                if (textEdit.selecting) {
                     textEdit.moveCursorSelection(textEdit.positionAt(mouse.x+x,mouse.y+y), TextInput.SelectCharacters);
                 }
             }
-
         }
-
     }
-
-
-    property variant content: []
-    property real bulletSpacing: 1
-
 
     Column {
         id: contentId
@@ -162,16 +131,12 @@ Item
 
             Row {
                 id: row
-
                 function decideIndentLevel(s) { return s.charAt(0) === " " ? 1 + decideIndentLevel(s.substring(1)) : 0 }
                 property int indentLevel: decideIndentLevel(content[index])
                 property int nextIndentLevel: index < content.length - 1 ? decideIndentLevel(content[index+1]) : 0
                 property real indentFactor: (10 - row.indentLevel * 2) / 10;
-
                 height: text.height + (nextIndentLevel == 0 ? 1 : 0.3) * fontSize * bulletSpacing
-
                 width: contentId.width
-
                 x: fontSize * indentLevel
 
                 Rectangle {
@@ -203,30 +168,17 @@ Item
                     horizontalAlignment: Text.AlignLeft
                     font.family: fontFamily
                     focus: true
-                    Keys.onPressed:
-                    {
-                        if (event.key === 16777220 && bullets)
-                        {
-                            var pushed = content.push("zgfd")
-//                            repeater.model += 1
-                            console.log("ENTER", content, pushed, content.length)
-                        }
-                    }
                 }
             }
         }
     }
 
-    Keys.onPressed:
-    {
-        if ((event.key === Qt.Key_A) && (event.modifiers & Qt.ControlModifier))
-        {
+    Keys.onPressed: {
+        if ((event.key === Qt.Key_A) && (event.modifiers & Qt.ControlModifier)) {
             textEdit.selectAll()
         }
-        if (event.key === 16777221 && bullets)
-        {
+        if (event.key === 16777221 && bullets) {
             repeater.model += 1
-            console.log("ENTER")
         }
     }
 }

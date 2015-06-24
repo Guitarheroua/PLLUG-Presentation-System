@@ -1,8 +1,7 @@
-import QtQuick 2.0
+import QtQuick 2.4
 import "presentation"
 
-Slide
-{
+Slide {
     id: slide
     visible: false
 }

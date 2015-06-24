@@ -1,28 +1,17 @@
-import QtQuick 2.0
+import QtQuick 2.4
 import QtWebKit 3.0
 
-//import CustomComponents 1.0
-Rectangle
-{
+Rectangle {
     id: item
     width: 800
     height: 800
-        WebView
-        {
-            id: webView
-            objectName: "webView"
-            anchors.fill: parent
-            boundsBehavior: Flickable.StopAtBounds
-            url: "http://www.youtube.com"
-
-            Component.onCompleted:
-            {
-                console.log("completed")
-            }
-
-//            preferredHeight: flickable.height
-//            preferredWidth: flickable.width
-        }
-//    }
-
+    WebView {
+        id: webView
+        objectName: "webView"
+        anchors.fill: parent
+        boundsBehavior: Flickable.StopAtBounds
+        url: "http://www.youtube.com"
+        //            preferredHeight: flickable.height
+        //            preferredWidth: flickable.width
+    }
 }

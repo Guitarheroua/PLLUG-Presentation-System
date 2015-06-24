@@ -1,14 +1,11 @@
-import QtQuick 2.0
+import QtQuick 2.4
 
 Item {
     property real value: (1 - pickerCursor.y/height)
     property real givenValue
-    onGivenValueChanged:
-    {
+    onGivenValueChanged:  {
         pickerCursor.y = (1-givenValue)*height
     }
-
-
     width: 15; height: 300
     Item {
         id: pickerCursor

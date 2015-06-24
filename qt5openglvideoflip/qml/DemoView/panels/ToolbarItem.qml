@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.4
 
 Rectangle {
     id: item
@@ -7,35 +7,27 @@ Rectangle {
     property string imageSource: ""
     property bool selectingItem: true
     color: (item.selected ) ? Qt.darker(item.color, 1.5) : unselectedItemColor
-
-    Image
-    {
+    height: width
+    Image {
         anchors.fill: parent
         anchors.margins: 2
         source: imageSource
     }
 
-    MouseArea
-    {
+    MouseArea{
         anchors.fill: parent
-        onClicked:
-        {
-            if (selectingItem)
-            {
+        onClicked: {
+            if (selectingItem) {
                 item.selected = !item.selected
             }
         }
-        onPressed:
-        {
-            if (!selectingItem)
-            {
+        onPressed: {
+            if (!selectingItem) {
                 item.selected = true
             }
         }
-        onReleased:
-        {
-            if (!selectingItem)
-            {
+        onReleased: {
+            if (!selectingItem) {
                 item.selected = false
             }
         }

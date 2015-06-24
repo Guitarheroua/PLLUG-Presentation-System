@@ -40,7 +40,7 @@
 ****************************************************************************/
 
 
-import QtQuick 2.0
+import QtQuick 2.4
 
 Slide {
     id: slide;
@@ -73,17 +73,13 @@ Slide {
         }
     }
 
-
-
     ListModel {
         id: listModel
     }
 
-
     onVisibleChanged: {
-        listView.focus = slide.visible;
-        listView.currentIndex = -1;
-        console.log(" code slide visible",slide.visible, listView.focus)
+        listView.focus = slide.visible
+        listView.currentIndex = -1
     }
 
     ListView {
@@ -93,33 +89,19 @@ Slide {
         anchors.margins: background.radius / 2
         clip: true
 
-        model: listModel;
-        focus: true;
-        onFocusChanged:
-        {
-            console.log(" \nFOCUS\n",listView.focus)
-        }
-
+        model: listModel
+        focus: true
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                listView.focus = true;
-                listView.currentIndex = listView.indexAt(mouse.x, mouse.y + listView.contentY);
+                listView.focus = true
+                listView.currentIndex = listView.indexAt(mouse.x, mouse.y + listView.contentY)
             }
-
         }
-        Keys.onLeftPressed:
-        {
-            console.log("\nLEFT\n")
-        }
-
         delegate: Item {
-
             id: itemDelegate
-
             height: lineLabel.height
             width: parent.width
-
             Rectangle {
                 id: lineLabelBackground
                 width: lineLabel.height * 3;

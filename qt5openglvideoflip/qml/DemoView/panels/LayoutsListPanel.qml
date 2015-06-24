@@ -1,51 +1,44 @@
-import QtQuick 2.0
+import QtQuick 2.4
 import "../presentation"
 
-Rectangle
-{
+Rectangle {
     id: layoutsPanelRect
     width: presentation.width*0.113
     height: parent.height
     x: parent.width - width
     z: parent.z + 2
-    onLayoutSelected:
-    {
-        presentation.setLayout(source)
-    }
     color: "black"
     opacity: 0.7
 
     property int layoutHeight : presentation.height*0.143
-
     property real fontSize : presentation.height * 0.017
-
     signal layoutSelected(var source)
 
-    function selectLayout(index)
-    {
+    function selectLayout(index) {
         var position = index*(layoutHeight + layoutsListView.spacing)
         if ( position > layoutsListView.height/2 - layoutHeight/2)
             layoutsListView.contentY = position - (layoutsListView.height/2 - layoutHeight/2)
         layoutsListView.currentIndex = index
     }
 
-    Component
-    {
+    onLayoutSelected: {
+        presentation.setLayout(source)
+    }
+
+    Component {
         id: delegate
-        Rectangle
-        {
+        Rectangle {
             width: listViewItem.width
             height: layoutHeight
             color: "white"
-            Text{
+            Text {
                 id: text
                 anchors.centerIn: parent
                 text: (model.index === 0) ? "Empty": "Layout " + (model.index)
                 font.pixelSize: fontSize
             }
 
-            MouseArea
-            {
+            MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
 
@@ -72,22 +65,19 @@ Rectangle
         }
     }
 
-    Item{
+    Item {
         id: arrowItem
-        anchors
-        {
+        anchors {
             left: parent.left
             leftMargin: 3
             verticalCenter: parent.verticalCenter
         }
 
-        Row
-        {
+        Row {
             spacing: 2
-            Repeater{
+            Repeater {
                 model: 2
-                Rectangle
-                {
+                Rectangle {
                     width: 3
                     height: 30
                     color: "steelblue"
@@ -99,20 +89,16 @@ Rectangle
         }
     }
 
-
-    Item
-    {
+    Item {
         id: listViewItem
-        anchors
-        {
+        anchors {
             fill: parent
             topMargin: 10
             leftMargin: 20
         }
         z: parent.z+1
 
-        ListView
-        {
+        ListView {
             id: layoutsListView
             anchors.fill: parent
             focus: true
@@ -135,8 +121,7 @@ Rectangle
 
         }
     }
-    MouseArea
-    {
+    MouseArea {
         id: layoutsPanelMouseArea
         anchors.fill: parent
         drag.axis: Drag.XAxis
@@ -162,8 +147,7 @@ Rectangle
         }]
 
     onStateChanged:{
-        if (state === "opened")
-        {
+        if (state === "opened") {
             slidesListPanel.state = "closed"
             optionsPanel.state = "Closed"
         }

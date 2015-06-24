@@ -40,7 +40,7 @@
 ****************************************************************************/
 
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtQuick.Window 2.0
 
 Item {
@@ -56,11 +56,6 @@ Item {
     property string fontFamily: "Helvetica"
     property string codeFontFamily: "Courier New"
     property QtObject transition : null
-    onTransitionChanged:
-    {
-        console.log("\ntransition\n", transition, transition.currentSlide)
-    }
-
 
     // Private API
     property bool _faded: false
@@ -88,42 +83,35 @@ Item {
         var slideCount = 0;
         var slides = [];
         for (var i=0; i<root.children.length; ++i) {
-            var r = root.children[i];
+            var r = root.children[i]
             if (r.isSlide) {
-
-                slides.push(r);
+                slides.push(r)
             }
-
         }
-
         root.slides = slides;
-        console.log(root.slides.length)
         root._userNum = 0;
 
         // Make first slide visible...
         if (root.slides.length > 0) {
-            root.currentSlide = 0;
-            root.slides[root.currentSlide].visible = true;
+            root.currentSlide = 0
+            root.slides[root.currentSlide].visible = true
         }
     }
 
     function newSlide(slide,index,isOpening) {
-        console.log("NEW!!!")
         var lSlides = root.slides
         if (slide.isSlide) {
             lSlides.splice(index, 0, slide);
             slides = lSlides
             root.slides = lSlides
         }
-        if (!isOpening)
-        {
+        if (!isOpening) {
             goToNextSlide()
         }
     }
 
     function removeSlide(index) {
-        if ( index === currentSlide)
-        {
+        if ( index === currentSlide) {
             if (index+1 < root.slides.length)
                 goToNextSlide()
             else if (index-1 >= 0)
@@ -134,7 +122,6 @@ Item {
         removedSlide[0].destroy()
         slides = lSlides
         root.slides = lSlides
-
     }
 
     function switchSlides(from, to, forward) {
@@ -144,8 +131,7 @@ Item {
     }
 
     function goToNextSlide() {
-        if (transition != null)
-        {
+        if (transition != null)  {
             //            if (effect.running)
             //                return
             transition.goToNextSlide()
@@ -159,15 +145,14 @@ Item {
             var from = slides[currentSlide]
             var to = slides[currentSlide + 1]
             if (switchSlides(from, to, true)) {
-                currentSlide = currentSlide + 1;
-                root.focus = true;
+                currentSlide = currentSlide + 1
+                root.focus = true
             }
         }
     }
 
     function goToPreviousSlide() {
-        if (transition != null)
-        {
+        if (transition != null) {
             //            if (effect.running)
             //                return
             transition.goToPreviousSlide()
@@ -181,8 +166,8 @@ Item {
             var from = slides[currentSlide]
             var to = slides[currentSlide - 1]
             if (switchSlides(from, to, false)) {
-                currentSlide = currentSlide - 1;
-                root.focus = true;
+                currentSlide = currentSlide - 1
+                root.focus = true
             }
         }
     }
@@ -197,17 +182,15 @@ Item {
             var from = slides[currentSlide]
             var to = slides[_userNum]
             if (switchSlides(from, to, _userNum > currentSlide)) {
-                currentSlide = _userNum;
-                root.focus = true;
+                currentSlide = _userNum
+                root.focus = true
             }
         }
     }
 
     function goToSlide(index) {
-        if (index != currentSlide)
-        {
-            if (transition != null)
-            {
+        if (index !== currentSlide) {
+            if (transition != null) {
                 //                if (effect.running)
                 //                    return
                 transition.goToSlide(index)
@@ -222,8 +205,8 @@ Item {
                 var from = slides[currentSlide]
                 var to = slides[index]
                 if (switchSlides(from, to, true)) {
-                    currentSlide = index;
-                    root.focus = true;
+                    currentSlide = index
+                    root.focus = true
                 }
             }
         }
@@ -244,11 +227,11 @@ Item {
         else {
             //            if (event.key == Qt.Key_Return /*|| event.key == Qt.Key_Enter*/)
             //                goToUserSlide();
-            /*else */if (event.key == Qt.Key_Backspace)
-                goToPreviousSlide();
-            else if (event.key == Qt.Key_C)
-                root._faded = !root._faded;
-            _userNum = 0;
+            /*else */if (event.key === Qt.Key_Backspace)
+                goToPreviousSlide()
+            else if (event.key === Qt.Key_C)
+                root._faded = !root._faded
+            _userNum = 0
         }
     }
 
@@ -262,7 +245,7 @@ Item {
 
 
     Window {
-        id: notesWindow;
+        id: notesWindow
         width: 400
         height: 300
 
@@ -271,14 +254,14 @@ Item {
 
         Text {
             anchors.fill: parent
-            anchors.margins: parent.height * 0.1;
+            anchors.margins: parent.height * 0.1
 
             font.pixelSize: 16
             wrapMode: Text.WordWrap
 
-            property string notes:  (root.slides[root.currentSlide].notes) ? root.slides[root.currentSlide].notes : "";
-            text: notes == "" ? "Slide has no notes..." : notes;
-            font.italic: notes == "";
+            property string notes:  (root.slides[root.currentSlide].notes) ? root.slides[root.currentSlide].notes : ""
+            text: notes == "" ? "Slide has no notes..." : notes
+            font.italic: notes == ""
         }
     }
 }

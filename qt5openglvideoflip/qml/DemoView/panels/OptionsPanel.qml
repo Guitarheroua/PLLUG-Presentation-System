@@ -1,27 +1,25 @@
-import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Dialogs 1.0
+import QtQuick 2.4
+import QtQuick.Controls 1.2
+import QtQuick.Dialogs 1.2
 import "../components/ColorPicker"
 
-Rectangle{
+Rectangle {
     id: optionsPanelRect
+    property var selectedItem : presentation.slides[presentation.currentSlide].selectedItem
+    property bool itemEditing: presentation.slides[presentation.currentSlide].editSelectedItemProperties
+    property bool slideProperties: false
+    property bool itemProperties: false
     width: 320
     height: parent.height
     color: "black"
     opacity: 0.7
     z: parent.z + 2
-    property var selectedItem : presentation.slides[presentation.currentSlide].selectedItem
-    property bool itemEditing: presentation.slides[presentation.currentSlide].editSelectedItemProperties
-    property bool slideProperties: false
-    property bool itemProperties: false
-    onItemEditingChanged:
-    {
+    onItemEditingChanged: {
         if(!itemEditing && state === "ItemProperties")
             state = "Closed"
     }
     onSelectedItemChanged:
     {
-        console.log("current item", selectedItem)
         //        widthTextInput.text = (selectedItem != null) ? Math.round(selectedItem.width) : 0
         //        heightTextInput.text = (selectedItem != null) ? Math.round(selectedItem.height) : 0
         //        xTextInput.text = (selectedItem != null) ? Math.round(selectedItem.x) : 0
@@ -29,10 +27,8 @@ Rectangle{
         //        zTextInput.text = (selectedItem != null) ? Math.round(selectedItem.z) : 0
     }
 
-    ListModel
-    {
+    ListModel {
         id: slideOptionsModel
-
         ListElement {
             name: "Background"
             contents: [
@@ -65,7 +61,6 @@ Rectangle{
 
     //    Component.onCompleted:
     //    {
-    //        console.log("\ncount", slideOptionsModel.count)
     //        for(var i=0; i<textPropertiesModel.count; ++i)
     //        {
     //            slideOptionsModel.append(textPropertiesModel.get(i))
@@ -73,30 +68,25 @@ Rectangle{
     //        }
     //    }
 
-
-    Component
-    {
+    Component {
         id: optionsListViewDelegate
-        Rectangle
-        {
+        Item  {
             id: rect
-            width: listViewItem.width
-            height: delegateItemText.height+lineRect.height
-            color: "transparent"
             property int ind: model.index
             property int subItemHeight: 25
+            width: listViewItem.width
+            height: delegateItemText.height+lineRect.height
             Text {
                 id: delegateItemText
                 text: model.name
                 //                color: "lightsteelblue"
                 color: "white"
-                font
-                {
+                font {
                     pointSize: 14
                     bold: false
                 }
             }
-            MouseArea{
+            MouseArea {
                 anchors.fill: parent
                 onClicked: {
                     subItemsRect.visible = !subItemsRect.visible
@@ -104,11 +94,9 @@ Rectangle{
                 }
             }
 
-            Rectangle
-            {
+            Rectangle {
                 id: lineRect
-                anchors
-                {
+                anchors {
                     top: delegateItemText.bottom
                     left: parent.left
                 }
@@ -116,133 +104,93 @@ Rectangle{
                 height: 3
                 color: "steelblue"
             }
-            Item{
+            Item {
                 id: subItemsRect
-                anchors
-                {
+                anchors {
                     top: lineRect.bottom
                     left: parent.left
                 }
                 visible: false
-                Column{
+                Column {
                     anchors.fill: parent
                     spacing: 2
-                    Repeater
-                    {
+                    Repeater {
                         model: slideOptionsModel.get(rect.ind).contents
-                        Rectangle
-                        {
+                        Rectangle {
                             id: rect1
+                            property color unselectedItemColor: "grey"
+                            property bool selected: false
                             width: rect.width
                             height: subItemHeight
                             color: "grey"
-                            property color unselectedItemColor: "grey"
-                            property bool selected: false
-                            Text
-                            {
+                            Text {
                                 text: model.name
                                 anchors.centerIn: parent
                                 font.pointSize: 10
                                 color: "white"
                             }
-                            MouseArea
-                            {
+                            MouseArea {
                                 anchors.fill: parent
-                                onClicked:
-                                {
+                                onClicked: {
                                     rect1.selected = !rect1.selected
                                     rect1.color = (rect1.selected ) ? Qt.darker(rect1.color, 1.5) : unselectedItemColor
-                                    if (slideOptionsModel.get(rect.ind).name === "Background")
-                                    {
-                                        if(rect1.selected)
-                                        {
+                                    if (slideOptionsModel.get(rect.ind).name === "Background") {
+                                        if ( rect1.selected) {
                                             presentation.addBackground(model.value)
                                         }
-                                        else
-                                        {
+                                        else {
                                             presentation.removeBackground(model.value)
                                         }
                                     }
-                                    else if (slideOptionsModel.get(rect.ind).name === "Transitions")
-                                    {
-                                        if(rect1.selected)
-                                        {
+                                    else if (slideOptionsModel.get(rect.ind).name === "Transitions") {
+                                        if ( rect1.selected) {
                                             presentation.addTransition(model.value)
                                         }
-                                        else
-                                        {
+                                        else {
                                             presentation.removeTransition(model.value)
                                         }
                                     }
-
                                     optionsPanelRect.state = "Closed"
                                 }
-                                //                                onPressed:
-                                //                                {
-                                //                                    rect1.color = Qt.darker(rect1.color, 0.25);
-                                //                                }
-                                //                                onReleased:
-                                //                                {
-                                //                                    rect1.color = Qt.lighter(rect1.color, 0.25);
-                                //                                }
                             }
                         }
                     }
                 }
-
-
             }
-
         }
-
     }
 
-    Column
-    {
+    Column {
         anchors.fill: parent
         anchors.leftMargin: 5
         z: parent.z+1
-        Item
-        {
+        Item {
             id: listViewItem
             visible: slideProperties
-
-            //                    anchors
-            //                    {
-            //                        fill: parent
-            //                        margins: 5
-            ////                        bottomMargin: 400
-            //                    }
             width: parent.width
             height: 150
             z: parent.z+1
-            ListView{
+            ListView {
                 id: optionsListView
                 anchors.fill: parent
                 model: slideOptionsModel
                 delegate: optionsListViewDelegate
-                //            z: parent.z+1
-
             }
-
         }
 
-        PositionMenu
-        {
+        PositionMenu {
             visible: itemProperties
             selectedItem: optionsPanelRect.selectedItem
             z: parent.z+1
         }
 
-        SizeMenu
-        {
+        SizeMenu {
             visible: itemProperties
             selectedItem: optionsPanelRect.selectedItem
             z: parent.z+1
         }
 
-        TextMenu
-        {
+        TextMenu {
             visible: ( itemProperties && optionsPanelRect.selectedItem )
             selectedItem: optionsPanelRect.selectedItem
             z: parent.z+1
@@ -250,8 +198,7 @@ Rectangle{
     }
 
 
-    MouseArea
-    {
+    MouseArea {
         id: optionsSlideMouseArea
         anchors.fill: parent
         drag.axis: Drag.XAxis
@@ -259,12 +206,10 @@ Rectangle{
         drag.minimumX: presentation.width - optionsPanelRect.width
         drag.maximumX: presentation.width
         onClicked: {
-            console.log("options panel")
             optionsPanelRect.state = (optionsPanelRect.state != "Closed") ? "Closed" : optionsPanelRect.state
         }
 
     }
-
     states:[
         State {
             name: "ItemProperties"
@@ -280,10 +225,8 @@ Rectangle{
             PropertyChanges { target: optionsPanelRect; x: optionsSlideMouseArea.drag.maximumX }
         }]
 
-    onStateChanged :
-    {
-        if (state != "Closed")
-        {
+    onStateChanged: {
+        if (state != "Closed") {
             itemProperties = (state === "ItemProperties")
             slideProperties = (state === "SlideProperties")
             slidesListPanel.state = "closed"

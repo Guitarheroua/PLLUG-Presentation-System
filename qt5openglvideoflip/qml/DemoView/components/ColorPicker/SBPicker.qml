@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.4
 
 Item {
     id: root
@@ -7,18 +7,12 @@ Item {
     property real givenBrightness
     property real saturation : pickerCursor.x/width
     property real brightness : 1 - pickerCursor.y/height
-    onGivenSaturationChanged:
-    {
+    onGivenSaturationChanged: {
         pickerCursor.x = width * givenSaturation
     }
-    onGivenBrightnessChanged:
-    {
+    onGivenBrightnessChanged: {
         pickerCursor.y = givenBrightness*height
-//        console.log("picker cursor y", pickerCursor.y)
     }
-
-
-
     width: 200; height: 200
     clip: true
     Rectangle {

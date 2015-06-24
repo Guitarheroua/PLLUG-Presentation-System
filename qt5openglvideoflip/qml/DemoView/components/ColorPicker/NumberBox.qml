@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.4
 
 Row {
     property alias  caption: captionBox.text
@@ -6,7 +6,6 @@ Row {
     property alias  min: numValidator.bottom
     property alias  max: numValidator.top
     property alias  decimals: numValidator.decimals
-
     width: 80;
     height: 15
     spacing: 4
@@ -21,8 +20,6 @@ Row {
     }
     PanelBorder {
         height: parent.height
-//        anchors.leftMargin: 4;
-//        anchors.left: captionBox.right; anchors.right: parent.right
         TextInput {
             id: inputBox
             anchors.leftMargin: 4; anchors.topMargin: 1; anchors.fill: parent

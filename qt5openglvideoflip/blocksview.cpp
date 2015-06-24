@@ -52,7 +52,7 @@ void BlocksView::test()
 QQuickItem *BlocksView::createItem(QString pType, QString pSource, int pWidth, int pHeight)
 {
     Q_UNUSED(pType);
-    QQmlComponent *component = new QQmlComponent(mEngine,QUrl::fromLocalFile("video.qml"));
+    QQmlComponent *component = new QQmlComponent(mEngine,QUrl::fromLocalFile("VideoItem.qml"));
     QObject *object = component->create();
 
     QQuickItem *item = qobject_cast<QQuickItem*>(object);

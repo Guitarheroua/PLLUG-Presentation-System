@@ -1,35 +1,30 @@
-import QtQuick 2.0
+import QtQuick 2.4
 
-Item{
+Item {
     id: sizeRect
-    width: parent.width
-    height: delegateItemText.height+lineRect.height
-    //        color: "transparent"
     property var selectedItem
     property int subItemHeight: 25
+    width: parent.width
+    height: delegateItemText.height+lineRect.height
     Text {
         id: delegateItemText
         text: "Size"
         color: "white"
-        font
-        {
+        font {
             pointSize: 14
             bold: false
         }
     }
-    MouseArea{
+    MouseArea {
         anchors.fill: parent
         onClicked: {
             subItemsRect.visible = !subItemsRect.visible
             sizeRect.height = (subItemsRect.visible) ? sizeRect.height + 25*2 + 10 : delegateItemText.height+lineRect.height
         }
     }
-
-    Rectangle
-    {
+    Rectangle {
         id: lineRect
-        anchors
-        {
+        anchors {
             top: delegateItemText.bottom
             left: parent.left
         }
@@ -37,53 +32,41 @@ Item{
         height: 3
         color: "steelblue"
     }
-    Item{
+    Item {
         id: subItemsRect
-        anchors
-        {
+        anchors {
             top: lineRect.bottom
             left: parent.left
         }
         visible: false
-        Column{
+        Column {
             id: propertiesColumn
             anchors.fill: parent
             spacing: 2
-            OptionsMenuItem
-            {
+            OptionsMenuItem {
                 propertyName: "Width"
                 propertyValue: (sizeRect.selectedItem)? sizeRect.selectedItem.width : 0
                 width: sizeRect.width
                 height: sizeRect.subItemHeight
-                onPropertyValueChanged:
-                {
-                    if (sizeRect.selectedItem)
-                    {
+                onPropertyValueChanged: {
+                    if (sizeRect.selectedItem) {
                         var value = parseInt(propertyValue)
                         selectedItem.width = (!isNaN(value)) ? value : selectedItem.width
                     }
                 }
             }
-            OptionsMenuItem
-            {
+            OptionsMenuItem {
                 propertyName: "Height"
                 propertyValue: (sizeRect.selectedItem)? sizeRect.selectedItem.height : 0
                 width: sizeRect.width
                 height: sizeRect.subItemHeight
-                onPropertyValueChanged:
-                {
-                    if (sizeRect.selectedItem)
-                    {
+                onPropertyValueChanged: {
+                    if (sizeRect.selectedItem) {
                         var value = parseInt(propertyValue)
                         selectedItem.height = (!isNaN(value)) ? value : selectedItem.height
                     }
                 }
             }
-
-
         }
-
-
     }
-
 }

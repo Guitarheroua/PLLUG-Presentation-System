@@ -1,86 +1,44 @@
-import QtQuick 2.0
-import QtQuick.Dialogs 1.0
+import QtQuick 2.4
+import QtQuick.Dialogs 1.2
 
-Rectangle
-{
+Rectangle {
     id: startScreen
-//    anchors.fill : parent
+    //    anchors.fill : parent
     width: parent.width
     height: parent.height
     color: "lightsteelblue"
     z: 1
-    Image
-    {
+    Image {
         anchors.fill: parent
         source: "qrc:///images/presentation.png"
     }
 
-    Column
-    {
+    Column {
         spacing: 25
-        anchors
-        {
+        anchors {
             right: parent.right
             bottom: parent.bottom
-
             rightMargin: 100
             bottomMargin : 90
         }
 
-        Rectangle
-        {
+        StartScreenButton {
             id: openButton
-            width: 350
-            height: 50
-            radius: 10
-            Text
-            {
-                anchors.centerIn: parent
-                text: "Open presentation"
-                font.pointSize: 20
-                font.italic: true
+            text: "Open presentation"
+            onPressed: {
+                fileDialog.nameFilters = ["Presentation (*.json)"]
+                fileDialog.open()
             }
-            MouseArea
-            {
-                anchors.fill: parent
-                onClicked:
-                {
-                    console.log("clicked")
-                    fileDialog.nameFilters = ["Presentation (*.json)"];
-                    fileDialog.open();
-
-                }
-            }
-
         }
-        Rectangle
-        {
-            id: createButton
-            width: 350
-            height: 50
-            radius: 10
-            Text
-            {
-                anchors.centerIn: parent
-                text: "Create new presentation"
-                font.pointSize: 20
-                font.italic: true
+        StartScreenButton {
+            text: "Create new presentation"
+            onPressed: {
+                helper.setCreatePresentationMode();
+                presentationLoader.setSource("TestPresentation.qml")
+                startScreen.state = "closed"
             }
-            MouseArea
-            {
-                anchors.fill: parent
-                onClicked:
-                {
-                    console.log("clicked")
-                    helper.setCreatePresentationMode();
-                    presentationLoader.setSource("TestPresentation.qml")
-                    startScreen.state = "closed"
-                }
-            }
-
         }
     }
-
 
     states:
         [
@@ -110,9 +68,8 @@ Rectangle
         title: "Please choose a file"
         selectMultiple: false
         onAccepted: {
-             helper.openPresentation(fileDialog.fileUrl)
-             startScreen.state = "closed"
-             console.log("==========", presentationLoader.item.currentSlide, presentationLoader.item.slides[presentationLoader.item.currentSlide].title)
+            helper.openPresentation(fileDialog.fileUrl)
+            startScreen.state = "closed"
         }
 
     }

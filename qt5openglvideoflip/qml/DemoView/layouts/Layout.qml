@@ -1,12 +1,10 @@
-import QtQuick 2.0
+import QtQuick 2.4
 import "../"
 import "../items/"
 
-Item
-{
+Item {
     id: templateItem
     anchors.fill: parent
-
     property int itemWidth
     property int itemHeight
     property int itemsCount
@@ -25,8 +23,7 @@ Item
         }
     }
 
-    Component
-    {
+    Component {
         id: gridDelegate
         Item{
             id: delegateItem
@@ -35,13 +32,11 @@ Item
             width: gridView.cellWidth
             height:  itemHeight()
             objectName: "delegate"
-            function itemHeight()
-            {
-                if (gridView.currentItem.children[1].contentItem && gridView.currentItem.children[1].contentItem.type === "text")
-                {
-                    console.log(gridView.currentItem.children[1].contentItem.textItem.height, gridView.cellHeight)
-                    if ( gridView.currentItem.children[1].contentItem.textItem.height > gridView.cellHeight)
-                    {
+            function itemHeight() {
+                if (gridView.currentItem.children[1].contentItem
+                        && gridView.currentItem.children[1].contentItem.type === "text") {
+                    if ( gridView.currentItem.children[1].contentItem.textItem.height >
+                            gridView.cellHeight) {
                         return gridView.currentItem.children[1].contentItem.textItem.height*1.3
                     }
                 }
@@ -50,13 +45,10 @@ Item
 
             Rectangle {
                 id: highlightRect
-                //                width: block.width + 10;
-                //                height: block.height + 10
                 anchors.fill: parent
                 color: "lightsteelblue"
                 visible: (gridView.currentIndex === index && selected)
-                onVisibleChanged:
-                {
+                onVisibleChanged: {
                     if (!visible && templateItem.parent)
                         templateItem.parent.editSelectedItemProperties = false
                 }
@@ -64,8 +56,7 @@ Item
                 //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
             }
 
-            Block
-            {
+            Block {
                 id: block
                 width: parent.width-10
                 height: parent.height-10
@@ -78,8 +69,7 @@ Item
                         delegateItem.selected = !delegateItem.selected
                         templateItem.parent.selectedItem = gridView.currentItem.children[1].contentItem
                     }
-                    onPressAndHold:
-                    {
+                    onPressAndHold: {
                         gridView.currentIndex = index
                         delegateItem.selected = true
                         templateItem.parent.selectedItem = gridView.currentItem.children[1].contentItem
@@ -87,21 +77,17 @@ Item
                     }
                 }
             }
-            Component.onCompleted:
-            {
+            Component.onCompleted: {
                 selected = false
             }
-//            Behavior on x{SmoothedAnimation{velocity: 400}}
-//            Behavior on y{SmoothedAnimation{velocity: 400}}
-//            Behavior on width{SmoothedAnimation{velocity: 410}}
-//            Behavior on height{SmoothedAnimation{velocity: 260}}
+            //            Behavior on x{SmoothedAnimation{velocity: 400}}
+            //            Behavior on y{SmoothedAnimation{velocity: 400}}
+            //            Behavior on width{SmoothedAnimation{velocity: 410}}
+            //            Behavior on height{SmoothedAnimation{velocity: 260}}
         }
-
     }
 
-
-    Item
-    {
+    Item {
         id: layoutContentItem
         x: (templateItem.parent) ? templateItem.parent.contentX : 0
         y: (templateItem.parent) ? templateItem.parent.contentY : 0
@@ -112,15 +98,8 @@ Item
         GridView {
             id: gridView
             objectName: "blocksView"
-            function getItem(i)
-            {
 
-                    positionViewAtIndex(i, GridView.Visible)
-                    return getDelegateInstanceAt(i);
-            }
-
-            anchors
-            {
+            anchors {
                 fill:  parent
                 leftMargin: (parent.width - cellWidth*columnsCount)/2
                 rightMargin: (parent.width - cellWidth*columnsCount)/2
@@ -133,18 +112,19 @@ Item
             interactive: false
             //            highlight: highlightBar
             //            highlightFollowsCurrentItem: false
-
+            function getItem(i) {
+                positionViewAtIndex(i, GridView.Visible)
+                return getDelegateInstanceAt(i)
+            }
             function getDelegateInstanceAt(index) {
-                        for(var i = 0; i < contentItem.children.length; ++i) {
-                            var item = contentItem.children[i];
-                            if (item.objectName === "delegate" && item.itemIndex === index)
-                            {
-                                console.log("return item", item)
-                                return item;
-                            }
-                        }
-                        return undefined;
+                for(var i = 0; i < contentItem.children.length; ++i) {
+                    var item = contentItem.children[i]
+                    if (item.objectName === "delegate" && item.itemIndex === index) {
+                        return item
                     }
+                }
+                return undefined
+            }
 
         }
 

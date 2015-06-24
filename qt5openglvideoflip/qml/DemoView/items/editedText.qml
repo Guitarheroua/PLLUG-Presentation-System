@@ -1,8 +1,7 @@
-import QtQuick 2.0
+import QtQuick 2.4
 import "../StringUtils.js" as StringUtils
 
-Rectangle
-{
+Rectangle {
     id: editedTextItem
     property string type : "text"
     property alias textItem: textEdit
@@ -34,8 +33,7 @@ Rectangle
 //                                   'text_decoration': 'none'}
     property variant attributes: ({})
 
-    function createStyleString()
-    {
+    function createStyleString() {
         var rStyle = "<span style=\"";
         for (var prop in attributes)
         {
@@ -43,61 +41,49 @@ Rectangle
             rStyle += lPropertyName.replace("_", "-") + ":" + attributes[prop]+";"
         }
         rStyle = rStyle.substring(0,rStyle.lastIndexOf(";")) + "\">"
-        console.log(rStyle)
         return rStyle
     }
 
-    onFontBoldChanged:
-    {
+    onFontBoldChanged: {
         changePropertyValue('font_weight', (fontBold) ? 'bold' : 'normal' )
     }
 
-    onFontItalicChanged:
-    {
+    onFontItalicChanged: {
         changePropertyValue('font_style', (fontItalic) ? 'italic' : 'normal')
     }
 
-    onFontSizeChanged:
-    {
+    onFontSizeChanged: {
         changePropertyValue('font_size', fontSize+"pt")
     }
 
-    onFontStrikeoutChanged:
-    {
+    onFontStrikeoutChanged: {
         changePropertyValue('text_decoration', (fontStrikeout) ? 'line-through' : 'none')
     }
-    onFontUnderlineChanged:
-    {
+    onFontUnderlineChanged: {
         changePropertyValue('text_decoration', (fontUnderline) ? 'underline' : 'none')
     }
 
-    onSelectedColorChanged:
-    {
+    onSelectedColorChanged: {
         changePropertyValue('color', selectedColor)
     }
 
-    onBulletsChanged:
-    {
+    onBulletsChanged: {
         addBullets()
     }
 
 
-    function changePropertyValue(pProperty, pValue)
-    {
+    function changePropertyValue(pProperty, pValue) {
         setPropertyValue(pProperty,pValue)
         formatSelectedText()
     }
 
-    function setPropertyValue(pProperty, pValue)
-    {
+    function setPropertyValue(pProperty, pValue) {
         var temp = attributes
         temp[pProperty] = pValue
         attributes = temp
     }
 
-
-    function addBullets()
-    {
+    function addBullets() {
         var s1 = textEdit.getFormattedText(0, textEdit.cursorPosition)
         var i = s1.lastIndexOf("<p style=");
         var j = s1.lastIndexOf("</span>");
@@ -109,45 +95,36 @@ Rectangle
         s2 = s2.substring(s2.indexOf("\">")+2,s2.lastIndexOf(">")+1 )
         var l = s2.indexOf("</p>")
         s2 = s2.insert(l+4, "</li>")
-        console.log("_______________", s1+s2)
         var s = s1+s2
         s = s.replace("<!--StartFragment-->", "")
         s = s.replace("<!--EndFragment-->", "")
         textEdit.text = s
     }
 
-    function formatSelectedText()
-    {
-        console.log("$$$$$$$$$$$$", textEdit.getFormattedText(textEdit.selectionStart, textEdit.selectionEnd))
+    function formatSelectedText() {
         textEdit.prev = textEdit.getFormattedText(0,textEdit.selectionStart);
         textEdit.after = textEdit.getFormattedText(textEdit.selectionEnd, textEdit.text.lastIndexOf(">")-textEdit.selectionEnd )
         var k = textEdit.prev.indexOf("<!--EndFragment-->");
         textEdit.prev = textEdit.prev.substring(0,k);
         var i = textEdit.after.indexOf("<!--StartFragment-->");
         textEdit.after = textEdit.after.substring(i+20,textEdit.after.lastIndexOf(">")+1);
-//                console.log("\n", textEdit.prev, "\n", textEdit.after, "\n", textEdit.selectedText)
         textEdit.selectionStartPos = textEdit.selectionStart
         textEdit.selectionEndPos = textEdit.selectionEnd
         var s = textEdit.prev + createStyleString() + textEdit.selectedText + "</span>"  + textEdit.after
-        console.log("\n++++",s )
         textEdit.text = s
         textEdit.select(textEdit.selectionStartPos,textEdit.selectionEndPos )
-
-//                console.log("\nRESULT\n", textEdit.text)
     }
 
-    function getTextStyle(pText)
-    {
+    function getTextStyle(pText) {
         var i = pText.indexOf("<!--StartFragment-->")
         var j = pText.indexOf("<!--EndFragment-->")
         pText = pText.substring(i+20,j)
         pText = pText.substring(1, pText.length )
         pText = pText.substring(0,pText.indexOf('>'))
-        return pText;
+        return pText
     }
 
-    function parseStyle(pStyleString)
-    {
+    function parseStyle(pStyleString) {
         var i = pStyleString.indexOf("\"")
         var k = pStyleString.lastIndexOf("\"")
         var s = pStyleString.substring(i+1,k)
@@ -161,15 +138,19 @@ Rectangle
         }
 
     }
-
     color: backgroundColor
     anchors.fill: parent
     z: parent.z + 1
 
-    TextEdit{
+    TextEdit {
         id: textEdit
-        anchors
-        {
+        property bool selecting : false
+        property string prev
+        property string after
+        property string selected
+        property int selectionStartPos
+        property int selectionEndPos
+        anchors {
             top:  parent.top
             left: parent.left
         }
@@ -185,27 +166,17 @@ Rectangle
         persistentSelection: true
         focus: true
         activeFocusOnPress: true
-        onSelectedTextChanged:
-        {
+        onSelectedTextChanged: {
             attributes = {}
-            textEdit.selected = textEdit.getFormattedText(textEdit.selectionStart, textEdit.selectionEnd);
+            textEdit.selected = textEdit.getFormattedText(textEdit.selectionStart, textEdit.selectionEnd)
             parseStyle(getTextStyle(textEdit.selected))
         }
-        onCursorPositionChanged:
-        {
-            var a = textEdit.getFormattedText(textEdit.cursorPosition-1, textEdit.cursorPosition);
-//            console.log("^^^^^",a)
+        onCursorPositionChanged: {
+            textEdit.getFormattedText(textEdit.cursorPosition-1, textEdit.cursorPosition)
         }
 
-        property bool selecting : false
-        property string prev
-        property string after
-        property string selected
-        property int selectionStartPos
-        property int selectionEndPos
 
-        MouseArea
-        {
+        MouseArea {
             anchors.fill: parent
             onClicked: {
                 textEdit.text = (textEdit.text === defaultText) ? "" : textEdit.text
@@ -213,21 +184,18 @@ Rectangle
                 textEdit.deselect()
                 textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
             }
-            onDoubleClicked:
-            {
+            onDoubleClicked: {
                 textEdit.selectWord()
             }
 
-            onPressAndHold:
-            {
+            onPressAndHold: {
                 textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
                 textEdit.selecting = true
             }
-            onMouseXChanged:
-            {
-                if (textEdit.selecting)
-                {
-                    textEdit.moveCursorSelection(textEdit.positionAt(mouse.x+x,mouse.y+y), TextInput.SelectCharacters);
+            onMouseXChanged: {
+                if (textEdit.selecting) {
+                    textEdit.moveCursorSelection(textEdit.positionAt(mouse.x+x,mouse.y+y),
+                                                 TextInput.SelectCharacters)
                 }
             }
 
@@ -235,10 +203,8 @@ Rectangle
 
     }
 
-    Keys.onPressed:
-    {
-        if ((event.key == Qt.Key_A) && (event.modifiers & Qt.ControlModifier))
-        {
+    Keys.onPressed: {
+        if ((event.key === Qt.Key_A) && (event.modifiers & Qt.ControlModifier)) {
             textEdit.selectAll()
         }
     }
