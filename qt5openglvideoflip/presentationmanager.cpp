@@ -56,13 +56,15 @@ void PresentationManager::openPresentation(const QString &pPath)
     {
         qDebug() << "\nno transition component\n";
     }
-    qobject_cast<QQuickItem*>(lTransitionObject)->setParentItem(mPresentation);
-    qobject_cast<QQuickItem*>(lTransitionObject)->setProperty("objectName",lTransition);
-    qobject_cast<QQuickItem*>(lTransitionObject)->setProperty("currentSlide",0);
-    qobject_cast<QQuickItem*>(lTransitionObject)->setProperty("screenWidth",mHelper->screenSize().width());
-    qobject_cast<QQuickItem*>(lTransitionObject)->setProperty("screenHeight",mHelper->screenSize().height());
-    QVariant var1;
-    mPresentation->setProperty("transition", var1.fromValue<QObject*>(lTransitionObject));
+    else {
+        qobject_cast<QQuickItem*>(lTransitionObject)->setParentItem(mPresentation);
+        qobject_cast<QQuickItem*>(lTransitionObject)->setProperty("objectName",lTransition);
+        qobject_cast<QQuickItem*>(lTransitionObject)->setProperty("currentSlide",0);
+        qobject_cast<QQuickItem*>(lTransitionObject)->setProperty("screenWidth",mHelper->screenSize().width());
+        qobject_cast<QQuickItem*>(lTransitionObject)->setProperty("screenHeight",mHelper->screenSize().height());
+        QVariant var1;
+        mPresentation->setProperty("transition", var1.fromValue<QObject*>(lTransitionObject));
+    }
 
 
     //    qDebug() << lPresentationName << lSchemeVersion;

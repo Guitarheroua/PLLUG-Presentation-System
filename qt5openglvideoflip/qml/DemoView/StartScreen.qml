@@ -8,10 +8,10 @@ Rectangle {
     height: parent.height
     color: "lightsteelblue"
     z: 1
-    Image {
-        anchors.fill: parent
-        source: "qrc:///images/presentation.png"
-    }
+//    Image {
+//        anchors.fill: parent
+//        source: "qrc:///images/presentation.png"
+//    }
 
     Column {
         spacing: 25

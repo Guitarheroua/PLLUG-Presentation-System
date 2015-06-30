@@ -1,4 +1,6 @@
 {
+  "name" : "First Presentation",
+  "transition" : "PageFlipShaderEffect"
   "pages": [
   {
       "background-color": "red",
