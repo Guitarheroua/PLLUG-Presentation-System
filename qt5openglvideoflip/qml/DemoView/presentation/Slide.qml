@@ -146,7 +146,7 @@ Item {
             height: parent.height-titleRect.borderWidth*2
             anchors.centerIn: parent
             color: (helper.enableEdit())? "white" : "transparent"
-            TextItem {
+            TextItem1 {
                 id: textItem
                 fontSize: titleFontSize
                 fontFamily: titleFontFamily
