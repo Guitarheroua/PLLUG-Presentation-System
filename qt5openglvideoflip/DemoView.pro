@@ -94,7 +94,8 @@ OTHER_FILES += \
     qml/DemoView/items/TitleItem.qml \
     qml/DemoView/items/ImageItem.qml \
     qml/DemoView/items/VideoItem.qml \
-    qml/DemoView/items/WebItem.qml
+    qml/DemoView/items/WebItem.qml \
+    qml/DemoView/items/TextItem.qml
 
 RESOURCES += \
     resources.qrc
@@ -118,8 +119,3 @@ RESOURCES += \
 #    QMAKE_BUNDLE_DATA += DATA
 #    QMAKE_INFO_PLIST = Info.plist
 #}
-
-DISTFILES += \
-    qml/DemoView/items/TextItem1.qml
-
-
