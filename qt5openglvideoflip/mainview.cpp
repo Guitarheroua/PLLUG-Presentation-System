@@ -63,17 +63,6 @@ MainView::MainView(const QString &pContentDir, QWindow *parent) :
     connect(mHelper, SIGNAL(createPresentationMode()), mManager, SLOT(setCreateEditPresentationMode()));
     connect(mHelper, SIGNAL(open(QString)), mManager, SLOT(openPresentation(QString)));
 
-    //    QQuickItem *rootItem = this->rootObject();
-
-    //    for (int i=0; i < mParser->pagesList().count(); i++)
-    //    {
-    //        Page* item = mParser->pagesList().at(i);
-    //        item->setVisible(false);
-    //        item->setVisible((i == 0));
-    //        item->setParentItem(rootItem);
-    //        // connect(item, SIGNAL(fullBrowser(QQuickItem*)), this, SLOT(test(QQuickItem*)));
-    //        mPagesList.append(item);
-    //    }
     this->setResizeMode(QQuickView::SizeRootObjectToView);
 
 
