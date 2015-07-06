@@ -5,7 +5,7 @@
 #include <QDesktopWidget>
 #include <QLibraryInfo>
 #include <QQmlContext>
-#include <QQuickView>
+#include <QQmlApplicationEngine>
 #include <QString>
 #include <QDebug>
 #include <QDir>
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
         MacHelper *helper = new MacHelper();
         helper->setAspectRatio(view->winId());
     #endif
-        view->show();
+        view->showWindow();
 
     //    QString expectedPath = QCoreApplication::applicationDirPath() + QDir::separator() + "QtWebProcess";
     //    qDebug() << "\n!!!!!\n" << expectedPath << QFile(expectedPath).exists();

@@ -1,21 +1,23 @@
 #ifndef MAINVIEW_H
 #define MAINVIEW_H
 
-#include <QQuickView>
+#include <QObject>
+#include <QSize>
 
 class Slide;
-class QWindow;
 class Helper;
 class MegaParse;
+class QQuickWindow;
 class PresentationManager;
-class MainView : public QQuickView
+class QQmlApplicationEngine;
+class MainView : public QObject
 {
     Q_OBJECT
 public:
-    explicit MainView( const QString& pContentDir, QWindow *parent = 0);
+    explicit MainView(const QString& pContentDir, QObject* parent = 0);
+    void showWindow();
 
 protected:
-    //    void resizeEvent(QResizeEvent *);
 #if defined(Q_OS_WIN)
     bool nativeEvent(const QByteArray&, void*, long*);
 #endif
@@ -23,17 +25,12 @@ protected:
 
 signals:
     
-private slots:
-    void test(QQuickItem*);
-    void test1(int);
-
-
 private:
+    QQuickWindow* mMainWindow;
+    QQmlApplicationEngine* mQmlEngine;
     QString mContentDir;
     MegaParse *mParser;
-    //    QList<Slide*> mSlidesList;
     QSize mActualSize;
-    QSize mOldSize;
     qreal mAspectRatio;
     Helper* mHelper;
     PresentationManager* mManager;

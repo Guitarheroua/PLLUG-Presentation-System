@@ -6,10 +6,11 @@
 #include <QJsonArray>
 #include <QQmlEngine>
 #include <QQmlContext>
+#include <QQuickWindow>
 
 #include "helper.h"
 
-PresentationManager::PresentationManager(const QString &pDir, QQuickItem *pRootObject, Helper* pHelper, QObject *parent)
+PresentationManager::PresentationManager(const QString &pDir, QQuickWindow *pRootObject, Helper* pHelper, QObject *parent)
 {
     Q_UNUSED(parent);
     mContentDir = pDir;
@@ -18,7 +19,6 @@ PresentationManager::PresentationManager(const QString &pDir, QQuickItem *pRootO
     mMode = PresentationManager::SlideShow;
 
 }
-
 
 void PresentationManager::openPresentation(const QString &pPath)
 {

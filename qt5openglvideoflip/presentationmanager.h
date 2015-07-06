@@ -6,6 +6,7 @@
 #include <QVariant>
 
 class Helper;
+class QQuickWindow;
 class QQuickItem;
 class PresentationManager : public QObject
 {
@@ -17,7 +18,7 @@ public:
         Edit,
         SlideShow
     };
-    explicit PresentationManager(const QString&, QQuickItem*, Helper *, QObject *parent = 0);
+    explicit PresentationManager(const QString&, QQuickWindow *, Helper *, QObject *parent = 0);
     void savePresentation(const QString &);
     void loadPresentation();
     PresentationMode mode();
@@ -35,7 +36,7 @@ private:
     QString mContentDir;
     Helper* mHelper;
     QQuickItem* mPresentation;
-    QQuickItem* mRootObject;
+    QQuickWindow* mRootObject;
 
 };
 

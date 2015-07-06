@@ -15,7 +15,6 @@ BlocksView::BlocksView(QQuickItem *parent) :
 void BlocksView::setModel(BlocksModel *pModel)
 {
     mModel = pModel;
-    qDebug() << mModel;
     emit modelChanged();
 }
 

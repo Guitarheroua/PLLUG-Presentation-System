@@ -1,6 +1,7 @@
 import QtQuick 2.4
+import QtQuick.Controls 1.2
 
-Rectangle {
+ApplicationWindow {
     id: mainRect
     objectName: "mainRect"
 //    color: "lightblue"
@@ -17,15 +18,15 @@ Rectangle {
         id: startScreen
     }
 
-    states: [
-        State{
-            id: editState
-        },
-        State{
-            id: showState
-        }
+//    states: [
+//        State{
+//            id: editState
+//        },
+//        State{
+//            id: showState
+//        }
 
-    ]
+//    ]
 
 
 
