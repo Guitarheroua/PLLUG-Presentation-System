@@ -22,7 +22,7 @@ Item {
             height: menu.itemWidth
             title: "Text"
             onTriggered: {
-                blockLoader.source = "items/TextItem1.qml"
+                blockLoader.source = "items/TextItem.qml"
                 menu.selectedItem = 0
                 menu.visible = false
             }

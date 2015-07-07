@@ -296,7 +296,7 @@ void PresentationManager::setBlockProperties(QQuickItem *pBlock, QVariantMap pPr
     QString lItemName = lBlockType;
     if ("text" == lBlockType)
     {
-        lItemName = "TextItem1";
+        lItemName = "TextItem";
     }
     QUrl url = QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/items/%2.qml").arg(mContentDir).arg(lItemName));
 

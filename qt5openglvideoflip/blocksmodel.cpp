@@ -21,38 +21,42 @@ BlocksModel::~BlocksModel()
 
 QVariant BlocksModel::data(const QModelIndex &index, int role) const
 {
-    if (index.row() < 0 || index.row() >= mBlocksList.count())
-        return QVariant();
-
-    const Block *block = mBlocksList[index.row()];
-    if (role == CaptionRole)
+    QVariant returnData;
+    if (index.row() >= 0 || index.row() < mBlocksList.count())
     {
-        QVariant lCaption;
-        lCaption.setValue(block->caption());
-        return lCaption;
-    }
-    else if (role == MediaContentRole)
-    {
-        QVariant lMediaContent;
-        lMediaContent.setValue(block->mediaContent());
-        return lMediaContent;
-    }
-    else if (role == SourceTypeRole)
-        return block->sourceType();
-    else if (role == SourceRole)
-        return block->source();
-    else if (role == WidthRole)
-        return block->width();
-    else if (role == HeightRole)
-        return block->height();
-    else if (role == XRole)
-        return block->x();
-    else if (role == YRole)
-        return block->y();
-    else if (role == BackgroundRole)
-        return block->background();
+        const Block *block = mBlocksList[index.row()];
 
-    return QVariant();
+        switch (role) {
+        case CaptionRole:
+            returnData.setValue(block->caption());
+            break;
+        case MediaContentRole:
+            returnData.setValue(block->mediaContent());
+            break;
+        case SourceTypeRole:
+            returnData = block->sourceType();
+            break;
+        case SourceRole:
+            returnData.setValue(block->source());
+            break;
+        case WidthRole:
+            returnData = block->width();
+            break;
+        case HeightRole:
+            returnData = block->height();
+            break;
+        case XRole:
+            returnData = block->x();
+            break;
+        case YRole:
+            returnData = block->y();
+            break;
+        case BackgroundRole:
+            returnData = block->background();
+            break;
+        }
+    }
+    return returnData;
 }
 
 int BlocksModel::rowCount(const QModelIndex &parent) const

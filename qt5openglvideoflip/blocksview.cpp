@@ -7,9 +7,9 @@
 
 BlocksView::BlocksView(QQuickItem *parent) :
     QQuickItem(parent)
+   ,mEngine(new QQmlEngine())
 {
     connect(this, SIGNAL(modelChanged()), this, SLOT(test()));
-    mEngine = new QQmlEngine();
 }
 
 void BlocksView::setModel(BlocksModel *pModel)
