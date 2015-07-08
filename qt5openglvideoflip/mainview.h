@@ -21,7 +21,7 @@ protected:
 #if defined(Q_OS_WIN)
     bool nativeEvent(const QByteArray&, void*, long*);
 #endif
-    bool event(QEvent * event);
+//    bool event(QEvent * event);
 
 signals:
     

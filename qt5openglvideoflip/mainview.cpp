@@ -118,18 +118,18 @@ bool MainView::nativeEvent(const QByteArray& eventType, void* pMessage, long* re
 }
 #endif
 
-bool MainView::event(QEvent *event)
-{
-//    if (event->type() == QEvent::Close)
-//    {
-//        if (mManager->mode() == PresentationManager::Create || mManager->mode() == PresentationManager::Edit )
-//        {
-//            QString lFilePath = QFileDialog::getSaveFileName(0, tr("Save Presentation"), QDir::currentPath(), tr("Presentation (*.json)"));
-//            mManager->savePresentation(lFilePath);
-//        }
-//    }
-//    return QObject::event(event);
-    return false;
-}
+//bool MainView::event(QEvent *event)
+//{
+////    if (event->type() == QEvent::Close)
+////    {
+////        if (mManager->mode() == PresentationManager::Create || mManager->mode() == PresentationManager::Edit )
+////        {
+////            QString lFilePath = QFileDialog::getSaveFileName(0, tr("Save Presentation"), QDir::currentPath(), tr("Presentation (*.json)"));
+////            mManager->savePresentation(lFilePath);
+////        }
+////    }
+//    return QQuickView::event(event);
+//}
+
 
 

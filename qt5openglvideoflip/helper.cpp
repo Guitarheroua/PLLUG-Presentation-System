@@ -52,14 +52,16 @@ QStringList Helper::fonts()
 
 int Helper::fontIndex(const QString &pFont)
 {
-    foreach (QString font, fonts())
+    int index{};
+    for (const QString &font : fonts())
     {
         if ( pFont == font)
         {
-            return fonts().indexOf(font);
+            index = fonts().indexOf(font);
+            break;
         }
     }
-    return 0;
+    return index;
 }
 
 void Helper::openPresentation(const QUrl &pPath)
