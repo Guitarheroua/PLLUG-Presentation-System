@@ -12,10 +12,6 @@ Slide::Slide(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, Q
     QQuickItem(parent)
 {
     mEngine = new QQmlEngine();
-    QQmlContext* lContext = mEngine->rootContext();
-    lContext->setContextProperty("helper",mHelper);
-//    lContext->setContextProperty("screenPixelWidth", qApp->desktop()->screenGeometry().width());
-//    lContext->setContextProperty("screenPixelHeight",qApp->desktop()->screenGeometry().height());
     mContentDir = pContentDir;
 
     QQmlComponent *component = new QQmlComponent(mEngine,QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/presentation/Slide.qml").arg(pContentDir)));

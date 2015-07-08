@@ -11,11 +11,6 @@ Helper::Helper( QObject *parent) :
     mEnableEdit = false;
 }
 
-void Helper::test1(const QString &pString)
-{
-    qDebug() << "##########"<< pString;
-}
-
 QString Helper::readShader(const QString &pFileName)
 {
     QFile file(QString(":/shaders/%1").arg(pFileName));

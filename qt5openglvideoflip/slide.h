@@ -18,7 +18,6 @@ public:
     void setModel(BlocksModel* pModel);
     BlocksModel *blockModel() const;
 
-
 signals:
     void modelChanged();
     void fullBrowser(QQuickItem*);

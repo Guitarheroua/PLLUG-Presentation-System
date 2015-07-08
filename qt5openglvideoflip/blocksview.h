@@ -8,7 +8,6 @@ class QQmlEngine;
 class BlocksView : public QQuickItem
 {
     Q_OBJECT
-//    Q_PROPERTY(QObject* model READ model WRITE setModel NOTIFY modelChanged)
 public:
     explicit BlocksView(QQuickItem *parent = 0);
     void setModel(BlocksModel* pModel);
