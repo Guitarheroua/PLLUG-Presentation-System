@@ -7,10 +7,10 @@ Item {
     width: parent.width
     height: delegateItemText.height+lineRect.height
     //        color: "transparent"
-    property var selectedItem
+    property Item selectedItem
     property int subItemHeight: 35
     onSelectedItemChanged:{
-        fontFamiliesCombobox.currentIndex = (selectedItem !== undefined && selectedItem.textItem)
+        fontFamiliesCombobox.currentIndex = (selectedItem !== null && selectedItem.textItem)
                 ? helper.fontIndex(selectedItem.fontFamily) : 0
     }
 
@@ -65,7 +65,7 @@ Item {
                         subItemsRect.height = (height === rect.subItemHeight) ? subItemsRect.height : subItemsRect.height + (height - subItemHeight)
                     }
                     onSelectedColorChanged: {
-                        if (selectedItem !== undefined && selectedItem.textItem)
+                        if (selectedItem !== null && selectedItem.textItem)
                         {
                             //                            if (selectedItem.textItem.selectedText === "")
                                 selectedItem.fontColor = selectedColor
@@ -116,7 +116,7 @@ Item {
                     }
                 }
                 onCurrentTextChanged: {
-                    if (selectedItem !== undefined && selectedItem.textItem)
+                    if (selectedItem !== null && selectedItem.textItem)
                         selectedItem.fontFamily = currentText
 
                 }

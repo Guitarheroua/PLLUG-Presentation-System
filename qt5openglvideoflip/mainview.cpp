@@ -37,14 +37,18 @@ MainView::MainView(const QString &pContentDir, QObject *parent)
     mHelper = new Helper();
     mHelper->setScreenPixelSize(qApp->desktop()->screenGeometry().size());
 
-    QString lSourceFile = QString::fromLatin1("%1/../qml/DemoView/main.qml").arg(mContentDir);
     mQmlEngine = new QQmlApplicationEngine();
     mQmlEngine->rootContext()->setContextProperty("helper",mHelper);
     mQmlEngine->rootContext()->setContextProperty("screenPixelWidth", mHelper->screenSize().width());
     mQmlEngine->rootContext()->setContextProperty("screenPixelHeight", mHelper->screenSize().height());
 
-    mQmlEngine->load(QUrl::fromLocalFile(lSourceFile));
-    mMainWindow = qobject_cast<QQuickWindow*>(mQmlEngine->rootObjects().at(0));
+    QUrl qmlFilePath = QUrl(QStringLiteral("qrc:/main.qml"));
+    QQmlComponent component(mQmlEngine, qmlFilePath);
+    if (!component.isReady())
+    {
+        qDebug() << "Error while creating New Project window :" << component.errorString();
+    }
+    mMainWindow = qobject_cast<QQuickWindow*>(component.create(mQmlEngine->rootContext()));
     mManager = new PresentationManager(mContentDir, mMainWindow, mHelper);
     connect(mHelper, SIGNAL(createPresentationMode()), mManager, SLOT(setCreateEditPresentationMode()));
     connect(mHelper, SIGNAL(open(QString)), mManager, SLOT(openPresentation(QString)));

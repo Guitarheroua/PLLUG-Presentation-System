@@ -51,22 +51,13 @@ Rectangle {
             contents: [
                 ListElement {
                     name: "Flipping page"
-                    value: "transition/PageFlipShaderEffect.qml"
+                    value: "transitions/PageFlipShaderEffect.qml"
                 }
 
             ]
         }
 
     }
-
-    //    Component.onCompleted:
-    //    {
-    //        for(var i=0; i<textPropertiesModel.count; ++i)
-    //        {
-    //            slideOptionsModel.append(textPropertiesModel.get(i))
-    //            slideOptionsModel.get(slideOptionsModel.count-1).contents = textPropertiesModel.get(i).contents
-    //        }
-    //    }
 
     Component {
         id: optionsListViewDelegate
