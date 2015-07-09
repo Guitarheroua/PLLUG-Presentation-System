@@ -117,8 +117,6 @@ Item {
         border.width: 1
         border.color: "black"
 
-
-
     }
 
     Item  {
@@ -138,9 +136,8 @@ Item {
         z: parent.z + 1
 
         onSelectedChanged: {
-            //rrr.visible = !(titleRect.selected);
-            if (titleRect.selected) rrr.visible = true
-            else rrr.visible = false
+            if (titleRect.selected) textPropertiesItem.visible = true
+            else textPropertiesItem.visible = false
         }
 
         Rectangle {
@@ -182,13 +179,6 @@ Item {
         }
     }
 
-//    TextPropertiesItem{
-//        id: rrr
-//        visible: false
-//        anchors.top: titleRect.bottom
-//        anchors.margins: 5
-//        anchors.horizontalCenter: titleRect.horizontalCenter
-//    }
 
     Item {
         id: contentItem
@@ -199,8 +189,9 @@ Item {
         z: 10
 
         TextPropertiesItem{
-            id: rrr
-            visible: true
+            id: textPropertiesItem
+            visible: false
+            selectedItem: slide.selectedItem
         }
 
         Text {
