@@ -247,7 +247,7 @@ SplitView{
         }
         SlidesListPanel {
             id: slidesListPanel
-            Layout.minimumHeight: 15
+            Layout.minimumHeight: 17
             Layout.maximumHeight: 100
             slides: presentation.slides
             z: 3

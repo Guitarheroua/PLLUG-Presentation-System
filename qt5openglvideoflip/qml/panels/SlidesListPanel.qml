@@ -36,7 +36,9 @@ Rectangle {
             width: slidesListView.itemWidth + 10
             height: listViewItem.height
             color: "transparent"
+
             Rectangle {
+
                 id: hightlightRect
                 width: parent.width
                 height: parent.height
@@ -46,10 +48,11 @@ Rectangle {
 
             }
             Rectangle {
-                width: /*(slidesListView.currentIndex === index) ? */parent.width-10 /*: parent.width*/
+                width: /*(slidesListView.currentIndex === index) ? */parent.width -10 /*: parent.width*/
                 height: /*(slidesListView.currentIndex === index) ? */parent.height - 10 /*: parent.height*/
                 anchors.centerIn: parent
                 color: "white"
+                clip: true
                 z: parent.z+1
                 //            opacity: (slidesListView.currentIndex === model.index) ? 1.0 : 0.8
                 Text {
@@ -203,12 +206,13 @@ Rectangle {
             bottom: parent.bottom
             topMargin: 15
             leftMargin: 10
-            bottomMargin: 10
+            bottomMargin: 2
         }
         width: 50
         z: listViewItem.z+1
         opacity: parent.opacity
         color: "steelblue"
+        clip: true
         Text {
             text: qsTr("Add")
             anchors.centerIn: parent

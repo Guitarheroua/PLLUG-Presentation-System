@@ -31,6 +31,7 @@ Rectangle {
             width: listViewItem.width
             height: layoutHeight
             color: "white"
+            clip: true
             Text {
                 id: text
                 anchors.centerIn: parent

@@ -226,7 +226,7 @@ Rectangle {
 
     }
 
-    Behavior on x { SmoothedAnimation { velocity: 400 } }
+    //Behavior on x { SmoothedAnimation { velocity: 400 } }
 
     state: "Closed"
 
