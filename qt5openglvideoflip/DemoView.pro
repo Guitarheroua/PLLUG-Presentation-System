@@ -96,7 +96,8 @@ OTHER_FILES += \
     qml/DemoView/items/ImageItem.qml \
     qml/DemoView/items/VideoItem.qml \
     qml/DemoView/items/WebItem.qml \
-    qml/DemoView/items/TextItem.qml
+    qml/DemoView/items/TextItem.qml \
+    qml/DemoView/items/TextPropertiesItem.qml
 
 RESOURCES += \
     resources.qrc

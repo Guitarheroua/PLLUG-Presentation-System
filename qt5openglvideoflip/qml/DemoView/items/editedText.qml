@@ -192,6 +192,7 @@ Rectangle {
                 textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
                 textEdit.selecting = true
             }
+
             onMouseXChanged: {
                 if (textEdit.selecting) {
                     textEdit.moveCursorSelection(textEdit.positionAt(mouse.x+x,mouse.y+y),

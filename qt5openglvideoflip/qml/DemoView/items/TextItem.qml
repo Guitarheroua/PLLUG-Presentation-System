@@ -27,6 +27,8 @@ Item {
 
     property string defaultText: "Click to add text"
 
+    //signal hideRect
+
     function getText() {
         return textEdit.getText(0,textEdit.text.length)
     }
@@ -110,6 +112,8 @@ Item {
             }
 
             onPressAndHold: {
+//                console.log("onPressAndHold");
+//                textItemRect.hideRect();
                 textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
                 textEdit.selecting = true
             }

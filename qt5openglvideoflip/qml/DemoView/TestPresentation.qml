@@ -197,8 +197,10 @@ Presentation {
     //        screenWidth: presentation.width
     //        screenHeight: presentation.height
     //    }
+
     LayoutsListPanel {
         id: layoutsListPanel
+
 
     }
     OptionsPanel {

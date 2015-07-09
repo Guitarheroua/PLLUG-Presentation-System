@@ -31,4 +31,5 @@
     <qresource prefix="/images">
         <file alias="presentation.png">resources/images/presentacion.png</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

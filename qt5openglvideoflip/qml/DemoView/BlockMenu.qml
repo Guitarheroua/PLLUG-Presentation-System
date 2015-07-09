@@ -3,7 +3,7 @@ import QtQuick.Dialogs 1.2
 
 Item {
     id: menu
-    property int selectedItem: 0
+    property int selectedItem: -1
     property int itemWidth: width/2 - 1
     objectName: "menu"
     z: parent.z+1

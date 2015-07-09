@@ -2,8 +2,10 @@ import QtQuick 2.4
 import "ColorUtils.js" as ColorUtils
 //import QtGraphicalEffects 1.0
 
-Item {
+//Item {
+Rectangle {
     id: colorPicker
+
     property color colorValue: ColorUtils.hsba(hueSlider.value, sbPicker.saturation,
                                                sbPicker.brightness, alphaSlider.value)
     property color givenColor
@@ -32,8 +34,11 @@ Item {
        updateColor()
     }
 
-    width: 300; height: 200
-//    color: "#3C3C3C"
+    width: 320; height: 200
+    //color: "#3C3C3C"
+    color: "#3C3C3C"
+
+
     Row {
         anchors.fill: parent
         spacing: 3
@@ -61,7 +66,8 @@ Item {
                 }
             }
             ColorSlider {
-                id: hueSlider; anchors.fill: parent
+                id: hueSlider
+                anchors.fill: parent
             }
         }
 
@@ -159,6 +165,7 @@ Item {
     function updateColor() {
         colorValue = ColorUtils.hsba(hue, saturation,
                                       brightness, alpha)
+        //selectedItemColor = colorValue
     }
 
 
