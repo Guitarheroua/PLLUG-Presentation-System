@@ -124,15 +124,15 @@ Rectangle {
     MouseArea {
         id: layoutsPanelMouseArea
         anchors.fill: parent
-        drag.axis: Drag.XAxis
-        drag.target: layoutsPanelRect
-        drag.minimumX: presentation.width - layoutsPanelRect.width
-        drag.maximumX: (layoutsPanelMouseArea.enabled) ? presentation.width - 12 : presentation.width
+        //drag.axis: Drag.XAxis
+        //drag.target: layoutsPanelRect
+        //drag.minimumX: presentation.width - layoutsPanelRect.width
+        //drag.maximumX: (layoutsPanelMouseArea.enabled) ? presentation.width - 12 : presentation.width
         enabled: presentation.slides[presentation.currentSlide].layout !== ""
-        onClicked: {
-            layoutsPanelRect.state = (layoutsPanelRect.state === "closed") ? "opened" : "closed"
-            slidesListPanel.state = "closed"
-        }
+//        onClicked: {
+//            layoutsPanelRect.state = (layoutsPanelRect.state === "closed") ? "opened" : "closed"
+//            slidesListPanel.state = "closed"
+//        }
 
     }
 
@@ -153,7 +153,7 @@ Rectangle {
         }
     }
 
-    Behavior on x { SmoothedAnimation { velocity: 400 } }
+    //Behavior on x { SmoothedAnimation { velocity: 400 } }
 
     state: "closed"
 

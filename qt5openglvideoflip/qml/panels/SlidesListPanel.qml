@@ -87,7 +87,7 @@ Rectangle {
                         //                        slideNumberRect.opacity = 0.0
                         //                    }
                     }
-                    Behavior on opacity { SmoothedAnimation{ velocity : 200}}
+                    //Behavior on opacity { SmoothedAnimation{ velocity : 200}}
                 }
             }
             states:[
@@ -328,23 +328,23 @@ Rectangle {
     MouseArea  {
         id: mouseArea
         anchors.fill: parent
-        drag.axis: Drag.YAxis
-        drag.target: mainRect
-        drag.minimumY: parent.parent.height - mainRect.height
-        drag.maximumY: parent.parent.height - 12
-        onClicked: {
-            mainRect.state = (mainRect.state === "closed") ? "opened" : "closed"
-        }
-        onReleased: {
-            if ( mainRect.y >= (drag.maximumY - mainRect.height/2 + 20) ) {
-                mainRect.y = drag.maximumY
-                mainRect.state = "closed"
-            }
-            else {
-                mainRect.y = drag.minimumY
-                mainRect.state = "opened"
-            }
-        }
+//        drag.axis: Drag.YAxis
+//        drag.target: mainRect
+//        drag.minimumY: parent.parent.height - mainRect.height
+//        drag.maximumY: parent.parent.height - 12
+//        onClicked: {
+//            mainRect.state = (mainRect.state === "closed") ? "opened" : "closed"
+//        }
+//        onReleased: {
+//            if ( mainRect.y >= (drag.maximumY - mainRect.height/2 + 20) ) {
+//                mainRect.y = drag.maximumY
+//                mainRect.state = "closed"
+//            }
+//            else {
+//                mainRect.y = drag.minimumY
+//                mainRect.state = "opened"
+//            }
+//        }
     }
 
     states:[
@@ -358,7 +358,7 @@ Rectangle {
         }]
 
 
-    Behavior on y { SmoothedAnimation { velocity: 200 } }
+    //Behavior on y { SmoothedAnimation { velocity: 200 } }
 
     state: "closed"
 }
