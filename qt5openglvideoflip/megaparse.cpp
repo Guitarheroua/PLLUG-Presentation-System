@@ -1,8 +1,5 @@
 #include "megaparse.h"
-#include <QStandardPaths>
-#include <QDesktopWidget>
 #include <QJsonDocument>
-#include <QApplication>
 #include <QTextStream>
 #include <QDebug>
 #include <QFile>
@@ -30,16 +27,16 @@ void MegaParse::parsePresenationData()
         QTextStream in(&data);
         jsonData = in.readAll();
     }
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData.toUtf8());
-    QString lPresentationName = jsonDoc.toVariant().toMap().value("name").toString();
-    QString lSchemeVersion = jsonDoc.toVariant().toMap().value("schemeVersion").toString();
-    QVariantList lSlidesList = jsonDoc.toVariant().toMap().value("slides").toList();
-    QVariantList list;
-    foreach(QVariant slide, lSlidesList)
-    {
+//    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData.toUtf8());
+//    QString lPresentationName = jsonDoc.toVariant().toMap().value("name").toString();
+//    QString lSchemeVersion = jsonDoc.toVariant().toMap().value("schemeVersion").toString();
+//    QVariantList lSlidesList = jsonDoc.toVariant().toMap().value("slides").toList();
+//    QVariantList list;
+//    foreach(QVariant slide, lSlidesList)
+//    {
 //       mPagesList.append(new Slide(slide.toMap(), mContentDir, QSize(qApp->desktop()->screenGeometry().width()/1.5, qApp->desktop()->screenGeometry().height()/1.5)));
 //       list.append(QVariant(new Slide(slide.toMap(), mContentDir, QSize(qApp->desktop()->screenGeometry().width()/1.5, qApp->desktop()->screenGeometry().height()/1.5))));
-    }
+//    }
 
 
 }
@@ -48,7 +45,7 @@ void MegaParse::parseTemplatesData()
 {
     QString jsonData;
     QDir lDataDir = QDir(mContentDir + "/templates/");
-    foreach(QFileInfo lFileInfo, lDataDir.entryInfoList(QDir::Files))
+    for(const QFileInfo &lFileInfo : lDataDir.entryInfoList(QDir::Files))
     {
         QFile data(lFileInfo.absoluteFilePath());
         if (data.open(QFile::ReadOnly))

@@ -1,43 +1,34 @@
 #include "mainview.h"
-#include <QQuickWindow>
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QDesktopWidget>
-#include <QQmlContext>
-#include <QQmlApplicationEngine>
 #include <QUrl>
-#include <QFile>
-#include <QDir>
 #include <QDebug>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonValue>
-#include <QJsonArray>
-#include <QMessageBox>
-#include <QTimer>
-#include <QFileDialog>
+#include <QQmlContext>
+#include <QQuickWindow>
+#include <QApplication>
+#include <QDesktopWidget>
+#include <QQmlApplicationEngine>
 
-#include "presentationmanager.h"
-#include "megaparse.h"
-#include "blocksview.h"
 #include "slide.h"
 #include "helper.h"
+#include "megaparse.h"
+#include "blocksview.h"
+#include "presentationmanager.h"
 
 #if defined(Q_OS_WIN)
 #include "qt_windows.h"
 #endif
 
-MainView::MainView(const QString &pContentDir, QObject *parent)
-    : QObject(parent)
+MainView::MainView(const QString &pContentDir, QObject *parent) :
+    QObject(parent)
+   ,mContentDir(pContentDir)
+   ,mHelper(new Helper(this))
+   ,mQmlEngine(new QQmlApplicationEngine(this))
 {
-    mContentDir = pContentDir;
 #if defined(Q_OS_MAC)
     //DON"T FORGET TO CHANGE PATH BEFORE DEPLOY!!!!
     mContentDir = "/Users/Admin/Projects/qt5openglvideoflip_1/qt5openglvideoflip/data";
 #endif
-    mHelper = new Helper();
     mHelper->setScreenPixelSize(qApp->desktop()->screenGeometry().size());
 
-    mQmlEngine = new QQmlApplicationEngine();
     mQmlEngine->rootContext()->setContextProperty("helper",mHelper);
     mQmlEngine->rootContext()->setContextProperty("screenPixelWidth", mHelper->screenSize().width());
     mQmlEngine->rootContext()->setContextProperty("screenPixelHeight", mHelper->screenSize().height());
@@ -68,8 +59,9 @@ void MainView::showWindow()
 #if defined(Q_OS_WIN)
 bool MainView::nativeEvent(const QByteArray& eventType, void* pMessage, long* result)
 {
-//    Q_UNUSED(eventType);
-//    Q_UNUSED(result);
+    Q_UNUSED(eventType);
+    Q_UNUSED(pMessage);
+    Q_UNUSED(result);
 
 ////#if defined(Q_OS_WIN)
 //    MSG* message = (MSG*)pMessage;

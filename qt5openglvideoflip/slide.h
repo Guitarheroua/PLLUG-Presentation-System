@@ -26,10 +26,10 @@ public slots:
     void createBlocks();
     void slotPageWidgthChanged();
     void slotPageHeightChanged();
-    void webViewUrlChanged(QString);
+    void webViewUrlChanged(const QString &);
 
 public:
-    QQuickItem* createItem(Block::MediaContent pMediaContent, Block::Caption pCaption, int pWidth, int pHeight, float pX, float pY,  QString pBackgrond);
+    QQuickItem* createItem(const Block::MediaContent &pMediaContent, const Block::Caption &pCaption, int pWidth, int pHeight, float pX, float pY,  const QString &pBackgrond);
 
 private:
     QString mContentDir;

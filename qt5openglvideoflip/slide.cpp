@@ -2,17 +2,13 @@
 #include "blocksmodel.h"
 #include <QQmlEngine>
 #include <QDebug>
-#include <QDir>
-#include <QFile>
-#include <QApplication>
-#include <QQmlContext>
 #include "helper.h"
 
 Slide::Slide(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, QQuickItem *parent) :
     QQuickItem(parent)
+  ,mContentDir(pContentDir)
+  ,mEngine(new QQmlEngine(this))
 {
-    mEngine = new QQmlEngine();
-    mContentDir = pContentDir;
 
     QQmlComponent *component = new QQmlComponent(mEngine,QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/presentation/Slide.qml").arg(pContentDir)));
     QObject *object = component->create();
@@ -20,7 +16,7 @@ Slide::Slide(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, Q
     mSlide->setParentItem(parent);
 
     QVariant lSlide;
-    lSlide.setValue<QObject*>(object);
+    lSlide.setValue(object);
 
     connect(this,SIGNAL(widthChanged()), this, SLOT(slotPageWidgthChanged()));
     connect(this,SIGNAL(heightChanged()), this, SLOT(slotPageHeightChanged()));
@@ -29,26 +25,26 @@ Slide::Slide(QVariantMap pMap, const QString& pContentDir, const QSize &pSize, Q
     this->setProperty("height",pSize.height());
     mSlide->setProperty("width",pSize.width());
     mSlide->setProperty("height",pSize.height());
-
-//    QString lBackColor = pMap.value("background-color").toString();
-//    mSlide->setProperty("color", lBackColor);
-//    QString lBackImage = pMap.value("background-image").toString();
-//    if (!lBackImage.isEmpty())
-//    {
-//        mSlide->setProperty("backgroundImage", QUrl::fromLocalFile(QString::fromLatin1("%1/image/%2").arg(mContentDir).arg(lBackImage)));
-//    }
     mSlide->setProperty("layout", pMap.value("layout").toString());
     mSlide->setProperty("title",pMap.value("title").toString());
-//    QVariantList lVarBlockList = pMap.value("blocks").toList();
-//    mBlockModel = new BlocksModel();
-//    foreach(QVariant lvarBlock, lVarBlockList)
-//    {
-//        mBlockModel->addBlock(new Block(lvarBlock.toMap()));
-//    }
-//    mSlide->setParentItem(this);
-//    connect(this, SIGNAL(modelChanged()), this, SLOT(createBlocks()));
 
-//    emit modelChanged();
+    //    QString lBackColor = pMap.value("background-color").toString();
+    //    mSlide->setProperty("color", lBackColor);
+    //    QString lBackImage = pMap.value("background-image").toString();
+    //    if (!lBackImage.isEmpty())
+    //    {
+    //        mSlide->setProperty("backgroundImage", QUrl::fromLocalFile(QString::fromLatin1("%1/image/%2").arg(mContentDir).arg(lBackImage)));
+    //    }
+    //    QVariantList lVarBlockList = pMap.value("blocks").toList();
+    //    mBlockModel = new BlocksModel();
+    //    foreach(QVariant lvarBlock, lVarBlockList)
+    //    {
+    //        mBlockModel->addBlock(new Block(lvarBlock.toMap()));
+    //    }
+    //    mSlide->setParentItem(this);
+    //    connect(this, SIGNAL(modelChanged()), this, SLOT(createBlocks()));
+
+    //    emit modelChanged();
 }
 
 Slide::Slide(QQuickItem *content, QQuickItem *parent)
@@ -94,8 +90,8 @@ void Slide::createBlocks()
         for (int i=0; i < mBlockModel->rowCount(QModelIndex()); ++i)
         {
             QModelIndex index = mBlockModel->index(i,0);
-            QString lType = mBlockModel->data(index,mBlockModel->SourceTypeRole).toString();
-            QString lSource = mBlockModel->data(index,mBlockModel->SourceRole).toString();
+            //            QString lType = mBlockModel->data(index,mBlockModel->SourceTypeRole).toString();
+            //            QString lSource = mBlockModel->data(index,mBlockModel->SourceRole).toString();
             QString lBackground = mBlockModel->data(index,mBlockModel->BackgroundRole).toString();
             Block::MediaContent lMediaContent = mBlockModel->data(index,mBlockModel->MediaContentRole).value<Block::MediaContent>();
             Block::Caption lCaption = mBlockModel->data(index,mBlockModel->CaptionRole).value<Block::Caption>();
@@ -120,7 +116,7 @@ void Slide::slotPageHeightChanged()
     mSlide->setProperty("height", this->height());
 }
 
-void Slide::webViewUrlChanged(QString pUrl )
+void Slide::webViewUrlChanged(const QString &pUrl )
 {
     Q_UNUSED(pUrl);
     QQuickItem *item = qobject_cast<QQuickItem*>(sender());
@@ -135,52 +131,55 @@ void Slide::webViewUrlChanged(QString pUrl )
 }
 
 
-QQuickItem *Slide::createItem(Block::MediaContent pMediaContent, Block::Caption pCaption, int pWidth, int pHeight,float pX, float pY, QString pBackgrond)
+QQuickItem *Slide::createItem(const Block::MediaContent &pMediaContent, const Block::Caption &pCaption, int pWidth, int pHeight,float pX, float pY, const QString &pBackgrond)
 {
     qDebug() << "\nPage::createItem\n" << pMediaContent.type;
     QQmlComponent *component = new QQmlComponent(mEngine, QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/%2.qml").arg(mContentDir).arg(pMediaContent.type)));
     QObject *object = component->create();
 
     QQuickItem *item = qobject_cast<QQuickItem*>(object);
-    if (!item)
+    if (item)
     {
-        qDebug() << "\nCan't create item\n";
-        return NULL;
-    }
+        item->setParentItem(mSlide);
+        item->setFlags(QQuickItem::ItemHasContents);
 
-    item->setParentItem(mSlide);
-    item->setFlags(QQuickItem::ItemHasContents);
+        if (pMediaContent.type == "web")
+        {
+            item->setProperty("source", pMediaContent.source);
+            //        connect(item, SIGNAL(urlChanged(QString)), this, SLOT(webViewUrlChanged(QString)));
+        }
+        else
+        {
+            item->setProperty("source", QUrl::fromLocalFile(QString::fromLatin1("%1/%2/%3").arg(mContentDir).arg(pMediaContent.type).arg(pMediaContent.source)));
+        }
 
-    if (pMediaContent.type == "web")
-    {
-        item->setProperty("source", pMediaContent.source);
-        //        connect(item, SIGNAL(urlChanged(QString)), this, SLOT(webViewUrlChanged(QString)));
+        item->setProperty("color", pBackgrond);
+        item->setProperty("aspect", pMediaContent.aspect);
+        item->setProperty("widthCoeff", pWidth/mSlide->width());
+        item->setProperty("heightCoeff", pHeight/mSlide->height());
+        item->setProperty("xCoeff", pX/mSlide->width());
+        item->setProperty("yCoeff", pY/mSlide->height());
+
+        item->setProperty("fontSize", pCaption.fontSize);
+        item->setProperty("fontFamily", pCaption.fontFamily);
+        item->setProperty("captionAlign", pCaption.align);
+        item->setProperty("textAlign", pCaption.textAlign);
+        QQuickItem *lCaption = item->findChild<QQuickItem*>("Caption",Qt::FindChildrenRecursively);
+        if (lCaption)
+        {
+            lCaption->setProperty("color",  pCaption.background);
+            QQuickItem *lCaptionText = item->findChild<QQuickItem*>("CaptionText",Qt::FindChildrenRecursively);
+            if (lCaptionText)
+            {
+                lCaptionText->setProperty("text", pCaption.text );
+                lCaptionText->setProperty("color", pCaption.color );
+            }
+        }
     }
     else
     {
-        item->setProperty("source", QUrl::fromLocalFile(QString::fromLatin1("%1/%2/%3").arg(mContentDir).arg(pMediaContent.type).arg(pMediaContent.source)));
-    }
-    item->setProperty("color", pBackgrond);
-    item->setProperty("aspect", pMediaContent.aspect);
-    item->setProperty("widthCoeff", pWidth/mSlide->width());
-    item->setProperty("heightCoeff", pHeight/mSlide->height());
-    item->setProperty("xCoeff", pX/mSlide->width());
-    item->setProperty("yCoeff", pY/mSlide->height());
-
-    item->setProperty("fontSize", pCaption.fontSize);
-    item->setProperty("fontFamily", pCaption.fontFamily);
-    item->setProperty("captionAlign", pCaption.align);
-    item->setProperty("textAlign", pCaption.textAlign);
-    QQuickItem *lCaption = item->findChild<QQuickItem*>("Caption",Qt::FindChildrenRecursively);
-    if (lCaption)
-    {
-        lCaption->setProperty("color",  pCaption.background);
-        QQuickItem *lCaptionText = item->findChild<QQuickItem*>("CaptionText",Qt::FindChildrenRecursively);
-        if (lCaptionText)
-        {
-            lCaptionText->setProperty("text", pCaption.text );
-            lCaptionText->setProperty("color", pCaption.color );
-        }
+        qDebug() << "\nCan't create item\n";
+        item = nullptr;
     }
 
     return item;

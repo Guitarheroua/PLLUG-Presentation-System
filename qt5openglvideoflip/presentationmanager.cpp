@@ -10,14 +10,13 @@
 
 #include "helper.h"
 
-PresentationManager::PresentationManager(const QString &pDir, QQuickWindow *pRootObject, Helper* pHelper, QObject *parent)
+PresentationManager::PresentationManager(const QString &pDir, QQuickWindow *pRootObject, Helper* pHelper, QObject *parent):
+    QObject{parent}
+   ,mMode {PresentationManager::SlideShow}
+   ,mContentDir{pDir}
+   ,mHelper {pHelper}
+   ,mRootObject {pRootObject}
 {
-    Q_UNUSED(parent);
-    mContentDir = pDir;
-    mHelper = pHelper;
-    mRootObject = pRootObject;
-    mMode = PresentationManager::SlideShow;
-
 }
 
 void PresentationManager::openPresentation(const QString &pPath)
@@ -45,8 +44,8 @@ void PresentationManager::openPresentation(const QString &pPath)
     lContext->setContextProperty("screenPixelHeight",mHelper->screenSize().height());
 
     QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData.toUtf8());
-    QString lPresentationName = jsonDoc.toVariant().toMap().value("name").toString();
-    QString lSchemeVersion = jsonDoc.toVariant().toMap().value("schemeVersion").toString();
+//    QString lPresentationName = jsonDoc.toVariant().toMap().value("name").toString();
+//    QString lSchemeVersion = jsonDoc.toVariant().toMap().value("schemeVersion").toString();
     QString lTransition = jsonDoc.toVariant().toMap().value("transition").toString();
     QQmlComponent *lComp = new QQmlComponent(lEngine,QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/transition/%2.qml").arg(mContentDir).arg(lTransition)));
     //             Q_ASSERT(c1);
@@ -80,9 +79,10 @@ void PresentationManager::openPresentation(const QString &pPath)
     int i=0;
 
     QList<QQuickItem*> lBlocksItemList;
-    foreach(QVariant slide, lSlidesList)
+    for(QVariantList::const_iterator slideIterator = lSlidesList.constBegin();
+        slideIterator != lSlidesList.constEnd(); ++slideIterator, ++i)
     {
-        QVariantMap lSlideMap = slide.toMap();
+        QVariantMap lSlideMap = (*slideIterator).toMap();
         //        qDebug() << lSlideMap;
         lBlocksItemList.clear();
         QQmlComponent *component = new QQmlComponent(lEngine,QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/presentation/Slide.qml").arg(mContentDir)));
@@ -98,9 +98,9 @@ void PresentationManager::openPresentation(const QString &pPath)
         lSlideItem->setProperty("title", lSlideMap.value("title").toString() );
         //        qDebug() << lSlideMap.value("title").toString();
         lSlideItem->setProperty("layout", lSlideMap.value("layout").toString() );
-        if (slide.toMap().value("layout").toString() != "")
+        if ((*slideIterator).toMap().value("layout").toString() != "")
         {
-            QQmlComponent *c = new QQmlComponent(lEngine,QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/layouts/%2.qml").arg(mContentDir).arg(slide.toMap().value("layout").toString())));
+            QQmlComponent *c = new QQmlComponent(lEngine,QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/layouts/%2.qml").arg(mContentDir).arg((*slideIterator).toMap().value("layout").toString())));
             QObject *o = c->create();
             if (!o)
             {
@@ -116,15 +116,15 @@ void PresentationManager::openPresentation(const QString &pPath)
                 qDebug() << "No block view";
             }
             qDebug() << "3333";
-            QVariantList lBlocksJsonList = slide.toMap().value("blocks").toList();
+            QVariantList lBlocksJsonList = (*slideIterator).toMap().value("blocks").toList();
             if (lBlocksView)
             {
                 int lBlocksCount = lBlocksView->property("count").toInt();
                 qDebug() << lBlocksCount << lBlocksView;
-                for(int i=0; i<lBlocksCount; ++i)
+                for(int j=0; j<lBlocksCount; ++j)
                 {
                     QVariant lVar;
-                    QMetaObject::invokeMethod(lBlocksView, "getItem", Q_RETURN_ARG(QVariant, lVar), Q_ARG(QVariant, i));
+                    QMetaObject::invokeMethod(lBlocksView, "getItem", Q_RETURN_ARG(QVariant, lVar), Q_ARG(QVariant, j));
                     QQuickItem* lItem = lVar.value<QQuickItem*>();
                     Q_ASSERT(lItem);
                     if (!lItem)
@@ -137,7 +137,7 @@ void PresentationManager::openPresentation(const QString &pPath)
                     {
                         qDebug() << "BADDD____" << lBlock;
                     }
-                    setBlockProperties(lBlock, lBlocksJsonList.at(i).toMap());
+                    setBlockProperties(lBlock, lBlocksJsonList.at(j).toMap());
                 }
             }
             else
@@ -146,7 +146,7 @@ void PresentationManager::openPresentation(const QString &pPath)
             }
         }
         QVariantList lBackgrounds = lSlideMap.value("backgrounds").toList();
-        foreach (QVariant lBackground, lBackgrounds)
+        for (const QVariant &lBackground : lBackgrounds)
         {
             QQmlComponent *c1 = new QQmlComponent(lEngine,QUrl::fromLocalFile(QString::fromLatin1("%1/../qml/DemoView/background/%2.qml").arg(mContentDir).arg(lBackground.toString())));
             //             Q_ASSERT(c1);
@@ -154,7 +154,6 @@ void PresentationManager::openPresentation(const QString &pPath)
             qobject_cast<QQuickItem*>(o1)->setParentItem(lSlideItem);
             qobject_cast<QQuickItem*>(o1)->setProperty("z",-1);
         }
-        i++;
     }
     qDebug() << "\ncurrent \n" << mPresentation->property("currentSlide");
     qDebug() << "\nSlides: " << mPresentation->property("slides");
@@ -187,7 +186,7 @@ void PresentationManager::savePresentation(const QString& pPath)
         }
         QJsonObject lJsonSlide;
         QJsonArray lSlidesArray;
-        foreach (QVariant lSlide, lSlides)
+        for(const QVariant &lSlide : lSlides)
         {
             QQuickItem* slide = lSlide.value<QQuickItem*>();
             qDebug() << slide->property("title");
@@ -195,7 +194,7 @@ void PresentationManager::savePresentation(const QString& pPath)
             lJsonSlide.insert("title",QJsonValue(QString(slide->property("title").toString())));
             QJsonArray lBackgrounds;
             QList<QQuickItem*> lBlockList;
-            foreach (QQuickItem* item, slide->childItems())
+            for (const QQuickItem* item: slide->childItems())
             {
                 lBlockList.clear();
                 QString lObjectName = item->objectName();
@@ -227,7 +226,7 @@ void PresentationManager::savePresentation(const QString& pPath)
                     {
                         lBlockList = item->findChildren<QQuickItem*>("block", Qt::FindChildrenRecursively);
                     }
-                    foreach(QQuickItem* blockLoader, lBlockList)
+                    for(const QQuickItem* blockLoader: lBlockList)
                     {
                         qDebug() << "^^^^^^";
                         QJsonObject lJsonBlock;
@@ -307,7 +306,7 @@ void PresentationManager::setBlockProperties(QQuickItem *pBlock, QVariantMap pPr
     QQuickItem* item = loader->property("item").value<QQuickItem*>();
     if (item)
     {
-        foreach (QString key, pPropertiesMap.keys())
+        for (const QString &key : pPropertiesMap.keys())
         {
             const char* lKey = key.toLatin1().constData();
             item->setProperty(lKey, pPropertiesMap.value(key) );
