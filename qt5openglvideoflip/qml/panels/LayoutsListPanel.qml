@@ -3,15 +3,15 @@ import "../presentation"
 
 Rectangle {
     id: layoutsPanelRect
-    width: presentation.width*0.113
+    width: parent.width*0.113
     height: parent.height
     x: parent.width - width
     z: parent.z + 2
     color: "black"
     opacity: 0.7
 
-    property int layoutHeight : presentation.height*0.143
-    property real fontSize : presentation.height * 0.017
+    property int layoutHeight : parent.height*0.143
+    property real fontSize : parent.height * 0.017
     signal layoutSelected(var source)
 
     function selectLayout(index) {
@@ -153,9 +153,9 @@ Rectangle {
             optionsPanel.state = "Closed"
         }
     }
-
+state: "closed"
     //Behavior on x { SmoothedAnimation { velocity: 400 } }
 
-    state: "closed"
+
 
 }

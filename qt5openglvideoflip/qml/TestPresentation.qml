@@ -8,9 +8,6 @@ import "panels"
 
 SplitView{
     id: horisontalSplitView
-
-//    width: screenPixelWidth
-//    height: screenPixelHeight
     anchors.fill: parent
     SplitView{
         id: verticalSplitView
@@ -35,7 +32,7 @@ SplitView{
                     console.log("Error creating object", component.status, component.url, component.errorString());
                 }
                 presentation.newSlide(newSlide, presentation.currentSlide+1, false)
-                layoutsListPanel.state = "opened"
+                //layoutsListPanel.state = "opened"
             }
 
             function removeSlideAt(index) {
@@ -248,7 +245,7 @@ SplitView{
         SlidesListPanel {
             id: slidesListPanel
             Layout.minimumHeight: 17
-            Layout.maximumHeight: 100
+            Layout.maximumHeight: 150
             slides: presentation.slides
             z: 3
             onSlideSelected: {
@@ -259,7 +256,7 @@ SplitView{
     LayoutsListPanel {
         id: layoutsListPanel
         Layout.minimumWidth: 15
-        Layout.maximumWidth: 100
+        Layout.maximumWidth: 150
     }
 }
 
