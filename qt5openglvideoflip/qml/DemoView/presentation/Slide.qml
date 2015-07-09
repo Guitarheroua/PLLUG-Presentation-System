@@ -190,7 +190,7 @@ Item {
 
         TextPropertiesItem{
             id: textPropertiesItem
-            visible: false
+            visible: true
             selectedItem: slide.selectedItem
         }
 

@@ -6,7 +6,7 @@ import "../panels"
 //Item {
 Rectangle {
     id: rect
-    width: Math.round(subItemHeight*13)
+    width: Math.round(subItemHeight*17) //*13
     height: Math.round(subItemHeight*1.2)  //delegateItemText.height+lineRect.height
     color: "#3C3C3C"
     //opacity: 0.7
@@ -17,7 +17,7 @@ Rectangle {
                 ? helper.fontIndex(selectedItem.fontFamily) : 0
     }
 
-    Row { //row
+    Row {
         anchors.centerIn: rect
         spacing: 4.5
         ColorMenuItem {
@@ -47,7 +47,7 @@ Rectangle {
         }
         ComboBox {
             id: fontFamiliesCombobox
-            width: rect.subItemHeight*3 + 2*4.5
+            width: rect.subItemHeight*4.5// + 2*4.5
             height: rect.subItemHeight
             model: helper.fonts()
 
@@ -85,10 +85,9 @@ Rectangle {
             onCurrentTextChanged: {
                 if (selectedItem !== undefined && selectedItem.textItem)
                     selectedItem.fontFamily = currentText
-
             }
         }
-        OptionsMenuItem {
+       /* OptionsMenuItem {
             id: sizeMenuItem
             propertyName: ""
             propertyValue: (selectedItem !== null && selectedItem.textItem)
@@ -99,7 +98,53 @@ Rectangle {
                     selectedItem.fontSize = parseFloat(propertyValue)
                 }
             }
+        }*/
+
+        ComboBox{
+            id: fontSizeComboBox
+            width: rect.subItemHeight*2.5
+            height: rect.subItemHeight
+            model: [ 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 32, 36, 40, 48, 56, 64, 72, 80]
+            //editable: true
+
+            style: ComboBoxStyle {
+                background: Rectangle {
+                    id: rectFontSize
+                    width: fontFamiliesCombobox.width
+                    height: fontFamiliesCombobox.height
+                    color: "gray"
+                    Rectangle {
+                        anchors {
+                            fill: parent
+                            margins: 5
+                        }
+                        color: "lightgray"
+                    }
+                }
+
+                label: Item {
+                    anchors.fill: parent
+
+                    Text {
+                        anchors {
+                            fill: parent
+                            margins: 1 //5
+                            verticalCenter: parent.verticalCenter
+                        }
+                        font.pointSize: 10
+                        color: "black"
+                        text: control.currentText
+                        elide: Text.ElideRight
+                    }
+                }
+            }
+
+            onCurrentTextChanged: {
+                if (selectedItem !== undefined && selectedItem.textItem)
+                    selectedItem.fontSize = currentText
+            }
         }
+
         ToolbarItem {
             id: fontSizeLessItem
             selectingItem: false
