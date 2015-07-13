@@ -1,0 +1,75 @@
+<RCC>
+    <qresource prefix="/items">
+        <file alias="Code.qml">qml/items/Code.qml</file>
+        <file alias="EditedText.qml">qml/items/EditedText.qml</file>
+        <file alias="ImageItem.qml">qml/items/ImageItem.qml</file>
+        <file alias="TextItem.qml">qml/items/TextItem.qml</file>
+        <file alias="TitleItem.qml">qml/items/TitleItem.qml</file>
+        <file alias="VideoItem.qml">qml/items/VideoItem.qml</file>
+        <file alias="WebItem.qml">qml/items/WebItem.qml</file>
+        <file alias="TextPropertiesItem.qml">qml/items/TextPropertiesItem.qml</file>
+    </qresource>
+    <qresource prefix="/layouts">
+        <file alias="Layout.qml">qml/layouts/Layout.qml</file>
+        <file alias="Layout1.qml">qml/layouts/Layout1.qml</file>
+        <file alias="Layout2.qml">qml/layouts/Layout2.qml</file>
+        <file alias="Layout3.qml">qml/layouts/Layout3.qml</file>
+        <file alias="Layout4.qml">qml/layouts/Layout4.qml</file>
+        <file alias="Layout5.qml">qml/layouts/Layout5.qml</file>
+        <file alias="Layout6.qml">qml/layouts/Layout6.qml</file>
+        <file alias="Layout7.qml">qml/layouts/Layout7.qml</file>
+    </qresource>
+    <qresource prefix="/panels">
+        <file alias="ColorMenuItem.qml">qml/panels/ColorMenuItem.qml</file>
+        <file alias="LayoutsListPanel.qml">qml/panels/LayoutsListPanel.qml</file>
+        <file alias="OptionsMenuItem.qml">qml/panels/OptionsMenuItem.qml</file>
+        <file alias="OptionsPanel.qml">qml/panels/OptionsPanel.qml</file>
+        <file alias="PositionMenu.qml">qml/panels/PositionMenu.qml</file>
+        <file alias="SizeMenu.qml">qml/panels/SizeMenu.qml</file>
+        <file alias="SlidesListPanel.qml">qml/panels/SlidesListPanel.qml</file>
+        <file alias="TextMenu.qml">qml/panels/TextMenu.qml</file>
+        <file alias="ToolbarItem.qml">qml/panels/ToolbarItem.qml</file>
+    </qresource>
+    <qresource prefix="/transitions">
+        <file alias="PageFlipShaderEffect.qml">qml/transition/PageFlipShaderEffect.qml</file>
+    </qresource>
+    <qresource prefix="/presentation">
+        <file alias="Clock.qml">qml/presentation/Clock.qml</file>
+        <file alias="CodeSlide.qml">qml/presentation/CodeSlide.qml</file>
+        <file alias="Presentation.qml">qml/presentation/Presentation.qml</file>
+        <file alias="Slide.qml">qml/presentation/Slide.qml</file>
+        <file alias="SlideCounter.qml">qml/presentation/SlideCounter.qml</file>
+    </qresource>
+    <qresource prefix="/components/ColorPicker">
+        <file alias="ColorPicker.qml">qml/components/ColorPicker/ColorPicker.qml</file>
+        <file alias="ColorSlider.qml">qml/components/ColorPicker/ColorSlider.qml</file>
+        <file alias="ColorUtils.js">qml/components/ColorPicker/ColorUtils.js</file>
+        <file alias="NumberBox.qml">qml/components/ColorPicker/NumberBox.qml</file>
+        <file alias="PanelBorder.qml">qml/components/ColorPicker/PanelBorder.qml</file>
+        <file alias="SBPicker.qml">qml/components/ColorPicker/SBPicker.qml</file>
+    </qresource>
+    <qresource prefix="/backgrounds">
+        <file alias="BackgroundSwirls.qml">qml/background/BackgroundSwirls.qml</file>
+        <file alias="FireEffect.qml">qml/background/FireEffect.qml</file>
+        <file alias="particle.png">qml/background/particle.png</file>
+        <file alias="StarSkyEffect.qml">qml/background/StarSkyEffect.qml</file>
+        <file alias="Swirl.qml">qml/background/Swirl.qml</file>
+        <file alias="UnderwaterEffect.qml">qml/background/UnderwaterEffect.qml</file>
+    </qresource>
+    <qresource prefix="/">
+        <file alias="BackgroundRectangle.qml">qml/BackgroundRectangle.qml</file>
+        <file alias="Block.qml">qml/Block.qml</file>
+        <file alias="BlockMenu.qml">qml/BlockMenu.qml</file>
+        <file alias="BlockMenuItem.qml">qml/BlockMenuItem.qml</file>
+        <file alias="EmptySlide.qml">qml/EmptySlide.qml</file>
+        <file alias="main.qml">qml/main.qml</file>
+        <file alias="model.qml">qml/model.qml</file>
+        <file alias="OldDemoMain.qml">qml/OldDemoMain.qml</file>
+        <file alias="StartScreen.qml">qml/StartScreen.qml</file>
+        <file alias="StartScreenButton.qml">qml/StartScreenButton.qml</file>
+        <file alias="StringUtils.js">qml/StringUtils.js</file>
+        <file alias="TestPresentation.qml">qml/TestPresentation.qml</file>
+        <file alias="testvideo.qml">qml/testvideo.qml</file>
+        <file alias="testwebview.qml">qml/testwebview.qml</file>
+    </qresource>
+</RCC>

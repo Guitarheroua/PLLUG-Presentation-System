@@ -1,0 +1,148 @@
+{
+    "name": "Test Presentation",
+    "schemeVersion": "1.0",
+    "slides": [
+        {
+            "blocks": [
+                {
+                    "fontBold": true,
+                    "fontColor": "#000000",
+                    "fontFamily": "Arial",
+                    "fontItalic": false,
+                    "fontSize": 12,
+                    "fontStrikeout": false,
+                    "fontUnderline": false,
+                    "heightCoeff": "0",
+                    "type": "text",
+                    "widthCoeff": "0",
+                    "xCoeff": "0",
+                    "yCoeff": "0"
+                }
+            ],
+            "effects": [
+            ],
+            "layout": "Layout1",
+            "title": "SLIDE 3"
+        },
+        {
+            "blocks": [
+                {
+                    "fontBold": true,
+                    "fontColor": "#000000",
+                    "fontFamily": "Arial",
+                    "fontItalic": false,
+                    "fontSize": 12,
+                    "fontStrikeout": false,
+                    "fontUnderline": false,
+                    "heightCoeff": "0",
+                    "type": "text",
+                    "widthCoeff": "0",
+                    "xCoeff": "0",
+                    "yCoeff": "0"
+                },
+                {
+                    "heightCoeff": "1",
+                    "source": "file:///D:/work/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/image/cat.jpg",
+                    "type": "image",
+                    "widthCoeff": "1",
+                    "xCoeff": "0",
+                    "yCoeff": "0"
+                },
+                {
+                    "heightCoeff": "1",
+                    "source": "file:///D:/work/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/video/demo.mp4",
+                    "type": "video",
+                    "widthCoeff": "1",
+                    "xCoeff": "0",
+                    "yCoeff": "0"
+                },
+                {
+                    "heightCoeff": "1",
+                    "source": "file:///D:/work/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/image/flower2.jpg",
+                    "type": "image",
+                    "widthCoeff": "1",
+                    "xCoeff": "0",
+                    "yCoeff": "0"
+                }
+            ],
+            "effects": [
+            ],
+            "layout": "Layout2",
+            "title": "SLIDE 2"
+        },
+        {
+            "blocks": [
+                {
+                    "fontBold": true,
+                    "fontColor": "#000000",
+                    "fontFamily": "Arial",
+                    "fontItalic": false,
+                    "fontSize": 12,
+                    "fontStrikeout": false,
+                    "fontUnderline": false,
+                    "heightCoeff": "0",
+                    "type": "text",
+                    "widthCoeff": "0",
+                    "xCoeff": "0",
+                    "yCoeff": "0"
+                },
+                {
+                    "heightCoeff": "1",
+                    "source": "file:///D:/work/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/image/flower3.jpg",
+                    "type": "image",
+                    "widthCoeff": "1",
+                    "xCoeff": "0",
+                    "yCoeff": "0"
+                },
+                {
+                    "fontBold": true,
+                    "fontColor": "#000000",
+                    "fontFamily": "Arial",
+                    "fontItalic": false,
+                    "fontSize": 12,
+                    "fontStrikeout": false,
+                    "fontUnderline": false,
+                    "heightCoeff": "0",
+                    "type": "text",
+                    "widthCoeff": "0",
+                    "xCoeff": "0",
+                    "yCoeff": "0"
+                },
+                {
+                    "heightCoeff": "1",
+                    "source": "file:///D:/work/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/image/cat.jpg",
+                    "type": "image",
+                    "widthCoeff": "1",
+                    "xCoeff": "0",
+                    "yCoeff": "0"
+                },
+                {
+                    "fontBold": true,
+                    "fontColor": "#000000",
+                    "fontFamily": "Arial",
+                    "fontItalic": false,
+                    "fontSize": 12,
+                    "fontStrikeout": false,
+                    "fontUnderline": false,
+                    "heightCoeff": "0",
+                    "type": "text",
+                    "widthCoeff": "0",
+                    "xCoeff": "0",
+                    "yCoeff": "0"
+                },
+                {
+                    "heightCoeff": "1",
+                    "source": "file:///D:/work/PROJECTS/qt5openglvideoflip/qt5openglvideoflip/data/image/flower1.jpg",
+                    "type": "image",
+                    "widthCoeff": "1",
+                    "xCoeff": "0",
+                    "yCoeff": "0"
+                }
+            ],
+            "effects": [
+            ],
+            "layout": "Layout4",
+            "title": "SLIDE 3"
+        }
+    ]
+}
