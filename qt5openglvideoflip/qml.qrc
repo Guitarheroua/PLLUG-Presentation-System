@@ -7,6 +7,7 @@
         <file alias="TitleItem.qml">qml/items/TitleItem.qml</file>
         <file alias="VideoItem.qml">qml/items/VideoItem.qml</file>
         <file alias="WebItem.qml">qml/items/WebItem.qml</file>
+        <file alias="TextPropertiesItem.qml">qml/items/TextPropertiesItem.qml</file>
     </qresource>
     <qresource prefix="/layouts">
         <file alias="Layout.qml">qml/layouts/Layout.qml</file>
