@@ -34,15 +34,15 @@ Rectangle {
             contents: [
                 ListElement {
                     name: "Swirls"
-                    value: "background/BackgroundSwirls.qml"
+                    value: "backgrounds/BackgroundSwirls.qml"
                 },
                 ListElement {
                     name: "Fire"
-                    value: "background/FireEffect.qml"
+                    value: "backgrounds/FireEffect.qml"
                 },
                 ListElement {
                     name: "Underwater"
-                    value: "background/UnderwaterEffect.qml"
+                    value: "backgrounds/UnderwaterEffect.qml"
                 }
             ]
         }
@@ -226,7 +226,7 @@ Rectangle {
 
     }
 
-    Behavior on x { SmoothedAnimation { velocity: 400 } }
+    //Behavior on x { SmoothedAnimation { velocity: 400 } }
 
     state: "Closed"
 

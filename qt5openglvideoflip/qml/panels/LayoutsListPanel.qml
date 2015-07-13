@@ -3,15 +3,15 @@ import "../presentation"
 
 Rectangle {
     id: layoutsPanelRect
-    width: presentation.width*0.113
+    width: parent.width*0.113
     height: parent.height
     x: parent.width - width
     z: parent.z + 2
     color: "black"
     opacity: 0.7
 
-    property int layoutHeight : presentation.height*0.143
-    property real fontSize : presentation.height * 0.017
+    property int layoutHeight : parent.height*0.143
+    property real fontSize : parent.height * 0.017
     signal layoutSelected(var source)
 
     function selectLayout(index) {
@@ -31,6 +31,7 @@ Rectangle {
             width: listViewItem.width
             height: layoutHeight
             color: "white"
+            clip: true
             Text {
                 id: text
                 anchors.centerIn: parent
@@ -124,15 +125,15 @@ Rectangle {
     MouseArea {
         id: layoutsPanelMouseArea
         anchors.fill: parent
-        drag.axis: Drag.XAxis
-        drag.target: layoutsPanelRect
-        drag.minimumX: presentation.width - layoutsPanelRect.width
-        drag.maximumX: (layoutsPanelMouseArea.enabled) ? presentation.width - 12 : presentation.width
+        //drag.axis: Drag.XAxis
+        //drag.target: layoutsPanelRect
+        //drag.minimumX: presentation.width - layoutsPanelRect.width
+        //drag.maximumX: (layoutsPanelMouseArea.enabled) ? presentation.width - 12 : presentation.width
         enabled: presentation.slides[presentation.currentSlide].layout !== ""
-        onClicked: {
-            layoutsPanelRect.state = (layoutsPanelRect.state === "closed") ? "opened" : "closed"
-            slidesListPanel.state = "closed"
-        }
+//        onClicked: {
+//            layoutsPanelRect.state = (layoutsPanelRect.state === "closed") ? "opened" : "closed"
+//            slidesListPanel.state = "closed"
+//        }
 
     }
 
@@ -152,9 +153,9 @@ Rectangle {
             optionsPanel.state = "Closed"
         }
     }
+state: "closed"
+    //Behavior on x { SmoothedAnimation { velocity: 400 } }
 
-    Behavior on x { SmoothedAnimation { velocity: 400 } }
 
-    state: "closed"
 
 }

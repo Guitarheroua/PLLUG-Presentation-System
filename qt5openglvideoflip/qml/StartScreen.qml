@@ -56,7 +56,7 @@ Rectangle {
         }
     ]
     state: "opened"
-    Behavior on x { SmoothedAnimation { velocity: 2000 } }
+    Behavior on y { SmoothedAnimation { velocity: 2000 } }
 
 
     FileDialog{

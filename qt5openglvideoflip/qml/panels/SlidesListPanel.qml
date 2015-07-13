@@ -36,7 +36,9 @@ Rectangle {
             width: slidesListView.itemWidth + 10
             height: listViewItem.height
             color: "transparent"
+
             Rectangle {
+
                 id: hightlightRect
                 width: parent.width
                 height: parent.height
@@ -46,10 +48,11 @@ Rectangle {
 
             }
             Rectangle {
-                width: /*(slidesListView.currentIndex === index) ? */parent.width-10 /*: parent.width*/
+                width: /*(slidesListView.currentIndex === index) ? */parent.width -10 /*: parent.width*/
                 height: /*(slidesListView.currentIndex === index) ? */parent.height - 10 /*: parent.height*/
                 anchors.centerIn: parent
                 color: "white"
+                clip: true
                 z: parent.z+1
                 //            opacity: (slidesListView.currentIndex === model.index) ? 1.0 : 0.8
                 Text {
@@ -87,7 +90,7 @@ Rectangle {
                         //                        slideNumberRect.opacity = 0.0
                         //                    }
                     }
-                    Behavior on opacity { SmoothedAnimation{ velocity : 200}}
+                    //Behavior on opacity { SmoothedAnimation{ velocity : 200}}
                 }
             }
             states:[
@@ -203,12 +206,13 @@ Rectangle {
             bottom: parent.bottom
             topMargin: 15
             leftMargin: 10
-            bottomMargin: 10
+            bottomMargin: 2
         }
         width: 50
         z: listViewItem.z+1
         opacity: parent.opacity
         color: "steelblue"
+        clip: true
         Text {
             text: qsTr("Add")
             anchors.centerIn: parent
@@ -328,23 +332,23 @@ Rectangle {
     MouseArea  {
         id: mouseArea
         anchors.fill: parent
-        drag.axis: Drag.YAxis
-        drag.target: mainRect
-        drag.minimumY: parent.parent.height - mainRect.height
-        drag.maximumY: parent.parent.height - 12
-        onClicked: {
-            mainRect.state = (mainRect.state === "closed") ? "opened" : "closed"
-        }
-        onReleased: {
-            if ( mainRect.y >= (drag.maximumY - mainRect.height/2 + 20) ) {
-                mainRect.y = drag.maximumY
-                mainRect.state = "closed"
-            }
-            else {
-                mainRect.y = drag.minimumY
-                mainRect.state = "opened"
-            }
-        }
+//        drag.axis: Drag.YAxis
+//        drag.target: mainRect
+//        drag.minimumY: parent.parent.height - mainRect.height
+//        drag.maximumY: parent.parent.height - 12
+//        onClicked: {
+//            mainRect.state = (mainRect.state === "closed") ? "opened" : "closed"
+//        }
+//        onReleased: {
+//            if ( mainRect.y >= (drag.maximumY - mainRect.height/2 + 20) ) {
+//                mainRect.y = drag.maximumY
+//                mainRect.state = "closed"
+//            }
+//            else {
+//                mainRect.y = drag.minimumY
+//                mainRect.state = "opened"
+//            }
+//        }
     }
 
     states:[
@@ -358,7 +362,7 @@ Rectangle {
         }]
 
 
-    Behavior on y { SmoothedAnimation { velocity: 200 } }
+    //Behavior on y { SmoothedAnimation { velocity: 200 } }
 
     state: "closed"
 }
