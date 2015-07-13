@@ -58,12 +58,12 @@ Rectangle {
     ColorPicker {
         id: colorPicker
         anchors.top: menuItemRect.bottom
-        anchors.topMargin: 5
+        anchors.topMargin: 4
         anchors.left: parent.left
-        anchors.leftMargin: 5
+        //anchors.leftMargin: 1
         visible: false
         onVisibleChanged: {
-            parent.height = (visible) ? mainHeight + colorPicker.height : mainHeight
+            parent.height = (visible) ? mainHeight /*+ colorPicker.height*/ : mainHeight
         }
         onColorValueChanged: {
             colorMenuItem.selectedColor = colorValue
@@ -71,4 +71,5 @@ Rectangle {
 
         z: parent.z + 1
     }
+
 }

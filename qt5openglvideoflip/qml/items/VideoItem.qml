@@ -185,7 +185,7 @@ Rectangle {
 
         onPressAndHold: {
             mediaPlayer.seeking = true
-            mediaPlayer.play()
+            mediaPlayer.play();
         }
 
         onReleased: {

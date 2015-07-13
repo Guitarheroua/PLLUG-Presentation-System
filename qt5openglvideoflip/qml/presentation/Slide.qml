@@ -108,11 +108,15 @@ Item {
     onTitleChanged: {
         textItem.text = title
     }
+
+
+
     Rectangle  {
         anchors.fill: (parent) ? parent : null
         color: "transparent"
         border.width: 1
         border.color: "black"
+
     }
 
     Item  {
@@ -130,6 +134,11 @@ Item {
         width: parent.contentWidth
         height: textItem.textItem.height*1.3
         z: parent.z + 1
+
+        onSelectedChanged: {
+            if (titleRect.selected) textPropertiesItem.visible = true
+            else textPropertiesItem.visible = false
+        }
 
         Rectangle {
             id: highlightRect
@@ -154,7 +163,6 @@ Item {
                 onTextChanged: {
                     slide.title = (text !== slide.title) ? text : slide.title
                 }
-
             }
             MouseArea {
                 anchors.fill: parent
@@ -171,6 +179,7 @@ Item {
         }
     }
 
+
     Item {
         id: contentItem
         x: contentX
@@ -178,6 +187,13 @@ Item {
         width: contentWidth
         height: contentHeight
         z: 10
+
+        TextPropertiesItem{
+            id: textPropertiesItem
+            visible: true
+            selectedItem: slide.selectedItem
+        }
+
         Text {
             id: centeredId
             width: parent.width
@@ -257,6 +273,7 @@ Item {
                 }
             }
         }
+
     }
 
     Code {
