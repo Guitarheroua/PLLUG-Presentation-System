@@ -9,20 +9,24 @@ import "panels"
 SplitView{
     id: horisontalSplitView
     anchors.fill: parent
+
     SplitView{
         id: verticalSplitView
         Layout.fillWidth: true
         orientation: Qt.Vertical
+
         Presentation {
             id: presentation
             Layout.fillHeight: true
             textColor: "black"
-            onCurrentSlideChanged: {
-                slidesListPanel.selectSlide(currentSlide)
-            }
+
             Component.onCompleted: {
                 addNewSlide()
                 //        layoutsListPanel.state = "closed"
+            }
+
+            onCurrentSlideChanged: {
+                slidesListPanel.selectSlide(currentSlide)
             }
 
             function addNewSlide() {
@@ -65,7 +69,6 @@ SplitView{
                     for(var i=0; i<presentation.slides.length; ++i) {
                         var background = Qt.createComponent(source)
                         background.createObject(presentation.slides[i], {"objectName": source, z: "-1"});
-
                     }
                 }
             }
@@ -83,7 +86,6 @@ SplitView{
                                 }
                             }
                         }
-
                     }
                 }
             }

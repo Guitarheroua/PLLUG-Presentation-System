@@ -19,9 +19,9 @@
 
 MainView::MainView(const QString &pContentDir, QObject *parent) :
     QObject(parent)
+   ,mQmlEngine(new QQmlApplicationEngine(this))
    ,mContentDir(pContentDir)
    ,mHelper(new Helper(this))
-   ,mQmlEngine(new QQmlApplicationEngine(this))
 {
 #if defined(Q_OS_MAC)
     //DON"T FORGET TO CHANGE PATH BEFORE DEPLOY!!!!
@@ -29,24 +29,28 @@ MainView::MainView(const QString &pContentDir, QObject *parent) :
 #endif
     mHelper->setScreenPixelSize(qApp->desktop()->screenGeometry().size());
 
-    mQmlEngine->rootContext()->setContextProperty("helper",mHelper);
+    mQmlEngine->rootContext()->setContextProperty("helper", mHelper);
     mQmlEngine->rootContext()->setContextProperty("screenPixelWidth", mHelper->screenSize().width());
     mQmlEngine->rootContext()->setContextProperty("screenPixelHeight", mHelper->screenSize().height());
 
-    QUrl qmlFilePath = QUrl(QStringLiteral("qrc:/main.qml"));
-    QQmlComponent component(mQmlEngine, qmlFilePath);
+    QQmlComponent component(mQmlEngine, QUrl(QStringLiteral("qrc:/main.qml")));
     if (!component.isReady())
     {
         qDebug() << "Error while creating New Project window :" << component.errorString();
     }
     mMainWindow = qobject_cast<QQuickWindow*>(component.create(mQmlEngine->rootContext()));
-    mManager = new PresentationManager(mContentDir, mMainWindow, mHelper);
-    connect(mHelper, SIGNAL(createPresentationMode()), mManager, SLOT(setCreateEditPresentationMode()));
-    connect(mHelper, SIGNAL(open(QString)), mManager, SLOT(openPresentation(QString)));
+    mManager = new PresentationManager(mContentDir, mMainWindow, mHelper, this);
 
-    mActualSize = QSize(qApp->desktop()->screenGeometry().width()/1.5, qApp->desktop()->screenGeometry().height()/1.5);
+    connect(mHelper, SIGNAL(createPresentationMode()),
+            mManager, SLOT(setCreateEditPresentationMode()), Qt::UniqueConnection);
+    connect(mHelper, SIGNAL(open(QString)),
+            mManager, SLOT(openPresentation(QString)), Qt::UniqueConnection);
+
+    mActualSize = QSize(qApp->desktop()->screenGeometry().width()/1.5,
+                        qApp->desktop()->screenGeometry().height()/1.5);
+
     mHelper->setMainViewSize(mActualSize);
-    mAspectRatio = (qreal)mActualSize.width() / mActualSize.height();
+//    mAspectRatio = (qreal)mActualSize.width() / mActualSize.height();
     mMainWindow->resize(mActualSize);
     mMainWindow->installEventFilter(this);
 }

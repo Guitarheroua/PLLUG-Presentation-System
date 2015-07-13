@@ -2,13 +2,6 @@ import QtQuick 2.4
 import QtQuick.Dialogs 1.2
 
 Rectangle {
-    id: startScreen
-    //    anchors.fill : parent
-    width: parent.width
-    height: parent.height
-    color: "lightsteelblue"
-    z: 1
-
     Column {
         spacing: 25
         anchors {
@@ -43,7 +36,6 @@ Rectangle {
             PropertyChanges {
                 target: startScreen
                 x: 0
-
             }
         },
         State {
@@ -67,7 +59,5 @@ Rectangle {
             helper.openPresentation(fileDialog.fileUrl)
             startScreen.state = "closed"
         }
-
     }
-
 }

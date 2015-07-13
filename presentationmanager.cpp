@@ -284,7 +284,7 @@ void PresentationManager::loadPresentation()
 
 }
 
-PresentationManager::PresentationMode PresentationManager::mode()
+PresentationManager::PresentationMode PresentationManager::mode() const
 {
     return mMode;
 }

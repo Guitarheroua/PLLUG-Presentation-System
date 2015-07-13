@@ -148,7 +148,7 @@ Rectangle {
         ToolbarItem {
             id: fontSizeLessItem
             selectingItem: false
-            imageSource: "qrc:///icons/text/size-less.png"
+            imageSource: "qrc:/icons/text/size-less.png"
             width: rect.subItemHeight
             selected: false
             onSelectedChanged: {
@@ -159,7 +159,7 @@ Rectangle {
         ToolbarItem {
             id: fontSizeMoreItem
             selectingItem: false
-            imageSource: "qrc:///icons/text/size-more.png"
+            imageSource: "qrc:/icons/text/size-more.png"
             width: rect.subItemHeight
             selected: false
             onSelectedChanged: {
@@ -170,7 +170,7 @@ Rectangle {
 
         ToolbarItem {
             id: boldItem
-            imageSource: "qrc:///icons/text/bold.png"
+            imageSource: "qrc:/icons/text/bold.png"
             width: rect.subItemHeight
             selected: (selectedItem !== null && selectedItem.textItem)
                       ? selectedItem.fontBold : false
@@ -182,7 +182,7 @@ Rectangle {
 
         ToolbarItem {
             id: italicItem
-            imageSource: "qrc:///icons/text/italic.png"
+            imageSource: "qrc:/icons/text/italic.png"
             width: rect.subItemHeight
             height: rect.subItemHeight
             selected: (selectedItem !== null && selectedItem.textItem)
@@ -194,7 +194,7 @@ Rectangle {
         }
         ToolbarItem {
             id: underlineItem
-            imageSource: "qrc:///icons/text/underline.png"
+            imageSource: "qrc:/icons/text/underline.png"
             width: rect.subItemHeight
             selected: (selectedItem !== null && selectedItem.textItem)
                       ? selectedItem.fontUnderline : false
@@ -205,7 +205,7 @@ Rectangle {
         }
         ToolbarItem {
             id: strikeoutItem
-            imageSource: "qrc:///icons/text/strikeout.png"
+            imageSource: "qrc:/icons/text/strikeout.png"
             width: rect.subItemHeight
             selected: (selectedItem !== null && selectedItem.textItem)
                       ? selectedItem.fontStrikeout : false
@@ -216,7 +216,7 @@ Rectangle {
         }
         ToolbarItem {
             id: bulletsItem
-            imageSource: "qrc:///icons/text/bullets.png"
+            imageSource: "qrc:/icons/text/bullets.png"
             width: rect.subItemHeight
             selected: (selectedItem !== null && selectedItem.textItem) ?
                           selectedItem.bullets : false

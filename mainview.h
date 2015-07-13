@@ -10,6 +10,7 @@ class MegaParse;
 class QQuickWindow;
 class PresentationManager;
 class QQmlApplicationEngine;
+
 class MainView : public QObject
 {
     Q_OBJECT
@@ -21,7 +22,6 @@ protected:
 #if defined(Q_OS_WIN)
     bool nativeEvent(const QByteArray&, void*, long*);
 #endif
-//    bool event(QEvent * event);
 
 signals:
     

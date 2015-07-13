@@ -4,9 +4,9 @@ import QtQuick.Controls 1.2
 ApplicationWindow {
     id: mainRect
     objectName: "mainRect"
-//    color: "lightblue"
     width: 1280
     height: 720
+
     Loader {
         id: presentationLoader
         objectName: "PresentationLoader"
@@ -16,18 +16,8 @@ ApplicationWindow {
 
     StartScreen {
         id: startScreen
+        width: parent.width
+        height: parent.height
+        color: "lightsteelblue"
     }
-
-//    states: [
-//        State{
-//            id: editState
-//        },
-//        State{
-//            id: showState
-//        }
-
-//    ]
-
-
-
 }

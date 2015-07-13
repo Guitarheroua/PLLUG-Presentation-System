@@ -8,6 +8,7 @@
 class Helper;
 class QQuickWindow;
 class QQuickItem;
+
 class PresentationManager : public QObject
 {
     Q_OBJECT
@@ -21,7 +22,7 @@ public:
     explicit PresentationManager(const QString&, QQuickWindow *, Helper *, QObject *parent = 0);
     void savePresentation(const QString &);
     void loadPresentation();
-    PresentationMode mode();
+    PresentationMode mode() const;
 
 signals:
 
