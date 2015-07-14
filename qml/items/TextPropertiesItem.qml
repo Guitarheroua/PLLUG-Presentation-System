@@ -6,29 +6,33 @@ import "../panels"
 //Item {
 Rectangle {
     id: rect
-    width: Math.round(subItemHeight*17) //*13
-    height: Math.round(subItemHeight*1.2)  //delegateItemText.height+lineRect.height
-    color: "#3C3C3C"
-    //opacity: 0.7
+
     property var selectedItem
     property int subItemHeight: 25
+
     onSelectedItemChanged:{
         fontFamiliesCombobox.currentIndex = (selectedItem !== undefined && selectedItem.textItem)
                 ? helper.fontIndex(selectedItem.fontFamily) : 0
     }
 
+    color: "#3C3C3C"
+    width: Math.round(subItemHeight * 17) //*13
+    height: Math.round(subItemHeight * 1.2)  //delegateItemText.height+lineRect.height
+
     Row {
-        anchors.centerIn: rect
+
         spacing: 4.5
+        anchors.centerIn: parent
+
         ColorMenuItem {
             id: colorMenuItem
             width: rect.subItemHeight
             height: rect.subItemHeight
             selectedItemColor: (selectedItem !== null && selectedItem.textItem)
                                ? selectedItem.fontColor : "black"
-            onHeightChanged: {
-                subItemsRect.height = (height === rect.subItemHeight) ? subItemsRect.height : subItemsRect.height + (height - subItemHeight)
-            }
+//            onHeightChanged: {
+//                subItemsRect.height = (height === rect.subItemHeight) ? subItemsRect.height : subItemsRect.height + (height - subItemHeight)
+//            }
             onSelectedColorChanged: {
                 if (selectedItem !== undefined && selectedItem.textItem)
                 {

@@ -6,7 +6,7 @@ Rectangle {
     property bool selected: false
     property string imageSource: ""
     property bool selectingItem: true
-    color: (item.selected ) ? Qt.darker(item.color, 1.5) : unselectedItemColor
+    color: (item.selected ) ? Qt.darker(unselectedItemColor, 1.5) : unselectedItemColor
     height: width
     Image {
         anchors.fill: parent

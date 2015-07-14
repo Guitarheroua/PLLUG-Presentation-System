@@ -136,7 +136,7 @@ Item {
             ToolbarItem {
                 id: fontSizeLessItem
                 selectingItem: false
-                imageSource: "qrc:///icons/text/size-less.png"
+                imageSource: "qrc:/icons/text/size-less.png"
                 width: rect.subItemHeight
                 selected: false
                 onSelectedChanged: {
@@ -147,7 +147,7 @@ Item {
             ToolbarItem {
                 id: fontSizeMoreItem
                 selectingItem: false
-                imageSource: "qrc:///icons/text/size-more.png"
+                imageSource: "qrc:/icons/text/size-more.png"
                 width: rect.subItemHeight
                 selected: false
                 onSelectedChanged: {
@@ -158,7 +158,7 @@ Item {
 
             ToolbarItem {
                 id: boldItem
-                imageSource: "qrc:///icons/text/bold.png"
+                imageSource: "qrc:/icons/text/bold.png"
                 width: rect.subItemHeight
                 selected: (selectedItem !== null && selectedItem.textItem)
                           ? selectedItem.fontBold : false
@@ -173,7 +173,7 @@ Item {
             spacing: 4.5
             ToolbarItem {
                 id: italicItem
-                imageSource: "qrc:///icons/text/italic.png"
+                imageSource: "qrc:/icons/text/italic.png"
                 width: rect.subItemHeight
                 height: rect.subItemHeight
                 selected: (selectedItem !== null && selectedItem.textItem)
@@ -185,7 +185,7 @@ Item {
             }
             ToolbarItem {
                 id: underlineItem
-                imageSource: "qrc:///icons/text/underline.png"
+                imageSource: "qrc:/icons/text/underline.png"
                 width: rect.subItemHeight
                 selected: (selectedItem !== null && selectedItem.textItem)
                           ? selectedItem.fontUnderline : false
@@ -196,7 +196,7 @@ Item {
             }
             ToolbarItem {
                 id: strikeoutItem
-                imageSource: "qrc:///icons/text/strikeout.png"
+                imageSource: "qrc:/icons/text/strikeout.png"
                 width: rect.subItemHeight
                 selected: (selectedItem !== null && selectedItem.textItem)
                           ? selectedItem.fontStrikeout : false
@@ -207,7 +207,7 @@ Item {
             }
             ToolbarItem {
                 id: bulletsItem
-                imageSource: "qrc:///icons/text/bullets.png"
+                imageSource: "qrc:/icons/text/bullets.png"
                 width: rect.subItemHeight
                 selected: (selectedItem !== null && selectedItem.textItem) ?
                               selectedItem.bullets : false

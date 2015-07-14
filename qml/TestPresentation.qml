@@ -3,7 +3,6 @@ import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.1
 
 import "presentation"
-//import "layouts"
 import "panels"
 
 SplitView{
@@ -21,8 +20,7 @@ SplitView{
             textColor: "black"
 
             Component.onCompleted: {
-                addNewSlide()
-                //        layoutsListPanel.state = "closed"
+                addNewSlide();
             }
 
             onCurrentSlideChanged: {
@@ -36,7 +34,6 @@ SplitView{
                     console.log("Error creating object", component.status, component.url, component.errorString());
                 }
                 presentation.newSlide(newSlide, presentation.currentSlide+1, false)
-                //layoutsListPanel.state = "opened"
             }
 
             function removeSlideAt(index) {
@@ -113,134 +110,13 @@ SplitView{
                         }
                     }
                 }
-
             }
-
-            //    Slide
-            //    {
-            //        title: "first slide"
-            //        visible: false
-            //        content: [
-            //            "Gradient Rectangle",
-            //            "Swirls using ShaderEffect",
-            //            " Movement using a vertexShader",
-            //            " Colorized using a gradient rect converted to a texture",
-            //            " Controlled using QML properties and animations",
-            //            "Snow"
-            //        ]
-
-            //    }
-
-            //    Slide {
-            //        centeredText: "Animated Background"
-            //        fontScale: 2
-            //        visible: false
-            //        title: "anim slide"
-
-
-
-            //    }
-
-            //    Slide {
-            //        title: "Composition"
-            //        visible: false
-            //        content: [
-            //            "Gradient Rectangle",
-            //            "Swirls using ShaderEffect",
-            //            " Movement using a vertexShader",
-            //            " Colorized using a gradient rect converted to a texture",
-            //            " Controlled using QML properties and animations",
-            //            "Snow",
-            //            " Using 'QtQuick.Particles 2.0'",
-            //            " Emitter",
-            //            " ImageParticle"
-            //        ]
-
-            //    }
-            //    Slide {
-            //        title: "Slide"
-            //        visible: false
-            //        content: [
-            //            "  Text1",
-            //            "  Text2",
-            //            "  Text3",
-
-            //        ]
-            //        fontScale: 1
-            //        Clock{}
-            //    }
-
-            //    Slide
-            //    {
-            //        title: "code slide"
-            //        visible: false
-            //        code: " RECT* rect = (RECT*) message->lParam;
-            //        int fWidth = frameGeometry().width() - width();
-            //        int fHeight = frameGeometry().height() - height();
-            //        int nWidth = rect->right-rect->left - fWidth;
-            //        int nHeight = rect->bottom-rect->top - fHeight;
-
-            //        switch(message->wParam) {
-            //        case WMSZ_BOTTOM:
-            //        case WMSZ_TOP:
-            //            rect->right = rect->left+(qreal)nHeight*mAspectRatio + fWidth;
-            //            break;"
-            //    }
-
-            //    Slide {
-            //        title: "Last Slide"
-            //        visible: false
-            //        centeredText: "Place some text here"
-            //        fontScale: 2
-            //        Clock{}
-            //    }
-
-            //    PageFlipShaderEffect
-            //    {
-            //        id: flipEffect
-            //        currentSlide: presentation.currentSlide
-            //        onCurrentSlideChanged:
-            //        {
-            //            presentation.currentSlide = currentSlide
-            //        }
-            //        screenWidth: presentation.width
-            //        screenHeight: presentation.height
-            //    }
 
             OptionsPanel {
                 id: optionsPanel
             }
-
-            //    ItemPropertiesPanel
-            //    {
-            //        id: itemPropertiesPanel
-            //        currentItem: presentation.slides[currentSlide].selectedItem
-            //        state: (presentation.slides[currentSlide].editSelectedItemProperties) ? "opened" : "closed"
-            //        z: 3
-            //        //        MouseArea
-            //        //        {
-            //        //            anchors.fill: parent
-            //        //            onDoubleClicked:
-            //        //            {
-            //        //                presentation.slides[currentSlide].editSelectedItemProperties = false
-            //        //            }
-            //        //        }
-            //    }
-
-
-
-            //    MouseArea
-            //    {
-            //        anchors.fill: parent
-            //        onClicked: {
-            //            slidesListPanel.state = "closed"
-            //            layoutsListPanel.state = "closed"
-            //            optionsPanel.state = "Closed"
-            //        }
-
-            //    }
-
         }
+
         SlidesListPanel {
             id: slidesListPanel
             Layout.minimumHeight: 17
@@ -252,6 +128,7 @@ SplitView{
             }
         }
     }
+
     LayoutsListPanel {
         id: layoutsListPanel
         Layout.minimumWidth: 15
