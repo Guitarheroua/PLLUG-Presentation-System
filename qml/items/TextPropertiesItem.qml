@@ -6,45 +6,39 @@ import "../panels"
 //Item {
 Rectangle {
     id: rect
-
+    width: Math.round(subItemHeight*17) //*13
+    height: Math.round(subItemHeight*1.2)  //delegateItemText.height+lineRect.height
+    color: "#3C3C3C"
+    //opacity: 0.7
     property var selectedItem
     property int subItemHeight: 25
-
     onSelectedItemChanged:{
         fontFamiliesCombobox.currentIndex = (selectedItem !== undefined && selectedItem.textItem)
                 ? helper.fontIndex(selectedItem.fontFamily) : 0
     }
 
-    color: "#3C3C3C"
-    width: Math.round(subItemHeight * 17) //*13
-    height: Math.round(subItemHeight * 1.2)  //delegateItemText.height+lineRect.height
+    MouseArea{
+        anchors.fill: rect
+        drag.target: rect
+        drag.axis: Drag.XAndYAxis
+    }
 
     Row {
-
+        anchors.centerIn: rect
         spacing: 4.5
-        anchors.centerIn: parent
-
         ColorMenuItem {
             id: colorMenuItem
             width: rect.subItemHeight
             height: rect.subItemHeight
             selectedItemColor: (selectedItem !== null && selectedItem.textItem)
                                ? selectedItem.fontColor : "black"
-//            onHeightChanged: {
-//                subItemsRect.height = (height === rect.subItemHeight) ? subItemsRect.height : subItemsRect.height + (height - subItemHeight)
-//            }
+            onHeightChanged: {
+                subItemsRect.height = (height === rect.subItemHeight) ? subItemsRect.height : subItemsRect.height + (height - subItemHeight)
+            }
             onSelectedColorChanged: {
                 if (selectedItem !== undefined && selectedItem.textItem)
                 {
-                    //                            if (selectedItem.textItem.selectedText === "")
                     selectedItem.fontColor = selectedColor
-                    //                            else
-                    //                            {
-                    //                                var cursorPos = selectedItem.textItem.cursorPosition
-                    //                                var selectedTextLength = selectedItem.textItem.selectedText.length
-
-                    //                            }
-
                 }
                 selectedItemColor = selectedColor
             }
@@ -68,6 +62,7 @@ Rectangle {
                         }
                         color: "lightgray"
                     }
+
                 }
 
                 label: Item {
@@ -86,30 +81,19 @@ Rectangle {
                     }
                 }
             }
+
             onCurrentTextChanged: {
                 if (selectedItem !== undefined && selectedItem.textItem)
                     selectedItem.fontFamily = currentText
             }
+
         }
-       /* OptionsMenuItem {
-            id: sizeMenuItem
-            propertyName: ""
-            propertyValue: (selectedItem !== null && selectedItem.textItem)
-                           ? selectedItem.fontSize : 0
-            width: rect.subItemHeight
-            onPropertyValueChanged: {
-                if (selectedItem !== null && selectedItem.textItem) {
-                    selectedItem.fontSize = parseFloat(propertyValue)
-                }
-            }
-        }*/
 
         ComboBox{
             id: fontSizeComboBox
             width: rect.subItemHeight*2.5
             height: rect.subItemHeight
-            model: [ 8, 9, 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 32, 36, 40, 48, 56, 64, 72, 80]
-            //editable: true
+            model: [ " ", 10, 11, 12, 14, 16, 18, 20, 22, 24, 26, 28, 32, 36, 40, 48, 56, 64, 72, 80]
 
             style: ComboBoxStyle {
                 background: Rectangle {
@@ -143,38 +127,57 @@ Rectangle {
                 }
             }
 
+            OptionsMenuItem {
+                        id: sizeMenuItem
+                        visible: true
+                        propertyName: (selectedItem !== null && selectedItem.textItem)
+                                      ? Math.round(selectedItem.fontSize) : ""
+                        width: rect.subItemHeight
+                        }
+
             onCurrentTextChanged: {
                 if (selectedItem !== undefined && selectedItem.textItem)
+                {
                     selectedItem.fontSize = currentText
+                    sizeMenuItem.visible = false
+                }
             }
         }
 
         ToolbarItem {
             id: fontSizeLessItem
             selectingItem: false
-            imageSource: "qrc:/icons/text/size-less.png"
+            imageSource: "qrc:///icons/text/size-less.png"
             width: rect.subItemHeight
             selected: false
             onSelectedChanged: {
                 if (selectedItem !== null && selectedItem.textItem)
+                {
                     selectedItem.fontSize -= 1
+                    fontSizeComboBox.currentIndex = 0
+                    sizeMenuItem.visible = true
+                }
             }
         }
         ToolbarItem {
             id: fontSizeMoreItem
             selectingItem: false
-            imageSource: "qrc:/icons/text/size-more.png"
+            imageSource: "qrc:///icons/text/size-more.png"
             width: rect.subItemHeight
             selected: false
             onSelectedChanged: {
                 if (selectedItem !== null && selectedItem.textItem)
+                {
                     selectedItem.fontSize += 1
+                    fontSizeComboBox.currentIndex = 0
+                    sizeMenuItem.visible = true
+                }
             }
         }
 
         ToolbarItem {
             id: boldItem
-            imageSource: "qrc:/icons/text/bold.png"
+            imageSource: "qrc:///icons/text/bold.png"
             width: rect.subItemHeight
             selected: (selectedItem !== null && selectedItem.textItem)
                       ? selectedItem.fontBold : false
@@ -186,7 +189,7 @@ Rectangle {
 
         ToolbarItem {
             id: italicItem
-            imageSource: "qrc:/icons/text/italic.png"
+            imageSource: "qrc:///icons/text/italic.png"
             width: rect.subItemHeight
             height: rect.subItemHeight
             selected: (selectedItem !== null && selectedItem.textItem)
@@ -198,7 +201,7 @@ Rectangle {
         }
         ToolbarItem {
             id: underlineItem
-            imageSource: "qrc:/icons/text/underline.png"
+            imageSource: "qrc:///icons/text/underline.png"
             width: rect.subItemHeight
             selected: (selectedItem !== null && selectedItem.textItem)
                       ? selectedItem.fontUnderline : false
@@ -209,7 +212,7 @@ Rectangle {
         }
         ToolbarItem {
             id: strikeoutItem
-            imageSource: "qrc:/icons/text/strikeout.png"
+            imageSource: "qrc:///icons/text/strikeout.png"
             width: rect.subItemHeight
             selected: (selectedItem !== null && selectedItem.textItem)
                       ? selectedItem.fontStrikeout : false
@@ -220,7 +223,7 @@ Rectangle {
         }
         ToolbarItem {
             id: bulletsItem
-            imageSource: "qrc:/icons/text/bullets.png"
+            imageSource: "qrc:///icons/text/bullets.png"
             width: rect.subItemHeight
             selected: (selectedItem !== null && selectedItem.textItem) ?
                           selectedItem.bullets : false

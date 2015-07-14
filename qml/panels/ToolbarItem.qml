@@ -31,5 +31,7 @@ Rectangle {
                 item.selected = false
             }
         }
+        drag.target: rect
+        drag.axis: Drag.XAndYAxis
     }
 }

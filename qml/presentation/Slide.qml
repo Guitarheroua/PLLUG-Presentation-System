@@ -146,6 +146,10 @@ Item {
             topMargin: topTitleMargin
         }
 
+        onSelectedChanged: {
+            textPropertiesItem.visible = selected
+        }
+
         visible: (layout != "") && (layout != "Empty")
         width: contentWidth
         height: textItem.textItem.height * 1.3

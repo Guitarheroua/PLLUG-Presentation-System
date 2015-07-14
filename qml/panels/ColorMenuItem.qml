@@ -45,7 +45,8 @@ Rectangle {
                 colorPicker.givenColor = colorMenuItem.selectedItemColor
                 //            optionsPanelRect.state = "Closed"
             }
-
+            drag.target: rect
+            drag.axis: Drag.XAndYAxis
         }
     }
 

@@ -19,7 +19,7 @@ Rectangle {
                     margins: 5
                 }
                 font.pointSize: 10
-                color: "white"
+                color: "black"
             }
         }
         Item {
