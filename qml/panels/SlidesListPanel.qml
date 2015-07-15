@@ -33,12 +33,13 @@ Rectangle {
         id: listViewDelegate
 
         Row {
-            spacing: 0
-            Rectangle {
+            height: listViewItem.height
+            width: delegateRect.width + addSlideDivider.width
+
+            Item {
                 id: delegateRect
                 width: slidesListView.itemWidth + 10
                 height: listViewItem.height
-                color: "transparent"
 
                 Rectangle {
 
@@ -47,7 +48,7 @@ Rectangle {
                     height: parent.height
                     color: "steelblue"
                     visible: slidesListView.currentIndex === index
-                    //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
+                    //Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
 
                 }
                 Rectangle {
@@ -57,7 +58,7 @@ Rectangle {
                     color: "white"
                     clip: true
                     z: parent.z+1
-                    //            opacity: (slidesListView.currentIndex === model.index) ? 1.0 : 0.8
+                    //opacity: (slidesListView.currentIndex === model.index) ? 1.0 : 0.8
                     Text {
                         id: text
                         anchors.centerIn: parent
@@ -109,7 +110,7 @@ Rectangle {
                 onStateChanged: {
                     if (state === "dragging") {
                         slidesListView.draggedIndex = index
-                        slidesListView.draggedItemX = x
+                        slidesListView.draggedItemX = parent.x
                     }
                 }
 
@@ -182,12 +183,11 @@ Rectangle {
                 }
                 //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
             }
-            Rectangle {
+            Item {
                 id: addSlideDivider
 
                 width: 15
                 height: listViewItem.height
-                color: "transparent"
 
                 Rectangle {
                     id: divider
@@ -324,6 +324,7 @@ Rectangle {
                     anchors.fill: parent
                     onClicked: {
                         presentation.removeSlideAt(slidesListView.draggedIndex)
+                        //console.log(slidesListView.draggedItemX)
                         deleteImage.opacity = 0.0
                         slidesListView.draggedIndex = -1
                     }
@@ -332,7 +333,7 @@ Rectangle {
             }
         }
 
-        //?
+        //NOTE: ?
         Timer {
             id: deletingTimer
             interval: 50 //5000
@@ -346,6 +347,7 @@ Rectangle {
             property int draggedIndex: -1
             property int draggedItemX: -1
             property int itemWidth: parent.width/8
+
             focus: true
             model: slidesModel
             delegate: listViewDelegate
@@ -356,6 +358,7 @@ Rectangle {
             orientation: ListView.Horizontal
             boundsBehavior: ListView.StopAtBounds
             clip: true
+
             Behavior on contentX { SmoothedAnimation { velocity: 400 } }
 
             //                        onCurrentIndexChanged: {
