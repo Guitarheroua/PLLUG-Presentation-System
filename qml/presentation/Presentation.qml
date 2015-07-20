@@ -111,17 +111,23 @@ Item {
     }
 
     function removeSlide(index) {
-        if ( index === currentSlide) {
+        console.log(root.currentSlide)
+        if ( index === root.currentSlide) {
             if (index+1 < root.slides.length)
                 goToNextSlide()
             else if (index-1 >= 0)
                 goToPreviousSlide()
         }
+        if ( index < root.currentSlide) {
+            root.currentSlide = root.currentSlide - 1;
+        }
+
         var lSlides = root.slides
         var removedSlide = lSlides.splice(index, 1);
         removedSlide[0].destroy()
-        slides = lSlides
         root.slides = lSlides
+        console.log(root.currentSlide)
+        console.log("")
     }
 
     function switchSlides(from, to, forward) {
@@ -132,15 +138,16 @@ Item {
 
     function goToNextSlide() {
         if (transition != null)  {
-            //            if (effect.running)
-            //                return
             transition.goToNextSlide()
             root.focus = true
+            console.log("!!!!!!!")
             return
         }
         root._userNum = 0
-        if (_faded)
+        if (_faded) {
+            console.log("!!!!!!!")
             return
+        }
         if (root.currentSlide + 1 < root.slides.length) {
             var from = slides[currentSlide]
             var to = slides[currentSlide + 1]
@@ -153,15 +160,16 @@ Item {
 
     function goToPreviousSlide() {
         if (transition != null) {
-            //            if (effect.running)
-            //                return
             transition.goToPreviousSlide()
             root.focus = true
+            console.log("!!!!!!!")
             return
         }
         root._userNum = 0
-        if (root._faded)
+        if (root._faded) {
+           console.log("!!!!!!!")
             return
+        }
         if (root.currentSlide - 1 >= 0) {
             var from = slides[currentSlide]
             var to = slides[currentSlide - 1]

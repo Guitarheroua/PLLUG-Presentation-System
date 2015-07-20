@@ -6,7 +6,9 @@ Rectangle {
     height: parent.height/6
     color: "black"
     opacity: 0.7
+
     property variant slides: []
+    property int time: 2000
     signal slideSelected(var index)
 
     function updateModel() {
@@ -42,23 +44,24 @@ Rectangle {
                 height: listViewItem.height
 
                 Rectangle {
-
                     id: hightlightRect
                     width: parent.width
                     height: parent.height
                     color: "steelblue"
                     visible: slidesListView.currentIndex === index
-                    //Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
+
+                    //                    onVisibleChanged: {
+                    //                        console.log(slidesListView.currentIndex, " ", index)
+                    //                    }
 
                 }
                 Rectangle {
-                    width: parent.width -10
+                    width: parent.width - 10
                     height: parent.height - 10
                     anchors.centerIn: parent
                     color: "white"
                     clip: true
                     z: parent.z+1
-                    //opacity: (slidesListView.currentIndex === model.index) ? 1.0 : 0.8
                     Text {
                         id: text
                         anchors.centerIn: parent
@@ -82,106 +85,55 @@ Rectangle {
 
                         }
                         z: parent.z + 1
-                        //                    MouseArea  {
-                        //                        anchors.fill: parent
-                        //                        hoverEnabled: true
-                        //                                            onEntered:
-                        //                                            {
-                        //                                                slideNumberRect.opacity = 0.7
-                        //                                            }
-                        //                                            onExited:
-                        //                                            {
-                        //                                                slideNumberRect.opacity = 1.0
-                        //                                            }
-                        //                    }
-                        //                    Behavior on opacity { SmoothedAnimation{ velocity : 200}}
                     }
-                }
-                states:[
-                    State{
-                        when: delegateMouseArea.drag.active
-                        name: "dragging"
-                    },
-                    State {
-                        when: !delegateMouseArea.drag.active
-                        name: "default"
-                    }
-                ]
-                onStateChanged: {
-                    if (state === "dragging") {
-                        slidesListView.draggedIndex = index
-                        slidesListView.draggedItemX = parent.x
-                    }
-                }
+                    Image {
+                        id: deleteImage
+                        source: "qrc:///icons/delete.png"
+                        visible: false
+                        height: slideNumberText.width + 8//slideNumberText.height + 5
+                        width: slideNumberText.width + 8//slideNumberText.width + 8
+                        anchors {
+                            top: parent.top
+                            left: parent.left
+                        }
 
-                state: "default"
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: {
+                                presentation.removeSlideAt(slidesListView.draggedIndex)
+                                deleteImage.opacity = 0.0
+                                slidesListView.draggedIndex = -1
+                                console.log(slidesListView.currentIndex, " ", hightlightRect.index)
 
-                onYChanged: {
-                    if (slidesListView.draggedIndex === model.index ) {
-                        deleteImage.opacity = y/(parent.height+5)
+                            }
+                        }
                     }
-                }
-                PropertyAnimation {
-                    id: downAnimation
-                    target: delegateRect
-                    property: "y"
-                    to: delegateRect.height+5
-                    duration: 700 //1000
-
-                }
-                PropertyAnimation {
-                    id: upAnimation
-                    target: delegateRect
-                    property: "y"
-                    to: 0
-                    duration: 700 //1000
-                    onRunningChanged: {
-                        slidesListView.draggedIndex = (!running)? -1 : slidesListView.draggedIndex
-                    }
-
                 }
 
                 MouseArea {
                     id: delegateMouseArea
                     anchors.fill: parent
                     hoverEnabled: true
-                    drag.axis: Drag.YAxis
-                    //              drag.maximumY:  listViewItem.height
-                    drag.minimumY: 0
-                    drag.target: ( (slidesListView.draggedIndex === -1) ||
-                                  (slidesListView.draggedIndex === model.index)) ? parent : null
 
                     onClicked: {
                         slideSelected(model.index)
                     }
-                    onPressed: {
-                        //   var lx = mapToItem(slidesListView,mouseX,mouseY).x
-                        //   var ly = mapToItem(slidesListView,mouseX,mouseY).y
-                        //   drag.target = slidesListView.itemAt(lx,ly)
-                    }
 
-                    onReleased: {
-                        if (parent.y > parent.height/2 )  {
-                            downAnimation.from = parent.y
-                            downAnimation.start()
-                            //   y = parent.height+5
-                            //   presentation.removeSlideAt(model.index)
-                        }
-                        else {
-                            upAnimation.from = parent.y
-                            upAnimation.to = 0
-                            upAnimation.start()
-                        }
-
-                        //                    var ax = mapToItem(slidesListView,mouseX,mouseY).x
-                        //                    var ay = mapToItem(slidesListView,mouseX,mouseY).y
-                        //                    slidesModel.move(slidesListView.draggedIndex, slidesListView.indexAt(ax,listViewItem.y),1)
-                    }
                     onPressAndHold: {
-                        optionsPanel.state = (optionsPanel.state != "SlideProperties") ? "SlideProperties" : "Closed"
+                        deleteImageTimer.start()
+                        //deleteImage.visible = true
+                        //optionsPanel.state = (optionsPanel.state != "SlideProperties") ? "SlideProperties" : "Closed"
+                    }
+
+                    Timer {
+                        id: deleteImageTimer
+                        interval: time
+                        running: false
+                        repeat: false
+                        onRunningChanged: deleteImage.visible = deleteImageTimer.running
+                        //onTriggered: deleteImage.visible = true
                     }
                 }
-                //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
             }
             Item {
                 id: addSlideDivider
@@ -218,21 +170,6 @@ Rectangle {
             }
         }
     }
-
-    //NOTE: where it is used?
-    Component {
-        id: highlightBar
-        Item {
-            Rectangle {
-                width: slidesListView.currentItem.width + 10;
-                height: slidesListView.currentItem.height + 10
-                color: "steelblue"
-                x: slidesListView.currentItem.x - 5
-                y: slidesListView.currentItem.y - 5
-            }
-        }
-    }
-
 
     Rectangle {
         id: addItem
@@ -298,47 +235,6 @@ Rectangle {
         }
         z: parent.z+1
 
-        Item {
-            id: deleteImageItem
-            anchors.fill: parent
-            anchors.topMargin: 5
-            z: deleteImage.z
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    var lx = mapToItem(slidesListView,mouseX,mouseY).x
-                    var ly = mapToItem(slidesListView,mouseX,mouseY).y
-                    slidesListView.itemAt(lx,ly+100).y = 0
-                    deleteImage.opacity = 0.0
-                    slidesListView.draggedIndex = -1
-
-                }
-            }
-            Image {
-                id: deleteImage
-                source: "qrc:///icons/delete.png"
-                x: (slidesListView.draggedItemX + slidesListView.itemWidth) - width
-                opacity: 0.0
-                z : (opacity === 1.0) ? listViewItem.z+2 : 0
-                MouseArea{
-                    anchors.fill: parent
-                    onClicked: {
-                        presentation.removeSlideAt(slidesListView.draggedIndex)
-                        //console.log(slidesListView.draggedItemX)
-                        deleteImage.opacity = 0.0
-                        slidesListView.draggedIndex = -1
-                    }
-                }
-                Behavior on opacity { SmoothedAnimation{ velocity : 200}}
-            }
-        }
-
-        //NOTE: ?
-        Timer {
-            id: deletingTimer
-            interval: 50 //5000
-        }
-
         ListView {
             id: slidesListView
             anchors {
@@ -351,58 +247,12 @@ Rectangle {
             focus: true
             model: slidesModel
             delegate: listViewDelegate
-            //            highlight: highlightBar
-            //            highlightFollowsCurrentItem: false
             spacing: 1
             snapMode: ListView.SnapToItem
             orientation: ListView.Horizontal
             boundsBehavior: ListView.StopAtBounds
             clip: true
-
-            Behavior on contentX { SmoothedAnimation { velocity: 400 } }
-
-            //                        onCurrentIndexChanged: {
-            //                            var position = currentIndex*(currentItem.width + spacing)
-            //                            if ( position > width/2 - currentItem.width/2)
-            //                                contentX = position - (width/2 - currentItem.width/2)
-            //                        }
         }
     }
-
-    MouseArea  {
-        id: mouseArea
-        anchors.fill: parent
-        //        drag.axis: Drag.YAxis
-        //        drag.target: mainRect
-        //        drag.minimumY: parent.parent.height - mainRect.height
-        //        drag.maximumY: parent.parent.height - 12
-        //        onClicked: {
-        //            mainRect.state = (mainRect.state === "closed") ? "opened" : "closed"
-        //        }
-        //        onReleased: {
-        //            if ( mainRect.y >= (drag.maximumY - mainRect.height/2 + 20) ) {
-        //                mainRect.y = drag.maximumY
-        //                mainRect.state = "closed"
-        //            }
-        //            else {
-        //                mainRect.y = drag.minimumY
-        //                mainRect.state = "opened"
-        //            }
-        //        }
-    }
-
-    states:[
-        State {
-            name: "opened"
-            PropertyChanges { target: mainRect; y: mouseArea.drag.minimumY}
-        },
-        State {
-            name: "closed"
-            PropertyChanges { target: mainRect; y: mouseArea.drag.maximumY }
-        }]
-
-
-    //Behavior on y { SmoothedAnimation { velocity: 200 } }
-
-    state: "closed"
 }
+
