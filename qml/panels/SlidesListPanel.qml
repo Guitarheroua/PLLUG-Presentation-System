@@ -9,6 +9,7 @@ Rectangle {
 
     property variant slides: []
     property int time: 2000
+
     signal slideSelected(var index)
 
     function updateModel() {
@@ -50,9 +51,9 @@ Rectangle {
                     color: "steelblue"
                     visible: slidesListView.currentIndex === index
 
-                    //                    onVisibleChanged: {
-                    //                        console.log(slidesListView.currentIndex, " ", index)
-                    //                    }
+                    onVisibleChanged: {
+                        console.log(slidesListView.currentIndex, " ", index)
+                    }
 
                 }
                 Rectangle {
@@ -90,8 +91,8 @@ Rectangle {
                         id: deleteImage
                         source: "qrc:///icons/delete.png"
                         visible: false
-                        height: slideNumberText.width + 8//slideNumberText.height + 5
-                        width: slideNumberText.width + 8//slideNumberText.width + 8
+                        height: slideNumberText.width + 8
+                        width: slideNumberText.width + 8
                         anchors {
                             top: parent.top
                             left: parent.left
@@ -103,7 +104,6 @@ Rectangle {
                                 presentation.removeSlideAt(slidesListView.draggedIndex)
                                 deleteImage.opacity = 0.0
                                 slidesListView.draggedIndex = -1
-                                console.log(slidesListView.currentIndex, " ", hightlightRect.index)
 
                             }
                         }
@@ -120,18 +120,15 @@ Rectangle {
                     }
 
                     onPressAndHold: {
-                        deleteImageTimer.start()
-                        //deleteImage.visible = true
-                        //optionsPanel.state = (optionsPanel.state != "SlideProperties") ? "SlideProperties" : "Closed"
+                        focus = true
                     }
 
-                    Timer {
-                        id: deleteImageTimer
-                        interval: time
-                        running: false
-                        repeat: false
-                        onRunningChanged: deleteImage.visible = deleteImageTimer.running
-                        //onTriggered: deleteImage.visible = true
+                    onExited: {
+                        focus = false
+                    }
+
+                    onFocusChanged: {
+                        deleteImage.visible = focus
                     }
                 }
             }
@@ -237,9 +234,8 @@ Rectangle {
 
         ListView {
             id: slidesListView
-            anchors {
-                fill: parent
-            }
+            anchors.fill: parent
+
             property int draggedIndex: -1
             property int draggedItemX: -1
             property int itemWidth: parent.width/8

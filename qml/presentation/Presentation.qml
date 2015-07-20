@@ -111,7 +111,6 @@ Item {
     }
 
     function removeSlide(index) {
-        console.log(root.currentSlide)
         if ( index === root.currentSlide) {
             if (index+1 < root.slides.length)
                 goToNextSlide()
@@ -126,8 +125,6 @@ Item {
         var removedSlide = lSlides.splice(index, 1);
         removedSlide[0].destroy()
         root.slides = lSlides
-        console.log(root.currentSlide)
-        console.log("")
     }
 
     function switchSlides(from, to, forward) {
