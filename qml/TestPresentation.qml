@@ -34,6 +34,7 @@ SplitView{
                     console.log("Error creating object", component.status, component.url, component.errorString());
                 }
                 presentation.newSlide(newSlide, presentation.currentSlide+1, false)
+
             }
 
             function removeSlideAt(index) {
