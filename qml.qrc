@@ -29,6 +29,7 @@
         <file alias="SlidesListPanel.qml">qml/panels/SlidesListPanel.qml</file>
         <file alias="TextMenu.qml">qml/panels/TextMenu.qml</file>
         <file alias="ToolbarItem.qml">qml/panels/ToolbarItem.qml</file>
+        <file alias="MainMenu.qml">qml/panels/MainMenu.qml</file>
     </qresource>
     <qresource prefix="/transitions">
         <file alias="PageFlipShaderEffect.qml">qml/transition/PageFlipShaderEffect.qml</file>
@@ -71,5 +72,6 @@
         <file alias="TestPresentation.qml">qml/TestPresentation.qml</file>
         <file alias="testvideo.qml">qml/testvideo.qml</file>
         <file alias="testwebview.qml">qml/testwebview.qml</file>
+        <file alias="ActionMenu.qml">qml/ActionMenu.qml</file>
     </qresource>
 </RCC>
