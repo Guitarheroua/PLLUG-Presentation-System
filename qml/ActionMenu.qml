@@ -101,7 +101,7 @@ Item {
     }
     Action {
         id: selectAllAction
-        text: "Select ALL"
+        text: "Select All"
         shortcut: "ctrl+A"
         //        iconSource: "images/editcut.png"
         //        iconName: "edit-cut"
