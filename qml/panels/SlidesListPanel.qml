@@ -1,5 +1,6 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.4
+import QtQml.Models 2.1
 
 Rectangle {
     id: mainRect
@@ -23,9 +24,197 @@ Rectangle {
         var position = index*(slidesListView.itemWidth + 10)
         slidesListView.currentIndex = index
     }
+    function swapIconsParents() {
+        if (icon1.parent !== item1 && icon2.parent !== item2) {
+            icon1.parent = item1
+            icon2.parent = item2
+        }
+        else {
+            icon1.parent = item2
+            icon2.parent = item1
+        }
+
+    }
+
     onSlidesChanged: {
         updateModel()
     }
+
+    Item {
+        id: arrowItem
+        anchors {
+            top: parent.top
+            topMargin: 3
+            horizontalCenter: parent.horizontalCenter
+        }
+
+        Column {
+            spacing: 2
+            Repeater {
+                model: 2
+                Rectangle {
+                    width: 30
+                    height: 3
+                    color: "steelblue"
+                    radius: 3
+                }
+            }
+        }
+    }
+
+    //    Item {
+    //        id: listViewItem
+
+    //        property int itemWidth: parent.width/8
+
+    //        anchors {
+    //            top: parent.top
+    //            left: parent.left
+    //            bottom: parent.bottom
+    //            right: parent.right
+    //            topMargin: 12
+    //            leftMargin: 10
+    //            bottomMargin: 5
+    //        }
+    //        z: parent.z + 1
+
+    //        Row {
+    //            spacing: 10
+
+    //            Item {
+    //                id: item1
+    //                width: listViewItem.itemWidth + 10
+    //                height: listViewItem.height
+
+    //                DropArea {
+    //                    anchors {
+    //                        fill: parent
+    //                        margins: 10
+    //                    }
+
+    //                    onEntered: {
+    //                        if (drag.source === icon1 && icon1.parent === item2) {
+    //                            swapIconsParents()
+    //                        }
+    //                        else {
+    //                            if (drag.source === icon2 && icon2.parent === item2) {
+    //                                swapIconsParents()
+    //                            }
+    //                        }
+    //                    }
+    //                }
+
+    //                Rectangle {
+    //                    id: icon1
+    //                    width: listViewItem.itemWidth + 10
+    //                    height: listViewItem.height
+    //                    color: "red"
+
+    //                    anchors {
+    //                        verticalCenter: parent.verticalCenter
+    //                        horizontalCenter: parent.horizontalCenter
+    //                    }
+
+
+
+    //                    Drag.active: myMouseArea1.drag.active
+    //                    Drag.source: icon1
+    //                    Drag.hotSpot.x: width / 2
+    //                    Drag.hotSpot.y: height / 2
+
+//                        transitions: Transition {
+//                            AnchorAnimation { easing.type: Easing.OutQuad }
+//                        }
+
+
+    //                    MouseArea {
+    //                        id: myMouseArea1
+    //                        anchors.fill: parent
+    //                        drag.target: parent
+    //                        drag.axis: Drag.XAxis
+    //                    }
+
+
+
+    //                    states: [
+    //                        State {
+    //                            when: icon1.Drag.active
+    //                            AnchorChanges {
+    //                                target: icon1;
+    //                                anchors.horizontalCenter: undefined;
+    //                                anchors.verticalCenter: undefined;
+    //                            }
+    //                        }
+    //                    ]
+    //                }
+    //            }
+
+    //            Item {
+    //                id: item2
+    //                width: listViewItem.itemWidth + 10
+    //                height: listViewItem.height
+
+    //                DropArea {
+    //                    anchors {
+    //                        fill: parent
+    //                        margins: 10
+    //                    }
+
+    //                    onEntered: {
+    //                        if (drag.source === icon2 && icon2.parent === item1) {
+    //                            swapIconsParents()
+    //                        }
+    //                        else {
+    //                            if (drag.source === icon1 && icon1.parent === item1) {
+    //                                swapIconsParents()
+    //                            }
+    //                        }
+    //                    }
+    //                }
+
+    //                Rectangle {
+    //                    id: icon2
+    //                    width: listViewItem.itemWidth + 10
+    //                    height: listViewItem.height
+    //                    color: "blue"
+
+    //                    anchors {
+    //                        verticalCenter: parent.verticalCenter
+    //                        horizontalCenter: parent.horizontalCenter
+    //                    }
+
+    //                    Drag.active: myMouseArea2.drag.active
+    //                    Drag.source: icon2
+    //                    Drag.hotSpot.x: width / 2
+    //                    Drag.hotSpot.y: height / 2
+
+    //                    transitions: Transition {
+    //                        AnchorAnimation { easing.type: Easing.OutQuad }
+    //                    }
+
+    //                    MouseArea {
+    //                        id: myMouseArea2
+    //                        anchors.fill: parent
+    //                        drag.target: parent
+    //                        drag.axis: Drag.XAxis
+    //                    }
+
+
+
+    //                    states: [
+    //                        State {
+    //                            when: icon2.Drag.active
+    //                            AnchorChanges {
+    //                                target: icon2;
+    //                                anchors.horizontalCenter: undefined;
+    //                                anchors.verticalCenter: undefined;
+    //                            }
+    //                        }
+    //                    ]
+    //                }
+    //            }
+    //        }
+    //    }
 
     ListModel {
         id: slidesModel
@@ -34,26 +223,48 @@ Rectangle {
     Component {
         id: listViewDelegate
 
+        Item {
+            height: listViewItem.height
+            width: delegateRect.width + addSlideDivider.width
+
+            DropArea {
+                anchors {
+                    fill: parent
+                    leftMargin: 10
+                    rightMargin: 25
+                }
+
+                onEntered: {
+                    console.log(slidesListView.draggedItemIndex, " ", index)
+
+                    visualModel.items.move(slidesListView.draggedItemIndex, index)
+                }
+            }
+
             Row {
+                id: delegateRow
                 height: listViewItem.height
                 width: delegateRect.width + addSlideDivider.width
+
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    horizontalCenter: parent.horizontalCenter
+                }
+
+                transitions: Transition {
+                    AnchorAnimation { easing.type: Easing.OutQuad }
+                }
 
                 Item {
                     id: delegateRect
                     width: slidesListView.itemWidth + 10
                     height: listViewItem.height
-
                     Rectangle {
                         id: hightlightRect
                         width: parent.width
                         height: parent.height
                         color: "steelblue"
                         visible: slidesListView.currentIndex === index
-
-                        onVisibleChanged: {
-                            console.log(slidesListView.currentIndex, " ", index)
-                        }
-
                     }
                     Rectangle {
                         width: parent.width - 10
@@ -111,16 +322,15 @@ Rectangle {
 
                     MouseArea {
                         id: delegateMouseArea
+
                         anchors.fill: parent
                         hoverEnabled: true
+                        drag.target: delegateRow
+                        drag.axis: Drag.XAxis
 
                         onClicked: {
                             slideSelected(model.index)
                         }
-
-                        //                    onPressed: {
-                        //                        slideSelected(model.index)
-                        //                    }
 
                         onPressAndHold: {
                             focus = true
@@ -133,10 +343,19 @@ Rectangle {
                         onFocusChanged: {
                             deleteImage.visible = focus
                         }
+
+                        drag.onActiveChanged: {
+                            if (delegateMouseArea.drag.active) {
+                                slidesListView.draggedItemIndex = index;
+                            }
+                        }
+
                     }
+
                 }
 
                 Item {
+
                     id: addSlideDivider
 
                     width: 15
@@ -168,32 +387,32 @@ Rectangle {
                         }
                     }
                 }
+
+                Drag.active: delegateMouseArea.drag.active
+                Drag.source: delegateRow
+                Drag.hotSpot.x: (delegateRect.width + addSlideDivider.width) / 2
+                Drag.hotSpot.y: delegateRect.height / 2
+
+                states: [
+                    State {
+                        when: delegateRow.Drag.active
+                        ParentChange {
+                            target: delegateRow
+                            parent: dndContainer
+                        }
+
+                        AnchorChanges {
+                            target: delegateRow;
+                            anchors.horizontalCenter: undefined;
+                            anchors.verticalCenter: undefined;
+                        }
+                    }
+                ]
             }
+        }
     }
 
     Item {
-        id: arrowItem
-        anchors {
-            top: parent.top
-            topMargin: 3
-            horizontalCenter: parent.horizontalCenter
-        }
-
-        Column {
-            spacing: 2
-            Repeater {
-                model: 2
-                Rectangle {
-                    width: 30
-                    height: 3
-                    color: "steelblue"
-                    radius: 3
-                }
-            }
-        }
-    }
-
-    ScrollView {
         id: listViewItem
 
         anchors  {
@@ -210,15 +429,31 @@ Rectangle {
         ListView {
             id: slidesListView
 
-            property int draggedIndex: -1
-            property int draggedItemX: -1
             property int itemWidth: parent.width/8
+            property int draggedItemIndex: -1
+
+            interactive: false
+
+            //drag and drop contatiner
+            Item {
+                id: dndContainer
+                anchors.fill: parent
+            }
+
+            displaced: Transition {
+                NumberAnimation { properties: "x,y"; easing.type: Easing.OutQuad }
+            }
 
             anchors.fill: parent
-
             focus: true
-            model: slidesModel
-            delegate: listViewDelegate
+
+            model: DelegateModel {
+                id: visualModel
+
+                model: slidesModel
+                delegate: listViewDelegate
+            }
+
             spacing: 1
             snapMode: ListView.SnapToItem
             orientation: ListView.Horizontal
