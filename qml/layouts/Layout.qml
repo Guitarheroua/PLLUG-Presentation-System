@@ -1,7 +1,7 @@
 import QtQuick 2.4
 import "../"
 import "../items/"
-
+import "../resize/"
 Item {
     id: templateItem
     anchors.fill: parent
@@ -47,7 +47,7 @@ Item {
                 id: highlightRect
                 anchors.fill: parent
                 color: "lightsteelblue"
-                visible: (gridView.currentIndex === index && selected)
+                visible: false//(gridView.currentIndex === index)
                 onVisibleChanged: {
                     if (!visible && templateItem.parent)
                         templateItem.parent.editSelectedItemProperties = false
@@ -56,18 +56,52 @@ Item {
                 //            Behavior on y { SpringAnimation { spring: 2; damping: 0.1 } }
             }
 
+            Item{
+                id: positionAnchorHook
+                width: 0
+                height: 0
+            }
+
+            ResizeItem {
+                id: idResize
+                visible: (gridView.currentIndex === index && delegateItem.selected)
+                function fill(item){
+                    idResize.target = item
+                    idResize.anchors.fill = item
+                    idResize.z = item.z
+                }
+            }
+
             Block {
                 id: block
+                property bool sel: false
                 width: parent.width-10
                 height: parent.height-10
-                anchors.centerIn: parent
+                //anchors.centerIn: parent
                 MouseArea{
                     anchors.fill: parent
+
                     enabled: helper.enableEdit()
                     onClicked: {
-                        gridView.currentIndex = index
-                        delegateItem.selected = !delegateItem.selected
+                        block.sel = false
+                        if(gridView.currentIndex === index)
+                        {
+                            console.log("click!!")
+                            block.sel = !delegateItem.selected
+                        }
+                        else
+                        {
+                            block.sel = true
+                            gridView.currentIndex = index
+                        }
+
+
+
+                        idResize.fill(parent)
+                        console.log(index, block.sel)
+                        delegateItem.selected = block.sel
                         templateItem.parent.selectedItem = gridView.currentItem.children[1].contentItem
+
                     }
                     onPressAndHold: {
                         gridView.currentIndex = index

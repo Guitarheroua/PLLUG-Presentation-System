@@ -72,4 +72,8 @@
         <file alias="testvideo.qml">qml/testvideo.qml</file>
         <file alias="testwebview.qml">qml/testwebview.qml</file>
     </qresource>
+    <qresource prefix="/resize">
+        <file alias="ResizeDot.qml">qml/resize/ResizeDot.qml</file>
+        <file alias="ResizeItem.qml">qml/resize/ResizeItem.qml</file>
+    </qresource>
 </RCC>

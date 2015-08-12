@@ -3,6 +3,8 @@ import QtQuick.Dialogs 1.2
 
 Rectangle {
     id: blockRoot
+
+
     property alias contentItem: blockLoader.item
 
     objectName: "block"
@@ -22,9 +24,10 @@ Rectangle {
         z: 2
     }
 
+
     BlockMenu {
+
         width: Math.min(parent.width, parent.height)/4.5
         height: width
     }
-
 }
