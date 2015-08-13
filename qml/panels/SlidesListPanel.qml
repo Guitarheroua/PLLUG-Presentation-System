@@ -24,17 +24,6 @@ Rectangle {
         var position = index*(slidesListView.itemWidth + 10)
         slidesListView.currentIndex = index
     }
-    function swapIconsParents() {
-        if (icon1.parent !== item1 && icon2.parent !== item2) {
-            icon1.parent = item1
-            icon2.parent = item2
-        }
-        else {
-            icon1.parent = item2
-            icon2.parent = item1
-        }
-
-    }
 
     onSlidesChanged: {
         updateModel()
@@ -62,160 +51,6 @@ Rectangle {
         }
     }
 
-    //    Item {
-    //        id: listViewItem
-
-    //        property int itemWidth: parent.width/8
-
-    //        anchors {
-    //            top: parent.top
-    //            left: parent.left
-    //            bottom: parent.bottom
-    //            right: parent.right
-    //            topMargin: 12
-    //            leftMargin: 10
-    //            bottomMargin: 5
-    //        }
-    //        z: parent.z + 1
-
-    //        Row {
-    //            spacing: 10
-
-    //            Item {
-    //                id: item1
-    //                width: listViewItem.itemWidth + 10
-    //                height: listViewItem.height
-
-    //                DropArea {
-    //                    anchors {
-    //                        fill: parent
-    //                        margins: 10
-    //                    }
-
-    //                    onEntered: {
-    //                        if (drag.source === icon1 && icon1.parent === item2) {
-    //                            swapIconsParents()
-    //                        }
-    //                        else {
-    //                            if (drag.source === icon2 && icon2.parent === item2) {
-    //                                swapIconsParents()
-    //                            }
-    //                        }
-    //                    }
-    //                }
-
-    //                Rectangle {
-    //                    id: icon1
-    //                    width: listViewItem.itemWidth + 10
-    //                    height: listViewItem.height
-    //                    color: "red"
-
-    //                    anchors {
-    //                        verticalCenter: parent.verticalCenter
-    //                        horizontalCenter: parent.horizontalCenter
-    //                    }
-
-
-
-    //                    Drag.active: myMouseArea1.drag.active
-    //                    Drag.source: icon1
-    //                    Drag.hotSpot.x: width / 2
-    //                    Drag.hotSpot.y: height / 2
-
-//                        transitions: Transition {
-//                            AnchorAnimation { easing.type: Easing.OutQuad }
-//                        }
-
-
-    //                    MouseArea {
-    //                        id: myMouseArea1
-    //                        anchors.fill: parent
-    //                        drag.target: parent
-    //                        drag.axis: Drag.XAxis
-    //                    }
-
-
-
-    //                    states: [
-    //                        State {
-    //                            when: icon1.Drag.active
-    //                            AnchorChanges {
-    //                                target: icon1;
-    //                                anchors.horizontalCenter: undefined;
-    //                                anchors.verticalCenter: undefined;
-    //                            }
-    //                        }
-    //                    ]
-    //                }
-    //            }
-
-    //            Item {
-    //                id: item2
-    //                width: listViewItem.itemWidth + 10
-    //                height: listViewItem.height
-
-    //                DropArea {
-    //                    anchors {
-    //                        fill: parent
-    //                        margins: 10
-    //                    }
-
-    //                    onEntered: {
-    //                        if (drag.source === icon2 && icon2.parent === item1) {
-    //                            swapIconsParents()
-    //                        }
-    //                        else {
-    //                            if (drag.source === icon1 && icon1.parent === item1) {
-    //                                swapIconsParents()
-    //                            }
-    //                        }
-    //                    }
-    //                }
-
-    //                Rectangle {
-    //                    id: icon2
-    //                    width: listViewItem.itemWidth + 10
-    //                    height: listViewItem.height
-    //                    color: "blue"
-
-    //                    anchors {
-    //                        verticalCenter: parent.verticalCenter
-    //                        horizontalCenter: parent.horizontalCenter
-    //                    }
-
-    //                    Drag.active: myMouseArea2.drag.active
-    //                    Drag.source: icon2
-    //                    Drag.hotSpot.x: width / 2
-    //                    Drag.hotSpot.y: height / 2
-
-    //                    transitions: Transition {
-    //                        AnchorAnimation { easing.type: Easing.OutQuad }
-    //                    }
-
-    //                    MouseArea {
-    //                        id: myMouseArea2
-    //                        anchors.fill: parent
-    //                        drag.target: parent
-    //                        drag.axis: Drag.XAxis
-    //                    }
-
-
-
-    //                    states: [
-    //                        State {
-    //                            when: icon2.Drag.active
-    //                            AnchorChanges {
-    //                                target: icon2;
-    //                                anchors.horizontalCenter: undefined;
-    //                                anchors.verticalCenter: undefined;
-    //                            }
-    //                        }
-    //                    ]
-    //                }
-    //            }
-    //        }
-    //    }
-
     ListModel {
         id: slidesModel
     }
@@ -224,6 +59,10 @@ Rectangle {
         id: listViewDelegate
 
         Item {
+            id: aaa
+
+            property int visualIndex: DelegateModel.itemsIndex
+
             height: listViewItem.height
             width: delegateRect.width + addSlideDivider.width
 
@@ -235,9 +74,7 @@ Rectangle {
                 }
 
                 onEntered: {
-                    console.log(slidesListView.draggedItemIndex, " ", index)
-
-                    visualModel.items.move(slidesListView.draggedItemIndex, index)
+                    visualModel.items.move(drag.source.visualIndex, aaa.visualIndex)
                 }
             }
 
@@ -389,18 +226,13 @@ Rectangle {
                 }
 
                 Drag.active: delegateMouseArea.drag.active
-                Drag.source: delegateRow
+                Drag.source: aaa//delegateRow
                 Drag.hotSpot.x: (delegateRect.width + addSlideDivider.width) / 2
                 Drag.hotSpot.y: delegateRect.height / 2
 
                 states: [
                     State {
                         when: delegateRow.Drag.active
-                        ParentChange {
-                            target: delegateRow
-                            parent: dndContainer
-                        }
-
                         AnchorChanges {
                             target: delegateRow;
                             anchors.horizontalCenter: undefined;
@@ -410,6 +242,13 @@ Rectangle {
                 ]
             }
         }
+    }
+
+    DelegateModel {
+        id: visualModel
+
+        model: slidesModel
+        delegate: listViewDelegate
     }
 
     Item {
@@ -447,12 +286,7 @@ Rectangle {
             anchors.fill: parent
             focus: true
 
-            model: DelegateModel {
-                id: visualModel
-
-                model: slidesModel
-                delegate: listViewDelegate
-            }
+            model: visualModel
 
             spacing: 1
             snapMode: ListView.SnapToItem
