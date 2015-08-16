@@ -33,6 +33,55 @@ Item
             cursorShape: Qt.SizeAllCursor
         }
     }
+    Item{
+        id: rotateItem
+        height: pointHeight * 4
+        anchors.bottom: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        Rectangle{
+            id: rotateRect
+            property int angle: 0
+            color: "green"
+            width: 10
+            height: 10
+            anchors.top: parent.top
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            MouseArea{
+                anchors.fill: parent;
+                onPositionChanged:  {
+                    hiddenRotateCenter.x = idResizeMainItem.x
+                    hiddenRotateCenter.y = idResizeMainItem.y
+                    hiddenRotateCenter.width = idResizeMainItem.width
+                    hiddenRotateCenter.height = idResizeMainItem.height
+                    var point =  mapToItem (hiddenRotateCenter, mouse.x, mouse.y);
+                    var diffX = (point.x - hiddenRotateCenter.width / 2);
+                    var diffY = -(point.y - hiddenRotateCenter.height / 2);
+                    var rad = Math.atan (diffY / diffX);
+                    var deg = Math.abs(rad * 180 / Math.PI);
+
+                    if (diffX > 0 && diffY > 0) {
+                        rotateRect.angle = 90 - deg;
+                    }
+                    else if (diffX > 0 && diffY < 0) {
+                        rotateRect.angle = 90 + deg;
+
+                    }
+                    else if (diffX < 0 && diffY > 0) {
+                        rotateRect.angle = 270 + deg;
+
+                    }
+                    else if (diffX < 0 && diffY < 0) {
+                        rotateRect.angle = 270 - deg;
+
+                    }
+                    target.rotation = rotateRect.angle;
+                    idResizeMainItem.rotation = rotateRect.angle;
+
+                }
+            }
+        }
+    }
     MouseArea {
         id: topHandle
         width: pointWidth

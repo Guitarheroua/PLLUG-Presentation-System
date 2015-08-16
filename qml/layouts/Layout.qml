@@ -61,6 +61,10 @@ Item {
                 width: 0
                 height: 0
             }
+            Item{
+                id: hiddenRotateCenter
+                //anchors.centerIn: parent
+            }
 
             ResizeItem {
                 id: idResize
