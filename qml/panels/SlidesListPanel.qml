@@ -10,6 +10,7 @@ Rectangle {
     opacity: 0.7
 
     property variant slides: []
+    property var swapp
     property int time: 2000
 
     signal slideSelected(var index)
@@ -21,7 +22,7 @@ Rectangle {
         }
     }
     function selectSlide(index) {
-        var position = index*(slidesListView.itemWidth + 10)
+     //   var position = index*(slidesListView.itemWidth + 10)
         slidesListView.currentIndex = index
     }
 
@@ -59,7 +60,7 @@ Rectangle {
         id: listViewDelegate
 
         Item {
-            id: aaa
+            id: delegateItem
 
             property int visualIndex: DelegateModel.itemsIndex
 
@@ -74,7 +75,11 @@ Rectangle {
                 }
 
                 onEntered: {
-                    visualModel.items.move(drag.source.visualIndex, aaa.visualIndex)
+                    visualModel.items.move(drag.source.visualIndex, delegateItem.visualIndex);
+                    swapp = slides[drag.source.visualIndex];
+                    slides[drag.source.visualIndex] = slides[delegateItem.visualIndex];
+                    slides[delegateItem.visualIndex] = swapp;
+                    slideSelected(delegateItem.visualIndex)
                 }
             }
 
@@ -102,6 +107,11 @@ Rectangle {
                         height: parent.height
                         color: "steelblue"
                         visible: slidesListView.currentIndex === index
+
+                        onVisibleChanged: {
+                            console.log("slidesListView.currentIndex: ", slidesListView.currentIndex)
+                            console.log("index: ", index)
+                        }
                     }
                     Rectangle {
                         width: parent.width - 10
@@ -148,7 +158,6 @@ Rectangle {
                             MouseArea{
                                 anchors.fill: parent
                                 onClicked: {
-                                    presentation.removeSlideAt(slidesListView.draggedIndex)
                                     deleteImage.opacity = 0.0
                                     slidesListView.draggedIndex = -1
 
@@ -160,12 +169,18 @@ Rectangle {
                     MouseArea {
                         id: delegateMouseArea
 
+                        property int selectedSlideMemo: -1
+
                         anchors.fill: parent
                         hoverEnabled: true
                         drag.target: delegateRow
                         drag.axis: Drag.XAxis
 
                         onClicked: {
+                            slideSelected(model.index)
+                        }
+
+                        onPressed: {
                             slideSelected(model.index)
                         }
 
@@ -179,11 +194,17 @@ Rectangle {
 
                         onFocusChanged: {
                             deleteImage.visible = focus
+                            slidesListView.draggedIndex = index
                         }
 
                         drag.onActiveChanged: {
                             if (delegateMouseArea.drag.active) {
                                 slidesListView.draggedItemIndex = index;
+                                slideSelected(model.index)
+                            } else {
+                                selectedSlideMemo = model.index
+                                updateModel();
+                                slideSelected(selectedSlideMemo)
                             }
                         }
 
@@ -226,7 +247,7 @@ Rectangle {
                 }
 
                 Drag.active: delegateMouseArea.drag.active
-                Drag.source: aaa//delegateRow
+                Drag.source: delegateItem
                 Drag.hotSpot.x: (delegateRect.width + addSlideDivider.width) / 2
                 Drag.hotSpot.y: delegateRect.height / 2
 
@@ -270,6 +291,7 @@ Rectangle {
 
             property int itemWidth: parent.width/8
             property int draggedItemIndex: -1
+            property int draggedIndex: -1
 
             interactive: false
 
