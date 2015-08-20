@@ -1,5 +1,5 @@
 import QtQuick 2.4
-import QtQuick.Controls 1.4
+import QtQuick.Controls 1.3
 import QtQml.Models 2.1
 
 Rectangle {
@@ -22,7 +22,7 @@ Rectangle {
         }
     }
     function selectSlide(index) {
-     //   var position = index*(slidesListView.itemWidth + 10)
+        //   var position = index*(slidesListView.itemWidth + 10)
         slidesListView.currentIndex = index
     }
 

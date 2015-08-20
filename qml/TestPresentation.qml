@@ -8,6 +8,23 @@ import "panels"
 SplitView{
     id: horisontalSplitView
     anchors.fill: parent
+    Rectangle{
+        id: idMode
+        color: "red"
+
+        height: 50
+        width: 50
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+
+                changeWindowMode(presmode)
+                presmode = !presmode
+                slidesListPanel.visible = !presmode
+                layoutsListPanel.visible = !presmode
+            }
+        }
+    }
 
     SplitView{
         id: verticalSplitView
@@ -18,6 +35,13 @@ SplitView{
             id: presentation
             Layout.fillHeight: true
             textColor: "black"
+            MouseArea{
+                anchors.fill: parent
+                onPressAndHold: {
+                    optionsPanel.state = (optionsPanel.state != "SlideProperties") ? "SlideProperties" : "Closed"
+
+                }
+            }
 
             Component.onCompleted: {
                 addNewSlide();
@@ -26,6 +50,7 @@ SplitView{
             onCurrentSlideChanged: {
                 slidesListPanel.selectSlide(currentSlide)
             }
+
 
             function addNewSlide() {
                 var component = Qt.createComponent("presentation/Slide.qml");
@@ -115,6 +140,7 @@ SplitView{
 
             OptionsPanel {
                 id: optionsPanel
+
             }
         }
 

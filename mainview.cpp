@@ -45,9 +45,10 @@ MainView::MainView(const QString &pContentDir, QObject *parent) :
             mManager, SLOT(setCreateEditPresentationMode()), Qt::UniqueConnection);
     connect(mHelper, SIGNAL(open(QString)),
             mManager, SLOT(openPresentation(QString)), Qt::UniqueConnection);
+    connect(mMainWindow, SIGNAL(changeWindowMode(bool)), this, SLOT(showWindow(bool)), Qt::UniqueConnection);
 
-    mActualSize = QSize(qApp->desktop()->screenGeometry().width()/1.5,
-                        qApp->desktop()->screenGeometry().height()/1.5);
+    mActualSize = QSize(qApp->desktop()->screenGeometry().width() / 1.5,
+                        qApp->desktop()->screenGeometry().height() / 1.5);
 
     mHelper->setMainViewSize(mActualSize);
 //    mAspectRatio = (qreal)mActualSize.width() / mActualSize.height();
@@ -55,10 +56,14 @@ MainView::MainView(const QString &pContentDir, QObject *parent) :
     mMainWindow->installEventFilter(this);
 }
 
-void MainView::showWindow()
+void MainView::showWindow(bool state)
 {
-    mMainWindow->show();
+    if(state)
+        mMainWindow->show();
+    else
+        mMainWindow->showFullScreen();
 }
+
 
 #if defined(Q_OS_WIN)
 bool MainView::nativeEvent(const QByteArray& eventType, void* pMessage, long* result)

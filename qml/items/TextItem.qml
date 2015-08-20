@@ -97,14 +97,16 @@ Item {
         activeFocusOnPress: true
         onTextChanged: {
             textItemRect.text = text
+            textEdit.text = (textItemRect.getText() === "")? defaultText : textEdit.text
         }
 
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                textEdit.text = (textItemRect.getText() === defaultText) ? "" : textEdit.text
+                textEdit.text = (textItemRect.getText() === defaultText) ? " " : textEdit.text
+
                 textEdit.forceActiveFocus()
-                textEdit.deselect()
+//                textEdit.deselect()
                 textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
             }
             onDoubleClicked: {

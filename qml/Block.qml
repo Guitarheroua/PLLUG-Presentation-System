@@ -8,6 +8,7 @@ Rectangle {
     property alias contentItem: blockLoader.item
 
     objectName: "block"
+    enabled: !mainRect.presmode
     color: (helper.enableEdit())? "white" :"transparent"
     border {
         color: "lightgray"

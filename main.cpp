@@ -31,6 +31,6 @@ int main(int argc, char *argv[])
     helper->setAspectRatio(view->winId());
 #endif
 
-    view.showWindow();
+    view.showWindow(true);
     return app.exec();
 }
