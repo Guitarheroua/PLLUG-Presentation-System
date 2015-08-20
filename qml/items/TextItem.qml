@@ -34,26 +34,26 @@ Item {
     }
 
     onFontBoldChanged: {
-//        textEdit.font.bold = fontBold
+        //        textEdit.font.bold = fontBold
     }
 
     onFontItalicChanged: {
-//        textEdit.font.italic = fontItalic
+        //        textEdit.font.italic = fontItalic
     }
 
     onFontSizeChanged: {
-//        textEdit.font.pointSize = fontSize
+        //        textEdit.font.pointSize = fontSize
     }
 
     onFontStrikeoutChanged: {
-//        textEdit.font.strikeout = fontStrikeout
+        //        textEdit.font.strikeout = fontStrikeout
     }
     onFontUnderlineChanged: {
-//        textEdit.font.underline = fontUnderline
+        //        textEdit.font.underline = fontUnderline
     }
 
     onFontColorChanged: {
-//        textEdit.color = fontColor
+        //        textEdit.color = fontColor
     }
 
     onBulletsChanged: {
@@ -65,14 +65,16 @@ Item {
         textEdit.visible = false
     }
 
-//    color: backgroundColor
+    //    color: backgroundColor
     anchors.fill: parent
     z: parent.z + 1
+
 
     TextEdit  {
         id: textEdit
         property bool selecting : false
-        enabled: helper.enableEdit()
+
+        enabled: !mainRect.presmode
         anchors {
             top:  parent.top
             left: parent.left
@@ -89,6 +91,7 @@ Item {
             strikeout: fontStrikeout
         }
         color: fontColor
+
         textFormat: TextEdit.PlainText
         selectByMouse: true
         mouseSelectionMode: TextInput.SelectWords
@@ -99,23 +102,23 @@ Item {
             textItemRect.text = text
             textEdit.text = (textItemRect.getText() === "")? defaultText : textEdit.text
         }
-
         MouseArea {
             anchors.fill: parent
+            propagateComposedEvents: true
             onClicked: {
-                textEdit.text = (textItemRect.getText() === defaultText) ? " " : textEdit.text
+                //textEdit.text = (textItemRect.getText() === defaultText) ? " " : textEdit.text
 
                 textEdit.forceActiveFocus()
-//                textEdit.deselect()
-                textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
+                //textEdit.deselect()
+                //textEdit.cursorPosition = textEdit.positionAt(mouse.x + x, mouse.y + y)
             }
             onDoubleClicked: {
                 textEdit.selectWord()
             }
 
             onPressAndHold: {
-//                console.log("onPressAndHold");
-//                textItemRect.hideRect();
+                //                console.log("onPressAndHold");
+                //                textItemRect.hideRect();
                 textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
                 textEdit.selecting = true
             }
@@ -124,6 +127,9 @@ Item {
                     textEdit.moveCursorSelection(textEdit.positionAt(mouse.x+x,mouse.y+y), TextInput.SelectCharacters);
                 }
             }
+
+
+
         }
     }
 
@@ -153,7 +159,7 @@ Item {
                     color: fontColor
                     radius: width / 2
                     smooth: true
-//                    opacity: text.text.length === 0 ? 0 : 1
+                    //                    opacity: text.text.length === 0 ? 0 : 1
                 }
 
                 Rectangle {

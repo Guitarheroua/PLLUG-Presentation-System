@@ -9,10 +9,10 @@ Rectangle {
 
     objectName: "block"
     enabled: !mainRect.presmode
-    color: (helper.enableEdit())? "white" :"transparent"
+    color: (mainRect.presmode)? "transparent" :"white"
     border {
         color: "lightgray"
-        width: helper.enableEdit() ? 1 : 0
+        width: mainRect.presmode ? 0 : 1
     }
     function load(url) {
         blockLoader.setSource(url, {})

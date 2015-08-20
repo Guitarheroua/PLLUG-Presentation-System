@@ -85,7 +85,7 @@ Item {
                 MouseArea{
                     anchors.fill: parent
 
-                    enabled: helper.enableEdit()
+                    enabled: !mainRect.presmode
                     onClicked: {
                         block.sel = false
                         if(gridView.currentIndex === index)

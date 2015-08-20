@@ -10,7 +10,7 @@ Item {
     anchors {
         centerIn: parent
     }
-    visible: helper.enableEdit()
+    visible: !mainRect.presmode
 
     Grid {
         columns: 2

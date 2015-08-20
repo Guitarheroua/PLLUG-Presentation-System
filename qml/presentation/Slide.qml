@@ -52,7 +52,7 @@ Item {
     id: slide
 
     property bool isSlide: true
-    property bool enableEdit: helper.enableEdit()
+    property bool enableEdit: !mainRect.presmode
 
     property string title : ""
     property variant content: []
@@ -165,7 +165,7 @@ Item {
             }
 
             anchors.fill: parent
-            visible: helper.enableEdit()
+            visible: !mainRect.presmode
             color: titleRect.borderColor
         }
 
@@ -173,7 +173,7 @@ Item {
             width: parent.width - titleRect.borderWidth * 2
             height: parent.height - titleRect.borderWidth * 2
             anchors.centerIn: parent
-            color: (helper.enableEdit())? "white" : "transparent"
+            color: (!mainRect.presmode)? "white" : "transparent"
 
             TextItem {
                 id: textItem
@@ -199,7 +199,7 @@ Item {
                 }
 
                 anchors.fill: parent
-                enabled: helper.enableEdit()
+                enabled: !mainRect.presmode
             }
         }
     }

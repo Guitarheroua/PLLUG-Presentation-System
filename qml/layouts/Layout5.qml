@@ -54,7 +54,7 @@ Item
                 anchors.centerIn: parent
                 MouseArea{
                     anchors.fill: parent
-                    enabled: helper.enableEdit()
+                    enabled: !mainRect.presmode
                     onClicked: {
                         gridView.currentIndex = index
                         delegateItem.selected = !delegateItem.selected
