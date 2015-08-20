@@ -29,6 +29,7 @@
         <file alias="SlidesListPanel.qml">qml/panels/SlidesListPanel.qml</file>
         <file alias="TextMenu.qml">qml/panels/TextMenu.qml</file>
         <file alias="ToolbarItem.qml">qml/panels/ToolbarItem.qml</file>
+        <file>qml/panels/ContextMenu.qml</file>
     </qresource>
     <qresource prefix="/transitions">
         <file alias="PageFlipShaderEffect.qml">qml/transition/PageFlipShaderEffect.qml</file>
