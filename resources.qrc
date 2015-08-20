@@ -8,6 +8,7 @@
         <file alias="play.png">resources/icons/play.png</file>
         <file alias="trash.png">resources/icons/trash.png</file>
         <file alias="delete.png">resources/icons/delete.png</file>
+        <file>resources/icons/rotateIcon.png</file>
     </qresource>
     <qresource prefix="/shaders">
         <file alias="flipPage.fsh">resources/shaders/flipPage.fsh</file>

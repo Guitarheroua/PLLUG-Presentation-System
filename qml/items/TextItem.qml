@@ -106,11 +106,11 @@ Item {
             anchors.fill: parent
             propagateComposedEvents: true
             onClicked: {
-                //textEdit.text = (textItemRect.getText() === defaultText) ? " " : textEdit.text
+                textEdit.text = (textItemRect.getText() === defaultText) ? " " : textEdit.text
 
                 textEdit.forceActiveFocus()
-                //textEdit.deselect()
-                //textEdit.cursorPosition = textEdit.positionAt(mouse.x + x, mouse.y + y)
+                textEdit.deselect()
+                textEdit.cursorPosition = textEdit.positionAt(mouse.x + x, mouse.y + y)
             }
             onDoubleClicked: {
                 textEdit.selectWord()

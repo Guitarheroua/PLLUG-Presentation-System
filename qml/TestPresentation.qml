@@ -17,11 +17,10 @@ SplitView{
         MouseArea{
             anchors.fill: parent
             onClicked: {
-
                 changeWindowMode(presmode)
+                slidesListPanel.visible = presmode
+                layoutsListPanel.visible = presmode
                 presmode = !presmode
-                slidesListPanel.visible = !presmode
-                layoutsListPanel.visible = !presmode
             }
         }
     }

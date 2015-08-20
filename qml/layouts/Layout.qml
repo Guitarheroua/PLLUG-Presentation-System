@@ -79,6 +79,7 @@ Item {
             Block {
                 id: block
                 property bool sel: false
+
                 width: parent.width-10
                 height: parent.height-10
                 //anchors.centerIn: parent
@@ -86,89 +87,90 @@ Item {
                     anchors.fill: parent
 
                     enabled: !mainRect.presmode
-                    onClicked: {
-                        block.sel = false
-                        if(gridView.currentIndex === index)
-                        {
-                            console.log("click!!")
-                            block.sel = !delegateItem.selected
+                        onClicked: {
+                            block.sel = false
+                            if(gridView.currentIndex === index)
+                            {
+                                console.log("click!!")
+                                block.sel = !delegateItem.selected
+                            }
+                            else
+                            {
+                                block.sel = true
+                                gridView.currentIndex = index
+                            }
+
+
+
+                            idResize.fill(parent)
+                            console.log(index, block.sel)
+                            delegateItem.selected = block.sel
+                            templateItem.parent.selectedItem = gridView.currentItem.children[1].contentItem
+
                         }
-                        else
-                        {
-                            block.sel = true
+                        onPressAndHold: {
                             gridView.currentIndex = index
+                            delegateItem.selected = true
+                            templateItem.parent.selectedItem = gridView.currentItem.children[1].contentItem
+                            templateItem.parent.editSelectedItemProperties = !templateItem.parent.editSelectedItemProperties
                         }
-
-
-
-                        idResize.fill(parent)
-                        console.log(index, block.sel)
-                        delegateItem.selected = block.sel
-                        templateItem.parent.selectedItem = gridView.currentItem.children[1].contentItem
-
-                    }
-                    onPressAndHold: {
-                        gridView.currentIndex = index
-                        delegateItem.selected = true
-                        templateItem.parent.selectedItem = gridView.currentItem.children[1].contentItem
-                        templateItem.parent.editSelectedItemProperties = !templateItem.parent.editSelectedItemProperties
                     }
                 }
+                Component.onCompleted: {
+                    delegateItem.selected = false
+                    block.sel = false
+                }
+                //            Behavior on x{SmoothedAnimation{velocity: 400}}
+                //            Behavior on y{SmoothedAnimation{velocity: 400}}
+                //            Behavior on width{SmoothedAnimation{velocity: 410}}
+                //            Behavior on height{SmoothedAnimation{velocity: 260}}
             }
-            Component.onCompleted: {
-                selected = false
-            }
-            //            Behavior on x{SmoothedAnimation{velocity: 400}}
-            //            Behavior on y{SmoothedAnimation{velocity: 400}}
-            //            Behavior on width{SmoothedAnimation{velocity: 410}}
-            //            Behavior on height{SmoothedAnimation{velocity: 260}}
         }
-    }
 
-    Item {
-        id: layoutContentItem
-        x: (templateItem.parent) ? templateItem.parent.contentX : 0
-        y: (templateItem.parent) ? templateItem.parent.contentY : 0
-        width: (templateItem.parent) ? templateItem.parent.contentWidth : 0
-        height: (templateItem.parent) ? templateItem.parent.contentHeight+10 : 0
-        z: parent.z + 1
+        Item {
+            id: layoutContentItem
+            x: (templateItem.parent) ? templateItem.parent.contentX : 0
+            y: (templateItem.parent) ? templateItem.parent.contentY : 0
+            width: (templateItem.parent) ? templateItem.parent.contentWidth : 0
+            height: (templateItem.parent) ? templateItem.parent.contentHeight+10 : 0
+            z: parent.z + 1
 
-        GridView {
-            id: gridView
-            objectName: "blocksView"
-            anchors {
-                fill:  parent
-                leftMargin: (parent.width - cellWidth*columnsCount)/2
-                rightMargin: (parent.width - cellWidth*columnsCount)/2
-            }
-            model: itemsCount
-            delegate: gridDelegate
-            boundsBehavior: GridView.StopAtBounds
-            cellWidth: itemWidth
-            cellHeight: itemHeight
-            interactive: false
-            //            highlight: highlightBar
-            //            highlightFollowsCurrentItem: false
-            function getItem(i) {
-                positionViewAtIndex(i, GridView.Visible)
-                return getDelegateInstanceAt(i)
-            }
-            function getDelegateInstanceAt(index) {
-                for(var i = 0; i < contentItem.children.length; ++i) {
-                    var item = contentItem.children[i]
-                    if (item.objectName === "delegate" && item.itemIndex === index) {
-                        return item
-                    }
+            GridView {
+                id: gridView
+                objectName: "blocksView"
+                anchors {
+                    fill:  parent
+                    leftMargin: (parent.width - cellWidth*columnsCount)/2
+                    rightMargin: (parent.width - cellWidth*columnsCount)/2
                 }
-                return undefined
+                model: itemsCount
+                delegate: gridDelegate
+                boundsBehavior: GridView.StopAtBounds
+                cellWidth: itemWidth
+                cellHeight: itemHeight
+                interactive: false
+                //            highlight: highlightBar
+                //            highlightFollowsCurrentItem: false
+                function getItem(i) {
+                    positionViewAtIndex(i, GridView.Visible)
+                    return getDelegateInstanceAt(i)
+                }
+                function getDelegateInstanceAt(index) {
+                    for(var i = 0; i < contentItem.children.length; ++i) {
+                        var item = contentItem.children[i]
+                        if (item.objectName === "delegate" && item.itemIndex === index) {
+                            return item
+                        }
+                    }
+                    return undefined
+                }
+
             }
+
 
         }
 
-
     }
-
-}
 
 
 

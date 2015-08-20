@@ -41,9 +41,15 @@ Item
         Rectangle{
             id: rotateRect
             property int angle: 0
-            color: "green"
-            width: 10
-            height: 10
+            color: "transparent"
+            Image{
+                anchors.fill: parent
+                source: "qrc:/icons/resources/icons/rotateIcon.png"
+
+            }
+
+            width: 20
+            height: 20
             anchors.top: parent.top
             anchors.horizontalCenter: parent.horizontalCenter
 
