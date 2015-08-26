@@ -29,6 +29,7 @@
         <file alias="SlidesListPanel.qml">qml/panels/SlidesListPanel.qml</file>
         <file alias="TextMenu.qml">qml/panels/TextMenu.qml</file>
         <file alias="ToolbarItem.qml">qml/panels/ToolbarItem.qml</file>
+        <file alias="ContextMenu.qml">qml/panels/ContextMenu.qml</file>
     </qresource>
     <qresource prefix="/transitions">
         <file alias="PageFlipShaderEffect.qml">qml/transition/PageFlipShaderEffect.qml</file>
@@ -48,7 +49,7 @@
         <file alias="PanelBorder.qml">qml/components/ColorPicker/PanelBorder.qml</file>
         <file alias="SBPicker.qml">qml/components/ColorPicker/SBPicker.qml</file>
     </qresource>
-    <qresource prefix="/backgrounds">
+    <qresource prefix="/background">
         <file alias="BackgroundSwirls.qml">qml/background/BackgroundSwirls.qml</file>
         <file alias="FireEffect.qml">qml/background/FireEffect.qml</file>
         <file alias="particle.png">qml/background/particle.png</file>

@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.1
 import "presentation"
 import "panels"
 
+import "background"
 
 SplitView{
     id: horisontalSplitView
@@ -19,7 +20,6 @@ SplitView{
             id: presentation
             Layout.fillHeight: true
             textColor: "black"
-
 
             Component.onCompleted: {
                 addNewSlide();
@@ -138,5 +138,3 @@ SplitView{
         Layout.maximumWidth: 150
     }
 }
-
-
