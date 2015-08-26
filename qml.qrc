@@ -72,6 +72,7 @@
         <file alias="TestPresentation.qml">qml/TestPresentation.qml</file>
         <file alias="testvideo.qml">qml/testvideo.qml</file>
         <file alias="testwebview.qml">qml/testwebview.qml</file>
+        <file>qml/ActionContextMenu.qml</file>
     </qresource>
     <qresource prefix="/resize">
         <file alias="ResizeDot.qml">qml/resize/ResizeDot.qml</file>
