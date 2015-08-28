@@ -139,7 +139,6 @@ SplitView{
 
             OptionsPanel {
                 id: optionsPanel
-
             }
         }
 

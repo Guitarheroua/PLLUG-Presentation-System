@@ -7,6 +7,7 @@
 class Slide;
 class Helper;
 class MegaParse;
+class SlideModel;
 class QQuickWindow;
 class PresentationManager;
 class QQmlApplicationEngine;
@@ -27,15 +28,15 @@ public slots:
 signals:
     
 private:
-    QQuickWindow* mMainWindow;
-    QQmlApplicationEngine* mQmlEngine;
-    QString mContentDir;
-    MegaParse *mParser;
-    QSize mActualSize;
-    qreal mAspectRatio;
     Helper* mHelper;
+    QSize mActualSize;
+    MegaParse *mParser;
+    qreal mAspectRatio;
+    QString mContentDir;
+    SlideModel* mSlideModel;
+    QQuickWindow* mMainWindow;
     PresentationManager* mManager;
-
+    QQmlApplicationEngine* mQmlEngine;
 };
 
 #endif // MAINVIEW_H

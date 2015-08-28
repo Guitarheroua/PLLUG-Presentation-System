@@ -8,29 +8,23 @@ TEMPLATE = app
 CONFIG += c++11
 
 HEADERS += \
-    megaparse.h \
-    block.h \
-    blocksmodel.h \
-    blocksview.h \
     mainview.h \
     machelper.h \
     helper.h \
     webviewitem.h \
-    slide.h \
-    presentationmanager.h
+    presentationmanager.h \
+    contentblock.h \
+    slidemodel.h
 
 
 SOURCES += \
-    megaparse.cpp \
-    block.cpp \
-    blocksmodel.cpp \
-    blocksview.cpp \
     main.cpp \
     mainview.cpp \
     helper.cpp \
     webviewitem.cpp \
-    slide.cpp \
-    presentationmanager.cpp
+    presentationmanager.cpp \
+    contentblock.cpp \
+    slidemodel.cpp
 
 RESOURCES += \
     resources.qrc \
