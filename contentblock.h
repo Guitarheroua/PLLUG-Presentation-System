@@ -32,16 +32,22 @@ public:
     int z() const;
     void setZ(int z);
 
-    QVariantHash content() const;
-    void setContent(const QString name, const QVariant value);
+    QVariantMap content() const;
+    void setContent(const QString &name, const QVariant value);
 
     ContentBlockType contentBlockType() const;
     void setContentBlockType(ContentBlockType contentBlockType);
 
+    ContentBlockType contentBlockType(const QString &contetBlockType) const;
+
+private:
+    void initContentTypeHash();
+
 private:
     int mZOrder;
-    QVariantHash mContent;
+    QVariantMap mContent;
     ContentBlockType mContentBlockType;
+    QHash<QString, ContentBlockType> mContentBlockTypeHash;
 };
 
 #endif // BLOCK_H

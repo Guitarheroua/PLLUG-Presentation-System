@@ -2,6 +2,7 @@
 
 ContentBlock::ContentBlock()
 {
+    initContentTypeHash();
 }
 
 ContentBlock::ContentBlock(int x, int y, int width, int height, int z, ContentBlock::ContentBlockType contentType):
@@ -18,6 +19,7 @@ ContentBlock::ContentBlock(const QPoint &topLeft, const QSize &size, int z, Cont
     mZOrder{z},
     mContentBlockType{contentType}
 {
+    initContentTypeHash();
 }
 
 ContentBlock::ContentBlock(const QPoint &topLeft, const QPoint &bottomRight, int z, ContentBlock::ContentBlockType contentType):
@@ -25,6 +27,7 @@ ContentBlock::ContentBlock(const QPoint &topLeft, const QPoint &bottomRight, int
     mZOrder{z},
     mContentBlockType{contentType}
 {
+    initContentTypeHash();
 }
 
 int ContentBlock::z() const
@@ -47,12 +50,26 @@ void ContentBlock::setContentBlockType(ContentBlock::ContentBlockType contentBlo
     mContentBlockType = contentBlockType;
 }
 
-QVariantHash ContentBlock::content() const
+ContentBlock::ContentBlockType ContentBlock::contentBlockType(const QString &contetBlockType) const
+{
+    return mContentBlockTypeHash[contetBlockType];
+}
+
+void ContentBlock::initContentTypeHash()
+{
+    mContentBlockTypeHash.insert("Text", Text);
+    mContentBlockTypeHash.insert("Image", Image);
+    mContentBlockTypeHash.insert("Video", Video);
+    mContentBlockTypeHash.insert("Browser", Browser);
+    mContentBlockTypeHash.insert("Code", Code);
+}
+
+QVariantMap ContentBlock::content() const
 {
     return mContent;
 }
 
-void ContentBlock::setContent(const QString name, const QVariant value)
+void ContentBlock::setContent(const QString &name, const QVariant value)
 {
     mContent.insert(name, value);
 }

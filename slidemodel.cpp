@@ -68,3 +68,10 @@ void SlideModel::addBlock(ContentBlock *contentBlock)
 {
     mBlocksList.append(contentBlock);
 }
+
+void SlideModel::addBlock2(int x, int y, int width, int height, int z, QVariant contentBlockType)
+{
+    ContentBlock cb;
+    auto cbt = cb.contentBlockType(contentBlockType.toString());
+    mBlocksList.append(new ContentBlock(x, y, width, height, z, cbt));
+}

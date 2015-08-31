@@ -6,6 +6,7 @@
 #include <QApplication>
 #include <QQmlComponent>
 #include <QDesktopWidget>
+#include "contentblock.h"
 #include <QQmlApplicationEngine>
 
 #include "helper.h"
@@ -32,6 +33,13 @@ MainView::MainView(const QString &pContentDir, QObject *parent) :
     mQmlEngine->rootContext()->setContextProperty("helper", mHelper);
     mQmlEngine->rootContext()->setContextProperty("screenPixelWidth", mHelper->screenSize().width());
     mQmlEngine->rootContext()->setContextProperty("screenPixelHeight", mHelper->screenSize().height());
+    ContentBlock *cb = new ContentBlock(50, 50, 200, 200, 20, ContentBlock::ContentBlockType::Text);
+    cb->setContent("color","blue");
+    ContentBlock *cb2 = new ContentBlock(500, 300, 200, 200, 20, ContentBlock::ContentBlockType::Text);
+    cb2->setContent("color","red");
+    mSlideModel->addBlock(cb);
+    mSlideModel->addBlock(cb2);
+
     mQmlEngine->rootContext()->setContextProperty("slideModel", mSlideModel);
 
     QQmlComponent component(mQmlEngine, QUrl(QStringLiteral("qrc:/main.qml")));
