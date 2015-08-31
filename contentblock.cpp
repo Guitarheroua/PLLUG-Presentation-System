@@ -1,8 +1,16 @@
 #include "contentblock.h"
 
+const QHash<QString, ContentBlock::ContentBlockType> cContentBlockTypeHash
+{
+    {"Text", ContentBlock::Text},
+    {"Image", ContentBlock::Image},
+    {"Video", ContentBlock::Video},
+    {"Browser", ContentBlock::Browser},
+    {"Code", ContentBlock::Code}
+};
+
 ContentBlock::ContentBlock()
 {
-    initContentTypeHash();
 }
 
 ContentBlock::ContentBlock(int x, int y, int width, int height, int z, ContentBlock::ContentBlockType contentType):
@@ -19,7 +27,6 @@ ContentBlock::ContentBlock(const QPoint &topLeft, const QSize &size, int z, Cont
     mZOrder{z},
     mContentBlockType{contentType}
 {
-    initContentTypeHash();
 }
 
 ContentBlock::ContentBlock(const QPoint &topLeft, const QPoint &bottomRight, int z, ContentBlock::ContentBlockType contentType):
@@ -27,7 +34,6 @@ ContentBlock::ContentBlock(const QPoint &topLeft, const QPoint &bottomRight, int
     mZOrder{z},
     mContentBlockType{contentType}
 {
-    initContentTypeHash();
 }
 
 int ContentBlock::z() const
@@ -50,18 +56,9 @@ void ContentBlock::setContentBlockType(ContentBlock::ContentBlockType contentBlo
     mContentBlockType = contentBlockType;
 }
 
-ContentBlock::ContentBlockType ContentBlock::contentBlockType(const QString &contetBlockType) const
+ContentBlock::ContentBlockType ContentBlock::contentBlockType(const QString &contetBlockType)
 {
-    return mContentBlockTypeHash[contetBlockType];
-}
-
-void ContentBlock::initContentTypeHash()
-{
-    mContentBlockTypeHash.insert("Text", Text);
-    mContentBlockTypeHash.insert("Image", Image);
-    mContentBlockTypeHash.insert("Video", Video);
-    mContentBlockTypeHash.insert("Browser", Browser);
-    mContentBlockTypeHash.insert("Code", Code);
+    return cContentBlockTypeHash[contetBlockType];
 }
 
 QVariantMap ContentBlock::content() const

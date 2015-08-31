@@ -5,7 +5,7 @@ SlideModel::SlideModel(QObject *parent) :
     QAbstractListModel(parent)
 {
     mRoleHash.insert(ContentBlockTypeRole, "type");
-    mRoleHash.insert(SoursesRole, "sourses");
+    mRoleHash.insert(SpecificContentRole, "specificContent");
     mRoleHash.insert(WidthRole, "width");
     mRoleHash.insert(HeightRole, "height");
     mRoleHash.insert(XRole, "x");
@@ -30,7 +30,7 @@ QVariant SlideModel::data(const QModelIndex &index, int role) const
         case ContentBlockTypeRole:
             returnData = contentBlock->contentBlockType();
             break;
-        case SoursesRole:
+        case SpecificContentRole:
             returnData = contentBlock->content();
             break;
         case WidthRole:
@@ -67,11 +67,10 @@ QHash<int, QByteArray> SlideModel::roleNames() const
 void SlideModel::addBlock(ContentBlock *contentBlock)
 {
     mBlocksList.append(contentBlock);
+    emit layoutChanged();
 }
-
-void SlideModel::addBlock2(int x, int y, int width, int height, int z, QVariant contentBlockType)
+#include <QDebug>
+void SlideModel::addBlock(int x, int y, int width, int height, int z, QVariant contentBlockType)
 {
-    ContentBlock cb;
-    auto cbt = cb.contentBlockType(contentBlockType.toString());
-    mBlocksList.append(new ContentBlock(x, y, width, height, z, cbt));
+    addBlock(new ContentBlock(x, y, width, height, z, ContentBlock::contentBlockType(contentBlockType.toString())));
 }

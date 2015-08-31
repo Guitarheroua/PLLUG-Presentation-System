@@ -38,16 +38,12 @@ public:
     ContentBlockType contentBlockType() const;
     void setContentBlockType(ContentBlockType contentBlockType);
 
-    ContentBlockType contentBlockType(const QString &contetBlockType) const;
-
-private:
-    void initContentTypeHash();
+    static ContentBlockType contentBlockType(const QString &contetBlockType);
 
 private:
     int mZOrder;
     QVariantMap mContent;
     ContentBlockType mContentBlockType;
-    QHash<QString, ContentBlockType> mContentBlockTypeHash;
 };
 
 #endif // BLOCK_H

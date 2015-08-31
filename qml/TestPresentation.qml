@@ -8,6 +8,7 @@ import "panels"
 SplitView{
     id: horisontalSplitView
     anchors.fill: parent
+
     Rectangle{
         id: idMode
         color: "red"

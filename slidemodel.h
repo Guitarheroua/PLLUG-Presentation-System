@@ -12,7 +12,7 @@ public:
     enum ContentBlockRoles
     {
         ContentBlockTypeRole = Qt::UserRole + 1,
-        SoursesRole,
+        SpecificContentRole,
         WidthRole,
         HeightRole,
         XRole,
@@ -27,8 +27,8 @@ public:
     int rowCount(const QModelIndex &parent) const;
     QHash<int, QByteArray>  roleNames() const;
     void addBlock(ContentBlock *contentBlock);
-    Q_INVOKABLE void addBlock2(int x, int y, int width, int height,
-                             int z, QVariant contentBlockType);
+    Q_INVOKABLE void addBlock(int x, int y, int width, int height,
+                              int z, QVariant contentBlockType);
 private:
     QHash<int, QByteArray> mRoleHash;
     QList<ContentBlock *> mBlocksList;
