@@ -2,9 +2,6 @@ import QtQuick 2.4
 import QtQuick.Dialogs 1.2
 
 Rectangle {
-    Component.onCompleted: {
-    repeaterId.model.addBlock(10,15, 20, 50, 12, "Text");
-    }
      Repeater {
         id: repeaterId
         anchors.fill: parent

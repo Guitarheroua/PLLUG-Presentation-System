@@ -1,5 +1,4 @@
 #include "mainview.h"
-#include <QUrl>
 #include <QDebug>
 #include <QQmlContext>
 #include <QQuickWindow>
@@ -13,10 +12,6 @@
 #include "presentationmanager.h"
 #include "slidemodel.h"
 
-#if defined(Q_OS_WIN)
-#include "qt_windows.h"
-#endif
-
 MainView::MainView(const QString &pContentDir, QObject *parent) :
     QObject(parent)
    ,mQmlEngine(new QQmlApplicationEngine(this))
@@ -24,10 +19,6 @@ MainView::MainView(const QString &pContentDir, QObject *parent) :
    ,mHelper(new Helper(this))
    ,mSlideModel(new SlideModel(this))
 {
-#if defined(Q_OS_MAC)
-    //DON"T FORGET TO CHANGE PATH BEFORE DEPLOY!!!!
-    mContentDir = "/Users/Admin/Projects/qt5openglvideoflip_1/qt5openglvideoflip/data";
-#endif
     mHelper->setScreenPixelSize(qApp->desktop()->screenGeometry().size());
 
     mQmlEngine->rootContext()->setContextProperty("helper", mHelper);

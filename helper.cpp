@@ -1,5 +1,4 @@
 #include "helper.h"
-#include <QDebug>
 #include <QFile>
 #include <QColor>
 #include <QFontDatabase>
@@ -7,42 +6,39 @@
 
 Helper::Helper( QObject *parent) :
     QObject(parent)
+  ,mEnableEdit {false}
 {
-    mEnableEdit = false;
 }
 
 QString Helper::readShader(const QString &pFileName)
 {
+    QString shader {};
     QFile file(QString(":/shaders/%1").arg(pFileName));
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        return file.readAll();
+        shader = file.readAll();
     }
-    return "";
+    return shader;
 }
 
 qreal Helper::hue(const QString &pColor)
 {
-    QColor color(pColor);
-    return color.hueF();
+    return QColor(pColor).hueF();
 }
 
 qreal Helper::brightness(const QString &pColor)
 {
-    QColor color(pColor);
-    return 1 - color.lightnessF();
+    return 1 - QColor(pColor).lightnessF();
 }
 
 qreal Helper::alpha(const QString &pColor)
 {
-    QColor color(pColor);
-    return color.alphaF();
+    return QColor(pColor).alphaF();
 }
 
 QStringList Helper::fonts()
 {
-    QFontDatabase lDatabase;
-    return lDatabase.families();
+    return QFontDatabase().families();
 }
 
 int Helper::fontIndex(const QString &pFont)
@@ -63,7 +59,7 @@ void Helper::openPresentation(const QUrl &pPath)
 {
     QString lPath = pPath.path();
 #if defined(Q_OS_WIN)
-lPath.remove(0,1);
+    lPath.remove(0,1);
 #endif
     emit open(lPath);
 }
@@ -112,6 +108,5 @@ void Helper::setEnableEdit(bool pValue)
 
 qreal Helper::saturation(const QString& pColor)
 {
-    QColor color(pColor);
-    return color.saturationF();
+    return QColor(pColor).saturationF();
 }

@@ -1,13 +1,8 @@
 #include <QApplication>
-#include <QQmlApplicationEngine>
-
 #include "mainview.h"
-#include "machelper.h"
 
-int main(int argc, char *argv[])
+QString extractContentDir()
 {
-    QApplication app(argc, argv);
-
     QString contentDir;
     for (QString arg: QCoreApplication::arguments())
     {
@@ -24,13 +19,15 @@ int main(int argc, char *argv[])
 #endif
         }
     }
-    MainView view(contentDir);
+    return contentDir;
+}
 
-#if defined(Q_OS_MAC)
-    MacHelper *helper = new MacHelper();
-    helper->setAspectRatio(view->winId());
-#endif
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
 
+    MainView view(extractContentDir());
     view.showWindow(true);
+
     return app.exec();
 }

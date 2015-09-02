@@ -18,14 +18,13 @@ class MainView : public QObject
 public:
     explicit MainView(const QString& pContentDir, QObject* parent = 0);
 
-
 protected:
 #if defined(Q_OS_WIN)
     bool nativeEvent(const QByteArray&, void*, long*);
 #endif
+
 public slots:
     void showWindow(bool state);
-signals:
     
 private:
     Helper* mHelper;

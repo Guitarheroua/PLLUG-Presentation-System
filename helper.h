@@ -37,13 +37,10 @@ signals:
     void open(const QString &);
     void createPresentationMode();
     
-public slots:
-
 private:
+    bool mEnableEdit;
     QSize mScreenSize;
     QSize mMainViewSize;
-    bool mEnableEdit;
-    
 };
 
 #endif // HELPER_H
