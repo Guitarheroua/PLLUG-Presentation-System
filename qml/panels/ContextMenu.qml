@@ -1,49 +1,87 @@
 import QtQuick 2.4
 import QtQuick.Controls 1.2
 
-import "../"
+import ".."
+import "../items"
 
 Menu {
     id: idContextMenu
+    property var presentation
 
-    MenuItem {
-        text: qsTr("Exit")
-        onTriggered: Qt.quit();
-    }
+    Menu {
+        title: "Background"
 
-    MenuItem {
-        text: qsTr("BackgroundSwirls")
-        onTriggered:{
-            presentationLoader.setSource("qrc:/background/BackgroundSwirls.qml")
+
+        MenuItem {
+            text: qsTr("Swirls")
+            property bool isTriggered: false
+            property string sourcePath: "qrc:/background/BackgroundSwirls.qml"
+            onTriggered:{
+                isTriggered = !isTriggered;
+                if (isTriggered) {
+                    presentation.addBackground(sourcePath);
+                }
+                else {
+                    presentation.removeBackground(sourcePath);
+                }
+            }
+        }
+
+        MenuItem {
+            text: qsTr("Fire")
+            property bool isTriggered: false
+             property string sourcePath: "qrc:/background/FireEffect.qml"
+            onTriggered: {
+                isTriggered = !isTriggered;
+                if (isTriggered) {
+                    presentation.addBackground(sourcePath)
+                }
+                else {
+                    presentation.removeBackground(sourcePath)
+                }
+            }
+        }
+
+        MenuItem {
+            text: qsTr("Underwater")
+            property bool isTriggered: false
+            property string sourcePath: "qrc:/background/UnderwaterEffect.qml"
+            onTriggered: {
+                isTriggered = !isTriggered;
+                if (isTriggered) {
+                    presentation.addBackground(sourcePath)
+                }
+                else {
+                    presentation.removeBackground(sourcePath)
+                }
+            }
+
         }
     }
 
-    MenuItem {
-        text: qsTr("FireEffect")
-        onTriggered: {
-            presentationLoader.setSource("qrc:/background/FireEffect.qml")
+    Menu{
+        title: "Transitions"
 
+        MenuItem {
+            text: qsTr("PageFlipShader")
+            property bool isTriggered: false
+            property string sourcePath: "qrc:/transitions/PageFlipShaderEffect.qml"
+            onTriggered: {
+                isTriggered = !isTriggered;
+                if (isTriggered) {
+                    presentation.addBackground(sourcePath)
+                }
+                else {
+                    presentation.removeBackground(sourcePath)
+                }
+            }
         }
     }
+//    MenuItem {
+//        text: qsTr("None")
+//        onTriggered: {
+//            presentationLoader.setSource("qrc:/TestPresentation.qml");
+//        }
+//    }
 
-    MenuItem {
-        text: qsTr("Underwater")
-        onTriggered: {
-            presentationLoader.setSource("qrc:/background/UnderwaterEffect.qml")
-        }
-    }
-
-    MenuItem {
-        text: qsTr("Swirl")
-        onTriggered: {
-            presentationLoader.setSource("qrc:/background/Swirl.qml")
-        }
-    }
-
-    MenuItem {
-        text: qsTr("defaul")
-        onTriggered: {
-            presentationLoader.setSource("qrc:/TestPresentation.qml");
-        }
-    }
 }

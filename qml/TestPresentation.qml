@@ -10,16 +10,42 @@ import "background"
 SplitView{
     id: horisontalSplitView
     anchors.fill: parent
+    property bool isContextMenuVisible: true
+
+    Component.onCompleted: {
+        idContextMenu.presentation = presentation;
+    }
 
     SplitView{
         id: verticalSplitView
         Layout.fillWidth: true
         orientation: Qt.Vertical
 
+
         Presentation {
             id: presentation
             Layout.fillHeight: true
             textColor: "black"
+
+
+
+            MouseArea{
+                anchors.fill: parent
+
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onClicked: {
+                    if (mouse.button == Qt.RightButton)
+                    {
+                        idContextMenu.popup(isContextMenuVisible);
+                        isContextMenuVisible = !isContextMenuVisible;
+                    }
+                }
+            }
+
+            ContextMenu {
+                id: idContextMenu
+            }
+
 
             Component.onCompleted: {
                 addNewSlide();
