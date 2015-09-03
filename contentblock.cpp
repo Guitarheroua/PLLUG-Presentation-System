@@ -1,20 +1,16 @@
 #include "contentblock.h"
 
-const QHash<QString, ContentBlock::ContentBlockType> cContentBlockTypeHash
-{
-    {"Text", ContentBlock::Text},
-    {"Image", ContentBlock::Image},
-    {"Video", ContentBlock::Video},
-    {"Browser", ContentBlock::Browser},
-    {"Code", ContentBlock::Code}
-};
-
-ContentBlock::ContentBlock()
+ContentBlock::ContentBlock(QObject *parent):
+    ContentBlock{0, 0, 0, 0, 0, None, parent}
 {
 }
 
-ContentBlock::ContentBlock(int x, int y, int width, int height, int z, ContentBlock::ContentBlockType contentType):
-    ContentBlock(QPoint(x, y), QSize(width, height), z, contentType)
+ContentBlock::ContentBlock(int x, int y, int z, int width, int height, ContentBlock::ContentBlockType contentType, QObject *parent):
+    mTopLeftPoint{x, y},
+    mSize{width, height},
+    mZOrder{z},
+    mContentBlockType{contentType},
+    QObject{parent}
 {
 }
 
@@ -22,18 +18,24 @@ ContentBlock::~ContentBlock()
 {
 }
 
-ContentBlock::ContentBlock(const QPoint &topLeft, const QSize &size, int z, ContentBlock::ContentBlockType contentType):
-    QRect{topLeft, size},
-    mZOrder{z},
-    mContentBlockType{contentType}
+int ContentBlock::x() const
 {
+    return mTopLeftPoint.x();
 }
 
-ContentBlock::ContentBlock(const QPoint &topLeft, const QPoint &bottomRight, int z, ContentBlock::ContentBlockType contentType):
-    QRect{topLeft, bottomRight},
-    mZOrder{z},
-    mContentBlockType{contentType}
+void ContentBlock::setX(int x)
 {
+    mTopLeftPoint.setX(x);
+}
+
+int ContentBlock::y() const
+{
+    return mTopLeftPoint.y();
+}
+
+void ContentBlock::setY(int y)
+{
+    mTopLeftPoint.setY(y);
 }
 
 int ContentBlock::z() const
@@ -46,6 +48,26 @@ void ContentBlock::setZ(int z)
     mZOrder = z;
 }
 
+int ContentBlock::width() const
+{
+    return mSize.width();
+}
+
+void ContentBlock::setWidth(int width)
+{
+    mSize.setWidth(width);
+}
+
+int ContentBlock::height() const
+{
+    return mSize.height();
+}
+
+void ContentBlock::setHeight(int height)
+{
+    mSize.setHeight(height);
+}
+
 ContentBlock::ContentBlockType ContentBlock::contentBlockType() const
 {
     return mContentBlockType;
@@ -56,17 +78,12 @@ void ContentBlock::setContentBlockType(ContentBlock::ContentBlockType contentBlo
     mContentBlockType = contentBlockType;
 }
 
-ContentBlock::ContentBlockType ContentBlock::contentBlockType(const QString &contetBlockType)
+QVariantMap ContentBlock::specificContent() const
 {
-    return cContentBlockTypeHash[contetBlockType];
+    return mSpecificContent;
 }
 
-QVariantMap ContentBlock::content() const
+void ContentBlock::setSpecificContent(const QString &name, const QVariant value)
 {
-    return mContent;
-}
-
-void ContentBlock::setContent(const QString &name, const QVariant value)
-{
-    mContent.insert(name, value);
+    mSpecificContent.insert(name, value);
 }

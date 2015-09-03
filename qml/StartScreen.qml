@@ -2,7 +2,7 @@ import QtQuick 2.4
 import QtQuick.Dialogs 1.2
 
 Rectangle {
-     Repeater {
+    Repeater {
         id: repeaterId
         anchors.fill: parent
         model: slideModel

@@ -25,7 +25,10 @@ protected:
 
 public slots:
     void showWindow(bool state);
-    
+
+private:
+    void registerTypesInQml();
+
 private:
     Helper* mHelper;
     QSize mActualSize;
