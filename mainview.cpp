@@ -30,8 +30,9 @@ MainView::MainView(const QString &pContentDir, QObject *parent) :
     cb->setSpecificContent("color","blue");
     ContentBlock *cb2 = new ContentBlock(500, 300, 200, 200, 20, ContentBlock::ContentBlockType::Text, this);
     cb2->setSpecificContent("color","red");
-    mSlideModel->addBlock(cb);
-    mSlideModel->addBlock(cb2);
+    //mSlideModel->addBlock(cb);
+    //mSlideModel->addBlock(cb2);
+   // SlideModel *sm = new SlideModel;
 
     mQmlEngine->rootContext()->setContextProperty("slideModel", mSlideModel);
 

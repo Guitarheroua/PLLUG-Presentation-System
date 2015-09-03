@@ -1,76 +1,78 @@
 #include "slidemodel.h"
-#include "contentblock.h"
+#include "slide.h"
 
 SlideModel::SlideModel(QObject *parent) :
     QAbstractListModel(parent)
 {
-    mRoleHash.insert(ContentBlockTypeRole, "type");
-    mRoleHash.insert(SpecificContentRole, "specificContent");
-    mRoleHash.insert(WidthRole, "width");
-    mRoleHash.insert(HeightRole, "height");
-    mRoleHash.insert(XRole, "x");
-    mRoleHash.insert(YRole, "y");
-    mRoleHash.insert(ZRole, "z");
+//    mRoleHash.insert(ContentBlockTypeRole, "type");
+//    mRoleHash.insert(SpecificContentRole, "specificContent");
+//    mRoleHash.insert(WidthRole, "width");
+//    mRoleHash.insert(HeightRole, "height");
+//    mRoleHash.insert(XRole, "x");
+//    mRoleHash.insert(YRole, "y");
+//    mRoleHash.insert(ZRole, "z");
+    addSlide();
 }
 
 SlideModel::~SlideModel()
 {
-    qDeleteAll(mBlocksList);
+//    qDeleteAll(mBlocksList);
+    qDeleteAll(mSlideList);
 }
 
-QVariant SlideModel::data(const QModelIndex &index, int role) const
+void SlideModel::addSlide()
 {
-    QVariant returnData;
-    if (index.row() >= 0 || index.row() < mBlocksList.count())
-    {
-        const ContentBlock *contentBlock = mBlocksList[index.row()];
-
-        switch (role)
-        {
-        case ContentBlockTypeRole:
-            returnData = contentBlock->contentBlockType();
-            break;
-        case SpecificContentRole:
-            returnData = contentBlock->content();
-            break;
-        case WidthRole:
-            returnData = contentBlock->width();
-            break;
-        case HeightRole:
-            returnData = contentBlock->height();
-            break;
-        case XRole:
-            returnData = contentBlock->x();
-            break;
-        case YRole:
-            returnData = contentBlock->y();
-            break;
-        case ZRole:
-            returnData = contentBlock->z();
-            break;
-        }
-    }
-    return returnData;
+    mSlideList.append(new Slide);
 }
 
-int SlideModel::rowCount(const QModelIndex &parent) const
+void SlideModel::deleteSlide(int index)
 {
-    Q_UNUSED(parent);
-    return mBlocksList.count();
+    mSlideList.removeAt(index);
 }
 
-QHash<int, QByteArray> SlideModel::roleNames() const
-{
-    return mRoleHash;
-}
+//QVariant SlideModel::data(const QModelIndex &index, int role) const
+//{
+//    QVariant returnData;
+//    if (index.row() >= 0 || index.row() < mBlocksList.count())
+//    {
+//        const ContentBlock *contentBlock = mBlocksList[index.row()];
 
-void SlideModel::addBlock(ContentBlock *contentBlock)
-{
-    mBlocksList.append(contentBlock);
-    emit layoutChanged();
-}
-#include <QDebug>
-void SlideModel::addBlock(int x, int y, int width, int height, int z, QVariant contentBlockType)
-{
-    addBlock(new ContentBlock(x, y, width, height, z, ContentBlock::contentBlockType(contentBlockType.toString())));
-}
+//        switch (role)
+//        {
+//        case ContentBlockTypeRole:
+//            returnData = contentBlock->contentBlockType();
+//            break;
+//        case SpecificContentRole:
+//            returnData = contentBlock->specificContent();
+//            break;
+//        case WidthRole:
+//            returnData = contentBlock->width();
+//            break;
+//        case HeightRole:
+//            returnData = contentBlock->height();
+//            break;
+//        case XRole:
+//            returnData = contentBlock->x();
+//            break;
+//        case YRole:
+//            returnData = contentBlock->y();
+//            break;
+//        case ZRole:
+//            returnData = contentBlock->z();
+//            break;
+//        }
+//    }
+//    return returnData;
+//}
+
+//int SlideModel::rowCount(const QModelIndex &parent) const
+//{
+//    Q_UNUSED(parent);
+//    return mBlocksList.count();
+//}
+
+//QHash<int, QByteArray> SlideModel::roleNames() const
+//{
+//    return mRoleHash;
+//}
+
