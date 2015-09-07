@@ -26,14 +26,6 @@ MainView::MainView(const QString &pContentDir, QObject *parent) :
     mQmlEngine->rootContext()->setContextProperty("helper", mHelper);
     mQmlEngine->rootContext()->setContextProperty("screenPixelWidth", mHelper->screenSize().width());
     mQmlEngine->rootContext()->setContextProperty("screenPixelHeight", mHelper->screenSize().height());
-    ContentBlock *cb = new ContentBlock(50, 50, 200, 200, 20, ContentBlock::ContentBlockType::Text, this);
-    cb->setSpecificContent("color","blue");
-    ContentBlock *cb2 = new ContentBlock(500, 300, 200, 200, 20, ContentBlock::ContentBlockType::Text, this);
-    cb2->setSpecificContent("color","red");
-    //mSlideModel->addBlock(cb);
-    //mSlideModel->addBlock(cb2);
-   // SlideModel *sm = new SlideModel;
-
     mQmlEngine->rootContext()->setContextProperty("slideModel", mSlideModel);
 
     QQmlComponent component(mQmlEngine, QUrl(QStringLiteral("qrc:/main.qml")));

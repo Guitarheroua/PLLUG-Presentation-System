@@ -10,11 +10,11 @@ class ContentBlock: public QObject
 {
     Q_OBJECT
     Q_ENUMS(ContentBlockType)
-    Q_PROPERTY(int x READ x WRITE setX)
-    Q_PROPERTY(int y READ y WRITE setY)
-    Q_PROPERTY(int z READ z WRITE setZ)
-    Q_PROPERTY(int width READ width WRITE setWidth)
-    Q_PROPERTY(int height READ height WRITE setHeight)
+    Q_PROPERTY(int x READ x WRITE setX NOTIFY xChanged)
+    Q_PROPERTY(int y READ y WRITE setY NOTIFY yChanged)
+    Q_PROPERTY(int z READ z WRITE setZ NOTIFY zChanged)
+    Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
+    Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
     Q_PROPERTY(ContentBlockType contentBlockType READ contentBlockType WRITE setContentBlockType)
 
 public:
@@ -56,6 +56,13 @@ public:
     ContentBlockType contentBlockType() const;
     void setContentBlockType(ContentBlockType contentBlockType);
 
+signals:
+    void xChanged();
+    void yChanged();
+    void zChanged();
+    void widthChanged();
+    void heightChanged();
+
 private:
     QSize mSize;
     int mZOrder;
@@ -63,5 +70,4 @@ private:
     QVariantMap mSpecificContent;
     ContentBlockType mContentBlockType;
 };
-
 #endif // BLOCK_H
