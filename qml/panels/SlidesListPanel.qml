@@ -52,10 +52,6 @@ Rectangle {
         }
     }
 
-    ListModel {
-        id: slidesModel
-    }
-
     Component {
         id: listViewDelegate
 
@@ -268,7 +264,7 @@ Rectangle {
     DelegateModel {
         id: visualModel
 
-        model: slidesModel
+        model: slideModel
         delegate: listViewDelegate
     }
 

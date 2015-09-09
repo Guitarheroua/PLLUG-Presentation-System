@@ -2,6 +2,7 @@
 #define SLIDE_H
 
 #include <QObject>
+#include <QQmlListProperty>
 
 class ContentBlock;
 

@@ -4,14 +4,14 @@
 Slide::Slide(QObject *parent) :
     QObject{parent}
 {
-    mContentBlocksList.append(new ContentBlock(10, 10, 10, 100, 100));
-    mContentBlocksList.append(new ContentBlock(100, 100, 10, 150, 100));
-    mContentBlocksList.append(new ContentBlock(150, 150, 10, 150, 100));
+    appendBlock(new ContentBlock(10, 10, 10, 100, 100));
+    appendBlock(new ContentBlock(100, 100, 10, 150, 100));
+    appendBlock(new ContentBlock(150, 150, 10, 150, 100));
 }
 
 Slide::~Slide()
 {
-    qDeleteAll(mContentBlocksList);
+//    qDeleteAll(mContentBlocksList);
 }
 
 void Slide::appendBlock(ContentBlock *contentBlock)
