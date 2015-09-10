@@ -1,22 +1,38 @@
 #include "slidemodel.h"
-#include "slide.h"
+#include "contentblock.h"
 #include <QVariant>
 
 SlideModel::SlideModel(QObject *parent) :
-    QAbstractListModel(parent)
+    QAbstractListModel{parent},
+    mRoot{new ContentBlock}
 {
-    mSlideList.append(new Slide);
+    for (int i = 0; i < 3; ++i) {
+        append(new ContentBlock(mRoot));
+    }
 }
 
 SlideModel::~SlideModel()
 {
-    qDeleteAll(mSlideList);
+    delete mRoot;
+}
+
+QHash<int, QByteArray> SlideModel::roleNames() const
+{
+    return QHash<int, QByteArray>{
+        {XRole, "x"},
+        {YRole, "y"},
+        {ZRole, "z"},
+        {WidthRole, "width"},
+        {HeightRole, "height"},
+        {TypeRole, "type"},
+        {AdditionalContentRole, "additionalContent"}
+    };
 }
 
 int SlideModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return mSlideList.count();
+    return mRoot->childsCount();
 }
 
 QVariant SlideModel::data(const QModelIndex &index, int role) const
@@ -26,34 +42,41 @@ QVariant SlideModel::data(const QModelIndex &index, int role) const
 
     if(row > 0 || row <= rowCount(index))
     {
-        if(role == Qt::DisplayRole)
+        switch(role)
         {
-            result.setValue(mSlideList[row]);
+        case XRole :
+            mRoot->child(row)->x();
+            break;
+        case YRole :
+            mRoot->child(row)->y();
+            break;
+        case ZRole :
+            mRoot->child(row)->z();
+            break;
+        case WidthRole :
+            mRoot->child(row)->width();
+            break;
+        case HeightRole :
+            mRoot->child(row)->height();
+            break;
+        case TypeRole :
+            mRoot->child(row)->contentBlockType();
+            break;
+        case AdditionalContentRole :
+            break;
         }
     }
     return result;
 }
 
-bool SlideModel::setData(const QModelIndex &index, const QVariant &value, int role)
+void SlideModel::append(ContentBlock *item)
 {
-    bool isSeted = false;
-    if(role == Qt::DisplayRole)
+    if(mRoot)
     {
-        mSlideList[index.row()] = qvariant_cast<Slide *>(value);
-        isSeted =true;
+        QModelIndex index;
+        beginInsertRows(index, rowCount(index), rowCount(index));
+        mRoot->appendChild(item);
+        endInsertRows();
     }
-    return isSeted;
-}
-#include <iostream>
-void SlideModel::appendSlide()
-{
-    QModelIndex index;
-    emit beginInsertRows(index, rowCount(index), rowCount(index));
-    mSlideList.append(new Slide);
-    emit endInsertRows();
-}
 
-Slide *SlideModel::getSlide(int index) const
-{
-    return mSlideList[index];
 }

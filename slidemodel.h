@@ -3,23 +3,34 @@
 
 #include <QAbstractListModel>
 
-class Slide;
+class ContentBlock;
 
 class SlideModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
+    enum Roles
+    {
+        XRole = Qt::UserRole + 1,
+        YRole,
+        ZRole,
+        WidthRole,
+        HeightRole,
+        TypeRole,
+        AdditionalContentRole
+    };
+
     explicit SlideModel(QObject *parent = 0);
     ~SlideModel();
 
+    QHash<int, QByteArray> roleNames() const;
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
 
-    Q_INVOKABLE void appendSlide();
-    Q_INVOKABLE Slide *getSlide(int index) const;
+    void append(ContentBlock *item);
+
 private:
-    QList<Slide *> mSlideList;
+    ContentBlock *mRoot;
 
 };
 

@@ -1,16 +1,17 @@
 #include "contentblock.h"
 
-ContentBlock::ContentBlock(QObject *parent):
+ContentBlock::ContentBlock(ContentBlock *parent):
     ContentBlock{0, 0, 0, 0, 0, None, parent}
 {
 }
 
-ContentBlock::ContentBlock(int x, int y, int z, int width, int height, ContentBlock::ContentBlockType contentType, QObject *parent):
+ContentBlock::ContentBlock(int x, int y, int z, int width, int height, ContentBlock::ContentBlockType contentType, ContentBlock *parent):
     mTopLeftPoint{x, y},
     mSize{width, height},
     mZOrder{z},
     mContentBlockType{contentType},
-    QObject{parent}
+    QObject{parent},
+    mParent{parent}
 {
 }
 
@@ -76,6 +77,31 @@ ContentBlock::ContentBlockType ContentBlock::contentBlockType() const
 void ContentBlock::setContentBlockType(ContentBlock::ContentBlockType contentBlockType)
 {
     mContentBlockType = contentBlockType;
+}
+
+ContentBlock *ContentBlock::parent() const
+{
+    return mParent;
+}
+
+void ContentBlock::setParent(ContentBlock *parent)
+{
+    mParent = parent;
+}
+
+ContentBlock *ContentBlock::child(int index)
+{
+    return mChildsList.value(index);
+}
+
+void ContentBlock::appendChild(ContentBlock *child)
+{
+    mChildsList.append(child);
+}
+
+int ContentBlock::childsCount() const
+{
+    return mChildsList.count();
 }
 
 QVariantMap ContentBlock::specificContent() const

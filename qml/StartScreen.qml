@@ -27,30 +27,27 @@ Rectangle {
             orientation: ListView.Horizontal
 
             delegate: Rectangle {
-                color: index == 0 ? "red" : "blue"
+                color: index % 2 == 0 ? "pink" : "lightblue"
                 width: 100
                 height: 100
-            }
-            Component.onCompleted: {
-                contentBlocksList = [];
-                var currentSlide = model.getSlide(currentIndex);
-                for(var i = 0; i < currentSlide.blockCount(); ++i)
-                {
-                    console.log(currentSlide.contentBlock(i).width);
-                    contentBlocksList.push(currentSlide.contentBlock(i));
+                anchors{
+                    leftMargin: 10
+                    rightMargin: 10
+                    topMargin: 10
                 }
             }
+
         }
     }
 
     Repeater{
         id: canvasId
         anchors.fill: parent
-        model: contentBlocksList
+        model: slideModel
         delegate: Rectangle{
             width: 100
             height: 100
-            color: "pink"
+            color: "red"
             x: model.x
             y: model.y
             z: model.z

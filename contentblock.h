@@ -25,13 +25,14 @@ public:
         Video,
         Browser,
         Code,
+        Slide,
         None
     };
 
-    explicit ContentBlock(QObject *parent = 0);
+    explicit ContentBlock(ContentBlock *parent = nullptr);
 
     explicit ContentBlock(int x, int y, int z, int width, int height,
-                          ContentBlockType contentBlockType = None, QObject *parent = 0);
+                          ContentBlockType contentBlockType = None, ContentBlock *parent = nullptr);
 
     ~ContentBlock();
 
@@ -56,6 +57,13 @@ public:
     ContentBlockType contentBlockType() const;
     void setContentBlockType(ContentBlockType contentBlockType);
 
+    ContentBlock *parent() const;
+    void setParent(ContentBlock *parent);
+
+    ContentBlock *child(int index);
+    void appendChild(ContentBlock *child);
+    int childsCount() const;
+
 signals:
     void xChanged();
     void yChanged();
@@ -64,6 +72,8 @@ signals:
     void heightChanged();
 
 private:
+    ContentBlock *mParent;
+    QList<ContentBlock *> mChildsList;
     QSize mSize;
     int mZOrder;
     QPoint mTopLeftPoint;
