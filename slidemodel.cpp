@@ -69,14 +69,31 @@ QVariant SlideModel::data(const QModelIndex &index, int role) const
     return result;
 }
 
+#include <iostream>
 void SlideModel::append(ContentBlock *item)
 {
+    std::cout << "SlideModel::append" << std::endl;
     if(mRoot)
     {
+        std::cout << "SlideModel::append" << std::endl;
         QModelIndex index;
         beginInsertRows(index, rowCount(index), rowCount(index));
         mRoot->appendChild(item);
         endInsertRows();
     }
+}
+void SlideModel::changeParent(ContentBlock *item)
+{
+    std::cout << "SlideModel::changeParent " << item->width() << std::endl;
+    if(item)
+    {
+        std::cout << "SlideModel::changeParent" << std::endl;
+        mRoot = item;
+    }
+}
 
+ContentBlock *SlideModel::getChild(int index) const
+{
+    std::cout << "SlideModel::getChild " << index << std::endl;
+    return mRoot->child(index);
 }

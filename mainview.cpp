@@ -11,7 +11,6 @@
 #include "contentblock.h"
 #include "slidemodel.h"
 #include "helper.h"
-#include "slide.h"
 
 
 MainView::MainView(const QString &pContentDir, QObject *parent) :
@@ -62,7 +61,6 @@ void MainView::showWindow(bool state)
 
 void MainView::registerTypesInQml()
 {
-    qmlRegisterType<Slide>("PPS.Slide", 1, 0, "Slide");
     qmlRegisterType<ContentBlock>("PPS.ContentBlock", 1, 0, "ContentBlock");
 }
 

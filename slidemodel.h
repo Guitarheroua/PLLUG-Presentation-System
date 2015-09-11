@@ -20,18 +20,19 @@ public:
         AdditionalContentRole
     };
 
-    explicit SlideModel(QObject *parent = 0);
+    explicit SlideModel(QObject *parent = nullptr);
     ~SlideModel();
 
     QHash<int, QByteArray> roleNames() const;
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
 
-    void append(ContentBlock *item);
+    Q_INVOKABLE void append(ContentBlock *item);
+    Q_INVOKABLE void changeParent(ContentBlock *item);
+    Q_INVOKABLE ContentBlock *getChild(int index) const;
 
 private:
     ContentBlock *mRoot;
-
 };
 
 #endif // BLOCKSMODEL_H
