@@ -21,6 +21,7 @@ public:
     };
 
     explicit SlideModel(QObject *parent = nullptr);
+    explicit SlideModel(ContentBlock *root, QObject *parent = nullptr);
     ~SlideModel();
 
     QHash<int, QByteArray> roleNames() const;
@@ -28,11 +29,12 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
 
     Q_INVOKABLE void append(ContentBlock *item);
-    Q_INVOKABLE void changeParent(ContentBlock *item);
+    Q_INVOKABLE SlideModel *getModelFromChild(int index);
     Q_INVOKABLE ContentBlock *getChild(int index) const;
 
 private:
     ContentBlock *mRoot;
+    QHash<int, SlideModel *> mChildsModelsHash;
 };
 
 #endif // BLOCKSMODEL_H

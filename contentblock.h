@@ -16,6 +16,7 @@ class ContentBlock: public QObject
     Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
     Q_PROPERTY(ContentBlockType contentBlockType READ contentBlockType WRITE setContentBlockType)
+    Q_PROPERTY(QVariantMap additionalContent READ additionalContent NOTIFY additionalContentChanged)
 
 public:
     enum ContentBlockType
@@ -51,8 +52,8 @@ public:
     int height() const;
     void setHeight(int height);
 
-    QVariantMap specificContent() const;
-    void setSpecificContent(const QString &name, const QVariant value);
+    QVariantMap additionalContent() const;
+    Q_INVOKABLE void setAdditionalContent(const QString &name, const QVariant value);
 
     ContentBlockType contentBlockType() const;
     void setContentBlockType(ContentBlockType contentBlockType);
@@ -60,9 +61,9 @@ public:
     ContentBlock *parent() const;
     void setParent(ContentBlock *parent);
 
-    ContentBlock *child(int index);
-    void appendChild(ContentBlock *child);
     int childsCount() const;
+    ContentBlock *child(int index) const;
+    void appendChild(ContentBlock *child);
 
 signals:
     void xChanged();
@@ -70,14 +71,15 @@ signals:
     void zChanged();
     void widthChanged();
     void heightChanged();
+    void additionalContentChanged();
 
 private:
-    ContentBlock *mParent;
-    QList<ContentBlock *> mChildsList;
     QSize mSize;
     int mZOrder;
     QPoint mTopLeftPoint;
+    ContentBlock *mParent;
     QVariantMap mSpecificContent;
+    QList<ContentBlock *> mChildsList;
     ContentBlockType mContentBlockType;
 };
 #endif // BLOCK_H

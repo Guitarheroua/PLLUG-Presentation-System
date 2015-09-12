@@ -89,7 +89,7 @@ void ContentBlock::setParent(ContentBlock *parent)
     mParent = parent;
 }
 
-ContentBlock *ContentBlock::child(int index)
+ContentBlock *ContentBlock::child(int index) const
 {
     return mChildsList.value(index);
 }
@@ -104,12 +104,12 @@ int ContentBlock::childsCount() const
     return mChildsList.count();
 }
 
-QVariantMap ContentBlock::specificContent() const
+QVariantMap ContentBlock::additionalContent() const
 {
     return mSpecificContent;
 }
 
-void ContentBlock::setSpecificContent(const QString &name, const QVariant value)
+void ContentBlock::setAdditionalContent(const QString &name, const QVariant value)
 {
     mSpecificContent.insert(name, value);
 }

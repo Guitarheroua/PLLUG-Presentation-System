@@ -12,8 +12,7 @@ HEADERS += \
     helper.h \
     presentationmanager.h \
     contentblock.h \
-    slidemodel.h \
-    slide.h
+    slidemodel.h
 
 
 SOURCES += \
@@ -22,8 +21,7 @@ SOURCES += \
     helper.cpp \
     presentationmanager.cpp \
     contentblock.cpp \
-    slidemodel.cpp \
-    slide.cpp
+    slidemodel.cpp
 
 RESOURCES += \
     resources.qrc \

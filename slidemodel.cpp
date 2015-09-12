@@ -1,11 +1,18 @@
 #include "slidemodel.h"
 #include "contentblock.h"
 #include <QVariant>
+#include <iostream>
 
 SlideModel::SlideModel(QObject *parent) :
-    QAbstractListModel{parent},
-    mRoot{new ContentBlock}
+    SlideModel{new ContentBlock, parent}
 {
+}
+
+SlideModel::SlideModel(ContentBlock *root, QObject *parent):
+    mRoot{root},
+    QAbstractListModel{parent}
+{
+    mChildsModelsHash.clear();
     for (int i = 0; i < 3; ++i) {
         append(new ContentBlock(mRoot));
     }
@@ -13,6 +20,7 @@ SlideModel::SlideModel(QObject *parent) :
 
 SlideModel::~SlideModel()
 {
+    qDeleteAll(mChildsModelsHash);
     delete mRoot;
 }
 
@@ -40,60 +48,67 @@ QVariant SlideModel::data(const QModelIndex &index, int role) const
     QVariant result;
     int row = index.row();
 
+
     if(row > 0 || row <= rowCount(index))
     {
         switch(role)
         {
         case XRole :
-            mRoot->child(row)->x();
+            result = mRoot->child(row)->x();
             break;
         case YRole :
-            mRoot->child(row)->y();
+            result = mRoot->child(row)->y();
             break;
         case ZRole :
-            mRoot->child(row)->z();
+            result = mRoot->child(row)->z();
             break;
         case WidthRole :
-            mRoot->child(row)->width();
+            result = mRoot->child(row)->width();
             break;
         case HeightRole :
-            mRoot->child(row)->height();
+            result = mRoot->child(row)->height();
             break;
         case TypeRole :
-            mRoot->child(row)->contentBlockType();
+            result = mRoot->child(row)->contentBlockType();
             break;
         case AdditionalContentRole :
+            result = mRoot->child(row)->additionalContent();
             break;
         }
     }
     return result;
 }
 
-#include <iostream>
 void SlideModel::append(ContentBlock *item)
 {
-    std::cout << "SlideModel::append" << std::endl;
-    if(mRoot)
+    if(mRoot && item)
     {
-        std::cout << "SlideModel::append" << std::endl;
         QModelIndex index;
         beginInsertRows(index, rowCount(index), rowCount(index));
         mRoot->appendChild(item);
         endInsertRows();
     }
 }
-void SlideModel::changeParent(ContentBlock *item)
+SlideModel *SlideModel::getModelFromChild(int index)
 {
-    std::cout << "SlideModel::changeParent " << item->width() << std::endl;
-    if(item)
+    SlideModel *slideModel;
+    if(mChildsModelsHash.contains(index))
     {
-        std::cout << "SlideModel::changeParent" << std::endl;
-        mRoot = item;
+        slideModel = mChildsModelsHash.value(index);
     }
+    else
+    {
+        ContentBlock *item = getChild(index);
+        if(item)
+        {
+            slideModel = new SlideModel(item, this);
+            mChildsModelsHash.insert(index, slideModel);
+        }
+    }
+    return slideModel;
 }
 
 ContentBlock *SlideModel::getChild(int index) const
 {
-    std::cout << "SlideModel::getChild " << index << std::endl;
     return mRoot->child(index);
 }

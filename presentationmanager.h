@@ -19,15 +19,15 @@ public:
         Edit,
         SlideShow
     };
-    explicit PresentationManager(const QString&, QQuickWindow *, Helper *, QObject *parent = 0);
-    void savePresentation(const QString &);
+    explicit PresentationManager(const QString&, QQuickWindow *, Helper *helper, QObject *parent = nullptr);
+    void savePresentation(const QString &path);
     void loadPresentation();
     PresentationMode mode() const;
 
 signals:
 
 public slots:
-    void openPresentation(const QString&);
+    void openPresentation(const QString &path);
     void setBlockProperties(QQuickItem*, QVariantMap);
     void setCreateEditPresentationMode();
     void setShowPresentationMode();

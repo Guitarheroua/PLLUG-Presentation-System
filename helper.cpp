@@ -5,15 +5,15 @@
 
 
 Helper::Helper( QObject *parent) :
-    QObject(parent)
+    QObject{parent}
   ,mEnableEdit {false}
 {
 }
 
-QString Helper::readShader(const QString &pFileName)
+QString Helper::readShader(const QString &fileName)
 {
     QString shader {};
-    QFile file(QString(":/shaders/%1").arg(pFileName));
+    QFile file(QString(":/shaders/%1").arg(fileName));
     if (file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         shader = file.readAll();
@@ -21,19 +21,24 @@ QString Helper::readShader(const QString &pFileName)
     return shader;
 }
 
-qreal Helper::hue(const QString &pColor)
+qreal Helper::hue(const QString &color)
 {
-    return QColor(pColor).hueF();
+    return QColor(color).hueF();
 }
 
-qreal Helper::brightness(const QString &pColor)
+qreal Helper::brightness(const QString &color)
 {
-    return 1 - QColor(pColor).lightnessF();
+    return 1 - QColor(color).lightnessF();
 }
 
-qreal Helper::alpha(const QString &pColor)
+qreal Helper::alpha(const QString &color)
 {
-    return QColor(pColor).alphaF();
+    return QColor(color).alphaF();
+}
+
+qreal Helper::saturation(const QString& color)
+{
+    return QColor(color).saturationF();
 }
 
 QStringList Helper::fonts()
@@ -41,18 +46,9 @@ QStringList Helper::fonts()
     return QFontDatabase().families();
 }
 
-int Helper::fontIndex(const QString &pFont)
+int Helper::fontIndex(const QString &font)
 {
-    int index{};
-    for (const QString &font : fonts())
-    {
-        if ( pFont == font)
-        {
-            index = fonts().indexOf(font);
-            break;
-        }
-    }
-    return index;
+    return fonts().indexOf(font);
 }
 
 void Helper::openPresentation(const QUrl &pPath)
@@ -75,38 +71,32 @@ bool Helper::enableEdit()
     return mEnableEdit;
 }
 
-void Helper::setScreenPixelSize(QSize pSize)
+void Helper::setScreenPixelSize(QSize size)
 {
-    mScreenSize = pSize;
+    mScreenSize = size;
 }
 
-void Helper::setMainViewSize(QSize pSize)
+void Helper::setMainViewSize(QSize size)
 {
-    mMainViewSize = pSize;
+    mMainViewSize = size;
 }
 
-QSize Helper::screenSize()
+QSize Helper::screenSize() const
 {
     return mScreenSize;
 }
 
-qreal Helper::mainViewWidth()
+qreal Helper::mainViewWidth() const
 {
     return mMainViewSize.width();
 }
 
-qreal Helper::mainViewHeight()
+qreal Helper::mainViewHeight() const
 {
     return mMainViewSize.height();
 }
 
-void Helper::setEnableEdit(bool pValue)
+void Helper::setEnableEdit(bool enabled)
 {
-    mEnableEdit = pValue;
-}
-
-
-qreal Helper::saturation(const QString& pColor)
-{
-    return QColor(pColor).saturationF();
+    mEnableEdit = enabled;
 }
