@@ -1,5 +1,5 @@
-import QtQuick 2.4
-import QtQuick.Controls 1.2
+import QtQuick 2.5
+import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
 
 import "presentation"
@@ -12,16 +12,16 @@ SplitView{
     Rectangle{
         id: idMode
         color: "red"
-
         height: 50
         width: 50
+
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                changeWindowMode(presmode)
-                slidesListPanel.visible = presmode
-                layoutsListPanel.visible = presmode
-                presmode = !presmode
+                changeWindowMode(presmode);
+                slidesListPanel.visible = presmode;
+                layoutsListPanel.visible = presmode;
+                presmode = !presmode;
             }
         }
     }
@@ -33,8 +33,10 @@ SplitView{
 
         Presentation {
             id: presentation
-            Layout.fillHeight: true
             textColor: "black"
+
+            Layout.fillHeight: true
+
             MouseArea{
                 anchors.fill: parent
                 onPressAndHold: {
@@ -59,7 +61,7 @@ SplitView{
                     console.log("Error creating object", component.status, component.url, component.errorString());
                 }
                 presentation.newSlide(newSlide, presentation.currentSlide+1, false)
-
+                slidesListPanel.slides.append();
             }
 
             function removeSlideAt(index) {
@@ -147,7 +149,7 @@ SplitView{
             id: slidesListPanel
             Layout.minimumHeight: 17
             Layout.maximumHeight: 150
-            slides: presentation.slides
+            slides: slideModel
             z: 3
             onSlideSelected: {
                 presentation.goToSlide(index)

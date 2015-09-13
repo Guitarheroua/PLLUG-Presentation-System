@@ -63,7 +63,9 @@ public:
 
     int childsCount() const;
     ContentBlock *child(int index) const;
-    void appendChild(ContentBlock *child);
+    void appendChild(ContentBlock *child = nullptr);
+    void insertChild(int index, ContentBlock *child = nullptr);
+    void removeChild(int index);
 
 signals:
     void xChanged();

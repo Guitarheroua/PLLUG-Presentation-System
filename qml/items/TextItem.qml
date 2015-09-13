@@ -117,8 +117,6 @@ Item {
             }
 
             onPressAndHold: {
-                //                console.log("onPressAndHold");
-                //                textItemRect.hideRect();
                 textEdit.cursorPosition = textEdit.positionAt(mouse.x+x,mouse.y+y)
                 textEdit.selecting = true
             }

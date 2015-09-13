@@ -1,7 +1,7 @@
 #include "slidemodel.h"
 #include "contentblock.h"
+
 #include <QVariant>
-#include <iostream>
 
 SlideModel::SlideModel(QObject *parent) :
     SlideModel{new ContentBlock, parent}
@@ -9,13 +9,9 @@ SlideModel::SlideModel(QObject *parent) :
 }
 
 SlideModel::SlideModel(ContentBlock *root, QObject *parent):
-    mRoot{root},
     QAbstractListModel{parent}
+  ,mRoot{root}
 {
-    mChildsModelsHash.clear();
-    for (int i = 0; i < 3; ++i) {
-        append(new ContentBlock(mRoot));
-    }
 }
 
 SlideModel::~SlideModel()
@@ -49,7 +45,7 @@ QVariant SlideModel::data(const QModelIndex &index, int role) const
     int row = index.row();
 
 
-    if(row > 0 || row <= rowCount(index))
+    if(row > 0 || row < rowCount(index))
     {
         switch(role)
         {
@@ -81,12 +77,34 @@ QVariant SlideModel::data(const QModelIndex &index, int role) const
 
 void SlideModel::append(ContentBlock *item)
 {
-    if(mRoot && item)
+    if(mRoot)
     {
         QModelIndex index;
         beginInsertRows(index, rowCount(index), rowCount(index));
         mRoot->appendChild(item);
         endInsertRows();
+    }
+}
+
+void SlideModel::insert(int index, ContentBlock *child)
+{
+    QModelIndex modelIndex;
+    if(index > 0 || index < rowCount(modelIndex))
+    {
+        beginInsertRows(modelIndex, index, index);
+        mRoot->insertChild(index, child);
+        endInsertRows();
+    }
+}
+
+void SlideModel::remove(int index)
+{
+    QModelIndex modelIndex;
+    if(index > 0 || index < rowCount(modelIndex))
+    {
+        beginRemoveRows(modelIndex, index, index);
+        mRoot->removeChild(index);
+        endRemoveRows();
     }
 }
 SlideModel *SlideModel::getModelFromChild(int index)

@@ -1,6 +1,6 @@
-import QtQuick 2.4
+import QtQuick 2.5
 import QtQuick.Dialogs 1.2
-import PPS.ContentBlock 1.0
+//import PPS.ContentBlock 1.0
 
 Rectangle {
     //    Rectangle{
@@ -81,6 +81,7 @@ Rectangle {
                 fileDialog.open()
             }
         }
+
         StartScreenButton {
             text: "Create new presentation"
             onPressed: {
@@ -88,6 +89,16 @@ Rectangle {
                 presentationLoader.setSource("TestPresentation.qml")
                 startScreen.state = "closed"
             }
+        }
+    }
+
+    FileDialog{
+        id: fileDialog
+        title: "Please choose a file"
+        selectMultiple: false
+        onAccepted: {
+            helper.openPresentation(fileDialog.fileUrl)
+            startScreen.state = "closed"
         }
     }
 
@@ -105,21 +116,9 @@ Rectangle {
             PropertyChanges {
                 target: startScreen
                 x: -startScreen.width
-
             }
         }
     ]
     state: "opened"
     Behavior on y { SmoothedAnimation { velocity: 2000 } }
-
-
-    FileDialog{
-        id: fileDialog
-        title: "Please choose a file"
-        selectMultiple: false
-        onAccepted: {
-            helper.openPresentation(fileDialog.fileUrl)
-            startScreen.state = "closed"
-        }
-    }
 }

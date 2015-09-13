@@ -91,7 +91,6 @@ Item {
                             block.sel = false
                             if(gridView.currentIndex === index)
                             {
-                                console.log("click!!")
                                 block.sel = !delegateItem.selected
                             }
                             else
@@ -99,14 +98,9 @@ Item {
                                 block.sel = true
                                 gridView.currentIndex = index
                             }
-
-
-
                             idResize.fill(parent)
-                            console.log(index, block.sel)
                             delegateItem.selected = block.sel
                             templateItem.parent.selectedItem = gridView.currentItem.children[1].contentItem
-
                         }
                         onPressAndHold: {
                             gridView.currentIndex = index

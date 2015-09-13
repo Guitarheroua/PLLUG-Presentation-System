@@ -42,5 +42,4 @@ private:
     QSize mScreenSize;
     QSize mMainViewSize;
 };
-
 #endif // HELPER_H

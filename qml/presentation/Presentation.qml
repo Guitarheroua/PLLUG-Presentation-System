@@ -51,7 +51,7 @@ Item {
     property int currentSlide
     property bool showNotes: false;
 
-    property color titleColor: /*textColor*/ "blue"
+    property color titleColor: "blue"
     property color textColor: "black"
     property string fontFamily: "Helvetica"
     property string codeFontFamily: "Courier New"
@@ -137,12 +137,10 @@ Item {
         if (transition != null)  {
             transition.goToNextSlide()
             root.focus = true
-            console.log("!!!!!!!")
             return
         }
         root._userNum = 0
         if (_faded) {
-            console.log("!!!!!!!")
             return
         }
         if (root.currentSlide + 1 < root.slides.length) {
@@ -159,12 +157,10 @@ Item {
         if (transition != null) {
             transition.goToPreviousSlide()
             root.focus = true
-            console.log("!!!!!!!")
             return
         }
         root._userNum = 0
         if (root._faded) {
-           console.log("!!!!!!!")
             return
         }
         if (root.currentSlide - 1 >= 0) {
@@ -230,9 +226,7 @@ Item {
         if (event.key >= Qt.Key_0 && event.key <= Qt.Key_9)
             _userNum = 10 * _userNum + (event.key - Qt.Key_0)
         else {
-            //            if (event.key == Qt.Key_Return /*|| event.key == Qt.Key_Enter*/)
-            //                goToUserSlide();
-            /*else */if (event.key === Qt.Key_Backspace)
+            if (event.key === Qt.Key_Backspace)
                 goToPreviousSlide()
             else if (event.key === Qt.Key_C)
                 root._faded = !root._faded

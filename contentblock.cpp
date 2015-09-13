@@ -6,12 +6,12 @@ ContentBlock::ContentBlock(ContentBlock *parent):
 }
 
 ContentBlock::ContentBlock(int x, int y, int z, int width, int height, ContentBlock::ContentBlockType contentType, ContentBlock *parent):
-    mTopLeftPoint{x, y},
+    QObject{parent},
     mSize{width, height},
     mZOrder{z},
-    mContentBlockType{contentType},
-    QObject{parent},
-    mParent{parent}
+    mTopLeftPoint{x, y},
+    mParent{parent},
+    mContentBlockType{contentType}
 {
 }
 
@@ -96,7 +96,25 @@ ContentBlock *ContentBlock::child(int index) const
 
 void ContentBlock::appendChild(ContentBlock *child)
 {
+    if(!child)
+    {
+        child = new ContentBlock(mParent);
+    }
     mChildsList.append(child);
+}
+
+void ContentBlock::insertChild(int index, ContentBlock *child)
+{
+    if(!child)
+    {
+        child = new ContentBlock(mParent);
+    }
+    mChildsList.insert(index, child);
+}
+
+void ContentBlock::removeChild(int index)
+{
+    mChildsList.removeAt(index);
 }
 
 int ContentBlock::childsCount() const

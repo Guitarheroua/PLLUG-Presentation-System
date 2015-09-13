@@ -28,7 +28,9 @@ public:
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
 
-    Q_INVOKABLE void append(ContentBlock *item);
+    Q_INVOKABLE void append(ContentBlock *item = nullptr);
+    Q_INVOKABLE void insert(int index, ContentBlock *child = nullptr);
+    Q_INVOKABLE void remove(int index);
     Q_INVOKABLE SlideModel *getModelFromChild(int index);
     Q_INVOKABLE ContentBlock *getChild(int index) const;
 

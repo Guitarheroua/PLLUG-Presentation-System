@@ -141,7 +141,6 @@ Item
             target.anchors.top = positionAnchorHook.top
 
             clickedYInHandle = mouseY
-            console.log("inside")
         }
 
         onReleased:

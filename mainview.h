@@ -1,14 +1,13 @@
 #ifndef MAINVIEW_H
 #define MAINVIEW_H
 
-#include <QObject>
 #include <QSize>
+#include <QObject>
 
 class Helper;
 class MegaParse;
 class SlideModel;
 class QQuickWindow;
-class PresentationManager;
 class QQmlApplicationEngine;
 
 class MainView : public QObject
@@ -31,7 +30,6 @@ private:
     QString mContentDir;
     SlideModel* mSlideModel;
     QQuickWindow* mMainWindow;
-    PresentationManager* mManager;
     QQmlApplicationEngine* mQmlEngine;
 };
 

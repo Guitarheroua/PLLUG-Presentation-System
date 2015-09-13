@@ -1,4 +1,5 @@
 #include "mainview.h"
+
 #include <QQmlContext>
 #include <QQuickWindow>
 #include <QApplication>
@@ -27,13 +28,7 @@ MainView::MainView(const QString &contentDir, QObject *parent) :
     mQmlEngine->rootContext()->setContextProperty("screenPixelHeight", mHelper->screenSize().height());
     QQmlComponent component(mQmlEngine, QUrl(QStringLiteral("qrc:/main.qml")));
     mMainWindow = qobject_cast<QQuickWindow*>(component.create(mQmlEngine->rootContext()));
-    mManager = new PresentationManager(mContentDir, mMainWindow, mHelper, this);
-
     connect(mMainWindow, SIGNAL(changeWindowMode(bool)), this, SLOT(showWindow(bool)), Qt::UniqueConnection);
-    connect(mHelper, SIGNAL(createPresentationMode()),
-            mManager, SLOT(setCreateEditPresentationMode()), Qt::UniqueConnection);
-    connect(mHelper, SIGNAL(open(QString)),
-            mManager, SLOT(openPresentation(QString)), Qt::UniqueConnection);
 
     mActualSize = QSize(qApp->desktop()->screenGeometry().width() / 1.5,
                         qApp->desktop()->screenGeometry().height() / 1.5);

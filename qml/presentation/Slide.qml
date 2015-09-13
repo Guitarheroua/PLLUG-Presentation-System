@@ -38,9 +38,7 @@
 ** $QT_END_LICENSE$
 **
 ****************************************************************************/
-
-
-import QtQuick 2.4
+import QtQuick 2.5
 import "../items"
 
 Item {
@@ -48,33 +46,30 @@ Item {
       Slides can only be instantiated as a direct child of a Presentation {} as they rely on
       several properties there.
      */
-
     id: slide
 
     property bool isSlide: true
     property bool enableEdit: !mainRect.presmode
 
-    property string title : ""
-    property variant content: []
-    property string layout: ""
-    property string centeredText
-    property string writeInText;
     property string notes
+    property string title : ""
+    property string layout: ""
+    property string writeInText
+    property string centeredText
+    property variant content: []
 
     property variant transitions: []
 
-    property string codeFontFamily: (parent)? parent.codeFontFamily : ""
     property string code
     property real codeFontSize: baseFontSize * 0.6
+    property string codeFontFamily: (parent)? parent.codeFontFamily : ""
 
-    property real fontSize: (parent) ? parent.height * 0.05 : 0
     property real fontScale: 1
+    property real fontSize: (parent) ? parent.height * 0.05 : 0
 
+    property real bulletSpacing: 1
     property real baseFontSize: fontSize * fontScale
     property real titleFontSize: fontSize * 1.12 * fontScale
-    property real bulletSpacing: 1
-
-    //    property real contentWidth: width
 
     property real topTitleMargin: (parent) ? parent.height * 0.04 : 0
 
@@ -87,11 +82,11 @@ Item {
     property real masterWidth: (parent) ? parent.width : 0
     property real masterHeight: (parent) ? parent.height : 0
 
-    property color titleColor: (parent) ? parent.titleColor : "black"
     property bool titleFontBold: true
-    property string titleFontFamily:(parent) ? parent.fontFamily : ""
-    property color textColor: (parent) ? parent.textColor : "black"
     property string fontFamily: (parent) ? parent.fontFamily : ""
+    property color textColor: (parent) ? parent.textColor : "black"
+    property color titleColor: (parent) ? parent.titleColor : "black"
+    property string titleFontFamily:(parent) ? parent.fontFamily : ""
 
     property var selectedItem: null
     property bool editSelectedItemProperties: false
@@ -102,13 +97,11 @@ Item {
 
     onSelectedItemChanged: {
         if(selectedItem.textItem !== null) {
-            console.log("selectedItem.textItem: ", selectedItem.textItem);
             textPropertiesItem.selectedItem = selectedItem;
             textPropertiesItem.visible = selectedItem.textItem.selecting;
         }
         else if(selectedItem === textItem)
         {
-            console.log("selectedItem == textItem: ", selectedItem == textItem);
             textPropertiesItem.visible = titleRect.selected;
         }
     }
@@ -258,16 +251,12 @@ Item {
 
         Column {
             id: contentId
-
             anchors.fill: parent
 
             Repeater {
-
                 model: content.length
-
                 Row {
                     id: row
-
                     property int indentLevel: decideIndentLevel(content[index])
                     property int nextIndentLevel: index < content.length - 1 ? decideIndentLevel(content[index+1]) : 0
                     property real indentFactor: (10 - row.indentLevel * 2) / 10;

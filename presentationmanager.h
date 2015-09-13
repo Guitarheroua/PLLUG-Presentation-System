@@ -24,8 +24,6 @@ public:
     void loadPresentation();
     PresentationMode mode() const;
 
-signals:
-
 public slots:
     void openPresentation(const QString &path);
     void setBlockProperties(QQuickItem*, QVariantMap);

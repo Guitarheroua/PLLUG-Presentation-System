@@ -1,33 +1,22 @@
-import QtQuick 2.4
-import QtQuick.Controls 1.3
-import QtQml.Models 2.1
+import QtQuick 2.5
+import QtQuick.Controls 1.4
+import QtQml.Models 2.2
 
 Rectangle {
     id: mainRect
     width: parent.width
     height: parent.height/6
-    color: "black"
     opacity: 0.7
+    color: "black"
 
-    property variant slides: []
+    property var slides
     property var swapp
     property int time: 2000
 
     signal slideSelected(var index)
 
-    function updateModel() {
-        slidesModel.clear()
-        for (var i=0; i< slides.length; ++i) {
-            slidesModel.append({"index":i, "title":slides[i].title})
-        }
-    }
     function selectSlide(index) {
-        //   var position = index*(slidesListView.itemWidth + 10)
         slidesListView.currentIndex = index
-    }
-
-    onSlidesChanged: {
-        updateModel()
     }
 
     Item {
@@ -103,11 +92,6 @@ Rectangle {
                         height: parent.height
                         color: "steelblue"
                         visible: slidesListView.currentIndex === index
-
-                        onVisibleChanged: {
-                            console.log("slidesListView.currentIndex: ", slidesListView.currentIndex)
-                            console.log("index: ", index)
-                        }
                     }
                     Rectangle {
                         width: parent.width - 10
@@ -172,10 +156,6 @@ Rectangle {
                         drag.target: delegateRow
                         drag.axis: Drag.XAxis
 
-                        onClicked: {
-                            slideSelected(model.index)
-                        }
-
                         onPressed: {
                             slideSelected(model.index)
                         }
@@ -199,7 +179,6 @@ Rectangle {
                                 slideSelected(model.index)
                             } else {
                                 selectedSlideMemo = model.index
-                                updateModel();
                                 slideSelected(selectedSlideMemo)
                             }
                         }
@@ -264,7 +243,7 @@ Rectangle {
     DelegateModel {
         id: visualModel
 
-        model: slideModel
+        model: slides
         delegate: listViewDelegate
     }
 
