@@ -17,6 +17,7 @@ ContentBlock::ContentBlock(int x, int y, int z, int width, int height, ContentBl
 
 ContentBlock::~ContentBlock()
 {
+    qDeleteAll(mChildsList);
 }
 
 int ContentBlock::x() const
@@ -98,7 +99,7 @@ void ContentBlock::appendChild(ContentBlock *child)
 {
     if(!child)
     {
-        child = new ContentBlock(mParent);
+        child = new ContentBlock(this);
     }
     mChildsList.append(child);
 }
@@ -107,7 +108,7 @@ void ContentBlock::insertChild(int index, ContentBlock *child)
 {
     if(!child)
     {
-        child = new ContentBlock(mParent);
+        child = new ContentBlock(this);
     }
     mChildsList.insert(index, child);
 }

@@ -6,6 +6,9 @@
 SlideModel::SlideModel(QObject *parent) :
     SlideModel{new ContentBlock, parent}
 {
+    for (int i = 0; i < 3; ++i) {
+        append();
+    }
 }
 
 SlideModel::SlideModel(ContentBlock *root, QObject *parent):

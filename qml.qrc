@@ -68,7 +68,7 @@
         <file alias="StartScreen.qml">qml/StartScreen.qml</file>
         <file alias="StartScreenButton.qml">qml/StartScreenButton.qml</file>
         <file alias="StringUtils.js">qml/StringUtils.js</file>
-        <file alias="TestPresentation.qml">qml/TestPresentation.qml</file>
+        <file alias="CreatePresentation.qml">qml/CreatePresentation.qml</file>
         <file alias="testvideo.qml">qml/testvideo.qml</file>
         <file alias="testwebview.qml">qml/testwebview.qml</file>
     </qresource>

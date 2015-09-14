@@ -35,7 +35,7 @@ public:
     Q_INVOKABLE ContentBlock *getChild(int index) const;
 
 private:
-    ContentBlock *mRoot;
+    ContentBlock * mRoot;
     QHash<int, SlideModel *> mChildsModelsHash;
 };
 
