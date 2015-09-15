@@ -129,7 +129,7 @@ Rectangle {
         //drag.target: layoutsPanelRect
         //drag.minimumX: presentation.width - layoutsPanelRect.width
         //drag.maximumX: (layoutsPanelMouseArea.enabled) ? presentation.width - 12 : presentation.width
-        enabled: presentation.slides[presentation.currentSlide].layout !== ""
+         enabled: presentation.slides[presentation.currentSlide].layout !== ""
 //        onClicked: {
 //            layoutsPanelRect.state = (layoutsPanelRect.state === "closed") ? "opened" : "closed"
 //            slidesListPanel.state = "closed"
