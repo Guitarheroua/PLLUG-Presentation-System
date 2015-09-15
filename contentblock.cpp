@@ -1,4 +1,5 @@
 #include "contentblock.h"
+#include <QUuid>
 
 ContentBlock::ContentBlock(ContentBlock *parent):
     ContentBlock{0, 0, 0, 0, 0, None, parent}
@@ -90,6 +91,15 @@ void ContentBlock::setParent(ContentBlock *parent)
     mParent = parent;
 }
 
+QString ContentBlock::id()
+{
+    if(mId.isEmpty())
+    {
+        mId = QUuid::createUuid().toString();
+    }
+    return mId;
+}
+
 ContentBlock *ContentBlock::child(int index) const
 {
     return mChildsList.value(index);
@@ -111,6 +121,11 @@ void ContentBlock::insertChild(int index, ContentBlock *child)
         child = new ContentBlock(this);
     }
     mChildsList.insert(index, child);
+}
+
+void ContentBlock::swapChild(int firstIndex, int secondIndex)
+{
+    mChildsList.swap(firstIndex, secondIndex);
 }
 
 void ContentBlock::removeChild(int index)

@@ -16,7 +16,7 @@ Rectangle {
 
     function selectSlide(index) {
         slidesListView.currentIndex = index;
-        slideSelected(index);
+        slideSelected(slidesListView.currentIndex);
     }
 
     Item {
@@ -61,9 +61,7 @@ Rectangle {
 
                 onEntered: {
                     visualModel.items.move(drag.source.visualIndex, delegateItem.visualIndex);
-                    swapp = slides[drag.source.visualIndex];
-                    slides[drag.source.visualIndex] = slides[delegateItem.visualIndex];
-                    slides[delegateItem.visualIndex] = swapp;
+                    slides.swap(drag.source.visualIndex, delegateItem.visualIndex);
                     selectSlide(delegateItem.visualIndex);
                 }
             }
@@ -117,7 +115,7 @@ Rectangle {
                             Text {
                                 id: slideNumberText
                                 anchors.centerIn: parent
-                                text: model.index + 1
+                                text: model.index
                                 color: "white"
                                 font.pointSize: 9
 
@@ -139,7 +137,6 @@ Rectangle {
                                 anchors.fill: parent
                                 onClicked: {
                                     deleteImage.opacity = 0.0
-                                    slidesListView.draggedIndex = -1
                                     slides.remove(slidesListView.currentIndex);
                                 }
                             }
@@ -148,8 +145,6 @@ Rectangle {
 
                     MouseArea {
                         id: delegateMouseArea
-
-                        property int selectedSlideMemo: -1
 
                         anchors.fill: parent
                         hoverEnabled: true
@@ -170,19 +165,8 @@ Rectangle {
 
                         onFocusChanged: {
                             deleteImage.visible = focus
-                            slidesListView.draggedIndex = index
                         }
 
-                        drag.onActiveChanged: {
-                            if (delegateMouseArea.drag.active) {
-                                slidesListView.draggedItemIndex = index;
-                                slideSelected(model.index)
-                                //  console.log(model.)
-                            } else {
-                                selectedSlideMemo = model.index
-                                slideSelected(selectedSlideMemo)
-                            }
-                        }
                     }
 
                 }
@@ -216,9 +200,8 @@ Rectangle {
                         }
                         onDoubleClicked: {
                             selectSlide(index);
-                            //presentation.addNewSlide()
                             slides.append();
-                            slides.getChild(index + 1).setAdditionalContent("text", index + 1);
+                            slides.getChild(slides.rowCount() - 1).setAdditionalContent("text", index + 1);
                         }
                     }
                 }
@@ -267,8 +250,6 @@ Rectangle {
             id: slidesListView
 
             property int itemWidth: parent.width/8
-            property int draggedItemIndex: -1
-            property int draggedIndex: -1
 
             interactive: false
 

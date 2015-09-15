@@ -61,10 +61,13 @@ public:
     ContentBlock *parent() const;
     void setParent(ContentBlock *parent);
 
+    QString id();
+
     int childsCount() const;
     ContentBlock *child(int index) const;
     void appendChild(ContentBlock *child = nullptr);
     void insertChild(int index, ContentBlock *child = nullptr);
+    void swapChild(int firstIndex, int secondIndex);
     void removeChild(int index);
 
 signals:
@@ -77,6 +80,7 @@ signals:
 
 private:
     QSize mSize;
+    QString mId;
     int mZOrder;
     QPoint mTopLeftPoint;
     ContentBlock *mParent;

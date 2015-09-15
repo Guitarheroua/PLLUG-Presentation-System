@@ -9,7 +9,7 @@ SlideModel::SlideModel(QObject *parent) :
 }
 
 SlideModel::SlideModel(ContentBlock *root, QObject *parent):
-    QAbstractListModel{parent}
+    QAbstractTableModel{parent}
   ,mRoot{root}
 {
 }
@@ -39,37 +39,45 @@ int SlideModel::rowCount(const QModelIndex &parent) const
     return mRoot->childsCount();
 }
 
+int SlideModel::columnCount(const QModelIndex &parent) const
+{
+    Q_UNUSED(parent);
+    return 1;
+}
+
 QVariant SlideModel::data(const QModelIndex &index, int role) const
 {
     QVariant result;
-    int row = index.row();
-
-
-    if(row > 0 || row < rowCount(index))
+    if(mRoot)
     {
-        switch(role)
+        int row = index.row();
+
+        if(index.isValid() && row < rowCount() && index.column() < columnCount(QModelIndex()))
         {
-        case XRole :
-            result = mRoot->child(row)->x();
-            break;
-        case YRole :
-            result = mRoot->child(row)->y();
-            break;
-        case ZRole :
-            result = mRoot->child(row)->z();
-            break;
-        case WidthRole :
-            result = mRoot->child(row)->width();
-            break;
-        case HeightRole :
-            result = mRoot->child(row)->height();
-            break;
-        case TypeRole :
-            result = mRoot->child(row)->contentBlockType();
-            break;
-        case AdditionalContentRole :
-            result = mRoot->child(row)->additionalContent();
-            break;
+            switch(role)
+            {
+            case XRole :
+                result = mRoot->child(row)->x();
+                break;
+            case YRole :
+                result = mRoot->child(row)->y();
+                break;
+            case ZRole :
+                result = mRoot->child(row)->z();
+                break;
+            case WidthRole :
+                result = mRoot->child(row)->width();
+                break;
+            case HeightRole :
+                result = mRoot->child(row)->height();
+                break;
+            case TypeRole :
+                result = mRoot->child(row)->contentBlockType();
+                break;
+            case AdditionalContentRole :
+                result = mRoot->child(row)->additionalContent();
+                break;
+            }
         }
     }
     return result;
@@ -77,50 +85,63 @@ QVariant SlideModel::data(const QModelIndex &index, int role) const
 
 void SlideModel::append(ContentBlock *item)
 {
-    if(mRoot)
-    {
-        QModelIndex index;
-        beginInsertRows(index, rowCount(index), rowCount(index));
-        mRoot->appendChild(item);
-        endInsertRows();
-    }
+    insert(rowCount(), item);
 }
 
 void SlideModel::insert(int index, ContentBlock *child)
 {
-    QModelIndex modelIndex;
-    if(index > 0 || index < rowCount(modelIndex))
+    if(index < 0 || index > rowCount())
     {
-        beginInsertRows(modelIndex, index, index);
+        return;
+    }
+    if(mRoot)
+    {
+        beginInsertRows(QModelIndex(), index, index);
         mRoot->insertChild(index, child);
         endInsertRows();
     }
 }
 
+void SlideModel::swap(int firstIndex, int secondIndex)
+{
+    if(mRoot)
+    {
+        mRoot->swapChild(firstIndex, secondIndex);
+        emit dataChanged(index(firstIndex, 0), index(firstIndex, columnCount(QModelIndex()) - 1));
+        emit dataChanged(index(secondIndex, 0), index(secondIndex, columnCount(QModelIndex()) - 1));
+    }
+}
+
 void SlideModel::remove(int index)
 {
-    QModelIndex modelIndex;
-    if(index > 0 || index < rowCount(modelIndex))
+    if(mRoot)
     {
-        beginRemoveRows(modelIndex, index, index);
-        mRoot->removeChild(index);
-        endRemoveRows();
+        if(index >= 0 || index < rowCount())
+        {
+            beginRemoveRows(QModelIndex(), index, index);
+            delete mRoot->child(index);
+            mRoot->removeChild(index);
+            endRemoveRows();
+        }
     }
 }
 SlideModel *SlideModel::getModelFromChild(int index)
 {
-    SlideModel *slideModel;
-    if(mChildsModelsHash.contains(index))
+    SlideModel *slideModel = nullptr;
+    if(mRoot)
     {
-        slideModel = mChildsModelsHash.value(index);
-    }
-    else
-    {
-        ContentBlock *item = getChild(index);
-        if(item)
+        if(mChildsModelsHash.contains(getChild(index)->id()))
         {
-            slideModel = new SlideModel(item, this);
-            mChildsModelsHash.insert(index, slideModel);
+            slideModel = mChildsModelsHash.value(getChild(index)->id());
+        }
+        else
+        {
+            ContentBlock *item = getChild(index);
+            if(item)
+            {
+                slideModel = new SlideModel(item, this);
+                mChildsModelsHash.insert(item->id(), slideModel);
+            }
         }
     }
     return slideModel;
@@ -128,5 +149,5 @@ SlideModel *SlideModel::getModelFromChild(int index)
 
 ContentBlock *SlideModel::getChild(int index) const
 {
-    return mRoot->child(index);
+    return (mRoot) ? mRoot->child(index) : nullptr;
 }

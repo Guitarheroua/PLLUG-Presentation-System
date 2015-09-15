@@ -5,7 +5,7 @@
 
 class ContentBlock;
 
-class SlideModel : public QAbstractListModel
+class SlideModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
@@ -25,18 +25,20 @@ public:
     ~SlideModel();
 
     QHash<int, QByteArray> roleNames() const;
-    int rowCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
     Q_INVOKABLE void append(ContentBlock *item = nullptr);
     Q_INVOKABLE void insert(int index, ContentBlock *child = nullptr);
+    Q_INVOKABLE void swap(int firstIndex, int secondIndex);
     Q_INVOKABLE void remove(int index);
     Q_INVOKABLE SlideModel *getModelFromChild(int index);
     Q_INVOKABLE ContentBlock *getChild(int index) const;
 
 private:
     ContentBlock * mRoot;
-    QHash<int, SlideModel *> mChildsModelsHash;
+    QHash<QString, SlideModel *> mChildsModelsHash;
 };
 
 #endif // BLOCKSMODEL_H
