@@ -16,7 +16,7 @@ Rectangle {
 
     function selectSlide(index) {
         slidesListView.currentIndex = index;
-        slideSelected(slidesListView.currentIndex);
+        slideSelected(index);
     }
 
     Item {
@@ -31,6 +31,7 @@ Rectangle {
             spacing: 2
             Repeater {
                 model: 2
+
                 Rectangle {
                     width: 30
                     height: 3
@@ -60,9 +61,10 @@ Rectangle {
                 }
 
                 onEntered: {
-                    visualModel.items.move(drag.source.visualIndex, delegateItem.visualIndex);
-                    slides.swap(drag.source.visualIndex, delegateItem.visualIndex);
-                    selectSlide(delegateItem.visualIndex);
+                    visualModel.items.move(drag.source.visualIndex, visualIndex);
+                    console.log(drag.source.visualIndex, " " ,visualIndex)
+                    slides.swap(drag.source.visualIndex, visualIndex);
+                    selectSlide(visualIndex);
                 }
             }
 
@@ -84,6 +86,7 @@ Rectangle {
                     id: delegateRect
                     width: slidesListView.itemWidth + 10
                     height: listViewItem.height
+
                     Rectangle {
                         id: hightlightRect
                         width: parent.width
@@ -91,18 +94,20 @@ Rectangle {
                         color: "steelblue"
                         visible: slidesListView.currentIndex == index
                     }
+
                     Rectangle {
                         width: parent.width - 10
                         height: parent.height - 10
                         anchors.centerIn: parent
-                        color: "white"
+                        color:  model.additionalContent["color"] === undefined ? "whire" : model.additionalContent["color"]
                         clip: true
                         z: parent.z+1
+
                         Text {
                             id: text
                             anchors.centerIn: parent
-                            text: model.additionalContent["text"]
                         }
+
                         Rectangle {
                             id: slideNumberRect
                             color: "steelblue"
@@ -112,6 +117,7 @@ Rectangle {
                                 top: parent.top
                                 right: parent.right
                             }
+
                             Text {
                                 id: slideNumberText
                                 anchors.centerIn: parent
@@ -166,26 +172,24 @@ Rectangle {
                         onFocusChanged: {
                             deleteImage.visible = focus
                         }
-
                     }
 
                 }
 
                 Item {
-
                     id: addSlideDivider
-
                     width: 15
                     height: listViewItem.height
 
                     Rectangle {
                         id: divider
 
-                        width: 3
-                        height: listViewItem.height
-                        color: "steelblue"
                         anchors.centerIn: parent
+
                         visible: false
+                        color: "steelblue"
+                        height: parent.height
+                        width: Math.round(parent.width / 5)
                     }
 
                     MouseArea {
@@ -199,9 +203,9 @@ Rectangle {
                             divider.visible = false
                         }
                         onDoubleClicked: {
-                            selectSlide(index);
-                            slides.append();
-                            slides.getChild(slides.rowCount() - 1).setAdditionalContent("text", index + 1);
+                            slides.insert(index + 1);
+                            slides.getChild(index + 1).setAdditionalContent("color", Qt.rgba(Math.random(), Math.random(), Math.random(), 1));
+                            selectSlide(index + 1);
                         }
                     }
                 }
@@ -214,6 +218,12 @@ Rectangle {
                 states: [
                     State {
                         when: delegateRow.Drag.active
+
+                        ParentChange {
+                            target: delegateItem
+                            parent: parent
+                        }
+
                         AnchorChanges {
                             target: delegateRow;
                             anchors.horizontalCenter: undefined;
@@ -249,9 +259,17 @@ Rectangle {
         ListView {
             id: slidesListView
 
-            property int itemWidth: parent.width/8
+            property int itemWidth: parent.width / 8
 
+            spacing: 1
+            clip: true
+            focus: true
             interactive: false
+            model: visualModel
+            anchors.fill: parent
+            snapMode: ListView.SnapToItem
+            orientation: ListView.Horizontal
+            boundsBehavior: ListView.StopAtBounds
 
             //drag and drop contatiner
             Item {
@@ -262,17 +280,6 @@ Rectangle {
             displaced: Transition {
                 NumberAnimation { properties: "x,y"; easing.type: Easing.OutQuad }
             }
-
-            anchors.fill: parent
-            focus: true
-
-            model: visualModel
-
-            spacing: 1
-            snapMode: ListView.SnapToItem
-            orientation: ListView.Horizontal
-            boundsBehavior: ListView.StopAtBounds
-            clip: true
 
             onCurrentIndexChanged: {
                 slideSelected(currentIndex);

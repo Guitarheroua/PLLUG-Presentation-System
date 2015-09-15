@@ -8,9 +8,9 @@ import "panels"
 Item {
     property int selectedSlideIndex: 0
 
-//    onSelectedSlideIndexChanged: {
-//        console.log(selectedSlideIndex)
-//    }
+    onSelectedSlideIndexChanged: {
+        console.log(selectedSlideIndex)
+    }
 
     SplitView {
         id: horisontalSplitView
@@ -37,6 +37,10 @@ Item {
             id: verticalSplitView
             Layout.fillWidth: true
             orientation: Qt.Vertical
+
+            Rectangle{
+                Layout.fillHeight: true
+            }
 
 //            Presentation {
 //                id: presentation
