@@ -90,7 +90,7 @@ Rectangle {
             text: "Create new presentation"
             onPressed: {
                 helper.setCreatePresentationMode();
-                presentationLoader.setSource("TestPresentation.qml")
+                presentationLoader.setSource("CreatePresentation.qml")
                 startScreen.state = "closed"
             }
         }
