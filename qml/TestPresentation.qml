@@ -5,30 +5,22 @@ import QtQuick.Layouts 1.1
 import "presentation"
 import "panels"
 
+import "background"
+
 SplitView{
     id: horisontalSplitView
     anchors.fill: parent
-    Rectangle{
-        id: idMode
-        color: "red"
+    property bool isContextMenuVisible: true
 
-        height: 50
-        width: 50
-        MouseArea{
-            anchors.fill: parent
-            onClicked: {
-                changeWindowMode(presmode)
-                slidesListPanel.visible = presmode
-                layoutsListPanel.visible = presmode
-                presmode = !presmode
-            }
-        }
+    Component.onCompleted: {
+        idContextMenu.presentation = presentation;
     }
 
     SplitView{
         id: verticalSplitView
         Layout.fillWidth: true
         orientation: Qt.Vertical
+
 
         Presentation {
             id: presentation
@@ -41,6 +33,24 @@ SplitView{
 
                 }
             }
+
+            MouseArea{
+                anchors.fill: parent
+
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onClicked: {
+                    if (mouse.button == Qt.RightButton)
+                    {
+                        idContextMenu.popup(isContextMenuVisible);
+                        isContextMenuVisible = !isContextMenuVisible;
+                    }
+                }
+            }
+
+            ContextMenu {
+                id: idContextMenu
+            }
+
 
             Component.onCompleted: {
                 addNewSlide();
@@ -136,11 +146,6 @@ SplitView{
                     }
                 }
             }
-
-            OptionsPanel {
-                id: optionsPanel
-
-            }
         }
 
         SlidesListPanel {
@@ -148,6 +153,7 @@ SplitView{
             Layout.minimumHeight: 17
             Layout.maximumHeight: 150
             slides: presentation.slides
+            visible: !presmode
             z: 3
             onSlideSelected: {
                 presentation.goToSlide(index)
@@ -159,7 +165,6 @@ SplitView{
         id: layoutsListPanel
         Layout.minimumWidth: 15
         Layout.maximumWidth: 150
+        visible: !presmode
     }
 }
-
-

@@ -23,6 +23,7 @@ Rectangle {
             text: "Create new presentation"
             onPressed: {
                 helper.setCreatePresentationMode();
+                mainRect.menuBar = idMainMenu;
                 presentationLoader.setSource("TestPresentation.qml")
                 startScreen.state = "closed"
             }
@@ -49,7 +50,6 @@ Rectangle {
     ]
     state: "opened"
     Behavior on y { SmoothedAnimation { velocity: 2000 } }
-
 
     FileDialog{
         id: fileDialog
