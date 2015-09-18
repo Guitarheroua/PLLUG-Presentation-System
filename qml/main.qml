@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 1.2
 
 import "resize"
+import "panels"
 
 ApplicationWindow {
     id: mainRect
@@ -20,5 +21,13 @@ ApplicationWindow {
         width: parent.width
         height: parent.height
         color: "lightsteelblue"
+    }
+
+    ActionMenu{
+        id:idActionMenu
+    }
+
+    menuBar: MainMenu {
+        id: idMainMenu
     }
 }

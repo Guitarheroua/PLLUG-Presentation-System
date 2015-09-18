@@ -30,6 +30,7 @@
         <file alias="TextMenu.qml">qml/panels/TextMenu.qml</file>
         <file alias="ToolbarItem.qml">qml/panels/ToolbarItem.qml</file>
         <file alias="ContextMenu.qml">qml/panels/ContextMenu.qml</file>
+        <file alias="MainMenu.qml">qml/panels/MainMenu.qml</file>
     </qresource>
     <qresource prefix="/transitions">
         <file alias="PageFlipShaderEffect.qml">qml/transition/PageFlipShaderEffect.qml</file>
@@ -77,5 +78,6 @@
     <qresource prefix="/resize">
         <file alias="ResizeDot.qml">qml/resize/ResizeDot.qml</file>
         <file alias="ResizeItem.qml">qml/resize/ResizeItem.qml</file>
+        <file alias="ActionMenu.qml">qml/ActionMenu.qml</file>
     </qresource>
 </RCC>

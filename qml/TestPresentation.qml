@@ -27,8 +27,6 @@ SplitView{
             Layout.fillHeight: true
             textColor: "black"
 
-
-
             MouseArea{
                 anchors.fill: parent
 
@@ -139,10 +137,6 @@ SplitView{
                         }
                     }
                 }
-            }
-
-            OptionsPanel {
-                id: optionsPanel
             }
         }
 
