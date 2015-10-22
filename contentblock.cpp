@@ -125,12 +125,12 @@ void ContentBlock::insertChild(int index, ContentBlock *child)
 
 void ContentBlock::swapChild(int firstIndex, int secondIndex)
 {
-    mChildsList.swap(firstIndex, secondIndex);
+    mChildsList.move(firstIndex, secondIndex);
 }
 
 void ContentBlock::removeChild(int index)
 {
-    mChildsList.removeAt(index);
+    delete mChildsList.takeAt(index);
 }
 
 int ContentBlock::childsCount() const

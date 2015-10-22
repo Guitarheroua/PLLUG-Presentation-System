@@ -16,7 +16,7 @@ SlideModel::SlideModel(ContentBlock *root, QObject *parent):
 
 SlideModel::~SlideModel()
 {
-    qDeleteAll(mChildsModelsHash);
+    qDeleteAll(mChildsModelsHash.values());
     delete mRoot;
 }
 
@@ -88,66 +88,61 @@ void SlideModel::append(ContentBlock *item)
     insert(rowCount(), item);
 }
 
-void SlideModel::insert(int index, ContentBlock *child)
-{
-    if(index < 0 || index > rowCount())
-    {
-        return;
-    }
-    if(mRoot)
-    {
-        beginInsertRows(QModelIndex(), index, index);
-        mRoot->insertChild(index, child);
-        endInsertRows();
-    }
-}
-
-void SlideModel::swap(int firstIndex, int secondIndex)
+void SlideModel::insert(int row, ContentBlock *child)
 {
     if(mRoot)
     {
-        mRoot->swapChild(firstIndex, secondIndex);
-        emit dataChanged(index(firstIndex, 0), index(firstIndex, columnCount(QModelIndex()) - 1));
-        emit dataChanged(index(secondIndex, 0), index(secondIndex, columnCount(QModelIndex()) - 1));
-    }
-}
-
-void SlideModel::remove(int index)
-{
-    if(mRoot)
-    {
-        if(index >= 0 || index < rowCount())
+        if(row >= 0 || row <= rowCount())
         {
-            beginRemoveRows(QModelIndex(), index, index);
-            delete mRoot->child(index);
-            mRoot->removeChild(index);
+            beginInsertRows(QModelIndex(), row, row);
+            mRoot->insertChild(row, child);
+            endInsertRows();
+        }
+    }
+}
+
+void SlideModel::swap(int firstRow, int secondRow)
+{
+    if(mRoot)
+    {
+        mRoot->swapChild(firstRow, secondRow);
+        emit dataChanged(index(firstRow, 0), index(firstRow, columnCount(QModelIndex()) - 1));
+        emit dataChanged(index(secondRow, 0), index(secondRow, columnCount(QModelIndex()) - 1));
+    }
+}
+
+void SlideModel::remove(int row)
+{
+    if(mRoot)
+    {
+        if(row >= 0 || row < rowCount())
+        {
+            beginRemoveRows(QModelIndex(), row, row);
+            mRoot->removeChild(row);
             endRemoveRows();
         }
     }
 }
-SlideModel *SlideModel::getModelFromChild(int index)
+SlideModel *SlideModel::getModelFromChild(int row)
 {
     SlideModel *slideModel = nullptr;
-    if(mRoot)
+    if(mChildsModelsHash.contains(getChild(row)->id()))
     {
-        if(mChildsModelsHash.contains(getChild(index)->id()))
+        slideModel = mChildsModelsHash.value(getChild(row)->id());
+    }
+    else
+    {
+        ContentBlock *item = getChild(row);
+        if(item)
         {
-            slideModel = mChildsModelsHash.value(getChild(index)->id());
-        }
-        else
-        {
-            ContentBlock *item = getChild(index);
-            if(item)
-            {
-                slideModel = new SlideModel(item, this);
-                mChildsModelsHash.insert(item->id(), slideModel);
-            }
+            slideModel = new SlideModel(item, this);
+            mChildsModelsHash.insert(item->id(), slideModel);
         }
     }
     return slideModel;
 }
 
-ContentBlock *SlideModel::getChild(int index) const
+ContentBlock *SlideModel::getChild(int row) const
 {
-    return (mRoot) ? mRoot->child(index) : nullptr;
+    return (mRoot) ? mRoot->child(row) : nullptr;
 }

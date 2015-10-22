@@ -30,11 +30,11 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
     Q_INVOKABLE void append(ContentBlock *item = nullptr);
-    Q_INVOKABLE void insert(int index, ContentBlock *child = nullptr);
-    Q_INVOKABLE void swap(int firstIndex, int secondIndex);
-    Q_INVOKABLE void remove(int index);
-    Q_INVOKABLE SlideModel *getModelFromChild(int index);
-    Q_INVOKABLE ContentBlock *getChild(int index) const;
+    Q_INVOKABLE void insert(int row, ContentBlock *child = nullptr);
+    Q_INVOKABLE void swap(int firstRow, int secondRow);
+    Q_INVOKABLE void remove(int row);
+    Q_INVOKABLE SlideModel *getModelFromChild(int row);
+    Q_INVOKABLE ContentBlock *getChild(int row) const;
 
 private:
     ContentBlock * mRoot;
